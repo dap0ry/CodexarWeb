@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderLangsGrid();
     } catch(err) {
         console.error(err);
-        window.location.href = "Login.html";
+        window.location.href = "index.html";
     }
 
     setupMutationListeners();

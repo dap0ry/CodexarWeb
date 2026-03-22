@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/Home.css">
     <link rel="stylesheet" href="../assets/css/Leaderboard.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -29,14 +30,13 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <div class="lb-header">
-        <div class="lb-title">TOP <span>5</span> CLASIFICACIÓN</div>
-        <div class="lb-subtitle">Los mejores programadores de Codexar por ejercicios resueltos</div>
-    </div>
-
-    <!-- Podium Scene -->
+    <!-- Podium Scene — title + podium in one flex column -->
     <main class="lb-scene">
+        <div class="lb-header">
+            <div class="lb-title">TOP <span>5</span> CLASIFICACIÓN</div>
+            <div class="lb-subtitle">Los mejores programadores de Codexar por ejercicios resueltos</div>
+        </div>
+
         <div class="podium-container" id="podiumContainer" style="opacity: 0;">
             <!-- The Javascript will determine the podium order (e.g. 4, 2, 1, 3, 5) -->
             <div class="podium-spot spot-4" id="spot-4"></div>
@@ -51,5 +51,6 @@
     </main>
 
     <script src="../services/leaderboard.js"></script>
+    <script src="../services/globalBg.js"></script>
 </body>
 </html>

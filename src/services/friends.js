@@ -50,7 +50,7 @@ async function initFriendsPage() {
     } catch (e) {
         console.error("Critical identity failure:", e);
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = 'index.html';
     }
 }
 

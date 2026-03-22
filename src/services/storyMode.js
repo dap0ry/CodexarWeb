@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = 'index.html';
     });
 });
 

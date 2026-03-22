@@ -47,7 +47,7 @@ async function initRankedBattle() {
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = 'index.html';
     });
 }
 

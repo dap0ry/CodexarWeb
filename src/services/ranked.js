@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (err) {
         console.error(err);
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = 'index.html';
     }
 
     // Attach listeners

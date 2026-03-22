@@ -44,7 +44,9 @@ function buildPlayerCard(player, rank) {
             <div class="lb-username">${escHtml(player.username)}${medal ? `<span class="lb-medal">${medal}</span>` : ''}</div>
             ${player.description ? `<div class="lb-description">"${escHtml(player.description)}"</div>` : ''}
             <div class="lb-score">
-                <span style="color:var(--accent-cyan); font-weight:bold;">${player.rank_name || 'Bronce I'}</span> &bull; ${player.score} ELO
+                <div style="width:100%;">
+                    <span style="color:var(--accent-cyan); font-weight:bold;">${player.rank_name || 'Bronce I'}</span> &bull; ${player.score} ELO
+                </div>
                 <div style="font-size:0.85rem; margin-top:5px; color:var(--text-muted);">
                     ✓ ${player.solved} ejercicio${player.solved !== 1 ? 's' : ''} resuelto${player.solved !== 1 ? 's' : ''}
                 </div>
@@ -122,7 +124,7 @@ async function initLeaderboard() {
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
-    window.location.href = 'Login.html';
+    window.location.href = 'index.html';
 });
 
 function escHtml(str) {

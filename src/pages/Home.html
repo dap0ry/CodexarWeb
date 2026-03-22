@@ -13,6 +13,7 @@
         rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 
 <body>
@@ -43,7 +44,7 @@
         <!-- Welcome Banner -->
         <section class="welcome-banner">
             <h1 id="welcomeText">¡Bienvenido de nuevo!</h1>
-            <p>Prepararo para programar hoy</p>
+            <p>Preparado para programar hoy</p>
         </section>
 
         <!-- Grid Layout -->
@@ -54,42 +55,82 @@
 
                 <!-- Offline Mode -->
                 <div class="card card-offline">
+                    <div class="card-deco">◫</div>
+                    <div class="card-scanline"></div>
                     <div class="content" style="text-align: left;">
-                        <h2>Modo Offline</h2>
-                        <p>Practica todos los problemas que quieras, sin presión.</p>
+                        <div class="card-header-row">
+                            <h2>Modo Offline</h2>
+                            <span class="card-status status-active">/// ACTIVO</span>
+                        </div>
+                        <p>Entorno local de entrenamiento algorítmico. Resuelve retos sin presión de tiempo.</p>
+                        <div class="card-features">
+                            <span class="feature-tag">[∞] Ejercicios ilimitados</span>
+                            <span class="feature-tag">[/>] Práctica libre</span>
+                        </div>
                     </div>
                     <div class="action">
-                        <button class="btn btn-green" onclick="window.location.href='Exercises.html'">Entrar</button>
+                        <button class="btn btn-card" onclick="window.location.href='Exercises.html'">
+                            <span class="btn-text">INICIAR ENTORNO</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Story Mode -->
                 <div class="card card-story">
+                    <div class="card-deco">◈</div>
+                    <div class="card-scanline"></div>
                     <div class="content">
-                        <h2>Modo Historia</h2>
-                        <p>Aprende programación competitiva desde cero.</p>
+                        <div class="card-header-row">
+                            <h2>Modo Historia</h2>
+                            <span class="card-status status-progress">/// EN CURSO</span>
+                        </div>
+                        <p>Atraviesa el roadmap oficial. Aprende estructuras de datos y algoritmos desde cero.</p>
+                        <div class="card-features">
+                            <span class="feature-tag">[★] Progresión lineal</span>
+                            <span class="feature-tag">[»] Desafíos de jefe</span>
+                        </div>
                     </div>
                     <div class="action">
-                        <button class="btn btn-green"
-                            onclick="window.location.href='StoryMode.html'">Entrar</button>
+                        <button class="btn btn-card" onclick="window.location.href='StoryMode.html'">
+                            <span class="btn-text">CONTINUAR CAMPAÑA</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Match Modes Row -->
                 <div class="card-row">
                     <!-- Ranked -->
-                    <div class="card card-match">
-                        <h2>Clasificatoria</h2>
-                        <p>Partida online que modifica tu puntuación ELO.</p>
-                        <button class="btn btn-green" onclick="window.location.href='Ranked.html'" style="text-transform: uppercase;">Jugar</button>
+                    <div class="card card-ranked">
+                        <div class="card-deco">◬</div>
+                        <div class="card-scanline"></div>
+                        <div class="card-header-row">
+                            <h2>Clasificatoria</h2>
+                            <span class="card-status status-danger">/// COMPETITIVO</span>
+                        </div>
+                        <p>Ponte a prueba en duelos 1v1. Tu puntuación ELO está en juego.</p>
+                        <div class="card-features features-col">
+                            <span class="feature-tag">[▲] ELO dinámico</span>
+                            <span class="feature-tag">[⚡] Matchmaking SBMM</span>
+                        </div>
+                        <button class="btn btn-card" onclick="window.location.href='Ranked.html'">BUSCAR
+                            PARTIDA</button>
                     </div>
 
                     <!-- Unranked -->
-                    <div class="card card-match">
-                        <h2>No Clasificatoria</h2>
-                        <p>Partida online que NO modifica tu ELO.</p>
-                        <button class="btn btn-green"
-                            onclick="window.location.href='Unranked.html'" style="text-transform: uppercase;">Jugar</button>
+                    <div class="card card-unranked">
+                        <div class="card-deco">◇</div>
+                        <div class="card-scanline"></div>
+                        <div class="card-header-row">
+                            <h2>No Clasif.</h2>
+                            <span class="card-status status-safe">/// CASUAL</span>
+                        </div>
+                        <p>Duelos 1v1 amistosos para probar nuevas estrategias de código.</p>
+                        <div class="card-features features-col">
+                            <span class="feature-tag">[○] Sin pérdida de ELO</span>
+                            <span class="feature-tag">[≈] Emparejamiento relax</span>
+                        </div>
+                        <button class="btn btn-card" onclick="window.location.href='Unranked.html'">BUSCAR
+                            PARTIDA</button>
                     </div>
                 </div>
 
@@ -139,8 +180,10 @@
                     <div class="stats-half"
                         style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px;">
                         <div class="sidebar-label" style="text-align: left; margin-bottom: 0;">Victorias</div>
-                        <div class="stats-number" id="statsWins" style="color: var(--accent-cyan); font-size: 1.25rem;">0</div>
-                        <div class="sidebar-label" id="statsWR" style="margin-bottom: 0; color: var(--accent-green);">-% WR</div>
+                        <div class="stats-number" id="statsWins" style="color: var(--accent-cyan); font-size: 1.25rem;">
+                            0</div>
+                        <div class="sidebar-label" id="statsWR" style="margin-bottom: 0; color: var(--accent-green);">-%
+                            WR</div>
                     </div>
                 </div>
 
@@ -170,6 +213,7 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="../services/homeDashboard.js"></script>
+    <script src="../services/globalBg.js"></script>
 </body>
 
 </html>

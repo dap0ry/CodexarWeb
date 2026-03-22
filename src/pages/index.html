@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — Combate de Programación</title>
+    <meta name="description" content="Domina la programación competitiva. Resuelve ejercicios, escala rankings y demuestra tu nivel en batallas en tiempo real.">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/index.css">
+</head>
+<body>
+
+    <!-- Ambient canvas background -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Floating 3D Code Snippets -->
+    <div class="code-float code-float-1">
+        <pre><span class="kw">def</span> <span class="fn">solve</span>(nums):
+    dp = [<span class="num">0</span>] * len(nums)
+    dp[<span class="num">0</span>] = nums[<span class="num">0</span>]
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">1</span>, len(nums)):
+        dp[i] = max(dp[i-<span class="num">1</span>], nums[i])
+    <span class="kw">return</span> dp[-<span class="num">1</span>]</pre>
+    </div>
+
+    <div class="code-float code-float-2">
+        <pre><span class="kw">function</span> <span class="fn">binarySearch</span>(arr, t) {
+  <span class="kw">let</span> lo = <span class="num">0</span>, hi = arr.length;
+  <span class="kw">while</span> (lo &lt; hi) {
+    <span class="kw">const</span> mid = (lo + hi) &gt;&gt; <span class="num">1</span>;
+    arr[mid] &lt; t ? lo=mid+<span class="num">1</span> : hi=mid;
+  }
+  <span class="kw">return</span> lo;
+}</pre>
+    </div>
+
+    <div class="code-float code-float-3">
+        <pre><span class="kw">vector</span>&lt;<span class="kw">int</span>&gt; topK(<span class="kw">vector</span>&lt;<span class="kw">int</span>&gt;&amp; nums, <span class="kw">int</span> k) {
+  priority_queue&lt;<span class="kw">int</span>, vector&lt;<span class="kw">int</span>&gt;, greater&lt;<span class="kw">int</span>&gt;&gt; pq;
+  <span class="kw">for</span> (<span class="kw">int</span> n : nums) {
+    pq.push(n); <span class="kw">if</span> (pq.size() &gt; k) pq.pop();
+  }
+}</pre>
+    </div>
+
+    <!-- Main Content -->
+    <div class="landing-wrapper">
+
+        <!-- Left Side: Brand + CTA -->
+        <div class="hero-left">
+            <div class="brand-badge">ALFA v1.0</div>
+
+            <h1 class="hero-title">
+                Codex<span class="accent">ar</span>
+            </h1>
+
+            <p class="hero-tagline">
+                Programa. Compite.<br>Domina.
+            </p>
+
+            <p class="hero-description">
+                La plataforma donde los programadores desafían sus límites. Resuelve ejercicios, asciende en el ranking ELO y enfréntate a otros en batallas de código en tiempo real.
+            </p>
+
+            <div class="cta-group">
+                <a href="Login.html" class="btn-primary">
+                    <span class="btn-icon">→</span>
+                    Iniciar Sesión
+                </a>
+                <a href="Register.html" class="btn-secondary">
+                    Crear Cuenta
+                </a>
+            </div>
+
+            <div class="stat-pills">
+                <div class="stat-pill">
+                    <span class="stat-num" data-target="30">0</span>
+                    <span class="stat-label">Ejercicios</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-num" data-target="6">0</span>
+                    <span class="stat-label">Capítulos</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-num" data-target="3">0</span>
+                    <span class="stat-label">Modos de Juego</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Feature Showcase -->
+        <div class="hero-right">
+
+            <!-- 3D Tilt Card Carousel -->
+            <div class="feature-carousel" id="featureCarousel">
+
+                <div class="feature-card active" data-label="Ranking ELO">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap">
+                        <div class="card-icon">&#9651;</div>
+                    </div>
+                    <h3>Sistema ELO</h3>
+                    <p>Tu puntuación sube y baja tras cada batalla. Escala desde Bronce hasta los rangos más altos enfrentando a rivales de tu nivel.</p>
+                    <div class="card-tag">Clasificatoria</div>
+                </div>
+
+                <div class="feature-card" data-label="Modo Historia">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap">
+                        <div class="card-icon">&#9724;</div>
+                    </div>
+                    <h3>Modo Historia</h3>
+                    <p>Aprende desde cero con 6 capítulos de programación competitiva. Desbloquea cada sección completando los desafíos anteriores.</p>
+                    <div class="card-tag">Aprendizaje</div>
+                </div>
+
+                <div class="feature-card" data-label="Batallas Online">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap">
+                        <div class="card-icon">&#10005;</div>
+                    </div>
+                    <h3>Batallas 1vs1</h3>
+                    <p>Enfréntate en tiempo real a otro programador. El que resuelve el ejercicio más rápido gana. Sin excusas, sin respiro.</p>
+                    <div class="card-tag">Multijugador</div>
+                </div>
+
+                <div class="feature-card" data-label="Perfil">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap">
+                        <div class="card-icon">&#9671;</div>
+                    </div>
+                    <h3>Tu Legado</h3>
+                    <p>Sube tu avatar, muestra tu rango, tus lenguajes favoritos y tu historial de victorias. Tu perfil habla por ti.</p>
+                    <div class="card-tag">Perfil</div>
+                </div>
+
+                <!-- Carousel nav dots -->
+                <div class="carousel-dots" id="carouselDots">
+                    <span class="dot active" data-idx="0"></span>
+                    <span class="dot" data-idx="1"></span>
+                    <span class="dot" data-idx="2"></span>
+                    <span class="dot" data-idx="3"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="bottom-bar">
+        <div class="bottom-brand">Codex<span>ar</span></div>
+        <div class="bottom-langs">
+            <span>Python</span>
+            <span class="sep">·</span>
+            <span>JavaScript</span>
+            <span class="sep">·</span>
+            <span>C++</span>
+            <span class="sep">·</span>
+            <span>Java</span>
+        </div>
+        <div class="bottom-label">Combate de Programación</div>
+    </div>
+
+    <script src="../services/index.js"></script>
+</body>
+</html>
