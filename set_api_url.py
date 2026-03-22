@@ -36,8 +36,7 @@ def main():
         if updated:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
-            count += 1
-            print(f"✅ Actualizado: {os.path.basename(file_path)}")
+            print(f"Actualizado: {os.path.basename(file_path)}")
 
     print(f"\n¡Listo! {count} archivos actualizados con la URL: {new_url}")
 
