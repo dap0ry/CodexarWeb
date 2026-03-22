@@ -11,21 +11,6 @@ const LANG_ICONS = {
 const MEDALS = ['🥇', '🥈', '🥉', '', ''];
 const RANK_CLASS = ['rank-1', 'rank-2', 'rank-3', 'rank-4', 'rank-5'];
 
-// Cube face rotation map: index → Y/X rotation in degrees
-const FACE_ROTATIONS = [
-    'translateZ(-180px) rotateY(0deg)',      // front  → face-1
-    'translateZ(-180px) rotateY(-90deg)',     // right  → face-2
-    'translateZ(-180px) rotateY(180deg)',     // back   → face-3
-    'translateZ(-180px) rotateY(90deg)',      // left   → face-4
-    'translateZ(-180px) rotateX(-90deg)',     // top    → face-5
-];
-
-// Each face index maps to a face element by css class
-const FACE_IDS = ['face-1', 'face-2', 'face-3', 'face-4', 'face-5'];
-
-let currentFace = 0;
-let totalFaces = 5;
-
 function buildPlayerCard(player, rank) {
     const rankClass = RANK_CLASS[rank] || '';
     const medal = MEDALS[rank] || '';
@@ -39,6 +24,17 @@ function buildPlayerCard(player, rank) {
         ? `background-image:url(${player.avatar}); background-size:cover; background-position:center;`
         : '';
     const avatarText = player.avatar ? '' : (player.username || '?').charAt(0).toUpperCase();
+
+    // Helper function for HTML escaping inside buildPlayerCard
+    const escHtml = (unsafe) => {
+        if (!unsafe) return '';
+        return unsafe.toString()
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+    };
 
     return `
         <div class="player-card ${rankClass}">
@@ -60,31 +56,11 @@ function buildPlayerCard(player, rank) {
 
 function buildEmptyFace(rank) {
     return `
-        <div class="face-empty">
+        <div class="face-empty" style="margin-top: 40px;">
             <div style="font-size:2rem; opacity:0.2;">?</div>
             <div>Posición ${rank + 1} libre</div>
         </div>
     `;
-}
-
-function rotateTo(faceIndex) {
-    const cube = document.getElementById('cube');
-    cube.style.transform = FACE_ROTATIONS[faceIndex];
-
-    // Update dots
-    document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === faceIndex);
-    });
-
-    currentFace = faceIndex;
-}
-
-function nextFace() {
-    rotateTo((currentFace + 1) % totalFaces);
-}
-
-function prevFace() {
-    rotateTo((currentFace - 1 + totalFaces) % totalFaces);
 }
 
 async function initLeaderboard() {
@@ -118,11 +94,10 @@ async function initLeaderboard() {
         if (!lbRes.ok) throw new Error('LB Fault');
         const players = await lbRes.json();
 
-        // Populate cube faces  
-        // face-1 = front = rank 1, face-2 = right = rank 2, etc.
-        const faceMap = ['face-1', 'face-2', 'face-3', 'face-4', 'face-5'];
-        faceMap.forEach((faceId, i) => {
-            const el = document.getElementById(faceId);
+        // Populate podium spots  
+        const spotMap = ['spot-1', 'spot-2', 'spot-3', 'spot-4', 'spot-5'];
+        spotMap.forEach((spotId, i) => {
+            const el = document.getElementById(spotId);
             if (!el) return;
             if (players[i]) {
                 el.innerHTML = buildPlayerCard(players[i], i);
@@ -131,8 +106,8 @@ async function initLeaderboard() {
             }
         });
 
-        // Show cube, hide loading
-        document.getElementById('cubeScene').style.opacity = '1';
+        // Show podium, hide loading
+        document.getElementById('podiumContainer').style.opacity = '1';
         document.getElementById('lbLoading').style.display = 'none';
 
     } catch (err) {
@@ -143,26 +118,7 @@ async function initLeaderboard() {
     }
 }
 
-// Controls
-document.getElementById('btnNext').addEventListener('click', nextFace);
-document.getElementById('btnPrev').addEventListener('click', prevFace);
-
-document.querySelectorAll('.dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-        const faceIdx = parseInt(dot.dataset.face);
-        rotateTo(faceIdx);
-    });
-});
-
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextFace();
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevFace();
-});
-
-
-
-// Logout
+// Logout functionality
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
@@ -172,14 +128,14 @@ document.getElementById('logoutBtn').addEventListener('click', (e) => {
 function escHtml(str) {
     return String(str || '')
         .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        .replace(/>/g, '&gt;').replace(/\"/g, '&quot;');
 }
 
 // Init
-document.getElementById('cubeScene').style.opacity = '0';
-document.getElementById('cubeScene').style.transition = 'opacity 0.5s';
+document.getElementById('podiumContainer').style.opacity = '0';
+document.getElementById('podiumContainer').style.transition = 'opacity 0.5s';
 document.getElementById('lbLoading').style.display = 'block';
 document.addEventListener('DOMContentLoaded', async () => {
     await initLeaderboard();
-    document.getElementById('cubeScene').style.opacity = '1';
+    document.getElementById('podiumContainer').style.opacity = '1';
 });

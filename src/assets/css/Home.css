@@ -325,15 +325,6 @@ h1, h2, h3, h4, h5, h6, .brand {
     gap: 20px;
 }
 
-.card-offline .content {
-    text-align: right;
-    order: 2;
-}
-
-.card-offline .action {
-    order: 1;
-}
-
 .card-offline p, .card-story p {
     margin-bottom: 0;
 }
