@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Inicio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/Home.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Exercises.html" class="dropdown-item">Ejercicios</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+
+        <!-- Welcome Banner -->
+        <section class="welcome-banner">
+            <h1 id="welcomeText">¡Bienvenido de nuevo!</h1>
+            <p>Prepararo para programar hoy</p>
+        </section>
+
+        <!-- Grid Layout -->
+        <div class="content-grid">
+
+            <!-- Left Column -->
+            <div class="left-column">
+
+                <!-- Offline Mode -->
+                <div class="card card-offline">
+                    <div class="card-overlay">
+                        <button class="btn" onclick="window.location.href='Exercises.html'">Entrar</button>
+                    </div>
+                    <div class="card-content">
+                        <h2>Modo Offline</h2>
+                        <p>Practica todos los problemas que quieras, sin presión.</p>
+                    </div>
+                </div>
+
+                <!-- Story Mode -->
+                <div class="card card-story">
+                    <div class="content">
+                        <h2>Modo Historia</h2>
+                        <p>Aprende programación competitiva desde cero.</p>
+                    </div>
+                    <div class="action">
+                        <button class="btn btn-green"
+                            onclick="window.location.href='StoryMode.html'">Entrar</button>
+                    </div>
+                </div>
+
+                <!-- Match Modes Row -->
+                <div class="card-row">
+                    <!-- Ranked -->
+                    <div class="card card-match">
+                        <h2>Clasificatoria</h2>
+                        <p>Partida online que modifica tu puntuación ELO.</p>
+                        <button class="btn btn-green" onclick="window.location.href='Ranked.html'" style="text-transform: uppercase;">Jugar</button>
+                    </div>
+
+                    <!-- Unranked -->
+                    <div class="card card-match">
+                        <h2>No Clasificatoria</h2>
+                        <p>Partida online que NO modifica tu ELO.</p>
+                        <button class="btn btn-green"
+                            onclick="window.location.href='Unranked.html'" style="text-transform: uppercase;">Jugar</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Sidebar / Profile Viewer -->
+            <div class="profile-viewer" id="profileViewer">
+
+                <!-- Dynamic User PFP Header -->
+                <div class="sidebar-user-card">
+                    <div class="user-info-text">
+                        <div class="sidebar-username-row">
+                            <div class="sidebar-username" id="sidebarUsername">Cargando...</div>
+                            <div class="sidebar-langs" id="sidebarLangs"></div>
+                        </div>
+                        <div class="sidebar-userbadge" id="sidebarBadge">JUGADOR CODEXAR</div>
+                    </div>
+                    <div class="sidebar-avatar" id="sidebarAvatar"></div>
+                </div>
+
+                <!-- Rank Display -->
+                <div class="sidebar-card rank-display">
+                    <div class="sidebar-label">Rango Actual</div>
+                    <div class="rank-badge"></div>
+                    <div class="rank-text" id="homeRankText">Plata II</div>
+                </div>
+
+                <!-- Estadísticas Split (Ejercicios & Victorias) -->
+                <div class="sidebar-card stats-card-split">
+                    <div class="stats-half">
+                        <div class="stats-text">
+                            <div class="sidebar-label" style="text-align: left; margin-bottom: 2px;">Ejercicios
+                                Resueltos</div>
+                            <div class="stats-number" id="statsTotal">0</div>
+                        </div>
+                        <div class="stats-chart" id="statsChart">
+                            <svg width="42" height="42" viewBox="0 0 42 42" class="donut-svg">
+                                <!-- Base ring -->
+                                <circle cx="21" cy="21" r="16" fill="transparent" stroke="#2a2a35" stroke-width="8">
+                                </circle>
+                                <!-- Dynamic segments will be injected here -->
+                                <g id="donutSegments"></g>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stats-divider"></div>
+                    <div class="stats-half"
+                        style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px;">
+                        <div class="sidebar-label" style="text-align: left; margin-bottom: 0;">Victorias</div>
+                        <div class="stats-number" id="statsWins" style="color: var(--accent-cyan); font-size: 1.25rem;">0</div>
+                        <div class="sidebar-label" id="statsWR" style="margin-bottom: 0; color: var(--accent-green);">-% WR</div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard -->
+                <div class="sidebar-card">
+                    <div class="sidebar-label">Clasificación Global</div>
+                    <div class="sidebar-value" id="homeGlobalRank">#142 Global</div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="sidebar-card">
+                    <div class="sidebar-label">Logros Recientes</div>
+                    <div class="achievements-row">
+                        <div class="achievement-badge" title="Primer Logro"></div>
+                        <div class="achievement-badge" title="Segundo Logro"></div>
+                        <div class="achievement-badge" title="Tercer Logro"></div>
+                    </div>
+                </div>
+
+                <!-- Share Button -->
+                <button class="btn btn-share" id="shareProfileBtn">Compartir Perfil</button>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="../services/homeDashboard.js"></script>
+</body>
+
+</html>

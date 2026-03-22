@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Clasificatoria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/Ranked.css">
+</head>
+<body>
+    <!-- Navbar (same as all other pages) -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Exercises.html" class="dropdown-item">Ejercicios</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="ranked-container">
+
+        <!-- View 1: Ready to Battle -->
+        <div id="readyView" class="view-panel active-view">
+            <div class="emblem-container">
+                <div class="emblem">⚔</div>
+            </div>
+
+            <h1 class="view-title">¿Listo para la batalla?</h1>
+            <p class="view-desc">
+                Serás emparejado con un rival de rating similar. Ambos<br>
+                recibiréis el mismo problema. ¡El primero en resolverlo gana!
+            </p>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">Tu Posición</span>
+                    <span class="stat-value" id="myRank">#--</span>
+                </div>
+                <div class="stat-box highlight-box">
+                    <span class="stat-label">ELO</span>
+                    <span class="stat-value accent-text" id="myRating">----</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Racha</span>
+                    <span class="stat-value orange-text" id="myStreak">-</span>
+                </div>
+            </div>
+
+            <!-- Progression bar to next rank -->
+            <div class="progress-wrap">
+                <div class="progress-info">
+                    <span>Progreso al siguiente rango</span>
+                    <span id="progressText">-- LP restantes</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="rankProgressBar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <button class="action-btn prime-btn" id="findMatchBtn">
+                Buscar Partida
+            </button>
+        </div>
+
+        <!-- View 2: Searching -->
+        <div id="searchingView" class="view-panel hidden-view">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+
+            <h1 class="view-title">Buscando rival...</h1>
+            <p class="view-desc">Buscando un jugador con rating similar</p>
+
+            <div class="timer" id="searchTimer">0:00</div>
+
+            <div class="match-avatars">
+                <div class="avatar-ring my-ring" id="searchMyAvatar"></div>
+                <div class="versus-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="avatar-ring enemy-ring pulse-ring">?</div>
+            </div>
+
+            <div class="range-box">
+                <span class="range-label">Buscando en el rango de rating:</span>
+                <span class="range-value" id="searchRange">---- - ---- LP</span>
+            </div>
+
+            <button class="action-btn cancel-btn" id="cancelSearchBtn">Cancelar búsqueda</button>
+        </div>
+
+    </div>
+
+    <script src="../services/ranked.js"></script>
+</body>
+</html>

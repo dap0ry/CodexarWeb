@@ -1,0 +1,328 @@
+/* 
+    Friends.css
+    Complements Home.css inheriting root variables, extending 
+    unique layout boundaries to eliminate scroll chains.
+*/
+
+.friends-body {
+    overflow: hidden; /* Forbid main body scroll to constrain child elements */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.friends-container {
+    margin: 110px auto 70px auto; /* 110px top layout compression, 70px bottom layout lift */
+    width: 97%; /* Reduced side edge allowance */
+    max-width: 1600px; /* Massively spans outwards reducing screen side-margins on large monitors */
+    height: calc(100vh - 180px); /* Adjust internal boundaries against new vertical dead space */
+    display: flex;
+    flex-direction: row; /* Trigger 3 column horizontal pipeline */
+    gap: 20px;
+    min-height: 0; 
+}
+
+/* Universal Typography Structure */
+.section-title {
+    text-align: center;
+    font-size: 1.15rem;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-family: var(--font-heading);
+}
+
+.section-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Search Bar Premium Input */
+::placeholder {
+    color: var(--text-muted);
+}
+.custom-input {
+    width: 100%;
+    padding: 12px 18px;
+    background-color: rgba(18, 18, 22, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    outline: none;
+}
+.custom-input:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+}
+
+/* Trilateral Column Architecture */
+.friends-col-news {
+    flex: 2; /* Relative column width */
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    min-height: 0;
+}
+
+.friends-col-actions {
+    flex: 4; /* Dominates 50% of the horizontal space absorbing side margins */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.friends-col-list {
+    flex: 2; /* Anchored right side equivalent to news */
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    min-height: 0;
+}
+
+/* Internal Activity News Feed */
+.activity-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 5px;
+}
+
+.activity-item {
+    padding: 12px 15px;
+    border: 1px solid var(--accent-cyan);
+    font-size: 0.85rem;
+    color: var(--text-light);
+    background-color: rgba(18, 18, 22, 0.4);
+    border-radius: var(--border-radius);
+    line-height: 1.4;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.05); /* Premium illumination card styling */
+}
+
+/* Search Dropdown Behaviors Disabled - Replaced with Static Button Layout */
+.search-section {
+    position: relative;
+    padding: 15px;
+    flex: 0 0 auto;
+}
+.search-input-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.search-input-group .custom-input {
+    flex: 1;
+}
+
+.search-feedback {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    min-height: 20px; 
+    transition: var(--transition);
+}
+.search-feedback.success {
+    color: var(--accent-green);
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+}
+.search-feedback.error {
+    color: #ff3333;
+    text-shadow: 0 0 5px rgba(255, 51, 51, 0.3);
+}
+
+/* Request Vault splits */
+.requests-section {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    min-height: 0;
+}
+.requests-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.requests-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 5px;
+}
+
+/* Right Column Target Vectors Default Override */
+.master-friends-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 5px;
+}
+
+/* Base Friend Card Node */
+.friend-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: rgba(18, 18, 22, 0.4);
+    border: 1px solid var(--accent-cyan); /* Active Border Logic based on image */
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.05);
+    gap: 10px;
+}
+/* Simplified styling for lists like sent/requests where active border isn't wanted constantly */
+.friend-card-simplified {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background-color: rgba(18, 18, 22, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    gap: 8px;
+}
+
+.friend-card-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 0; /* Ensures text truncates inside correctly */
+}
+
+/* Dynamic inner states */
+.f-user-text {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.f-username {
+    font-weight: 700;
+    font-size: 0.95rem; /* Down-scaled slightly for list views */
+    color: var(--text-light);
+    font-family: var(--font-heading);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.f-lang-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.f-badge {
+    font-size: 0.60rem;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Interactive Avatar Shells */
+.f-avatar-wrapper {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background-color: #2a2a35;
+    border-radius: 50%;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+.f-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Online Presence Marker */
+.f-status {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #1c1c22; /* Fakes an absolute cut-out background border */
+    z-index: 2;
+}
+.f-status.online {
+    background-color: #39ff14;
+    box-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+}
+.f-status.offline {
+    background-color: #ff3333;
+}
+
+/* Custom Webkit Overflow Handles */
+.requests-list::-webkit-scrollbar,
+.master-friends-list::-webkit-scrollbar,
+.activity-list::-webkit-scrollbar {
+    width: 6px;
+}
+.requests-list::-webkit-scrollbar-thumb,
+.master-friends-list::-webkit-scrollbar-thumb,
+.activity-list::-webkit-scrollbar-thumb {
+    background-color: var(--accent-cyan);
+    border-radius: 3px;
+}
+.requests-list::-webkit-scrollbar-track,
+.master-friends-list::-webkit-scrollbar-track,
+.activity-list::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/* Action Control Matrices */
+.action-group {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.btn-small {
+    padding: 6px 10px;
+    font-size: 0.70rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: 4px; /* Hard edge classic look */
+}
+.btn-small:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.btn-small.accept:hover {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+}
+.btn-small.reject:hover, .btn-small.cancel:hover {
+    border-color: #ff3333;
+    color: #ff3333;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
+}

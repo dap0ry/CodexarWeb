@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Amigos</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Base CSS + Component CSS -->
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/Friends.css">
+</head>
+<body class="friends-body">
+
+    <!-- Reusable System Navbar -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Exercises.html" class="dropdown-item">Ejercicios</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Flow (No main document scroll) -->
+    <main class="friends-container">
+        
+        <!-- Col 1: News (Left) -->
+        <div class="friends-col-news card">
+            <h2 class="section-title">Actividad</h2>
+            <p class="section-desc">Noticias recientes de tus amigos.</p>
+            <div class="activity-list" id="activityList">
+                <div class="activity-placeholder" style="color:var(--text-muted); font-size:0.9rem;">Cargando actividad...</div>
+            </div>
+        </div>
+
+        <!-- Col 2: Actions (Center) -->
+        <div class="friends-col-actions">
+            <!-- Search Array -->
+            <div class="search-section card" style="overflow: visible;">
+                <h2 class="section-title">Añadir Amigo</h2>
+                <p class="section-desc">Escribe el nombre exacto de tu amigo para enviarle una solicitud.</p>
+                <div class="search-input-group">
+                    <input type="text" id="friendSearchInput" class="custom-input" placeholder="Nombre de usuario..." autocomplete="off">
+                    <button id="addFriendBtn" class="btn btn-green">Añadir</button>
+                </div>
+                <p id="searchFeedback" class="search-feedback"></p>
+            </div>
+            
+            <!-- Request Parallel Stack -->
+            <div class="requests-section">
+                <div class="requests-box card">
+                    <h2 class="section-title">Enviadas</h2>
+                    <p class="section-desc">Solicitudes pendientes.</p>
+                    <div class="requests-list" id="sentRequestsList"></div>
+                </div>
+                <div class="requests-box card">
+                    <h2 class="section-title">Recibidas</h2>
+                    <p class="section-desc">Acepta o rechaza aquí.</p>
+                    <div class="requests-list" id="receivedRequestsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Col 3: Friends (Right) -->
+        <div class="friends-col-list card">
+            <h2 class="section-title">Tu Lista</h2>
+            <p class="section-desc">Amigos conectados y offline.</p>
+            <div class="master-friends-list" id="masterFriendsList">
+                <!-- Dynamic Master Friend Row Elements -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Asynchronous Javascript Bridges -->
+    <script src="../services/friends.js"></script>
+</body>
+</html>

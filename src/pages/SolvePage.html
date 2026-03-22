@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Resolver Ejercicio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/SolvePage.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Exercises.html" class="dropdown-item">Ejercicios</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back Button -->
+    <div class="solve-breadcrumb">
+        <button class="btn-back" onclick="window.location.href='Exercises.html'">
+            <span>←</span> Volver a Ejercicios
+        </button>
+        <div class="breadcrumb-title" id="breadcrumbTitle">Cargando...</div>
+    </div>
+
+    <!-- Main Solve Layout -->
+    <main class="solve-main">
+        <!-- Left Panel: Statement + Test Cases -->
+        <div class="solve-left">
+            <!-- Exercise Statement -->
+            <div class="solve-statement">
+                <div class="statement-header">
+                    <div class="statement-title" id="exTitle">Cargando ejercicio...</div>
+                    <div class="statement-badges" id="exBadges"></div>
+                </div>
+                <div class="statement-body" id="exDescription">Cargando enunciado...</div>
+            </div>
+
+            <!-- Test Cases -->
+            <div class="solve-testcases">
+                <div class="testcases-label">Casos de Prueba</div>
+                <div id="testCasesList" class="testcases-list">
+                    <!-- injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Code Editor -->
+        <div class="solve-right">
+            <!-- Language Selector -->
+            <div class="editor-toolbar">
+                <div class="editor-lang-label">Lenguaje:</div>
+                <select id="langSelect" class="cyber-select lang-select">
+                    <option value="Python">Python</option>
+                    <option value="C++">C++</option>
+                    <option value="Java">Java</option>
+                    <option value="Go">Go</option>
+                    <option value="C#">C#</option>
+                </select>
+                <div class="editor-status" id="editorStatus"></div>
+            </div>
+
+            <!-- Code Editor -->
+            <div class="editor-wrapper">
+                <textarea id="codeEditor" class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+</textarea>
+            </div>
+
+            <!-- Output / Feedback Area -->
+            <div class="editor-output" id="editorOutput" style="display:none;">
+                <div id="outputContent"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="editor-actions">
+                <button id="btnCheck" class="btn-check">
+                    <span class="btn-icon">▶</span> Comprobar Código
+                </button>
+                <button id="btnSave" class="btn-save" style="display:none;">
+                    <span class="btn-icon">✓</span> Guardar Solución
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../services/solveExercise.js"></script>
+</body>
+</html>

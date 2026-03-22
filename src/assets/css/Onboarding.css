@@ -1,0 +1,306 @@
+/* Onboarding.css */
+:root {
+    --bg-dark: #0d0d0d;
+    --bg-card: #16161a;
+    --text-light: #e0e0e0;
+    --text-muted: #94a1b2;
+    --accent-cyan: #00ffcc;
+    --accent-green: #39ff14;
+    --accent-red: #ff3366;
+    --border-color: #2a2a35;
+    --border-radius: 12px;
+    --font-heading: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
+    /* Optional: Subtle background pattern */
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.onboarding-container {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(13, 13, 13, 0.95) 100%);
+    border: 1px solid var(--border-color);
+    border-top: 2px solid var(--accent-cyan); /* Cyberpunk accent bar */
+    border-radius: var(--border-radius);
+    padding: 40px 50px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 255, 204, 0.05);
+}
+
+.onboarding-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.brand {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+}
+.brand span { color: var(--accent-cyan); }
+
+.onboarding-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Removed the harsh white borders, added subtle glassmorphism separators */
+.section-box {
+    padding: 15px 0;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.section-box:last-of-type {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+.row-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.flex-grow { flex: 1; }
+.text-center { text-align: center; }
+.w-100 { width: 100%; }
+.block { display: block; }
+
+label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px 15px;
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+.form-control:focus { 
+    border-color: var(--accent-cyan); 
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+}
+.form-control.success { border-color: var(--accent-green); box-shadow: 0 0 8px rgba(57, 255, 20, 0.2); }
+.form-control.error { border-color: var(--accent-red); box-shadow: 0 0 8px rgba(255, 51, 102, 0.2); }
+
+.status-msg {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-family: var(--font-heading);
+}
+
+.status-msg.success { color: var(--accent-green); }
+.status-msg.error { color: var(--accent-red); }
+
+/* Avatar Refined */
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 90px;
+}
+.avatar-upload small { 
+    font-size: 0.65rem; 
+    color: var(--text-muted); 
+    margin-top: 8px; 
+    line-height: 1.3;
+}
+.avatar-circle {
+    width: 64px;
+    height: 64px;
+    border: 1px dashed var(--text-muted);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background-color: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: var(--transition);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+.avatar-circle:hover { 
+    border-color: var(--accent-cyan); 
+    color: var(--accent-cyan); 
+    background-color: rgba(0, 255, 204, 0.05);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.1);
+}
+
+/* Languages Grayscale to Color Checkboxes */
+.languages-grid {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.lang-card {
+    position: relative;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.4);
+    transition: var(--transition);
+    /* By default grey and opaque */
+    filter: grayscale(100%) opacity(0.3);
+}
+
+.lang-card:hover {
+    filter: grayscale(80%) opacity(0.8);
+    transform: translateY(-2px);
+    border-color: var(--text-muted);
+}
+
+.lang-card input { display: none; }
+.lang-card .icon-img { width: 32px; height: 32px; object-fit: contain; transition: var(--transition); }
+
+/* Turn to full color and neon glow when checked */
+.lang-card input:checked + .icon-img, .lang-card.active .icon-img { filter: none; transform: scale(1.1); }
+.lang-card:has(input:checked), .lang-card.active {
+    filter: grayscale(0%) opacity(1);
+    border-color: var(--text-light);
+    transform: translateY(-3px) scale(1.05);
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* Coloring specific icons when active */
+.cpp:has(input:checked), .lang-card.active[data-lang="C++"] { border-color: #00599C; box-shadow: 0 8px 20px rgba(0,89,156,0.4); }
+.py:has(input:checked), .lang-card.active[data-lang="Python"] { border-color: #FFD43B; box-shadow: 0 8px 20px rgba(255,212,59,0.3); }
+.java:has(input:checked), .lang-card.active[data-lang="Java"] { border-color: #f89820; box-shadow: 0 8px 20px rgba(248,152,32,0.3); }
+.go:has(input:checked), .lang-card.active[data-lang="Go"] { border-color: #00ADD8; box-shadow: 0 8px 20px rgba(0,173,216,0.4); }
+.cs:has(input:checked), .lang-card.active[data-lang="C#"] { border-color: #9B4F96; box-shadow: 0 8px 20px rgba(155,79,150,0.4); }
+
+/* Levels Radio */
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.level-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 5px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.3);
+    color: var(--text-muted);
+}
+.level-card:hover {
+    border-color: var(--text-light);
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.02);
+}
+.level-card input { display: none; }
+.level-card:has(input:checked) {
+    background-color: rgba(0, 255, 204, 0.08);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: 0 5px 15px rgba(0, 255, 204, 0.15);
+    font-weight: 800;
+    transform: translateY(-2px);
+}
+
+/* Description */
+.desc-area {
+    height: 80px;
+    resize: none;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+.char-counter {
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+    margin-top: 5px;
+}
+
+.btn {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    padding: 15px;
+    background: rgba(0, 255, 204, 0.05);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 8px;
+    color: var(--accent-cyan);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+.btn:hover:not(:disabled) {
+    background: var(--accent-cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+    transform: translateY(-2px);
+}
+.btn:disabled {
+    border-color: var(--border-color);
+    background-color: transparent;
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: var(--accent-red);
+    font-size: 0.85rem;
+    text-align: center;
+    display: none;
+    font-family: var(--font-heading);
+    margin-bottom: 10px;
+}

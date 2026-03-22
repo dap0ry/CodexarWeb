@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Modo Offline</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Base Styles -->
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/Exercises.css">
+</head>
+<body>
+    <!-- Reusable System Navbar -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Exercises.html" class="dropdown-item">Ejercicios</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Exercises Architecture -->
+    <main class="offline-body">
+        <div class="offline-container">
+            
+            <!-- Filters Header Box -->
+            <div class="filters-panel">
+                <div class="filter-group">
+                    <label>Categoría</label>
+                    <select id="filterCategory" class="cyber-select">
+                        <option value="All">Todas</option>
+                        <option value="Arrays">Arrays</option>
+                        <option value="Strings">Strings</option>
+                        <option value="Math">Math</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Dificultad</label>
+                    <select id="filterDifficulty" class="cyber-select">
+                        <option value="All">Todas</option>
+                        <option value="Fácil">Fácil</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Difícil">Difícil</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group search-box">
+                    <input type="text" id="searchExercise" class="cyber-input" placeholder="Buscar título...">
+                </div>
+            </div>
+
+            <!-- Scrollable Execution Frame -->
+            <div class="exercises-list-wrapper">
+                <div id="exercisesList" class="exercises-list">
+                    <!-- Javascript Mapped Cards Go Here -->
+                    <div class="skeleton-loader">Cargando Desafíos...</div>
+                </div>
+            </div>
+
+            <!-- Bottom Floating Action -->
+            <div class="randomizer-panel">
+                <button type="button" id="btnRandom" class="btn-random">Misión Aleatoria</button>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../services/exercises.js"></script>
+</body>
+</html>

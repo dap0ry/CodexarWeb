@@ -1,0 +1,98 @@
+/* ==========================================================
+   Unranked.css — green/chill colour overrides for unranked
+   Extends Ranked.css and RankedBattle.css
+   ========================================================== */
+
+/* Emblem in green */
+.unranked-emblem {
+    background-color: rgba(57, 255, 20, 0.08);
+    border-color: rgba(57, 255, 20, 0.15);
+}
+
+/* Spinner in green */
+.unranked-spinner {
+    background-color: rgba(57, 255, 20, 0.08);
+    border-color: rgba(57, 255, 20, 0.15);
+}
+
+.unranked-spin {
+    border-color: rgba(57, 255, 20, 0.2);
+    border-top-color: var(--accent-green);
+}
+
+/* Timer in green */
+.unranked-timer {
+    color: var(--accent-green);
+}
+
+/* Info box replacing stats */
+.unranked-info-box {
+    width: 100%;
+    background-color: var(--bg-surface, #1a1a22);
+    border: 1px solid rgba(57, 255, 20, 0.15);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.unranked-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.unranked-info-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Button green */
+.unranked-btn {
+    background: var(--accent-green, #39ff14);
+    color: #0a0a0a;
+    font-weight: 800;
+}
+
+.unranked-btn:hover {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.35);
+    transform: translateY(-2px);
+}
+
+/* Avatar borders green */
+.unranked-p1 {
+    border-color: var(--accent-green) !important;
+}
+
+.unranked-p2 {
+    border-color: rgba(57, 255, 20, 0.4) !important;
+}
+
+/* Badge text */
+.unranked-badge {
+    color: var(--accent-green);
+    font-size: 10px;
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+}
+
+/* Opponent progress bar green */
+.unranked-op-fill {
+    background-color: var(--accent-green) !important;
+}
+
+/* Submit button green */
+.unranked-submit {
+    background: var(--accent-green, #39ff14) !important;
+    color: #0a0a0a !important;
+}
+
+.unranked-submit:hover {
+    box-shadow: 0 4px 20px rgba(57, 255, 20, 0.3) !important;
+}
+
+/* Result modal for unranked - no red/green extremes, just chill */

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Configuración Inicial</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Onboarding.css">
+</head>
+<body>
+
+    <div class="onboarding-container">
+        <div class="onboarding-header">
+            <h1 class="brand">CODEX<span>AR</span></h1>
+        </div>
+
+        <form class="onboarding-form" id="onboardForm">
+            <!-- Username & Avatar -->
+            <div class="section-box row-flex">
+                <div class="input-container flex-grow">
+                    <label for="obUsername">Nombre de usuario</label>
+                    <input type="text" id="obUsername" class="form-control" placeholder="Ej: CodeMaster" autocomplete="off" required>
+                    <small id="usernameStatus" class="status-msg"></small>
+                </div>
+                <div class="avatar-upload">
+                    <div class="avatar-circle" id="obPfpCircle">
+                        <span id="obPfpText">PFP</span>
+                    </div>
+                    <input type="file" id="obPfpInput" accept="image/*" style="display: none;">
+                    <small>Elige tu foto de<br>perfil (opcional)</small>
+                </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="section-box text-center">
+                <label>Elige tu lenguaje</label>
+                <div class="languages-grid">
+                    <label class="lang-card cpp">
+                        <input type="checkbox" name="languages" value="C++">
+                        <img class="icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+                    </label>
+                    <label class="lang-card py">
+                        <input type="checkbox" name="languages" value="Python">
+                        <img class="icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                    </label>
+                    <label class="lang-card java">
+                        <input type="checkbox" name="languages" value="Java">
+                        <img class="icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                    </label>
+                    <label class="lang-card go">
+                        <input type="checkbox" name="languages" value="Go">
+                        <img class="icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go">
+                    </label>
+                    <label class="lang-card cs">
+                        <input type="checkbox" name="languages" value="C#">
+                        <img class="icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Level -->
+            <div class="section-box text-center">
+                <label>Elige tu nivel</label>
+                <div class="level-grid">
+                    <label class="level-card">
+                        <input type="radio" name="level" value="Nuevo" required>
+                        <span>NUEVO</span>
+                    </label>
+                    <label class="level-card">
+                        <input type="radio" name="level" value="Principiante">
+                        <span>PRINCIPIANTE</span>
+                    </label>
+                    <label class="level-card">
+                        <input type="radio" name="level" value="Intermedio">
+                        <span>INTERMEDIO</span>
+                    </label>
+                    <label class="level-card">
+                        <input type="radio" name="level" value="Avanzado">
+                        <span>AVANZADO</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="section-box">
+                <label class="text-center w-100 block">Escribe una breve descripcion sobre ti</label>
+                <textarea id="obDesc" class="form-control desc-area" maxlength="120" placeholder="(max 120 caracteres)"></textarea>
+                <div class="char-counter"><span id="charCount">0</span>/120</div>
+            </div>
+            
+            <div class="error-message" id="obError"></div>
+
+            <button type="submit" class="btn btn-green w-100" id="obSubmit" disabled>ENVIAR</button>
+        </form>
+    </div>
+
+    <script src="../services/onboarding.js"></script>
+</body>
+</html>

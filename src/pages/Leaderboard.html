@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Clasificación</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/Leaderboard.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Exercises.html" class="dropdown-item">Ejercicios</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="lb-header">
+        <div class="lb-title">TOP <span>5</span> CLASIFICACIÓN</div>
+        <div class="lb-subtitle">Los mejores programadores de Codexar por ejercicios resueltos</div>
+    </div>
+
+    <!-- 3D Cube Scene -->
+    <main class="lb-scene">
+        <div class="cube-scene" id="cubeScene">
+            <div class="cube" id="cube">
+                <!-- 6 faces: front, back, left, right, top, bottom -->
+                <!-- Top 5 fill faces 1-5, face 6 is the logo back -->
+                <div class="cube-face face-front"  id="face-1"></div>
+                <div class="cube-face face-back"   id="face-6">
+                    <div class="face-logo">
+                        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:var(--text-light);">Codex<span style="color:var(--accent-cyan)">ar</span></div>
+                        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;font-family:var(--font-heading);">Clasificación Global</div>
+                    </div>
+                </div>
+                <div class="cube-face face-right"  id="face-2"></div>
+                <div class="cube-face face-left"   id="face-3"></div>
+                <div class="cube-face face-top"    id="face-4"></div>
+                <div class="cube-face face-bottom" id="face-5"></div>
+            </div>
+        </div>
+
+        <!-- Navigation controls -->
+        <div class="cube-controls">
+            <button class="ctrl-btn" id="btnPrev">◀</button>
+            <div class="ctrl-indicator" id="ctrlIndicator">
+                <span class="dot active" data-face="0"></span>
+                <span class="dot" data-face="1"></span>
+                <span class="dot" data-face="2"></span>
+                <span class="dot" data-face="3"></span>
+                <span class="dot" data-face="4"></span>
+            </div>
+            <button class="ctrl-btn" id="btnNext">▶</button>
+        </div>
+
+        <!-- Loading / Empty state -->
+        <div id="lbLoading" class="lb-loading">Cargando clasificación...</div>
+    </main>
+
+    <script src="../services/leaderboard.js"></script>
+</body>
+</html>

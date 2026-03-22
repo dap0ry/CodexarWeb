@@ -1,0 +1,364 @@
+/* Exercises.css */
+.offline-body {
+    padding-top: 100px; /* Clear navbar */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg-dark);
+    font-family: var(--font-body);
+    overflow: hidden;
+}
+
+.offline-container {
+    width: 95%;
+    max-width: 1100px;
+    height: calc(100vh - 130px);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background: linear-gradient(180deg, var(--bg-card) 0%, rgba(15,15,18,0.9) 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* 1. Filters Top Bar */
+.filters-panel {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-family: var(--font-heading);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.cyber-select, .cyber-input {
+    background: rgba(20,20,25,0.7);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+.cyber-select:focus, .cyber-input:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+}
+
+.search-box {
+    flex: 1;
+    justify-content: flex-end;
+}
+.search-box .cyber-input {
+    width: 100%;
+    max-width: 250px;
+}
+
+/* 2. Scrollable List */
+.exercises-list-wrapper {
+    flex: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.3);
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.exercises-list-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.exercises-list-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 204, 0.2);
+    border-radius: 10px;
+}
+
+.exercises-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 3. Competitive Target Card */
+.ex-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px 20px;
+    transition: var(--transition);
+}
+
+.ex-card:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 255, 204, 0.02);
+    transform: translateX(4px);
+}
+
+.ex-card-solved {
+    border-left: 3px solid rgba(57, 255, 20, 0.4);
+    background: rgba(57, 255, 20, 0.015);
+}
+
+.ex-card-solved:hover {
+    border-color: rgba(57, 255, 20, 0.5);
+    background: rgba(57, 255, 20, 0.03);
+}
+
+.solved-check {
+    color: var(--accent-green);
+    font-size: 0.9rem;
+}
+
+.ex-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.ex-title {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.ex-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.ex-badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    border: 1px solid;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Colors for difficulties & generic */
+.badge-facil { border-color: rgba(57, 255, 20, 0.5); color: var(--accent-green); background: rgba(57,255,20,0.05); }
+.badge-normal { border-color: rgba(248, 152, 32, 0.5); color: #f89820; background: rgba(248, 152, 32, 0.05); }
+.badge-dificil { border-color: rgba(255, 51, 102, 0.5); color: var(--accent-red); background: rgba(255, 51, 102, 0.05); }
+.badge-category { border-color: rgba(0, 255, 204, 0.3); color: var(--accent-cyan); }
+.badge-solvers { border-color: rgba(255, 255, 255, 0.2); color: var(--text-muted); }
+.badge-first { border-color: rgba(255, 255, 255, 0.2); }
+
+/* --- First Solver Badge --- */
+.badge-first-solver {
+    border-color: rgba(255, 200, 40, 0.4);
+    color: #ffc828;
+    background: rgba(255, 200, 40, 0.05);
+    gap: 5px;
+    cursor: default;
+}
+.badge-first-solver .fs-label {
+    font-weight: 700;
+    font-size: 0.72rem;
+}
+.badge-first-solver .fs-name {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --- Friends Solved Badge --- */
+.badge-friends-solved {
+    border-color: rgba(0, 255, 204, 0.25);
+    color: var(--accent-cyan);
+    background: rgba(0, 255, 204, 0.04);
+    position: relative;
+    gap: 6px;
+    cursor: default;
+}
+.badge-friends-solved .fs-label {
+    font-size: 0.8rem;
+}
+
+.friends-avatars-row {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.extra-friends {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    padding: 0 3px;
+}
+
+/* --- Tooltip (hover panel) --- */
+.friends-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-card);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    min-width: 160px;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 999;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    pointer-events: none;
+}
+
+.friends-tooltip::-webkit-scrollbar { width: 4px; }
+.friends-tooltip::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.2); border-radius: 4px; }
+
+.badge-friends-solved:hover .friends-tooltip {
+    display: block;
+    pointer-events: auto;
+}
+
+.tooltip-title {
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(0,255,204,0.15);
+    padding-bottom: 6px;
+}
+
+.tooltip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.tooltip-friend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: var(--text-light);
+}
+
+/* --- Mini Avatar variants --- */
+.mini-avatar-img {
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    flex-shrink: 0;
+}
+
+.mini-avatar-letter {
+    border-radius: 50%;
+    background: rgba(0, 255, 204, 0.15);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+}
+
+.mini-avatar {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-card);
+}
+
+.ex-action {
+    margin-left: 20px;
+}
+
+.btn-resolve {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.ex-card:hover .btn-resolve {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    background: rgba(0, 255, 204, 0.1);
+}
+
+.btn-resolved {
+    border-color: rgba(57, 255, 20, 0.4) !important;
+    color: var(--accent-green) !important;
+    background: rgba(57, 255, 20, 0.06) !important;
+}
+
+/* 4. Bottom Terminal */
+.randomizer-panel {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+}
+
+.btn-random {
+    width: 60%;
+    max-width: 400px;
+    padding: 14px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: bold;
+    color: #121216;
+    background: var(--text-light);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition);
+}
+
+.btn-random:hover {
+    background: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    transform: translateY(-2px);
+}

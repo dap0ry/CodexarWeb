@@ -1,0 +1,200 @@
+/* ==========================================================
+   RankedBattle.css — battle screen overlay styles
+   Relies on Home.css + SolvePage.css for base layout
+   ========================================================== */
+
+/* Ensure body fills full height in column flex */
+body.ranked-battle-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ---- Battle banner embedded in navbar ---- */
+.battle-banner {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 0 20px;
+}
+
+.battle-player {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.b-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background-color: var(--bg-surface);
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.p1-avatar { border: 2px solid var(--accent-cyan); }
+.p2-avatar { border: 2px solid rgba(239, 68, 68, 0.6); }
+
+.b-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.b-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-light);
+    font-family: var(--font-heading);
+}
+
+.b-rank {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+}
+
+.battle-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.vs-badge {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.battle-timer {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+/* ---- Opponent progress strip below navbar ---- */
+.op-progress-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 24px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.op-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.op-bar-bg {
+    flex: 1;
+    height: 5px;
+    background-color: var(--bg-surface);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.op-bar-fill {
+    height: 100%;
+    background-color: #ef4444;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+/* ---- Submit button ---- */
+.btn-submit-ranked {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent-cyan);
+    color: var(--bg-dark);
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-submit-ranked:hover {
+    box-shadow: 0 4px 20px rgba(0, 224, 195, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ---- Editor header tweak ---- */
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.ed-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ---- Result modal ---- */
+.result-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+}
+
+.result-overlay.hidden { display: none; }
+
+.result-modal {
+    background: var(--bg-card);
+    padding: 48px 56px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.result-modal h1 {
+    font-family: var(--font-heading);
+    font-size: 52px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    letter-spacing: -1px;
+}
+
+.result-modal h1.win  { color: var(--accent-cyan); }
+.result-modal h1.lose { color: #ef4444; }
+
+.result-modal p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 32px;
+}
