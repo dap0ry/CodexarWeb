@@ -1,0 +1,291 @@
+/* QuickLogin.css — Steam-style quick resume screen */
+
+:root {
+    --bg:         #0a0a0e;
+    --bg-card:    #111118;
+    --text:       #e8e8f0;
+    --muted:      #52536a;
+    --accent:     #00ffcc;
+    --accent-dim: rgba(0, 255, 204, 0.10);
+    --border:     rgba(0, 255, 204, 0.10);
+    --font-mono:  'JetBrains Mono', monospace;
+    --font-body:  'Inter', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+/* Canvas from globalBg.js */
+#globalBgCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Scan lines */
+body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.035) 0px, rgba(0,0,0,0.035) 1px,
+        transparent 1px, transparent 3px
+    );
+}
+
+/* ── Centered wrapper ── */
+.ql-wrap {
+    position: relative; z-index: 10;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Card ── */
+.ql-card {
+    width: 100%;
+    max-width: 340px;
+    background: rgba(13, 13, 20, 0.92);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 32px 28px;
+    backdrop-filter: blur(28px);
+    box-shadow:
+        0 0 0 1px rgba(0,255,204,0.04) inset,
+        0 32px 80px rgba(0,0,0,0.75),
+        0 0 60px rgba(0,255,204,0.03);
+    position: relative;
+    overflow: hidden;
+    animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Corner brackets */
+.ql-card::before,
+.ql-card::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    border-color: rgba(0,255,204,0.25);
+    border-style: solid;
+}
+.ql-card::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+.ql-card::after  { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+/* Top accent line */
+.ql-top-line {
+    position: absolute;
+    top: 0; left: 12%; right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+}
+
+/* ── Avatar ── */
+.ql-avatar-wrap {
+    position: relative;
+    width: 80px; height: 80px;
+    margin-bottom: 16px;
+    margin-top: 4px;
+}
+
+.ql-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background: var(--bg-card);
+}
+
+.ql-avatar-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,255,204,0.35);
+    box-shadow: 0 0 14px rgba(0,255,204,0.18);
+    pointer-events: none;
+}
+
+/* ── Welcome text ── */
+.ql-welcome {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.ql-username {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 24px;
+    letter-spacing: -0.3px;
+}
+
+.ql-username span {
+    color: var(--accent);
+}
+
+/* ── Form ── */
+.ql-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ql-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.ql-input {
+    width: 100%;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 9px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 11px 14px;
+    outline: none;
+    letter-spacing: 2px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ql-input::placeholder {
+    color: rgba(255,255,255,0.12);
+    letter-spacing: 3px;
+}
+
+.ql-input:focus {
+    border-color: rgba(0,255,204,0.4);
+    box-shadow: 0 0 0 3px rgba(0,255,204,0.06);
+}
+
+/* ── Error ── */
+.ql-error {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: #ff5555;
+    background: rgba(255,85,85,0.07);
+    border: 1px solid rgba(255,85,85,0.18);
+    border-radius: 7px;
+    padding: 7px 11px;
+}
+
+/* ── Primary button ── */
+.ql-btn-primary {
+    margin-top: 4px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #0a0a0e;
+    background: var(--accent);
+    border: none;
+    border-radius: 9px;
+    padding: 13px 18px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 0 24px rgba(0,255,204,0.3);
+}
+
+.ql-btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.45s;
+}
+.ql-btn-primary:hover::before { transform: translateX(100%); }
+.ql-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 40px rgba(0,255,204,0.5);
+}
+.ql-btn-primary:active { transform: translateY(0); }
+.ql-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ql-btn-arrow { font-size: 1rem; }
+
+/* ── Divider ── */
+.ql-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin: 20px 0 16px;
+}
+
+/* ── Secondary button (switch account) ── */
+.ql-btn-secondary {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+    text-align: center;
+    width: 100%;
+}
+
+.ql-btn-secondary:hover {
+    color: var(--accent);
+}
+
+/* ── Global code floats from globalBg.js ── */
+.g-code-float {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.65;
+    color: rgba(0,255,204,0.14);
+    background: rgba(0,255,204,0.02);
+    border: 1px solid rgba(0,255,204,0.05);
+    border-radius: 10px;
+    padding: 10px 14px;
+    pointer-events: none;
+    white-space: pre;
+    backdrop-filter: blur(2px);
+    user-select: none;
+}
+.g-code-float .kw  { color: rgba(0,255,204,0.45); }
+.g-code-float .fn  { color: rgba(57,255,20,0.4); }
+.g-code-float .num { color: rgba(255,200,40,0.45); }
+.g-code-float .str { color: rgba(255,120,80,0.4); }

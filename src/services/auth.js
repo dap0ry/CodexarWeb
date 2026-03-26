@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('saved_email', email);
                     if (data.username) localStorage.setItem('username', data.username);
-                    
+
                     if (data.is_onboarded === false) {
                         window.location.href = 'Onboarding.html';
                     } else {
