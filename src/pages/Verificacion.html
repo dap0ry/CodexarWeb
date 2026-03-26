@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — Verificación</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Auth.css">
+    <link rel="stylesheet" href="../assets/css/Verificacion.css">
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Floating code fragments -->
+    <div class="cf cf1"><span class="kw">async def</span> <span class="fn">verify</span>(code):<br>  hash = <span class="fn">bcrypt</span>(<span class="str">"******"</span>)<br>  <span class="kw">return</span> hash == stored</div>
+    <div class="cf cf2"><span class="kw">if</span> expires_at &lt; <span class="fn">now</span>():<br>  <span class="kw">raise</span> <span class="fn">HTTPException</span>(<br>    status=<span class="num">410</span><br>  )</div>
+    <div class="cf cf3"><span class="kw">const</span> code = otp<br>  .<span class="fn">split</span>(<span class="str">''</span>)<br>  .<span class="fn">join</span>(<span class="str">''</span>);</div>
+    <div class="cf cf4"><span class="fn">send_email</span>(<br>  to=<span class="str">"user@..."</span>,<br>  code=<span class="num">6</span>digits<br>)</div>
+    <div class="cf cf5"><span class="kw">TTL:</span> <span class="num">300</span>s<br>retries=<span class="num">∞</span><br>cooldown=<span class="num">60</span>s</div>
+
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <div class="auth-card-top-line"></div>
+
+            <div class="auth-brand">Codex<span>ar</span></div>
+            <p class="auth-sub">Verifica tu correo electrónico</p>
+
+            <p class="masked-email" id="maskedEmail">cargando...</p>
+
+            <p class="verify-hint">Introduce el código de 6 dígitos que enviamos a tu correo.</p>
+
+            <!-- OTP input boxes -->
+            <div class="otp-wrap" id="otpWrap">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off" data-index="0">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off" data-index="1">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off" data-index="2">
+                <span class="otp-sep">—</span>
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off" data-index="3">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off" data-index="4">
+                <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off" data-index="5">
+            </div>
+
+            <!-- Timer -->
+            <p class="timer" id="timer">05:00</p>
+
+            <!-- Messages -->
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+
+            <!-- Verify button -->
+            <button class="auth-btn" id="verifyBtn">
+                <span class="btn-text">Verificar</span>
+                <span class="btn-arrow">&#8594;</span>
+            </button>
+
+            <!-- Resend -->
+            <div class="resend-wrap">
+                <button class="resend-btn" id="resendBtn" disabled>
+                    Reenviar código (<span id="resendCountdown">60</span>s)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-footer-outer">
+        ¿Email incorrecto? <a href="Register.html">Volver al registro</a>
+    </div>
+
+    <script src="../services/authBg.js"></script>
+    <script src="../services/verificacion.js"></script>
+</body>
+</html>

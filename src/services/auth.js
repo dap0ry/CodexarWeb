@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://codexarapi.onrender.com/api/auth';
+const API_BASE_URL = 'http://localhost:8000/api/auth';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
@@ -82,18 +82,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    localStorage.setItem('access_token', data.access_token);
-                    
+                    sessionStorage.setItem('pending_email', email);
+
                     if (successElement) {
-                        successElement.innerHTML = `[✓] CREACIÓN EXITOSA<br><span style="font-family:var(--font-body); font-size:0.8rem; color:var(--text-light); opacity:0.8; letter-spacing:0;">Redirigiendo al terminal de configuración...</span>`;
+                        successElement.innerHTML = `[✓] CÓDIGO ENVIADO<br><span style="font-family:var(--font-body); font-size:0.8rem; color:var(--text-light); opacity:0.8; letter-spacing:0;">Revisa tu correo electrónico...</span>`;
                         successElement.style.display = 'block';
                     }
-                    submitBtn.style.display = 'none'; 
+                    submitBtn.style.display = 'none';
                     document.getElementById('errorMessage').style.display = 'none';
-                    
+
                     setTimeout(() => {
-                        window.location.href = 'Onboarding.html';
-                    }, 2500);
+                        window.location.href = 'Verificacion.html';
+                    }, 1500);
                 } else {
                     errorElement.textContent = data.detail || 'Error en el registro';
                     errorElement.style.display = 'block';
