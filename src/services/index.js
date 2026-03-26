@@ -6,6 +6,11 @@
  * - 3D tilt effect on the active feature card
  */
 
+// Quick-resume: if user has an active session, go to QuickLogin instead of landing
+if (localStorage.getItem('access_token') && localStorage.getItem('saved_email')) {
+    window.location.replace('QuickLogin.html');
+}
+
 /* ────────────────────────────────────────────
    1. CANVAS BACKGROUND – animated dot grid
    ──────────────────────────────────────────── */

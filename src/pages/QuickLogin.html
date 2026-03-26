@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — Bienvenido</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/QuickLogin.css">
+</head>
+<body>
+
+    <div class="ql-wrap">
+        <div class="ql-card">
+            <div class="ql-top-line"></div>
+
+            <!-- Avatar -->
+            <div class="ql-avatar-wrap">
+                <img class="ql-avatar" id="qlAvatar" src="" alt="avatar">
+                <div class="ql-avatar-ring"></div>
+            </div>
+
+            <!-- Welcome text -->
+            <p class="ql-welcome">Bienvenido de nuevo</p>
+            <h2 class="ql-username" id="qlUsername">...</h2>
+
+            <!-- Password form -->
+            <form class="ql-form" id="qlForm" autocomplete="off">
+                <label class="ql-label" for="qlPassword">Contraseña</label>
+                <input
+                    class="ql-input"
+                    type="password"
+                    id="qlPassword"
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <div class="ql-error" id="qlError"></div>
+
+                <button class="ql-btn-primary" type="submit" id="qlSubmit">
+                    <span class="ql-btn-text">Continuar</span>
+                    <span class="ql-btn-arrow">&#8594;</span>
+                </button>
+            </form>
+
+            <!-- Switch account -->
+            <div class="ql-divider"></div>
+            <button class="ql-btn-secondary" id="qlSwitchBtn">
+                Iniciar sesión con otra cuenta
+            </button>
+        </div>
+    </div>
+
+    <script src="../services/globalBg.js"></script>
+    <script src="../services/quickLogin.js"></script>
+</body>
+</html>
