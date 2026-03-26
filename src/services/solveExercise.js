@@ -1,4 +1,4 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'http://localhost:8000/api';
 let exerciseData = null;
 let checkPassed = false;
 

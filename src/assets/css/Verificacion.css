@@ -1,0 +1,160 @@
+/* Verificacion.css — Email OTP verification page */
+/* Inherits all tokens from Auth.css (:root vars, .auth-card, .auth-btn, etc.) */
+
+/* ── Masked email display ── */
+.masked-email {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.verify-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+/* ── OTP boxes ── */
+.otp-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.otp-sep {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    margin: 0 2px;
+    user-select: none;
+}
+
+.otp-box {
+    width: 46px;
+    height: 54px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    outline: none;
+    caret-color: var(--accent);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+}
+
+.otp-box::-webkit-outer-spin-button,
+.otp-box::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.otp-box:focus {
+    border-color: rgba(0, 255, 204, 0.5);
+    box-shadow: 0 0 0 3px rgba(0, 255, 204, 0.08);
+}
+
+.otp-box.filled {
+    border-color: rgba(0, 255, 204, 0.3);
+    color: var(--accent);
+}
+
+.otp-box.error-shake {
+    animation: shake 0.35s ease;
+    border-color: rgba(255, 85, 85, 0.5);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+/* ── Timer ── */
+.timer {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    transition: color 0.3s;
+}
+
+.timer.warning {
+    color: #ffaa00;
+}
+
+.timer.expired {
+    color: #ff5555;
+    letter-spacing: 1px;
+}
+
+/* ── Resend ── */
+.resend-wrap {
+    margin-top: 14px;
+    text-align: center;
+}
+
+.resend-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 204, 0.25);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 8px 18px;
+    cursor: not-allowed;
+    transition: all 0.2s;
+}
+
+.resend-btn:not(:disabled) {
+    color: var(--accent);
+    border-color: rgba(0, 255, 204, 0.4);
+    cursor: pointer;
+}
+
+.resend-btn:not(:disabled):hover {
+    background: rgba(0, 255, 204, 0.06);
+    box-shadow: 0 0 16px rgba(0, 255, 204, 0.15);
+}
+
+.resend-btn:disabled {
+    opacity: 0.45;
+}
+
+/* ── External footer (outside card) ── */
+.auth-footer-outer {
+    position: fixed;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+    z-index: 10;
+}
+
+.auth-footer-outer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.auth-footer-outer a:hover {
+    text-decoration: underline;
+}

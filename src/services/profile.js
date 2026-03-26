@@ -1,5 +1,5 @@
 /* profile.js - Orchestrates atomic state modifications syncing to global servers */
-const API_BASE = "https://codexarapi.onrender.com/api";
+const API_BASE = "http://localhost:8000/api";
 let originalData = {};
 let isFormDirty = false;
 let selectedLangs = [];
