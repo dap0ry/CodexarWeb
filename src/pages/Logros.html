@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codexar - Clasificación</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Codexar - Logros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/Home.css">
-    <link rel="stylesheet" href="../assets/css/Leaderboard.css">
+    <link rel="stylesheet" href="../assets/css/Logros.css">
     <link rel="stylesheet" href="../assets/css/global.css">
 </head>
-<body>
+<body class="logros-body">
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
@@ -31,27 +34,28 @@
         </div>
     </nav>
 
-    <!-- Podium Scene — title + podium in one flex column -->
-    <main class="lb-scene">
-        <div class="lb-header">
-            <div class="lb-title">TOP <span>5</span> CLASIFICACIÓN</div>
-            <div class="lb-subtitle">Los mejores programadores de Codexar por ejercicios resueltos</div>
+    <!-- Main Content -->
+    <main class="logros-container">
+        <div class="logros-header">
+            <h1>Logros</h1>
+            <p>Completa desafíos para desbloquear logros y equiparlos en tu perfil</p>
         </div>
-
-        <div class="podium-container" id="podiumContainer" style="opacity: 0;">
-            <!-- The Javascript will determine the podium order (e.g. 4, 2, 1, 3, 5) -->
-            <div class="podium-spot spot-4" id="spot-4"></div>
-            <div class="podium-spot spot-2" id="spot-2"></div>
-            <div class="podium-spot spot-1" id="spot-1"></div>
-            <div class="podium-spot spot-3" id="spot-3"></div>
-            <div class="podium-spot spot-5" id="spot-5"></div>
+        <div id="achievementsContainer" class="achievements-container">
+            <div class="ach-loading">Cargando logros...</div>
         </div>
-
-        <!-- Loading / Empty state -->
-        <div id="lbLoading" class="lb-loading">Cargando clasificación...</div>
     </main>
 
-    <script src="../services/leaderboard.js"></script>
+    <!-- Replace Modal -->
+    <div class="replace-overlay hidden" id="replaceOverlay">
+        <div class="replace-modal">
+            <h2 class="replace-title">Reemplazar Logro</h2>
+            <p class="replace-desc">Ya tienes 3 logros equipados. Elige cuál quieres reemplazar:</p>
+            <div class="replace-slots" id="replaceSlots"></div>
+            <button class="replace-cancel" onclick="closeReplaceModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script src="../services/logros.js"></script>
     <script src="../services/globalBg.js"></script>
 </body>
 </html>

@@ -4,20 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Codexar - Perfil</title>
-    <!-- Embedded font ecosystems -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Cascading layers -->
     <link rel="stylesheet" href="../assets/css/Home.css">
-    <link rel="stylesheet" href="../assets/css/Onboarding.css"> 
+    <link rel="stylesheet" href="../assets/css/Onboarding.css">
     <link rel="stylesheet" href="../assets/css/Profile.css">
     <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 <body class="profile-body">
 
-    <!-- Navbar Global Interface Anchor -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
@@ -28,6 +25,7 @@
             <div class="user-dropdown">
                 <a href="Home.html" class="dropdown-item">Inicio</a>
                 <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Logros.html" class="dropdown-item">Logros</a>
                 <a href="Friends.html" class="dropdown-item">Amigos</a>
                 <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
                 <a href="#" class="dropdown-item">Ayuda</a>
@@ -37,14 +35,13 @@
         </div>
     </nav>
 
-    <!-- Main Layout Boundary -->
     <main class="profile-container">
         <div class="profile-card">
             <h1>Configuración de Perfil</h1>
-            
+
             <form id="profileForm" class="profile-form">
-                
-                <!-- Center Avatar Matrix -->
+
+                <!-- Avatar -->
                 <div class="avatar-section">
                     <div class="avatar-wrapper" id="avatarWrapper">
                         <img id="avatarPreview" src="" alt="Avatar">
@@ -56,7 +53,6 @@
                 </div>
 
                 <div class="input-grid">
-                    <!-- Username Component -->
                     <div class="input-group">
                         <label>Nombre de Usuario</label>
                         <div class="editable-wrapper">
@@ -65,8 +61,6 @@
                         </div>
                         <span id="usernameStatus" class="status-msg"></span>
                     </div>
-
-                    <!-- Constraints Block (Desc) -->
                     <div class="input-group">
                         <label>Descripción (Máximo 30 caracteres)</label>
                         <div class="editable-wrapper">
@@ -76,18 +70,14 @@
                     </div>
                 </div>
 
-                <!-- Technical Stack Selection Map -->
                 <div class="languages-section" style="margin-bottom: 15px;">
                     <label style="display:flex; justify-content:space-between; margin-top:10px;">
                         <span>Stack Tecnológico principal</span>
                         <button type="button" class="btn-edit-static" onclick="toggleLangEdit()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
                     </label>
-                    <div class="languages-grid disabled-grid" id="langsGrid">
-                        <!-- Devicons loaded parallel natively in JS loops -->
-                    </div>
+                    <div class="languages-grid disabled-grid" id="langsGrid"></div>
                 </div>
 
-                <!-- Secured Crypto Block -->
                 <div style="margin-top:10px;">
                     <h3 style="color:var(--text-light); margin-bottom:20px; font-size:1rem; border-bottom:1px solid var(--border-color); padding-bottom:10px; font-family:var(--font-heading);">Seguridad</h3>
                     <div class="password-grid">
@@ -106,7 +96,6 @@
                     </div>
                 </div>
 
-                <!-- Submissions Gates -->
                 <div class="profile-actions">
                     <p id="globalFeedback" class="status-msg" style="flex:1; padding-top:10px;"></p>
                     <button type="button" class="btn btn-secondary" onclick="window.location.href='Home.html'">Cancelar</button>
@@ -116,7 +105,6 @@
         </div>
     </main>
 
-    <!-- Runtime Bindings -->
     <script src="../services/profile.js"></script>
     <script src="../services/globalBg.js"></script>
 </body>

@@ -746,3 +746,95 @@ h1, h2, h3, h4, h5, h6, .brand {
     border-color: var(--accent-green);
     transform: scale(1.05);
 }
+
+.achievement-badge .badge-icon {
+    font-size: 1.3rem;
+    line-height: 36px;
+    text-align: center;
+    display: block;
+}
+
+.achievement-badge.badge-common    { border-color: #cd7f32; }
+.achievement-badge.badge-uncommon  { border-color: #c0c0c0; }
+.achievement-badge.badge-rare      { border-color: #ffd700; box-shadow: 0 0 6px rgba(255,215,0,0.3); }
+.achievement-badge.badge-epic      { border-color: #9b59b6; box-shadow: 0 0 6px rgba(155,89,182,0.3); }
+.achievement-badge.badge-legendary { border-color: var(--accent-cyan); box-shadow: 0 0 8px rgba(0,255,204,0.4); }
+.achievement-badge.badge-ultimate  { animation: home-ultimate-badge 3s linear infinite; }
+
+@keyframes home-ultimate-badge {
+    0%   { border-color: #ff6b6b; box-shadow: 0 0 8px rgba(255,107,107,0.4); }
+    20%  { border-color: #ffd93d; box-shadow: 0 0 8px rgba(255,217,61,0.4);  }
+    40%  { border-color: #6bcb77; box-shadow: 0 0 8px rgba(107,203,119,0.4); }
+    60%  { border-color: #4d96ff; box-shadow: 0 0 8px rgba(77,150,255,0.4);  }
+    80%  { border-color: #c77dff; box-shadow: 0 0 8px rgba(199,125,255,0.4); }
+    100% { border-color: #ff6b6b; box-shadow: 0 0 8px rgba(255,107,107,0.4); }
+}
+
+/* ================================================================
+   RESPONSIVE — Laptop screens (height ≤ 820px, e.g. 1366×768)
+   ================================================================ */
+@media (max-height: 820px) {
+    .navbar { height: 58px; }
+
+    .main-container {
+        margin-top: 58px;
+        height: calc(100vh - 58px);
+        padding: 10px 4%;
+        gap: 10px;
+    }
+
+    .welcome-banner {
+        padding: 10px 26px;
+    }
+    .welcome-banner h1 { font-size: 1.45rem; }
+    .welcome-banner p  { font-size: 0.82rem; }
+
+    .content-grid { gap: 10px; }
+    .left-column  { gap: 10px; }
+    .card-row     { gap: 10px; }
+
+    .card { padding: 10px 16px; }
+    .card h2 { font-size: 1.05rem; }
+    .card p  { font-size: 0.8rem; margin-bottom: 8px; }
+    .card-deco { font-size: 6.5rem; }
+
+    .btn { padding: 8px 16px; font-size: 0.8rem; }
+
+    .profile-viewer { padding: 10px; gap: 7px; }
+
+    .sidebar-user-card { padding: 7px 11px; }
+    .sidebar-username  { font-size: 0.9rem; }
+    .sidebar-userbadge { font-size: 0.6rem; }
+    .sidebar-avatar    { width: 36px; height: 36px; font-size: 0.8rem; }
+    .sidebar-lang-icon { width: 14px; height: 14px; }
+
+    .sidebar-card   { padding: 7px 10px; }
+    .sidebar-label  { font-size: 0.62rem; margin-bottom: 3px; letter-spacing: 0.5px; }
+    .sidebar-value  { font-size: 0.88rem; }
+
+    .rank-badge       { width: 36px; height: 36px; margin: 3px 0; border-radius: 8px; }
+    .rank-badge::after { width: 28px; height: 28px; border-radius: 6px; }
+    .rank-text        { font-size: 0.82rem; }
+
+    .stats-number { font-size: 1.05rem; }
+    .stats-chart, .donut-svg { width: 34px; height: 34px; }
+    .stats-half { padding: 9px 12px; }
+
+    .achievement-badge { width: 30px; height: 30px; border-radius: 6px; }
+    .achievement-badge .badge-icon { font-size: 1.1rem; line-height: 28px; }
+    .achievements-row { gap: 8px; }
+}
+
+/* Extra compact for very small laptops (≤ 700px height) */
+@media (max-height: 700px) {
+    .main-container { padding: 8px 3%; gap: 8px; }
+    .welcome-banner { padding: 7px 20px; }
+    .welcome-banner h1 { font-size: 1.2rem; }
+    .content-grid { gap: 8px; }
+    .left-column  { gap: 8px; }
+    .card-row     { gap: 8px; }
+    .card { padding: 8px 14px; }
+    .profile-viewer { gap: 5px; padding: 8px; }
+    .sidebar-card { padding: 5px 8px; }
+    .sidebar-label { font-size: 0.58rem; }
+}
