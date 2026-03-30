@@ -121,6 +121,7 @@ window.toggleLangSelection = function(langId, element) {
     markDirty();
 }
 
+
 function setupMutationListeners() {
     const token = localStorage.getItem("access_token");
     const pfpInput = document.getElementById('pfpInput');

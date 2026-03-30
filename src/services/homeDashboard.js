@@ -151,6 +151,26 @@ async function initDashboard() {
         if (statsWins) statsWins.textContent = wins;
         if (statsWR) statsWR.textContent = played > 0 ? `${wr}% WR` : '-- WR';
 
+        // Load equipped achievements for sidebar badges
+        try {
+            const achToken = localStorage.getItem('access_token');
+            const equippedRes = await fetch(`${API_BASE_URL}/achievements/equipped`, {
+                headers: { 'Authorization': `Bearer ${achToken}` }
+            });
+            if (equippedRes.ok) {
+                const equippedData = await equippedRes.json();
+                equippedData.equipped.forEach((ach, i) => {
+                    const badge = document.getElementById(`equippedBadge${i}`);
+                    if (!badge) return;
+                    badge.classList.add(`badge-${ach.rarity}`);
+                    badge.title = ach.title;
+                    badge.innerHTML = `<span class="badge-icon">${ach.icon}</span>`;
+                });
+            }
+        } catch (e) {
+            console.warn('No se pudieron cargar los logros equipados:', e);
+        }
+
         // Logout logic
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
