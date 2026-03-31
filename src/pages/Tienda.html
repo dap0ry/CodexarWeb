@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codexar - Logros</title>
+    <title>Codexar - Tienda</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/Home.css">
-    <link rel="stylesheet" href="../assets/css/Logros.css">
+    <link rel="stylesheet" href="../assets/css/Tienda.css">
     <link rel="stylesheet" href="../assets/css/global.css">
 </head>
-<body class="logros-body">
+<body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
@@ -35,29 +34,37 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="logros-container">
-        <div class="logros-header">
-            <h1>Logros</h1>
-            <p>Completa desafíos para desbloquear logros y equiparlos en tu perfil</p>
+    <main class="tienda-container">
+        <div class="tienda-header">
+            <div class="tienda-title-block">
+                <h1 class="tienda-title">Tienda</h1>
+                <p class="tienda-subtitle">Personaliza tu perfil con monedas ganadas en batalla</p>
+            </div>
+            <div class="coins-display" id="coinsDisplay">
+                <span class="coins-icon">◈</span>
+                <span class="coins-amount" id="coinsAmount">---</span>
+                <span class="coins-label">monedas</span>
+            </div>
         </div>
-        <div id="achievementsContainer" class="achievements-container">
-            <div class="ach-loading">Cargando logros...</div>
+
+        <!-- Category Tabs -->
+        <div class="tienda-tabs">
+            <button class="tab-btn active" data-tab="frame">Marcos</button>
+            <button class="tab-btn" data-tab="background">Fondos</button>
+            <button class="tab-btn" data-tab="upgrade">Mejoras</button>
+        </div>
+
+        <!-- Items Grid -->
+        <div class="tienda-grid" id="tiendaGrid">
+            <div class="tienda-loading">Cargando artículos...</div>
         </div>
     </main>
 
-    <!-- Replace Modal -->
-    <div class="replace-overlay hidden" id="replaceOverlay">
-        <div class="replace-modal">
-            <h2 class="replace-title">Reemplazar Logro</h2>
-            <p class="replace-desc">Ya tienes 3 logros equipados. Elige cuál quieres reemplazar:</p>
-            <div class="replace-slots" id="replaceSlots"></div>
-            <button class="replace-cancel" onclick="closeReplaceModal()">Cancelar</button>
-        </div>
-    </div>
+    <!-- Toast notification -->
+    <div id="tiendaToast" class="tienda-toast"></div>
 
     <script src="../services/matchmakingGlobal.js"></script>
-    <script src="../services/logros.js"></script>
+    <script src="../services/tienda.js"></script>
     <script src="../services/globalBg.js"></script>
 </body>
 </html>

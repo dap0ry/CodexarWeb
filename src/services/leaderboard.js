@@ -36,8 +36,10 @@ function buildPlayerCard(player, rank) {
              .replace(/'/g, "&#039;");
     };
 
+    const profileLink = `PerfilPublico.html?u=${encodeURIComponent(player.username || '')}`;
+
     return `
-        <div class="player-card ${rankClass}">
+        <div class="player-card ${rankClass}" onclick="window.location.href='${profileLink}'" style="cursor:pointer;">
             <div class="rank-watermark">POSICIÓN ${rank + 1}</div>
             <div class="rank-number">${rank + 1}</div>
             <div class="lb-avatar" style="${avatarStyle}">${avatarText}</div>

@@ -212,6 +212,13 @@
     flex-direction: column;
     overflow: hidden;
 }
+.f-username-link {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.f-username-link:hover { color: var(--accent-cyan); }
+
 .f-username {
     font-weight: 700;
     font-size: 0.95rem; /* Down-scaled slightly for list views */

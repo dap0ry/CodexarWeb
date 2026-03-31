@@ -61,6 +61,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         renderLangsGrid();
+
+        document.getElementById('viewPublicProfileBtn').addEventListener('click', () => {
+            window.location.href = `PerfilPublico.html?u=${encodeURIComponent(user.username)}`;
+        });
     } catch(err) {
         console.error(err);
         window.location.href = "index.html";
@@ -303,4 +307,48 @@ function setupMutationListeners() {
             btn.textContent = "Guardar Cambios";
         }
     });
+
+    // Background upload
+    const uploadBgBtn = document.getElementById('uploadBgBtn');
+    if (uploadBgBtn) {
+        uploadBgBtn.addEventListener('click', async () => {
+            const bgInput = document.getElementById('bgInput');
+            const statusEl = document.getElementById('bgUploadStatus');
+            if (!bgInput.files || !bgInput.files[0]) {
+                statusEl.className = 'status-msg error';
+                statusEl.textContent = 'Selecciona un archivo primero.';
+                return;
+            }
+            uploadBgBtn.disabled = true;
+            uploadBgBtn.textContent = 'Subiendo...';
+            statusEl.className = 'status-msg';
+            statusEl.textContent = '';
+
+            const formData = new FormData();
+            formData.append('bg', bgInput.files[0]);
+
+            try {
+                const res = await fetch(`${API_BASE}/user/upload-background`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    statusEl.className = 'status-msg success';
+                    statusEl.textContent = '¡Fondo subido correctamente!';
+                    bgInput.value = '';
+                } else {
+                    statusEl.className = 'status-msg error';
+                    statusEl.textContent = data.detail || 'Error al subir el fondo.';
+                }
+            } catch {
+                statusEl.className = 'status-msg error';
+                statusEl.textContent = 'Error de conexión.';
+            } finally {
+                uploadBgBtn.disabled = false;
+                uploadBgBtn.textContent = 'Subir Fondo';
+            }
+        });
+    }
 }

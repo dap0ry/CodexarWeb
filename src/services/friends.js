@@ -92,12 +92,14 @@ function createUserCardHTML(user, actionButtonsHTML) {
     // Determine simplified styling depending on action button injection sizes
     const isBasicCard = actionButtonsHTML.includes('request') || actionButtonsHTML.includes('cancel');
 
+    const profileLink = `PerfilPublico.html?u=${encodeURIComponent(user.username)}`;
+
     return `
         <div class="friend-card ${isBasicCard ? 'friend-card-simplified' : ''}">
             <div class="friend-card-content">
                 <div class="f-user-text">
                     <div class="f-username">
-                        ${user.username} 
+                        <a href="${profileLink}" class="f-username-link">${user.username}</a>
                         ${langsHTML}
                     </div>
                         <div class="f-badge">${user.description ? user.description.toUpperCase() : 'JUGADOR CODEXAR'}</div>
@@ -109,7 +111,7 @@ function createUserCardHTML(user, actionButtonsHTML) {
                 ${actionButtonsHTML}
             </div>
 
-            <div class="f-avatar-wrapper">
+            <div class="f-avatar-wrapper" onclick="window.location.href='${profileLink}'" style="cursor:pointer;" title="Ver perfil">
                 ${avatarHTML}
                 ${statusHTML}
             </div>

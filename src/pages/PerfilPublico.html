@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/PerfilPublico.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Logros.html" class="dropdown-item">Logros</a>
+                <a href="Tienda.html" class="dropdown-item">Tienda</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="ppPageBg"></div>
+
+    <main class="pp-container">
+        <div id="ppLoading" class="pp-loading">Cargando perfil...</div>
+
+        <div id="ppContent" class="pp-content" style="display:none;">
+
+            <!-- ── Profile card ── -->
+            <div class="pp-card" id="ppCard">
+
+                <!-- HEADER: avatar + identity + global rank -->
+                <div class="pp-header">
+                    <div class="pp-avatar-wrap">
+                        <div class="pp-avatar" id="ppAvatar"></div>
+                        <div class="pp-online-dot"></div>
+                    </div>
+                    <div class="pp-header-info">
+                        <div class="pp-rank-badge" id="ppRankBadge">Bronce I</div>
+                        <h1 class="pp-username" id="ppUsername">---</h1>
+                        <p class="pp-desc" id="ppDesc"></p>
+                        <div class="pp-langs" id="ppLangs"></div>
+                    </div>
+                    <div class="pp-header-rank">
+                        <span class="pp-global-num" id="ppGlobalRank">#--</span>
+                        <span class="pp-global-lbl">GLOBAL</span>
+                    </div>
+                </div>
+
+                <!-- STATS STRIP -->
+                <div class="pp-stats-strip">
+                    <div class="pp-stat-block">
+                        <span class="pp-stat-val" id="ppElo">0</span>
+                        <span class="pp-stat-lbl">ELO</span>
+                    </div>
+                    <div class="pp-stat-sep"></div>
+                    <div class="pp-stat-block">
+                        <span class="pp-stat-val" id="ppWins">0</span>
+                        <span class="pp-stat-lbl">Victorias</span>
+                    </div>
+                    <div class="pp-stat-sep"></div>
+                    <div class="pp-stat-block">
+                        <span class="pp-stat-val" id="ppMatches">0</span>
+                        <span class="pp-stat-lbl">Partidas</span>
+                    </div>
+                    <div class="pp-stat-sep"></div>
+                    <div class="pp-stat-block">
+                        <span class="pp-stat-val" id="ppStreak">0</span>
+                        <span class="pp-stat-lbl">Racha</span>
+                    </div>
+                </div>
+
+                <!-- CHARTS ROW -->
+                <div class="pp-charts-row">
+
+                    <!-- Donut: win rate -->
+                    <div class="pp-chart-panel pp-donut-panel">
+                        <div class="pp-panel-label">Tasa de Victoria</div>
+                        <div class="pp-donut-wrap">
+                            <svg class="pp-donut-svg" viewBox="0 0 100 100">
+                                <circle class="pp-donut-bg" cx="50" cy="50" r="38"/>
+                                <circle class="pp-donut-arc" id="ppWinArc" cx="50" cy="50" r="38"
+                                    stroke-dasharray="0 238.76" transform="rotate(-90 50 50)"/>
+                            </svg>
+                            <div class="pp-donut-center">
+                                <span class="pp-donut-pct" id="ppWinPct">0%</span>
+                                <span class="pp-donut-sub">win rate</span>
+                            </div>
+                        </div>
+                        <div class="pp-donut-legend" id="ppWinLegend">0V · 0D</div>
+                    </div>
+
+                    <!-- ELO progress + exercises -->
+                    <div class="pp-chart-panel pp-progress-panel">
+
+                        <div class="pp-panel-label">Progreso de Rango</div>
+                        <div class="pp-elo-rank-row">
+                            <span class="pp-elo-rank-cur" id="ppEloRankCur">Bronce I</span>
+                            <span class="pp-elo-rank-next" id="ppEloRankNext">→ Bronce II</span>
+                        </div>
+                        <div class="pp-bar-wrap">
+                            <div class="pp-bar-fill pp-bar-elo" id="ppEloBarFill" style="width:0%"></div>
+                        </div>
+                        <div class="pp-bar-nums">
+                            <span id="ppEloMin">0</span>
+                            <span id="ppEloValLabel">0 ELO actual</span>
+                            <span id="ppEloMax">26</span>
+                        </div>
+
+                        <div class="pp-panel-divider"></div>
+
+                        <div class="pp-panel-label">Ejercicios Resueltos</div>
+                        <div class="pp-exercises-row">
+                            <span class="pp-exercises-num" id="ppSolved">0</span>
+                            <div class="pp-exercises-right">
+                                <div class="pp-bar-wrap">
+                                    <div class="pp-bar-fill pp-bar-ex" id="ppExFill" style="width:0%"></div>
+                                </div>
+                                <div class="pp-exercises-milestone" id="ppExMilestone">próximo: 5</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ACHIEVEMENTS SHOWCASE -->
+                <div class="pp-showcase" id="ppBadgesSection" style="display:none;">
+                    <div class="pp-panel-label">Logros Equipados</div>
+                    <div class="pp-showcase-row" id="ppBadgesRow"></div>
+                </div>
+
+            </div>
+
+            <button class="pp-back-btn" onclick="history.back()">← Volver</button>
+        </div>
+    </main>
+
+    <script src="../services/matchmakingGlobal.js"></script>
+    <script src="../services/perfilPublico.js"></script>
+    <script src="../services/globalBg.js"></script>
+</body>
+</html>

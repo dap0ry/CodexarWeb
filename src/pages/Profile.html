@@ -26,6 +26,7 @@
                 <a href="Home.html" class="dropdown-item">Inicio</a>
                 <a href="Profile.html" class="dropdown-item">Perfil</a>
                 <a href="Logros.html" class="dropdown-item">Logros</a>
+                <a href="Tienda.html" class="dropdown-item">Tienda</a>
                 <a href="Friends.html" class="dropdown-item">Amigos</a>
                 <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
                 <a href="#" class="dropdown-item">Ayuda</a>
@@ -70,28 +71,28 @@
                     </div>
                 </div>
 
-                <div class="languages-section" style="margin-bottom: 15px;">
-                    <label style="display:flex; justify-content:space-between; margin-top:10px;">
+                <div class="languages-section">
+                    <label class="langs-label">
                         <span>Stack Tecnológico principal</span>
                         <button type="button" class="btn-edit-static" onclick="toggleLangEdit()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></button>
                     </label>
                     <div class="languages-grid disabled-grid" id="langsGrid"></div>
                 </div>
 
-                <div style="margin-top:10px;">
-                    <h3 style="color:var(--text-light); margin-bottom:20px; font-size:1rem; border-bottom:1px solid var(--border-color); padding-bottom:10px; font-family:var(--font-heading);">Seguridad</h3>
+                <div class="security-section">
+                    <h3 class="section-h3">Seguridad</h3>
                     <div class="password-grid">
                         <div class="input-group">
                             <label>Clave Maestra Actual</label>
-                            <div class="editable-wrapper" style="gap: 10px;">
+                            <div class="editable-wrapper pwd-row">
                                 <input type="password" id="oldPasswordInput" class="custom-input" autocomplete="off" placeholder="Escribe tu clave...">
-                                <button type="button" id="verifyPwdBtn" class="btn btn-secondary" style="margin-top:0; padding:10px 15px; font-size:0.8rem; white-space:nowrap;">Verificar</button>
+                                <button type="button" id="verifyPwdBtn" class="btn btn-secondary verify-btn">Verificar</button>
                             </div>
-                            <span id="pwdStatusIcon" class="status-msg" style="display:block; margin-top:5px;"></span>
+                            <span id="pwdStatusIcon" class="status-msg pwd-status"></span>
                         </div>
                         <div class="input-group">
                             <label>Nueva Clave Mnemótica</label>
-                            <input type="password" id="newPasswordInput" class="custom-input" autocomplete="off" disabled placeholder="Bloqueado" style="opacity: 0.5; cursor: not-allowed;">
+                            <input type="password" id="newPasswordInput" class="custom-input new-pwd" autocomplete="off" disabled placeholder="Bloqueado">
                         </div>
                     </div>
                 </div>
@@ -102,7 +103,21 @@
                     <button type="submit" class="btn btn-green" id="saveProfileBtn" disabled>Guardar Cambios</button>
                 </div>
             </form>
+
+            <!-- Fondo de perfil — outside form -->
+            <div class="pp-bg-section">
+                <h3>Fondo de Perfil</h3>
+                <p>Sube una imagen animada (GIF) o estática para tu perfil público.</p>
+                <div class="editable-wrapper" style="gap:10px;">
+                    <input type="file" id="bgInput" accept="image/*" class="custom-input" style="padding:8px; cursor:pointer;">
+                    <button type="button" class="btn btn-secondary" id="uploadBgBtn" style="padding:10px 15px; font-size:0.8rem; white-space:nowrap;">Subir</button>
+                </div>
+                <span id="bgUploadStatus" class="status-msg" style="display:block; margin-top:6px;"></span>
+            </div>
         </div>
+
+        <!-- Ver mi perfil — outside card, centered -->
+        <button class="pp-view-btn" id="viewPublicProfileBtn">Ver mi perfil público →</button>
     </main>
 
     <script src="../services/matchmakingGlobal.js"></script>
