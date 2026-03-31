@@ -173,3 +173,93 @@ input:focus, textarea:focus, select:focus {
 h1, h2 {
     font-family: var(--font-mono) !important;
 }
+
+/* ── Matchmaking status inside navbar (centered) ── */
+#mm-global-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    pointer-events: auto;
+    white-space: nowrap;
+}
+.mm-bar-dots { display: flex; gap: 5px; align-items: center; }
+.mm-bar-dots span {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    animation: mm-pulse 1.4s infinite;
+}
+.mm-bar-dots span:nth-child(2) { animation-delay: 0.2s; }
+.mm-bar-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes mm-pulse {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50%       { opacity: 1;    transform: scale(1.2); }
+}
+.mm-bar-text  { color: var(--text-light); font-weight: 600; }
+.mm-bar-timer { color: var(--text-muted); font-size: 0.72rem; }
+.mm-bar-cancel {
+    background: transparent;
+    cursor: pointer;
+    border: 1px solid rgba(255, 80, 80, 0.45);
+    color: #ff6b6b;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.mm-bar-cancel:hover { background: rgba(255, 80, 80, 0.1); border-color: #ff6b6b; }
+
+/* ── Matchmaking cancel confirmation modal ── */
+.mm-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    z-index: 502;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mm-modal-box {
+    background: var(--bg-card);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    border-radius: 12px;
+    padding: 32px 44px;
+    text-align: center;
+    max-width: 420px;
+}
+.mm-modal-text {
+    font-family: var(--font-mono);
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.mm-modal-btns { display: flex; gap: 16px; justify-content: center; }
+.mm-modal-btn {
+    font-family: var(--font-mono);
+    padding: 8px 30px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.mm-btn-yes {
+    background: rgba(0, 255, 204, 0.12);
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
+}
+.mm-btn-yes:hover { background: rgba(0, 255, 204, 0.22); }
+.mm-btn-no {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.mm-btn-no:hover { color: var(--text-light); border-color: rgba(255, 255, 255, 0.4); }
