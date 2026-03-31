@@ -2,8 +2,6 @@ const API_BASE_URL = 'http://localhost:8000/api';
 let myData = null;
 let searchInterval = null;
 let searchSeconds = 0;
-let isSearching = false;
-let abortController = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
@@ -12,6 +10,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
+    // If matchmaking is already active, confirm before replacing it
+    if (window.isMatchmakingActive && window.isMatchmakingActive()) {
+        window.showCancelConfirmModal(
+            () => initUnrankedPage(token),
+            () => history.back()
+        );
+        return;
+    }
+
+    initUnrankedPage(token);
+});
+
+async function initUnrankedPage(token) {
     try {
         const res = await fetch(`${API_BASE_URL}/user/me`, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -20,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         myData = await res.json();
 
-        // Update Navbar avatar
+        // Update Navbar
         document.getElementById('navUsername').textContent = myData.username;
         const navAvatar = document.getElementById('navAvatar');
         if (myData.avatar) {
@@ -29,7 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             navAvatar.style.backgroundPosition = 'center';
             navAvatar.style.border = '1px solid var(--accent-green)';
             navAvatar.textContent = '';
-            // Also update search view avatar ring
             const myRing = document.getElementById('searchMyAvatar');
             if (myRing) {
                 myRing.style.backgroundImage = `url('${myData.avatar}')`;
@@ -45,12 +55,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error(err);
         localStorage.removeItem('access_token');
         window.location.href = 'index.html';
+        return;
     }
 
-    // Attach listeners
     document.getElementById('findMatchBtn').addEventListener('click', startSearch);
     document.getElementById('cancelSearchBtn').addEventListener('click', cancelSearch);
-});
+}
 
 function updateTimerDisplay() {
     const m = Math.floor(searchSeconds / 60);
@@ -58,12 +68,11 @@ function updateTimerDisplay() {
     document.getElementById('searchTimer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-async function startSearch() {
-    isSearching = true;
+function startSearch() {
     searchSeconds = 0;
     updateTimerDisplay();
 
-    // Switch views
+    // Switch to searching view
     document.getElementById('readyView').classList.remove('active-view');
     document.getElementById('readyView').classList.add('hidden-view');
     document.getElementById('searchingView').classList.remove('hidden-view');
@@ -74,60 +83,14 @@ async function startSearch() {
         updateTimerDisplay();
     }, 1000);
 
-    const token = localStorage.getItem('access_token');
-
-    // Long-polling loop — same endpoint as ranked but with unranked=true flag
-    while (isSearching) {
-        abortController = new AbortController();
-        try {
-            const res = await fetch(`${API_BASE_URL}/matchmaking/join?unranked=true`, {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` },
-                signal: abortController.signal
-            });
-
-            if (!res.ok) throw new Error("Server error");
-            const data = await res.json();
-
-            if (data.status === 'matched') {
-                clearInterval(searchInterval);
-                isSearching = false;
-                document.getElementById('searchTimer').textContent = "¡RIVAL ENCONTRADO!";
-                document.getElementById('searchTimer').style.color = "var(--accent-green)";
-
-                setTimeout(() => {
-                    window.location.href = `UnrankedBattle.html?id=${data.match_id}`;
-                }, 1500);
-                break;
-            }
-        } catch (err) {
-            if (err.name === 'AbortError') {
-                console.log('Search cancelled by user');
-                break;
-            }
-            console.error(err);
-            await new Promise(r => setTimeout(r, 2000));
-        }
-    }
+    // Delegate to global matchmaking manager (WebSocket)
+    window.startMatchmaking('unranked');
 }
 
-async function cancelSearch() {
-    isSearching = false;
+function cancelSearch() {
     clearInterval(searchInterval);
-    if (abortController) {
-        abortController.abort();
-    }
+    window.cancelMatchmaking();
 
-    // Ping API to leave queue
-    const token = localStorage.getItem('access_token');
-    try {
-        await fetch(`${API_BASE_URL}/matchmaking/leave`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-    } catch(e) {}
-
-    // Switch views back
     document.getElementById('searchingView').classList.remove('active-view');
     document.getElementById('searchingView').classList.add('hidden-view');
     document.getElementById('readyView').classList.remove('hidden-view');
