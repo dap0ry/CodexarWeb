@@ -46,12 +46,23 @@ async function initFriendsPage() {
         await loadActivityFeed();
         await loadFriendsData();
         setupDirectAddListener();
-        
+
     } catch (e) {
         console.error("Critical identity failure:", e);
         localStorage.removeItem('access_token');
         window.location.href = 'index.html';
     }
+
+    // Heartbeat every 60s to keep last_seen updated
+    async function sendHeartbeat() {
+        const t = localStorage.getItem('access_token');
+        if (!t) return;
+        await fetch(`${API_BASE}/user/heartbeat`, {
+            method: 'POST', headers: { 'Authorization': `Bearer ${t}` }
+        }).catch(() => {});
+    }
+    sendHeartbeat();
+    setInterval(sendHeartbeat, 60000);
 }
 
 // Transforms API User Object into HTML structure mimicking Dashboard Wireframes
@@ -60,10 +71,12 @@ function createUserCardHTML(user, actionButtonsHTML) {
         ? `<img src="${user.avatar}" class="f-avatar" alt="${user.username}">` 
         : ``; // Defaults fallback mapped on CSS wrapper natively
 
-    // Assume simulated true connection till websockets arrive
-    const isOnline = user.is_online !== undefined ? user.is_online : true; 
+    const isOnline = user.is_online !== undefined ? user.is_online : false;
     const statusClass = isOnline ? "online" : "offline";
     const statusHTML = `<div class="f-status ${statusClass}"></div>`;
+    const lastSeenHTML = user.last_seen_text
+        ? `<div class="f-last-seen">${user.last_seen_text}</div>`
+        : '';
 
     // Reconstruct Language vectors targeting DevIcons dynamically
     let langsHTML = '';
@@ -88,13 +101,14 @@ function createUserCardHTML(user, actionButtonsHTML) {
                         ${langsHTML}
                     </div>
                         <div class="f-badge">${user.description ? user.description.toUpperCase() : 'JUGADOR CODEXAR'}</div>
+                        ${lastSeenHTML}
                 </div>
             </div>
-            
+
             <div class="action-group">
                 ${actionButtonsHTML}
             </div>
-            
+
             <div class="f-avatar-wrapper">
                 ${avatarHTML}
                 ${statusHTML}
@@ -126,7 +140,9 @@ function renderFriends(list) {
         el.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; padding:10px;">Aún no tienes amigos añadidos.</p>';
         return;
     }
-    el.innerHTML = list.map(u => createUserCardHTML(u, ``)).join('');
+    el.innerHTML = list.map(u => createUserCardHTML(u, `
+        <button class="btn-small delete" onclick="handleDeleteFriend('${u.username}')">Eliminar</button>
+    `)).join('');
 }
 
 function renderSent(list) {
@@ -151,6 +167,19 @@ function renderReceived(list) {
         <button class="btn-small reject" onclick="handleFriendAction('reject', '${u.username}')">Rechazar</button>
     `)).join('');
 }
+
+window.handleDeleteFriend = async function(targetUsername) {
+    const token = localStorage.getItem('access_token');
+    try {
+        const res = await fetch(`${API_BASE}/friends/${targetUsername}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) await loadFriendsData();
+    } catch (err) {
+        console.error("Delete friend error:", err);
+    }
+};
 
 // Extracted globally for inline DOM bind onclick execution securely
 window.handleFriendAction = async function(action, targetUsername) {

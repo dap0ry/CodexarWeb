@@ -326,3 +326,19 @@
     color: #ff3333;
     box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
 }
+.btn-small.delete {
+    border-color: #ff4444;
+    color: #ff4444;
+}
+.btn-small.delete:hover {
+    background: rgba(255, 68, 68, 0.12);
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+}
+
+.f-last-seen {
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    margin-top: 2px;
+    opacity: 0.75;
+}
