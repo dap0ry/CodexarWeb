@@ -205,17 +205,55 @@
     background: rgba(0,0,0,0.2);
 }
 
-.editor-lang-label {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.lang-pills {
+    display: flex;
+    gap: 6px;
+    align-items: center;
 }
 
-.lang-select {
-    padding: 6px 12px;
-    font-size: 0.85rem;
+.lang-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.lang-pill img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.lang-pill:hover {
+    border-color: rgba(0, 255, 204, 0.4);
+    color: var(--text-light);
+    background: rgba(0, 255, 204, 0.05);
+}
+
+.lang-pill:hover img {
+    opacity: 1;
+}
+
+.lang-pill.active {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    background: rgba(0, 255, 204, 0.08);
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.12);
+}
+
+.lang-pill.active img {
+    opacity: 1;
 }
 
 .editor-status {
