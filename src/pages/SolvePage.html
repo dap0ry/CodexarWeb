@@ -65,14 +65,28 @@
         <div class="solve-right">
             <!-- Language Selector -->
             <div class="editor-toolbar">
-                <div class="editor-lang-label">Lenguaje:</div>
-                <select id="langSelect" class="cyber-select lang-select">
-                    <option value="Python">Python</option>
-                    <option value="C++">C++</option>
-                    <option value="Java">Java</option>
-                    <option value="Go">Go</option>
-                    <option value="C#">C#</option>
-                </select>
+                <div class="lang-pills" id="langPills">
+                    <button class="lang-pill active" data-lang="Python">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                        Python
+                    </button>
+                    <button class="lang-pill" data-lang="C++">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+                        C++
+                    </button>
+                    <button class="lang-pill" data-lang="Java">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                        Java
+                    </button>
+                    <button class="lang-pill" data-lang="Go">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go">
+                        Go
+                    </button>
+                    <button class="lang-pill" data-lang="C#">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                        C#
+                    </button>
+                </div>
                 <div class="editor-status" id="editorStatus"></div>
             </div>
 

@@ -1,6 +1,7 @@
 const API_BASE = 'http://localhost:8000/api';
 let exerciseData = null;
 let checkPassed = false;
+let selectedLang = 'Python';
 
 // --- Init ---
 async function initSolvePage() {
@@ -76,26 +77,30 @@ function renderExercise(ex, user) {
     // Test cases
     renderTestCases(ex.test_cases, null);
 
-    // Load stub based on selected language
-    const langSelect = document.getElementById('langSelect');
+    // Set up lang pills
+    const pills = document.querySelectorAll('.lang-pill');
 
     // Pre-select user's first language if available
     if (user && user.languages && user.languages.length > 0) {
         const preferred = user.languages[0];
-        const options = langSelect.options;
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].value === preferred) {
-                langSelect.selectedIndex = i;
-                break;
-            }
+        const match = [...pills].find(p => p.dataset.lang === preferred);
+        if (match) {
+            pills.forEach(p => p.classList.remove('active'));
+            match.classList.add('active');
+            selectedLang = preferred;
         }
     }
 
-    loadStub(langSelect.value);
+    loadStub(selectedLang);
 
-    langSelect.addEventListener('change', () => {
-        loadStub(langSelect.value);
-        resetCheck();
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            pills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            selectedLang = pill.dataset.lang;
+            loadStub(selectedLang);
+            resetCheck();
+        });
     });
 
     // If already solved, show info
@@ -169,7 +174,7 @@ function renderTestCases(testCases, result) {
 async function handleCheck() {
     const token = localStorage.getItem('access_token');
     const code = document.getElementById('codeEditor').value.trim();
-    const lang = document.getElementById('langSelect').value;
+    const lang = selectedLang;
     const btnCheck = document.getElementById('btnCheck');
     const output = document.getElementById('editorOutput');
     const statusEl = document.getElementById('editorStatus');
@@ -230,7 +235,7 @@ async function handleSave() {
     if (!checkPassed) return;
     const token = localStorage.getItem('access_token');
     const code = document.getElementById('codeEditor').value.trim();
-    const lang = document.getElementById('langSelect').value;
+    const lang = selectedLang;
     const btnSave = document.getElementById('btnSave');
 
     btnSave.disabled = true;
