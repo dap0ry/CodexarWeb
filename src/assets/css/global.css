@@ -72,10 +72,10 @@ body {
 .exercises-container,
 .profile-container,
 .ranked-container,
-.unranked-container,
 .solve-container,
 .story-container,
 .battle-container,
+.tutorial-container,
 .onboarding-container {
     position: relative !important;
     z-index: 10 !important;
@@ -90,13 +90,107 @@ body {
     background-color: var(--bg-card) !important;
 }
 
-/* ── Navbar visual polish (no forced height — each page keeps its own) ── */
+/* ── Navbar — full component (shared by all pages) ── */
 .navbar {
-    border-bottom: 1px solid rgba(0, 255, 204, 0.08) !important;
-    background: rgba(10, 10, 14, 0.92) !important;
-    backdrop-filter: blur(18px) !important;
     position: fixed !important;
-    z-index: 100 !important;
+    top: 0; left: 0;
+    width: 100%;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    background: rgba(7, 7, 15, 0.94) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(0, 255, 204, 0.08) !important;
+    z-index: 1000 !important;
+    box-sizing: border-box;
+}
+
+/* ── User pill ── */
+.user-pill-container { position: relative; }
+.user-pill {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(13, 13, 22, 0.8);
+    padding: 5px 14px 5px 5px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 255, 204, 0.1);
+    cursor: pointer;
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+.user-pill:hover {
+    border-color: rgba(0, 255, 204, 0.28);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.06);
+}
+.avatar {
+    width: 30px; height: 30px;
+    background: rgba(0, 255, 204, 0.08);
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 255, 204, 0.18);
+    flex-shrink: 0;
+}
+.username-display {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-light);
+    white-space: nowrap;
+}
+
+/* ── Dropdown ── */
+.user-dropdown {
+    position: absolute; top: 100%; right: 0;
+    margin-top: 12px;
+    background: rgba(9, 9, 18, 0.98);
+    border: 1px solid rgba(0, 255, 204, 0.1);
+    border-radius: 10px;
+    padding: 6px 0;
+    min-width: 180px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    opacity: 0; visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.18s, visibility 0.18s, transform 0.18s;
+    z-index: 2000;
+    backdrop-filter: blur(20px);
+}
+.user-dropdown::before {
+    content: '';
+    position: absolute; top: -12px; left: 0; right: 0; height: 12px;
+}
+.user-pill-container:hover .user-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+}
+.dropdown-item {
+    display: block;
+    padding: 9px 18px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    transition: background 0.15s, color 0.15s, padding-left 0.15s;
+    border-left: 2px solid transparent;
+    letter-spacing: 0.5px;
+}
+.dropdown-item:hover {
+    background: rgba(0, 255, 204, 0.04);
+    color: var(--accent-cyan);
+    border-left-color: var(--accent-cyan);
+    padding-left: 22px;
+}
+.dropdown-divider {
+    height: 1px;
+    background: rgba(0, 255, 204, 0.07);
+    margin: 5px 0;
+}
+.dropdown-item-danger { color: #ff5566; }
+.dropdown-item-danger:hover {
+    color: #ff5566;
+    border-left-color: #ff5566;
+    background: rgba(255, 85, 102, 0.06);
 }
 
 /* Brand styling consistent */

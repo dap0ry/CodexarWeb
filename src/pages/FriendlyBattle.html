@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar - Batalla Amistosa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Home.css">
+    <link rel="stylesheet" href="../assets/css/SolvePage.css">
+    <link rel="stylesheet" href="../assets/css/BattlePage.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+    <!-- Standard Navbar -->
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html" class="dropdown-item">Inicio</a>
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <a href="Logros.html" class="dropdown-item">Logros</a>
+                <a href="Friends.html" class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Battle Player Strip (below navbar) -->
+    <div class="battle-strip">
+        <!-- Player 1 (me) -->
+        <div class="battle-player-slot p1-slot">
+            <div class="battle-avatar p1-avatar" id="myAvatar"></div>
+            <div class="battle-player-info">
+                <div class="battle-player-name" id="myName">Cargando...</div>
+                <div class="battle-player-rank" id="myRank">Batalla Amistosa</div>
+            </div>
+        </div>
+
+        <!-- Center: VS + Timer + Opponent Progress -->
+        <div class="battle-center-info">
+            <div class="battle-vs">VS</div>
+            <div class="battle-clock" id="matchClock">0:00</div>
+            <div class="battle-op-progress">
+                <div class="battle-op-label">Rival</div>
+                <div class="battle-op-bar-bg">
+                    <div class="battle-op-bar-fill" id="opProgressBar" style="width:0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player 2 (opponent) -->
+        <div class="battle-player-slot p2-slot">
+            <div class="battle-player-info" style="text-align:right;">
+                <div class="battle-player-name" id="opName">Buscando...</div>
+                <div class="battle-player-rank" id="opRank">Batalla Amistosa</div>
+            </div>
+            <div class="battle-avatar p2-avatar" id="opAvatar"></div>
+        </div>
+    </div>
+
+    <!-- Main Solve Layout (identical to SolvePage) -->
+    <main class="solve-main battle-main">
+        <!-- Left Panel -->
+        <div class="solve-left">
+            <div class="solve-statement">
+                <div class="statement-header">
+                    <div class="statement-title" id="exTitle">Cargando ejercicio...</div>
+                    <div class="statement-badges" id="exBadges"></div>
+                </div>
+                <div class="statement-body" id="exDescription">Cargando enunciado...</div>
+            </div>
+
+            <div class="solve-testcases">
+                <div class="testcases-label">Casos de Prueba</div>
+                <div id="testCasesList" class="testcases-list"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="solve-right">
+            <div class="editor-toolbar">
+                <div class="editor-lang-label">Lenguaje:</div>
+                <select id="langSelect" class="cyber-select lang-select">
+                    <option value="Python">Python</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="C++">C++</option>
+                    <option value="Java">Java</option>
+                </select>
+                <div class="editor-status" id="editorStatus"></div>
+            </div>
+
+            <div class="editor-wrapper">
+                <textarea id="codeEditor" class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+            </div>
+
+            <div class="editor-output" id="editorOutput" style="display:none;">
+                <div id="outputContent"></div>
+            </div>
+
+            <!-- Two-button action: Comprobar → then Guardar unlocks -->
+            <div class="editor-actions">
+                <button id="btnCheck" class="btn-check">
+                    <span class="btn-icon">▶</span> Comprobar Código
+                </button>
+                <button id="btnSave" class="btn-save" disabled style="display:none;">
+                    <span class="btn-icon">✓</span> Guardar Solución
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Result Modal -->
+    <div id="resultOverlay" class="result-overlay hidden">
+        <div class="result-modal">
+            <h1 id="resultTitle">VICTORIA</h1>
+            <p id="resultDesc">¡Ganaste la batalla amistosa!</p>
+            <button class="btn-back" style="margin-top:8px;" onclick="window.location.href='Friends.html'">
+                ← Volver a amigos
+            </button>
+        </div>
+    </div>
+
+    <script src="../services/friendlyBattle.js"></script>
+</body>
+</html>

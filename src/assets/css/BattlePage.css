@@ -1,5 +1,5 @@
 /* ==========================================================
-   BattlePage.css — shared layout for Ranked & Unranked Battle
+   BattlePage.css — shared layout for Ranked Battle
    Works on top of Home.css + SolvePage.css
    ========================================================== */
 
@@ -18,11 +18,6 @@
     gap: 16px;
     z-index: 999;
     backdrop-filter: blur(10px);
-}
-
-/* unranked strip - subtle green border */
-.unranked-strip {
-    border-bottom-color: rgba(57, 255, 20, 0.2);
 }
 
 /* Player slot */
@@ -103,8 +98,6 @@
     color: var(--accent-cyan);
     letter-spacing: 1px;
 }
-
-.unranked-clock { color: var(--accent-green); }
 
 .battle-op-progress {
     display: flex;

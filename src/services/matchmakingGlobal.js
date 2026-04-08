@@ -6,7 +6,7 @@
  */
 
 const _MM_KEY = 'codexar_mm';
-const _WS_BASE = 'ws://localhost:8000/api';
+const _WS_BASE = 'wss://codexarapi.onrender.com/api';
 
 let _ws = null;
 let _barTimer = null;
@@ -79,8 +79,7 @@ function _connectWS(mode) {
     _ws = new WebSocket(`${_WS_BASE}/matchmaking/ws?token=${token}`);
 
     _ws.onopen = () => {
-        const unranked = (mode || _getState()?.mode) === 'unranked';
-        _ws.send(JSON.stringify({ action: 'join', unranked }));
+        _ws.send(JSON.stringify({ action: 'join' }));
     };
 
     _ws.onmessage = (event) => {
@@ -88,8 +87,6 @@ function _connectWS(mode) {
         try { data = JSON.parse(event.data); } catch { return; }
 
         if (data.status === 'matched') {
-            const state = _getState();
-            const matchMode = state ? state.mode : 'ranked';
             _setState(null);
 
             // Flash "found" text in bar before navigating
@@ -99,8 +96,7 @@ function _connectWS(mode) {
             _ws = null;
             setTimeout(() => {
                 _hideBar();
-                const page = matchMode === 'unranked' ? 'UnrankedBattle' : 'RankedBattle';
-                window.location.href = `${page}.html?id=${data.match_id}`;
+                window.location.href = `RankedBattle.html?id=${data.match_id}`;
             }, 1000);
         }
     };

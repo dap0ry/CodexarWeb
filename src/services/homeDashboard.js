@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'https://codexarapi.onrender.com/api';
 
 async function fetchUserData() {
     const token = localStorage.getItem('access_token');
@@ -23,9 +23,21 @@ async function fetchUserData() {
 // Initialize dashboard data
 async function initDashboard() {
     try {
+        const token = localStorage.getItem('access_token');
         const user = await fetchUserData();
         if (!user) return;
-        
+
+        // Populate status bar
+        const sbUsername = document.getElementById('sbUsername');
+        const sbRank = document.getElementById('sbRank');
+        const sbStreak = document.getElementById('sbStreak');
+        if (sbUsername) sbUsername.textContent = user.username;
+        if (sbRank) sbRank.textContent = user.rank_name || 'Bronce I';
+        if (sbStreak) {
+            const s = user.win_streak || 0;
+            sbStreak.textContent = s > 0 ? `${s} victorias` : 'Sin racha';
+        }
+
         // Inject username into navbar pill and sidebar
         const navUsername = document.getElementById('navUsername');
         const sidebarUsername = document.getElementById('sidebarUsername');
@@ -48,14 +60,18 @@ async function initDashboard() {
         const sidebarLangs = document.getElementById('sidebarLangs');
         if (sidebarLangs && user.languages) {
             sidebarLangs.innerHTML = '';
+            const langStats = user.lang_stats || {};
+            const total = Object.values(langStats).reduce((a, b) => a + b, 0);
             user.languages.forEach(lang => {
-                if (langIcons[lang]) {
-                    const img = document.createElement('img');
-                    img.src = langIcons[lang];
-                    img.className = 'sidebar-lang-icon';
-                    img.title = lang;
-                    sidebarLangs.appendChild(img);
-                }
+                if (!langIcons[lang]) return;
+                const count = langStats[lang] || 0;
+                const pct   = total > 0 ? Math.round(count / total * 100) : 0;
+                const img   = document.createElement('img');
+                img.src       = langIcons[lang];
+                img.className = 'sidebar-lang-icon';
+                img.alt       = lang;
+                img.title     = `${lang}${total > 0 ? `: ${pct}%` : ''}`;
+                sidebarLangs.appendChild(img);
             });
         }
 
@@ -107,39 +123,42 @@ async function initDashboard() {
             donutSegments.innerHTML = '';
             if (total > 0) {
                 const easyPct = realStats.easy / total;
-                const medPct = realStats.medium / total;
+                const medPct  = realStats.medium / total;
                 const hardPct = realStats.hard / total;
-
                 const circumference = 2 * Math.PI * 16;
                 let currentAngle = 0;
 
                 function appendSegment(percent, color, angleOffset) {
                     if (percent <= 0) return;
-                    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    circle.setAttribute("cx", "21");
-                    circle.setAttribute("cy", "21");
-                    circle.setAttribute("r", "16");
-                    circle.setAttribute("fill", "transparent");
-                    const rawColor = color === 'var(--accent-green)' ? '#39ff14' : color;
-                    circle.setAttribute("stroke", rawColor);
-                    circle.setAttribute("stroke-width", "8");
-                    circle.setAttribute("stroke-dasharray", `${percent * circumference} ${circumference}`);
-                    circle.setAttribute("transform", `rotate(${angleOffset} 21 21)`);
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', '21'); circle.setAttribute('cy', '21'); circle.setAttribute('r', '16');
+                    circle.setAttribute('fill', 'transparent');
+                    circle.setAttribute('stroke', color);
+                    circle.setAttribute('stroke-width', '8');
+                    circle.setAttribute('stroke-dasharray', `${percent * circumference} ${circumference}`);
+                    circle.setAttribute('transform', `rotate(${angleOffset} 21 21)`);
                     donutSegments.appendChild(circle);
                 }
 
-                appendSegment(easyPct, "var(--accent-green)", 0);
-                currentAngle += (easyPct * 360);
-                appendSegment(medPct, "#f89820", currentAngle);
-                currentAngle += (medPct * 360);
-                appendSegment(hardPct, "#ff3333", currentAngle);
+                appendSegment(easyPct, '#39ff14', 0);
+                currentAngle += easyPct * 360;
+                appendSegment(medPct, '#f89820', currentAngle);
+                currentAngle += medPct * 360;
+                appendSegment(hardPct, '#ff3333', currentAngle);
             }
         }
 
-        // Inject username into welcome banner
+        // Banner: username + chips
         const welcomeText = document.getElementById('welcomeText');
-        if (welcomeText) {
-            welcomeText.textContent = `¡Bienvenido de nuevo, ${user.username}!`;
+        if (welcomeText) welcomeText.textContent = user.username;
+
+        const wbRank = document.getElementById('wbRank');
+        if (wbRank) wbRank.textContent = user.rank_name || 'Bronce I';
+
+        const wbStreak = document.getElementById('wbStreak');
+        if (wbStreak) {
+            const s = user.win_streak || 0;
+            wbStreak.textContent = s > 0 ? `${s} victorias` : 'Sin racha';
         }
 
         // --- Real wins & win rate ---

@@ -1,5 +1,5 @@
 /* logros.js — Achievements page logic */
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'https://codexarapi.onrender.com/api';
 
 let achievementsData = null;
 let pendingEquipKey = null;
@@ -73,8 +73,7 @@ function renderAchievements(data) {
 
     const categories = [
         { key: 'exercises',   label: '💻 Ejercicios Resueltos' },
-        { key: 'wins',        label: '⚔️ Partidas Ganadas' },
-        { key: 'ranked_wins', label: '🏆 Clasificatorias Ganadas' },
+        { key: 'ranked_wins', label: '⚡ Victorias Clasificatorias' },
     ];
 
     let html = '';

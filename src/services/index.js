@@ -1,94 +1,80 @@
 /**
- * index.js – Codexar Landing Page Logic
- * - Particle/grid canvas background
- * - Auto-rotating feature card carousel
- * - Stat counter animation
- * - 3D tilt effect on the active feature card
+ * index.js — Codexar Landing
+ * Canvas background, battle terminal animation, glitch, counters
  */
 
-// Quick-resume: if user has an active session, go to QuickLogin instead of landing
+// Redirect si hay sesión activa
 if (localStorage.getItem('access_token') && localStorage.getItem('saved_email')) {
     window.location.replace('QuickLogin.html');
 }
 
-/* ────────────────────────────────────────────
-   1. CANVAS BACKGROUND – animated dot grid
-   ──────────────────────────────────────────── */
-
+/* ── 1. CANVAS ─────────────────────────────── */
 const canvas = document.getElementById('bgCanvas');
 const ctx    = canvas.getContext('2d');
+let W, H, dots = [], lines = [], t = 0;
+let mx = 0, my = 0;
 
-let W, H, dots = [];
-
-function resizeCanvas() {
+function resize() {
     W = canvas.width  = window.innerWidth;
     H = canvas.height = window.innerHeight;
+    initDots();
 }
-resizeCanvas();
-window.addEventListener('resize', () => { resizeCanvas(); initDots(); });
 
 function initDots() {
-    dots = [];
-    const cols = Math.floor(W / 48);
-    const rows = Math.floor(H / 48);
+    dots  = [];
+    lines = [];
+    const cols = Math.floor(W / 52);
+    const rows = Math.floor(H / 52);
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
             dots.push({
-                x: (c + 0.5) * (W / cols),
-                y: (r + 0.5) * (H / rows),
-                baseAlpha: Math.random() * 0.08 + 0.02,
-                alpha: 0,
+                x:     (c + 0.5) * (W / cols),
+                y:     (r + 0.5) * (H / rows),
+                base:  Math.random() * 0.07 + 0.015,
                 phase: Math.random() * Math.PI * 2,
-                speed: Math.random() * 0.4 + 0.2,
+                spd:   Math.random() * 0.4 + 0.15,
             });
         }
     }
 }
-initDots();
 
-let mouseX = W / 2, mouseY = H / 2;
-window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+resize();
+window.addEventListener('resize', resize);
+window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
-let t = 0;
 function drawCanvas() {
     ctx.clearRect(0, 0, W, H);
 
-    // Very subtle radial glow following cursor
-    const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 380);
-    grad.addColorStop(0, 'rgba(0,255,204,0.04)');
-    grad.addColorStop(1, 'transparent');
-    ctx.fillStyle = grad;
+    // Cursor glow
+    const g = ctx.createRadialGradient(mx, my, 0, mx, my, 400);
+    g.addColorStop(0, 'rgba(0,255,204,0.05)');
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
-    // Animated dot grid
-    t += 0.012;
+    t += 0.01;
     dots.forEach(d => {
-        const dist = Math.hypot(d.x - mouseX, d.y - mouseY);
-        const proximity = Math.max(0, 1 - dist / 340);
-        d.alpha = d.baseAlpha + Math.sin(t * d.speed + d.phase) * 0.04 + proximity * 0.18;
-
+        const prox = Math.max(0, 1 - Math.hypot(d.x - mx, d.y - my) / 300);
+        const a = d.base + Math.sin(t * d.spd + d.phase) * 0.03 + prox * 0.2;
+        const size = 1 + prox * 0.8;
         ctx.beginPath();
-        ctx.arc(d.x, d.y, 1.1, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0,255,204,${Math.min(d.alpha, 0.35)})`;
+        ctx.arc(d.x, d.y, Math.min(size, 1.8), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,255,204,${Math.min(a, 0.28)})`;
         ctx.fill();
     });
 
-    // Faint connecting lines between nearby dots (near cursor)
-    if (dots.length < 500) {
-        for (let i = 0; i < dots.length; i++) {
-            const d = dots[i];
-            if (Math.hypot(d.x - mouseX, d.y - mouseY) > 200) continue;
-            for (let j = i + 1; j < dots.length; j++) {
-                const d2 = dots[j];
-                const dist = Math.hypot(d.x - d2.x, d.y - d2.y);
-                if (dist < 80) {
-                    ctx.beginPath();
-                    ctx.moveTo(d.x, d.y);
-                    ctx.lineTo(d2.x, d2.y);
-                    ctx.strokeStyle = `rgba(0,255,204,${0.05 * (1 - dist / 80)})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-                }
+    // Lines near cursor
+    const near = dots.filter(d => Math.hypot(d.x - mx, d.y - my) < 220);
+    for (let i = 0; i < near.length; i++) {
+        for (let j = i + 1; j < near.length; j++) {
+            const dist = Math.hypot(near[i].x - near[j].x, near[i].y - near[j].y);
+            if (dist < 90) {
+                ctx.beginPath();
+                ctx.moveTo(near[i].x, near[i].y);
+                ctx.lineTo(near[j].x, near[j].y);
+                ctx.strokeStyle = `rgba(0,255,204,${0.06 * (1 - dist / 90)})`;
+                ctx.lineWidth = 0.6;
+                ctx.stroke();
             }
         }
     }
@@ -97,113 +83,109 @@ function drawCanvas() {
 }
 drawCanvas();
 
+/* ── 2. BATTLE TERMINAL ─────────────────────── */
 
-/* ────────────────────────────────────────────
-   2. FEATURE CARD CAROUSEL
-   ──────────────────────────────────────────── */
+const PY_LINES = [
+    'def maxSubarray(nums):',
+    '    if not nums: return 0',
+    '    cur = best = nums[0]',
+    '    for n in nums[1:]:',
+    '        cur = max(n, cur + n)',
+    '        best = max(best, cur)',
+    '    return best',
+];
 
-const cards = document.querySelectorAll('.feature-card');
-const dots2  = document.querySelectorAll('.carousel-dots .dot');
-let currentCard = 0;
-let carouselTimer;
+const CPP_LINES = [
+    'int maxSubarray(vector<int>& n) {',
+    '    int cur = n[0], best = n[0];',
+    '    for (int i = 1; i < n.size(); i++) {',
+    '        cur = max(n[i], cur + n[i]);',
+    '        best = max(best, cur);',
+    '    }',
+    '    return best;',
+    '}',
+];
 
-function showCard(idx, direction = 'next') {
-    const prev = currentCard;
-    cards[prev].classList.remove('active');
-    cards[prev].classList.add(direction === 'next' ? 'prev' : '');
-    setTimeout(() => cards[prev].classList.remove('prev'), 600);
+const leftCodeEl    = document.getElementById('leftCode');
+const rightCodeEl   = document.getElementById('rightCode');
+const leftLinenosEl = document.getElementById('leftLinenos');
+const rightLinenosEl = document.getElementById('rightLinenos');
+const p1bar  = document.getElementById('p1bar');
+const p2bar  = document.getElementById('p2bar');
+const p1pct  = document.getElementById('p1pct');
+const p2pct  = document.getElementById('p2pct');
 
-    currentCard = (idx + cards.length) % cards.length;
-    cards[currentCard].classList.add('active');
-    dots2.forEach((d, i) => d.classList.toggle('active', i === currentCard));
+let pyProgress  = 0; // chars typed in python
+let cppProgress = 0; // chars typed in cpp
+let pyTotal  = PY_LINES.join('\n').length;
+let cppTotal = CPP_LINES.join('\n').length;
+
+function updateEditor(el, linenosEl, lines, progress) {
+    const fullText = lines.join('\n');
+    const visible  = fullText.slice(0, progress);
+    el.textContent = visible + '█';
+    const lineCount = (visible.match(/\n/g) || []).length + 1;
+    linenosEl.textContent = Array.from({length: lineCount}, (_, i) => i + 1).join('\n');
 }
 
-function nextCard() { showCard(currentCard + 1, 'next'); }
-
-function startCarousel() {
-    carouselTimer = setInterval(nextCard, 3400);
+function updateProgress(pct, barEl, pctEl) {
+    barEl.style.width = pct + '%';
+    pctEl.textContent = Math.round(pct) + '%';
 }
 
-dots2.forEach(dot => {
-    dot.addEventListener('click', () => {
-        clearInterval(carouselTimer);
-        showCard(parseInt(dot.dataset.idx, 10));
-        startCarousel();
-    });
-});
+// Animate typing — python is ahead, cpp slightly behind
+let pySpeed  = 1.4; // chars per tick
+let cppSpeed = 0.9;
 
-// Swipe support
-let tsX = 0;
-document.querySelector('.feature-carousel').addEventListener('touchstart', e => {
-    tsX = e.changedTouches[0].screenX;
-}, { passive: true });
-document.querySelector('.feature-carousel').addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].screenX - tsX;
-    if (Math.abs(dx) > 40) {
-        clearInterval(carouselTimer);
-        showCard(currentCard + (dx < 0 ? 1 : -1), dx < 0 ? 'next' : 'prev');
-        startCarousel();
+function battleTick() {
+    if (pyProgress < pyTotal) {
+        pyProgress = Math.min(pyProgress + pySpeed + Math.random() * 0.5, pyTotal);
+        updateEditor(leftCodeEl, leftLinenosEl, PY_LINES, Math.floor(pyProgress));
+        updateProgress((pyProgress / pyTotal) * 100, p1bar, p1pct);
     }
-});
+    if (cppProgress < cppTotal) {
+        cppProgress = Math.min(cppProgress + cppSpeed + Math.random() * 0.4, cppTotal);
+        updateEditor(rightCodeEl, rightLinenosEl, CPP_LINES, Math.floor(cppProgress));
+        updateProgress((cppProgress / cppTotal) * 100, p2bar, p2pct);
+    }
 
-startCarousel();
-
-
-/* ────────────────────────────────────────────
-   3. STAT COUNTER ANIMATION
-   ──────────────────────────────────────────── */
-
-function easeOutExpo(t) {
-    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    // Loop when both done
+    if (pyProgress >= pyTotal && cppProgress >= cppTotal) {
+        setTimeout(() => {
+            pyProgress  = 0;
+            cppProgress = 0;
+        }, 2800);
+    }
 }
 
-document.querySelectorAll('.stat-num').forEach(el => {
-    const target = parseInt(el.dataset.target, 10);
-    const duration = 1400;
-    let start = null;
+setInterval(battleTick, 55);
+
+/* ── 3. TIMER ───────────────────────────────── */
+let timerSecs = 167; // 2:47
+const timerEl = document.getElementById('bcTimer');
+
+setInterval(() => {
+    timerSecs--;
+    if (timerSecs < 0) timerSecs = 180;
+    const m = String(Math.floor(timerSecs / 60)).padStart(2, '0');
+    const s = String(timerSecs % 60).padStart(2, '0');
+    timerEl.textContent = m + ':' + s;
+}, 1000);
+
+/* ── 4. STAT COUNTERS ───────────────────────── */
+function easeOut(t) { return 1 - Math.pow(2, -10 * t); }
+
+document.querySelectorAll('.lp-stat-num').forEach(el => {
+    const target   = parseInt(el.dataset.target, 10);
+    const duration = 1600;
+    let start      = null;
 
     function step(ts) {
         if (!start) start = ts;
-        const progress = Math.min((ts - start) / duration, 1);
-        el.textContent = Math.round(easeOutExpo(progress) * target);
-        if (progress < 1) requestAnimationFrame(step);
+        const p = Math.min((ts - start) / duration, 1);
+        el.textContent = Math.round(easeOut(p) * target);
+        if (p < 1) requestAnimationFrame(step);
     }
 
-    // Start counter when element enters viewport (for load)
-    setTimeout(() => requestAnimationFrame(step), 600);
+    setTimeout(() => requestAnimationFrame(step), 800);
 });
-
-
-/* ────────────────────────────────────────────
-   4. 3D CARD TILT ON MOUSEMOVE
-   ──────────────────────────────────────────── */
-
-document.querySelector('.feature-carousel').addEventListener('mousemove', e => {
-    const activeCard = document.querySelector('.feature-card.active');
-    if (!activeCard) return;
-
-    const rect   = activeCard.getBoundingClientRect();
-    const cx     = rect.left + rect.width  / 2;
-    const cy     = rect.top  + rect.height / 2;
-    const dx     = (e.clientX - cx) / (rect.width  / 2);
-    const dy     = (e.clientY - cy) / (rect.height / 2);
-    const tiltX  = dy * -8;
-    const tiltY  = dx *  8;
-
-    activeCard.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
-});
-
-document.querySelector('.feature-carousel').addEventListener('mouseleave', () => {
-    const activeCard = document.querySelector('.feature-card.active');
-    if (activeCard) {
-        activeCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        activeCard.style.transition = 'transform 0.6s cubic-bezier(0.22,1,0.36,1)';
-    }
-});
-
-
-/* ────────────────────────────────────────────
-   5. REDIRECT logout to index
-   ──────────────────────────────────────────── */
-// Any page that calls clearToken() should redirect here.
-// The logout buttons use:  localStorage.removeItem('access_token'); window.location.href = 'index.html';

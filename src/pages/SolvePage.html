@@ -90,10 +90,9 @@
                 <div class="editor-status" id="editorStatus"></div>
             </div>
 
-            <!-- Code Editor -->
+            <!-- Code Editor (Monaco) -->
             <div class="editor-wrapper">
-                <textarea id="codeEditor" class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
-</textarea>
+                <div id="codeEditor"></div>
             </div>
 
             <!-- Output / Feedback Area -->
@@ -113,6 +112,7 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
     <script src="../services/matchmakingGlobal.js"></script>
     <script src="../services/solveExercise.js"></script>
 </body>

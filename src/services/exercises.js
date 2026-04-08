@@ -1,5 +1,14 @@
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'https://codexarapi.onrender.com/api';
 let masterExercises = [];
+
+function escHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
 async function initializeOfflineMode() {
     const token = localStorage.getItem('access_token');
@@ -44,10 +53,12 @@ async function initializeOfflineMode() {
 }
 
 function buildAvatarEl(user, size = 22) {
+    const safeName = escHtml(user.username);
+    const safeAvatar = escHtml(user.avatar);
     if (user.avatar) {
-        return `<div class="mini-avatar-img" style="width:${size}px;height:${size}px;background-image:url(${user.avatar});" title="${user.username}"></div>`;
+        return `<div class="mini-avatar-img" style="width:${size}px;height:${size}px;background-image:url(${safeAvatar});" title="${safeName}"></div>`;
     }
-    return `<div class="mini-avatar-letter" style="width:${size}px;height:${size}px;font-size:${Math.floor(size * 0.45)}px;" title="${user.username}">${(user.username || '?').charAt(0).toUpperCase()}</div>`;
+    return `<div class="mini-avatar-letter" style="width:${size}px;height:${size}px;font-size:${Math.floor(size * 0.45)}px;" title="${safeName}">${(user.username || '?').charAt(0).toUpperCase()}</div>`;
 }
 
 function renderExercises(data) {
@@ -55,7 +66,7 @@ function renderExercises(data) {
     list.innerHTML = '';
 
     if (data.length === 0) {
-        list.innerHTML = `<div style="text-align:center; color:var(--text-muted); margin-top:30px; font-family:var(--font-heading);">No se encontraron desafíos...</div>`;
+        list.innerHTML = `<div style="text-align:center; color:#ffffff; margin-top:30px; font-family:var(--font-heading);">No se encontraron desafíos...</div>`;
         return;
     }
 
@@ -69,10 +80,10 @@ function renderExercises(data) {
         if (ex.first_solver) {
             const fs = ex.first_solver;
             firstSolverHtml = `
-                <span class="ex-badge badge-first-solver" title="Primera resolución por: ${fs.username}">
+                <span class="ex-badge badge-first-solver" title="Primera resolución por: ${escHtml(fs.username)}" style="cursor:pointer" onclick="window.location.href='ProfileView.html?u=${escHtml(fs.username)}'">
                     <span class="fs-label">1°</span>
                     ${buildAvatarEl(fs, 18)}
-                    <span class="fs-name">${fs.username}</span>
+                    <span class="fs-name">${escHtml(fs.username)}</span>
                 </span>
             `;
         }
@@ -88,7 +99,7 @@ function renderExercises(data) {
             const tooltipHtml = friends.map(f => `
                 <div class="tooltip-friend-row">
                     ${buildAvatarEl(f, 20)}
-                    <span>${f.username}</span>
+                    <span>${escHtml(f.username)}</span>
                 </div>
             `).join('');
 
@@ -113,22 +124,25 @@ function renderExercises(data) {
         card.innerHTML = `
             <div class="ex-content">
                 <div class="ex-title">
-                    ${ex.solved ? '<span class="solved-check">✓</span> ' : ''}${ex.title}
+                    ${ex.solved ? '<span class="solved-check">✓</span> ' : ''}${escHtml(ex.title)}
                 </div>
                 <div class="ex-meta-row">
-                    <span class="ex-badge ${diffColorClass}">${ex.difficulty}</span>
-                    <span class="ex-badge badge-category">${ex.category}</span>
-                    <span class="ex-badge badge-solvers">${ex.total_solvers} Resueltos</span>
+                    <span class="ex-badge ${diffColorClass}">${escHtml(ex.difficulty)}</span>
+                    <span class="ex-badge badge-category">${escHtml(ex.category)}</span>
+                    <span class="ex-badge badge-solvers">${parseInt(ex.total_solvers) || 0} Resueltos</span>
                     ${firstSolverHtml}
                     ${friendsSolvedHtml}
                 </div>
             </div>
             <div class="ex-action">
-                <button class="btn-resolve${ex.solved ? ' btn-resolved' : ''}" onclick="solveExercise('${ex.id}')">
+                <button class="btn-resolve${ex.solved ? ' btn-resolved' : ''}" data-exid="${escHtml(ex.id)}">
                     ${ex.solved ? '✓ Ver' : 'Resolver'}
                 </button>
             </div>
         `;
+        card.querySelector('[data-exid]').addEventListener('click', function() {
+            solveExercise(this.dataset.exid);
+        });
         list.appendChild(card);
     });
 }

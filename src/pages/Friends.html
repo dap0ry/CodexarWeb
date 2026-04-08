@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codexar - Amigos</title>
-    <!-- Google Fonts -->
+    <title>Codexar — Amigos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Base CSS + Component CSS -->
     <link rel="stylesheet" href="../assets/css/Home.css">
     <link rel="stylesheet" href="../assets/css/Friends.css">
     <link rel="stylesheet" href="../assets/css/global.css">
 </head>
 <body class="friends-body">
 
-    <!-- Reusable System Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
@@ -36,60 +33,88 @@
         </div>
     </nav>
 
-    <!-- Main Content Flow (No main document scroll) -->
-    <main class="friends-container">
-        
-        <!-- Col 1: News (Left) -->
-        <div class="friends-col-news card">
-            <h2 class="section-title">Actividad</h2>
-            <p class="section-desc">Noticias recientes de tus amigos.</p>
-            <div class="activity-list" id="activityList">
-                <div class="activity-placeholder" style="color:var(--text-muted); font-size:0.9rem;">Cargando actividad...</div>
-            </div>
-        </div>
+    <main class="friends-layout">
 
-        <!-- Col 2: Actions (Center) -->
-        <div class="friends-col-actions">
-            <!-- Search Array -->
-            <div class="search-section card" style="overflow: visible;">
-                <h2 class="section-title">Añadir Amigo</h2>
-                <p class="section-desc">Escribe el nombre exacto de tu amigo para enviarle una solicitud.</p>
-                <div class="search-input-group">
-                    <input type="text" id="friendSearchInput" class="custom-input" placeholder="Nombre de usuario..." autocomplete="off">
-                    <button id="addFriendBtn" class="btn btn-green">Añadir</button>
+        <!-- Panel izquierdo: lista de amigos -->
+        <section class="fl-left">
+            <div class="fl-panel-header">
+                <div class="fl-panel-title">
+                    <h2>Amigos</h2>
+                    <span class="friend-count" id="friendCount">0</span>
+                </div>
+                <div class="fl-tabs">
+                    <button class="fl-tab active" data-filter="all">Todos</button>
+                    <button class="fl-tab" data-filter="online">
+                        <span class="online-dot-tab"></span>
+                        En línea
+                        <span class="online-count-tab" id="onlineCount">0</span>
+                    </button>
+                </div>
+            </div>
+            <div class="fl-list" id="masterFriendsList">
+                <div class="fl-loading">
+                    <span class="fl-loading-dot"></span>
+                    <span class="fl-loading-dot"></span>
+                    <span class="fl-loading-dot"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel derecho: añadir + solicitudes -->
+        <aside class="fl-right">
+
+            <div class="fl-add-card">
+                <div class="fl-add-title">
+                    <div class="fl-add-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <line x1="19" y1="8" x2="19" y2="14"/>
+                            <line x1="22" y1="11" x2="16" y2="11"/>
+                        </svg>
+                    </div>
+                    <div class="fl-add-text">
+                        <h3>Añadir Amigo</h3>
+                        <p>Nombre de usuario exacto</p>
+                    </div>
+                </div>
+                <div class="fl-add-row">
+                    <input
+                        type="text"
+                        id="friendSearchInput"
+                        class="fl-input"
+                        placeholder="ej. xX_Codexar_Xx"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <button id="addFriendBtn" class="btn-add-friend">Enviar</button>
                 </div>
                 <p id="searchFeedback" class="search-feedback"></p>
             </div>
-            
-            <!-- Request Parallel Stack -->
-            <div class="requests-section">
-                <div class="requests-box card">
-                    <h2 class="section-title">Enviadas</h2>
-                    <p class="section-desc">Solicitudes pendientes.</p>
-                    <div class="requests-list" id="sentRequestsList"></div>
+
+            <div class="fl-requests">
+                <div class="fl-req-panel">
+                    <div class="fl-req-title">
+                        <span>Enviadas</span>
+                        <span class="req-badge" id="sentBadge">0</span>
+                    </div>
+                    <div class="fl-req-list" id="sentRequestsList"></div>
                 </div>
-                <div class="requests-box card">
-                    <h2 class="section-title">Recibidas</h2>
-                    <p class="section-desc">Acepta o rechaza aquí.</p>
-                    <div class="requests-list" id="receivedRequestsList"></div>
+                <div class="fl-req-panel">
+                    <div class="fl-req-title incoming-title">
+                        <span>Recibidas</span>
+                        <span class="req-badge incoming" id="receivedBadge">0</span>
+                    </div>
+                    <div class="fl-req-list" id="receivedRequestsList"></div>
                 </div>
             </div>
-        </div>
 
-        <!-- Col 3: Friends (Right) -->
-        <div class="friends-col-list card">
-            <h2 class="section-title">Tu Lista</h2>
-            <p class="section-desc">Amigos conectados y offline.</p>
-            <div class="master-friends-list" id="masterFriendsList">
-                <!-- Dynamic Master Friend Row Elements -->
-            </div>
-        </div>
-
+        </aside>
     </main>
 
-    <!-- Asynchronous Javascript Bridges -->
     <script src="../services/matchmakingGlobal.js"></script>
     <script src="../services/friends.js"></script>
     <script src="../services/globalBg.js"></script>
+    <script src="../services/friendlyNotifications.js"></script>
 </body>
 </html>
