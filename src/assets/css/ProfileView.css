@@ -1,0 +1,631 @@
+/* ============================================================
+   ProfileView.css — Codexar Public Profile Page
+   ============================================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #07070f;
+    color: #e6e6f0;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Main container ────────────────────────────────────────── */
+.pv-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 max(20px, calc(50% - 580px));
+    overflow: hidden;
+}
+
+/* ── Loading ───────────────────────────────────────────────── */
+.pv-loading {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.pv-loading-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 255, 204, 0.5);
+    animation: pv-pulse 1.2s ease-in-out infinite;
+}
+.pv-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.pv-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pv-pulse { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
+
+/* ── Error ─────────────────────────────────────────────────── */
+.pv-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.pv-error-icon { font-size: 2rem; color: rgba(255, 80, 80, 0.7); }
+
+.pv-error-msg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: rgba(230, 230, 240, 0.5);
+}
+
+.pv-back-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(230, 230, 240, 0.5);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+.pv-back-btn:hover { color: #e6e6f0; border-color: rgba(255,255,255,0.25); }
+
+/* ── Utility ───────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Profile content layout ────────────────────────────────── */
+.pv-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ── TOP section ───────────────────────────────────────────── */
+.pv-top {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+}
+
+/* ── Left column ───────────────────────────────────────────── */
+.pv-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    width: 156px;
+}
+
+.pv-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #1a1a2e;
+    border: 2.5px solid rgba(0, 255, 204, 0.35);
+    box-shadow: 0 0 28px rgba(0, 255, 204, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: rgba(0, 255, 204, 0.7);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.pv-achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+}
+
+.pv-ach-card {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: #0e0e1a;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 46px;
+}
+
+.pv-ach-empty {
+    border-style: dashed;
+    border-color: rgba(255,255,255,0.04);
+    background: transparent;
+}
+
+.pv-ach-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+.pv-ach-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.pv-ach-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #e8e8f8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pv-ach-rarity {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Rarity colors */
+.rarity-common    { color: rgba(180, 180, 200, 0.6); }
+.rarity-uncommon  { color: rgba(80, 220, 100, 0.8); }
+.rarity-rare      { color: rgba(80, 140, 255, 0.9); }
+.rarity-epic      { color: rgba(180, 80, 255, 0.95); }
+.rarity-legendary { color: rgba(255, 190, 50, 1); }
+.rarity-ultimate  { color: rgba(0, 255, 204, 1); }
+
+/* ── Right section ─────────────────────────────────────────── */
+.pv-right {
+    flex: 1;
+    background: #0c0c14;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+}
+
+.pv-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.pv-username-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pv-username {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #f0f0ff;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.pv-langs {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.pv-lang-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.75;
+}
+
+.pv-friend-btn {
+    margin-left: auto;
+    padding: 7px 18px;
+    border-radius: 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(0, 255, 204, 0.07);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    color: rgba(0, 255, 204, 0.85);
+}
+.pv-friend-btn:hover:not(:disabled) {
+    background: rgba(0, 255, 204, 0.14);
+    border-color: rgba(0, 255, 204, 0.6);
+    color: #fff;
+}
+.pv-friend-btn:disabled { opacity: 0.45; cursor: default; }
+.pv-friend-btn.friend-active {
+    background: rgba(0, 255, 204, 0.05);
+    border-color: rgba(0, 255, 204, 0.2);
+    color: rgba(0, 255, 204, 0.5);
+    cursor: default;
+}
+.pv-friend-btn.request-received {
+    background: rgba(255, 180, 40, 0.08);
+    border-color: rgba(255, 180, 40, 0.4);
+    color: rgba(255, 180, 40, 0.9);
+}
+.pv-friend-btn.request-received:hover:not(:disabled) {
+    background: rgba(255, 180, 40, 0.16);
+    border-color: rgba(255, 180, 40, 0.7);
+    color: #fff;
+}
+
+.pv-desc {
+    font-size: 0.82rem;
+    color: rgba(230, 230, 240, 0.4);
+    font-style: italic;
+}
+
+.pv-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+}
+
+/* ── Exercise stats ────────────────────────────────────────── */
+.pv-exercises {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    flex: 1;
+}
+
+.pv-exercises-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.pv-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(230, 230, 240, 0.3);
+}
+
+.pv-exercises-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: rgba(0, 255, 204, 0.9);
+}
+
+.pv-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pv-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.pv-bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(230, 230, 240, 0.4);
+    width: 68px;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.pv-bar-track {
+    flex: 1;
+    height: 7px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.pv-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.7s ease;
+}
+
+.pv-bar-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: rgba(230, 230, 240, 0.35);
+    width: 24px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Bar difficulty colors */
+.bar-facil     { background: rgba(80, 220, 100, 0.75); }
+.bar-normal    { background: rgba(0, 255, 204, 0.7); }
+.bar-dificil   { background: rgba(255, 160, 60, 0.75); }
+.bar-muydif    { background: rgba(255, 80, 80, 0.8); }
+.bar-insane    { background: rgba(180, 80, 255, 0.85); }
+.bar-abyssal   { background: rgba(255, 60, 220, 0.9); }
+
+/* Bar language colors */
+.bar-python { background: rgba(80, 160, 255, 0.8); }
+.bar-cpp    { background: rgba(0, 150, 220, 0.8); }
+.bar-java   { background: rgba(255, 130, 50, 0.8); }
+.bar-go     { background: rgba(0, 210, 200, 0.8); }
+.bar-csharp { background: rgba(155, 80, 255, 0.8); }
+
+.pv-section-sublabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(230, 230, 240, 0.28);
+    margin-bottom: 4px;
+}
+
+/* ── Language segmented bar ────────────────────────────────── */
+.pv-lang-bar-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.pv-lang-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    gap: 2px;
+}
+
+.pv-lang-segment {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.7s ease;
+}
+
+.pv-lang-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+
+.pv-lang-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(230, 230, 240, 0.5);
+    text-transform: uppercase;
+}
+
+.pv-lang-legend-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ── BOTTOM section ────────────────────────────────────────── */
+.pv-bottom {
+    display: flex;
+    gap: 12px;
+}
+
+.pv-stat-card {
+    flex: 1;
+    background: #0c0c14;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 16px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+}
+
+.pv-ranked-card { border-top: 2px solid rgba(255, 46, 99, 0.5); }
+.pv-bot-card    { border-top: 2px solid rgba(255, 107, 53, 0.5); }
+
+/* ── VS CPU card inner layout ──────────────────────────────── */
+.pvb-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.pvb-top-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.pvb-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.pvb-divider {
+    width: 1px;
+    height: 100%;
+    min-height: 60px;
+    background: rgba(255,255,255,0.05);
+    flex-shrink: 0;
+}
+
+/* ── Difficulty bars ───────────────────────────────────────── */
+.pvb-diff-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.pvb-diff-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pvb-diff-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: rgba(230,230,240,0.4);
+    width: 62px;
+    flex-shrink: 0;
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pvb-diff-track {
+    flex: 1;
+    height: 6px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    overflow: hidden;
+}
+
+.pvb-diff-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.7s ease;
+}
+
+.pvb-diff-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: rgba(230,230,240,0.75);
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.pvb-diff-of {
+    font-size: 0.52rem;
+    font-weight: 600;
+    color: rgba(230,230,240,0.3);
+}
+
+/* ── Card heading ──────────────────────────────────────────── */
+.pv-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgba(230, 230, 240, 0.45);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.pv-ranked-card .pv-card-label { color: rgba(255, 80, 120, 0.75); }
+.pv-bot-card    .pv-card-label { color: rgba(255, 140, 80, 0.75); }
+
+/* ── Stat grid (ranked card) ───────────────────────────────── */
+.pv-ranked-card .pv-stat-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 10px;
+    justify-items: center;
+}
+
+/* Bot card uses its own inner layout via JS */
+.pv-bot-card .pv-stat-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+}
+
+.pv-stat-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 3px;
+}
+
+/* Full-width row (e.g. hardest exercise) */
+.pv-stat-row.full-row {
+    grid-column: span 2;
+}
+
+.pv-stat-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(230, 230, 240, 0.32);
+}
+
+.pv-stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #f2f2ff;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px rgba(255,255,255,0.08);
+}
+
+.pv-stat-val.accent-cyan  { color: #00ffcc; text-shadow: 0 0 14px rgba(0,255,204,0.3); }
+.pv-stat-val.accent-green { color: #50dc64; text-shadow: 0 0 14px rgba(80,220,100,0.25); }
+.pv-stat-val.accent-muted {
+    color: rgba(230, 230, 240, 0.35);
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-style: italic;
+    text-shadow: none;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-height: 760px) {
+    .pv-avatar { width: 116px; height: 116px; font-size: 2.8rem; }
+    .pv-left   { width: 124px; }
+    .pv-username { font-size: 1.3rem; }
+    .pv-right { padding: 14px 18px; gap: 10px; }
+    .pv-stat-card { padding: 12px 16px 14px; }
+    .pv-ach-card { padding: 7px 10px; min-height: 38px; }
+    .pv-stat-val { font-size: 0.9rem; }
+}
+
+@media (max-width: 700px) {
+    .pv-top { flex-direction: column; align-items: center; }
+    .pv-left { flex-direction: row; width: 100%; align-items: center; }
+    .pv-bottom { flex-direction: column; }
+    .pv-username-row { flex-wrap: wrap; }
+    .pv-friend-btn { margin-left: 0; }
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — Tutorial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/Tutorial.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html"        class="dropdown-item">Inicio</a>
+                <a href="Profile.html"     class="dropdown-item">Perfil</a>
+                <a href="Logros.html"      class="dropdown-item">Logros</a>
+                <a href="Friends.html"     class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="#"                class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tutorial-container">
+
+        <!-- ── Sidebar ── -->
+        <aside class="tut-sidebar">
+
+            <!-- Language Picker -->
+            <div class="lang-picker">
+                <div class="lang-picker-label">LENGUAJE</div>
+                <div class="lang-tabs">
+                    <button class="lang-tab active" data-lang="python">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                        Python
+                    </button>
+                    <button class="lang-tab" data-lang="cpp">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+                        C++
+                    </button>
+                    <button class="lang-tab" data-lang="java">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                        Java
+                    </button>
+                    <button class="lang-tab" data-lang="go">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go">
+                        Go
+                    </button>
+                    <button class="lang-tab" data-lang="csharp">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                        C#
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="sidebar-progress">
+                <div class="progress-label">
+                    <span>Progreso</span>
+                    <span id="progressText">0 / 8</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- Lesson List -->
+            <nav class="lesson-nav" id="lessonNav">
+                <button class="lesson-btn active" data-lesson="0">
+                    <span class="lesson-num">01</span>
+                    <span class="lesson-name">¿Qué es programar?</span>
+                    <span class="lesson-check" id="check-0"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="1">
+                    <span class="lesson-num">02</span>
+                    <span class="lesson-name">Hola Mundo</span>
+                    <span class="lesson-check" id="check-1"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="2">
+                    <span class="lesson-num">03</span>
+                    <span class="lesson-name">Variables y tipos</span>
+                    <span class="lesson-check" id="check-2"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="3">
+                    <span class="lesson-num">04</span>
+                    <span class="lesson-name">Leer datos del usuario</span>
+                    <span class="lesson-check" id="check-3"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="4">
+                    <span class="lesson-num">05</span>
+                    <span class="lesson-name">Operaciones matemáticas</span>
+                    <span class="lesson-check" id="check-4"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="5">
+                    <span class="lesson-num">06</span>
+                    <span class="lesson-name">Condiciones if / else</span>
+                    <span class="lesson-check" id="check-5"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="6">
+                    <span class="lesson-num">07</span>
+                    <span class="lesson-name">Bucles for / while</span>
+                    <span class="lesson-check" id="check-6"></span>
+                </button>
+                <button class="lesson-btn" data-lesson="7">
+                    <span class="lesson-num">08</span>
+                    <span class="lesson-name">Tu primer reto</span>
+                    <span class="lesson-check" id="check-7"></span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="Home.html" class="btn-back-home">← Volver al Inicio</a>
+            </div>
+
+        </aside>
+
+        <!-- ── Main content area ── -->
+        <main class="tut-main" id="tutMain">
+
+            <!-- Lesson content is injected here by tutorial.js -->
+            <div class="lesson-loading">
+                <div class="loading-icon">◈</div>
+                <p>Cargando lección…</p>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="../services/tutorial.js"></script>
+    <script src="../services/globalBg.js"></script>
+</body>
+</html>

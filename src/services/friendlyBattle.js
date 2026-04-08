@@ -3,28 +3,27 @@ let matchData = null;
 let matchActive = true;
 let matchClockSeconds = 0;
 let clockInterval = null;
-let codeIsCorrect = false; // tracks if last check passed
+let codeIsCorrect = false;
 
 // --- Init ---
-async function initRankedBattle() {
+async function initFriendlyBattle() {
     const token = localStorage.getItem('access_token');
     if (!token) { window.location.href = 'Login.html'; return; }
 
     const params = new URLSearchParams(window.location.search);
-    const matchId = params.get('id');
-    if (!matchId) { window.location.href = 'Ranked.html'; return; }
+    const matchId = params.get('match');
+    if (!matchId) { window.location.href = 'Friends.html'; return; }
 
     try {
         const res = await fetch(`${API_BASE}/matchmaking/match/${matchId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        if (!res.ok) { window.location.href = 'Ranked.html'; return; }
+        if (!res.ok) { window.location.href = 'Friends.html'; return; }
 
         matchData = await res.json();
         setupPlayers(matchData);
         renderExercise(matchData.exercise);
 
-        // Start clock
         clockInterval = setInterval(() => {
             matchClockSeconds++;
             const m = Math.floor(matchClockSeconds / 60);
@@ -36,14 +35,12 @@ async function initRankedBattle() {
 
     } catch (err) {
         console.error(err);
-        window.location.href = 'Ranked.html';
+        window.location.href = 'Friends.html';
     }
 
-    // Button handlers
     document.getElementById('btnCheck').addEventListener('click', handleCheck);
     document.getElementById('btnSave').addEventListener('click', handleSave);
 
-    // Logout
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.removeItem('access_token');
@@ -64,18 +61,15 @@ function setAvatar(el, avatarUrl, username) {
 
 function setupPlayers(data) {
     document.getElementById('myName').textContent = data.me.username;
-    document.getElementById('myRank').textContent = `#${data.me.rank} • ${data.me.elo} ELO`;
     document.getElementById('navUsername').textContent = data.me.username;
 
     setAvatar(document.getElementById('myAvatar'), data.me.avatar, data.me.username);
     setAvatar(document.getElementById('navAvatar'), data.me.avatar, data.me.username);
-    // Cyan border for nav avatar
     if (data.me.avatar) {
         document.getElementById('navAvatar').style.border = '1px solid var(--accent-cyan)';
     }
 
     document.getElementById('opName').textContent = data.opponent.username;
-    document.getElementById('opRank').textContent = `#${data.opponent.rank} • ${data.opponent.elo} ELO`;
     setAvatar(document.getElementById('opAvatar'), data.opponent.avatar, data.opponent.username);
 
     document.getElementById('opProgressBar').style.width = `${data.op_progress || 0}%`;
@@ -99,7 +93,6 @@ function renderExercise(ex) {
     loadStub(langSelect.value);
     langSelect.addEventListener('change', () => {
         loadStub(langSelect.value);
-        // Reset correct flag when language changes
         codeIsCorrect = false;
         document.getElementById('btnSave').style.display = 'none';
     });
@@ -134,7 +127,6 @@ function renderTestCases(testCases, result) {
     });
 }
 
-// STEP 1: Check code correctness (does NOT submit to server)
 async function handleCheck() {
     if (!matchActive) return;
     const token = localStorage.getItem('access_token');
@@ -146,10 +138,8 @@ async function handleCheck() {
 
     if (!code) return;
 
-    // Reset save button
     codeIsCorrect = false;
     btnSave.style.display = 'none';
-
     btnCheck.disabled = true;
     btnCheck.classList.add('loading');
     btnCheck.innerHTML = '<span class="btn-icon">⏳</span> Comprobando...';
@@ -174,7 +164,6 @@ async function handleCheck() {
             codeIsCorrect = true;
             status.textContent = '✓ Correcto — ya puedes guardar';
             status.style.color = 'var(--accent-green)';
-            // Show and enable Guardar
             btnSave.style.display = 'flex';
             btnSave.disabled = false;
         } else {
@@ -193,7 +182,6 @@ async function handleCheck() {
     }
 }
 
-// STEP 2: Submit to match server (only reachable if code was correct)
 async function handleSave() {
     if (!matchActive || !codeIsCorrect) return;
     const token = localStorage.getItem('access_token');
@@ -206,7 +194,7 @@ async function handleSave() {
         const totalCases = matchData.exercise.test_cases.length;
         const mockResults = Array(totalCases).fill({ passed: true });
 
-        const matchId = new URLSearchParams(window.location.search).get('id');
+        const matchId = new URLSearchParams(window.location.search).get('match');
         const submitRes = await fetch(`${API_BASE}/matchmaking/match/${matchId}/submit`, {
             method: 'POST',
             headers: {
@@ -268,12 +256,12 @@ function endMatch(isWinner) {
     if (isWinner) {
         title.textContent = "VICTORIA";
         title.className = "win";
-        desc.textContent = "Ganaste +25 ELO y aumentaste tu racha.";
+        desc.textContent = "¡Ganaste la batalla amistosa! +10 monedas";
     } else {
         title.textContent = "DERROTA";
         title.className = "lose";
         document.getElementById('opProgressBar').style.width = '100%';
-        desc.textContent = "Tu rival llegó primero. Perdiste -15 ELO.";
+        desc.textContent = "Tu rival llegó primero. ¡Buen intento!";
     }
 }
 
@@ -301,4 +289,4 @@ function escHtml(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-document.addEventListener('DOMContentLoaded', initRankedBattle);
+document.addEventListener('DOMContentLoaded', initFriendlyBattle);

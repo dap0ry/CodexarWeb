@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'https://codexarapi.onrender.com/api';
 let myData = null;
 let searchInterval = null;
 let searchSeconds = 0;

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — VS CPU</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/VsCpu.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html"        class="dropdown-item">Inicio</a>
+                <a href="Profile.html"     class="dropdown-item">Perfil</a>
+                <a href="Logros.html"      class="dropdown-item">Logros</a>
+                <a href="Friends.html"     class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="#"                class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="vscpu-container">
+
+        <div class="vscpu-header">
+            <div class="vscpu-eyebrow">
+                <span class="eyebrow-dot-red"></span>
+                VS CPU · MODO INDIVIDUAL
+            </div>
+            <h1 class="vscpu-title">Elige tu dificultad</h1>
+            <p class="vscpu-subtitle">Resuelve un ejercicio aleatorio antes de que el tiempo se acabe.</p>
+        </div>
+
+        <div class="diff-grid">
+
+            <!-- NORMAL -->
+            <div class="diff-card diff-normal" onclick="window.location.href='VsCpuBattle.html?difficulty=normal'">
+                <div class="diff-glow diff-glow-normal"></div>
+                <div class="diff-card-inner">
+                    <div class="diff-icon">🟢</div>
+                    <div class="diff-label">NORMAL</div>
+                    <div class="diff-title">Modo Estándar</div>
+                    <p class="diff-desc">Tiempo suficiente para pensar y refinar tu solución.</p>
+                    <div class="diff-time-badge diff-time-normal">
+                        <span class="diff-time-icon">⏱</span>
+                        <span>6 – 45 min</span>
+                    </div>
+                    <div class="diff-tags">
+                        <span class="diff-tag">EJERCICIO ALEATORIO</span>
+                    </div>
+                    <button class="btn-diff btn-diff-normal">JUGAR →</button>
+                </div>
+            </div>
+
+            <!-- DIFÍCIL -->
+            <div class="diff-card diff-hard" onclick="window.location.href='VsCpuBattle.html?difficulty=dificil'">
+                <div class="diff-glow diff-glow-hard"></div>
+                <div class="diff-card-inner">
+                    <div class="diff-icon">🔴</div>
+                    <div class="diff-label">DIFÍCIL</div>
+                    <div class="diff-title">Modo Presión</div>
+                    <p class="diff-desc">El bot no te da respiro. La mitad del tiempo.</p>
+                    <div class="diff-time-badge diff-time-hard">
+                        <span class="diff-time-icon">⚡</span>
+                        <span>3 – 25 min</span>
+                    </div>
+                    <div class="diff-tags">
+                        <span class="diff-tag">EJERCICIO ALEATORIO</span>
+                    </div>
+                    <button class="btn-diff btn-diff-hard">JUGAR →</button>
+                </div>
+            </div>
+
+            <!-- DEMENCIAL -->
+            <div class="diff-card diff-demencial" onclick="window.location.href='VsCpuBattle.html?difficulty=demencial'">
+                <div class="diff-glow diff-glow-demencial"></div>
+                <div class="diff-card-inner">
+                    <div class="diff-icon">💀</div>
+                    <div class="diff-label">DEMENCIAL</div>
+                    <div class="diff-title">Sin Piedad</div>
+                    <p class="diff-desc">Un cuarto del tiempo. Solo para los mejores.</p>
+                    <div class="diff-time-badge diff-time-demencial">
+                        <span class="diff-time-icon">☠</span>
+                        <span>90s – 15 min</span>
+                    </div>
+                    <div class="diff-tags">
+                        <span class="diff-tag">EJERCICIO ALEATORIO</span>
+                    </div>
+                    <button class="btn-diff btn-diff-demencial">JUGAR →</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="btn-back-home" onclick="window.location.href='Home.html'">← Volver al menú</button>
+
+    </div>
+
+    <script src="../services/matchmakingGlobal.js"></script>
+    <script src="../services/vsCpu.js"></script>
+    <script src="../services/friendlyNotifications.js"></script>
+</body>
+</html>

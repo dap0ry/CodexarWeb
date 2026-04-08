@@ -3,164 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codexar — Combate de Programación</title>
-    <meta name="description" content="Domina la programación competitiva. Resuelve ejercicios, escala rankings y demuestra tu nivel en batallas en tiempo real.">
+    <title>Codexar — Programación Competitiva 1v1</title>
+    <meta name="description" content="Aprende algoritmos, domina la programación competitiva y enfrenta a otros programadores en duelos 1v1 en tiempo real.">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/index.css">
 </head>
 <body>
 
-    <!-- Ambient canvas background -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Floating 3D Code Snippets -->
-    <div class="code-float code-float-1">
-        <pre><span class="kw">def</span> <span class="fn">solve</span>(nums):
-    dp = [<span class="num">0</span>] * len(nums)
-    dp[<span class="num">0</span>] = nums[<span class="num">0</span>]
-    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="num">1</span>, len(nums)):
-        dp[i] = max(dp[i-<span class="num">1</span>], nums[i])
-    <span class="kw">return</span> dp[-<span class="num">1</span>]</pre>
-    </div>
+    <!-- Nav minimal -->
+    <nav class="lp-nav">
+        <div class="lp-brand">Codex<span>ar</span></div>
+        <div class="lp-nav-right">
+            <a href="Register.html" class="lp-nav-link">Crear cuenta</a>
+            <a href="Login.html" class="lp-nav-btn">
+                Entrar <span class="lp-nav-arrow">→</span>
+            </a>
+        </div>
+    </nav>
 
-    <div class="code-float code-float-2">
-        <pre><span class="kw">function</span> <span class="fn">binarySearch</span>(arr, t) {
-  <span class="kw">let</span> lo = <span class="num">0</span>, hi = arr.length;
-  <span class="kw">while</span> (lo &lt; hi) {
-    <span class="kw">const</span> mid = (lo + hi) &gt;&gt; <span class="num">1</span>;
-    arr[mid] &lt; t ? lo=mid+<span class="num">1</span> : hi=mid;
-  }
-  <span class="kw">return</span> lo;
-}</pre>
-    </div>
+    <!-- Main layout: left hero + right battle -->
+    <div class="lp-layout">
 
-    <div class="code-float code-float-3">
-        <pre><span class="kw">vector</span>&lt;<span class="kw">int</span>&gt; topK(<span class="kw">vector</span>&lt;<span class="kw">int</span>&gt;&amp; nums, <span class="kw">int</span> k) {
-  priority_queue&lt;<span class="kw">int</span>, vector&lt;<span class="kw">int</span>&gt;, greater&lt;<span class="kw">int</span>&gt;&gt; pq;
-  <span class="kw">for</span> (<span class="kw">int</span> n : nums) {
-    pq.push(n); <span class="kw">if</span> (pq.size() &gt; k) pq.pop();
-  }
-}</pre>
-    </div>
+        <!-- Hero izquierda -->
+        <div class="lp-hero">
+            <div class="lp-eyebrow">
+                <span class="lp-eyebrow-dot"></span>
+                PROGRAMACIÓN COMPETITIVA · 1v1 EN TIEMPO REAL
+            </div>
 
-    <!-- Main Content -->
-    <div class="landing-wrapper">
-
-        <!-- Left Side: Brand + CTA -->
-        <div class="hero-left">
-            <div class="brand-badge">ALFA v1.0</div>
-
-            <h1 class="hero-title">
-                Codex<span class="accent">ar</span>
+            <h1 class="lp-title" id="lpTitle">
+                Codex<span class="lp-accent">ar</span><span class="lp-cursor">_</span>
             </h1>
 
-            <p class="hero-tagline">
-                Programa. Compite.<br>Domina.
-            </p>
+            <div class="lp-taglines">
+                <p class="lp-tagline">Aprende a resolver problemas.</p>
+                <p class="lp-tagline lp-t2">Compite contra otros programadores.</p>
+                <p class="lp-tagline lp-t3">Escala el ranking ELO.</p>
+            </div>
 
-            <p class="hero-description">
-                La plataforma donde los programadores desafían sus límites. Resuelve ejercicios, asciende en el ranking ELO y enfréntate a otros en batallas de código en tiempo real.
-            </p>
-
-            <div class="cta-group">
-                <a href="Login.html" class="btn-primary">
-                    <span class="btn-icon">→</span>
-                    Iniciar Sesión
+            <div class="lp-cta">
+                <a href="Login.html" class="lp-btn-primary">
+                    <span class="lp-btn-icon">→</span>
+                    Entrar a la Arena
                 </a>
-                <a href="Register.html" class="btn-secondary">
+                <a href="Register.html" class="lp-btn-secondary">
                     Crear Cuenta
                 </a>
             </div>
 
-            <div class="stat-pills">
-                <div class="stat-pill">
-                    <span class="stat-num" data-target="30">0</span>
-                    <span class="stat-label">Ejercicios</span>
+            <div class="lp-features">
+                <div class="lp-feat">
+                    <span class="lp-feat-icon">◬</span>
+                    <div>
+                        <div class="lp-feat-title">Duelos 1v1</div>
+                        <div class="lp-feat-desc">Tiempo real</div>
+                    </div>
                 </div>
-                <div class="stat-pill">
-                    <span class="stat-num" data-target="6">0</span>
-                    <span class="stat-label">Capítulos</span>
+                <div class="lp-feat">
+                    <span class="lp-feat-icon">▲</span>
+                    <div>
+                        <div class="lp-feat-title">Ranking ELO</div>
+                        <div class="lp-feat-desc">Clasificatoria</div>
+                    </div>
                 </div>
-                <div class="stat-pill">
-                    <span class="stat-num" data-target="3">0</span>
-                    <span class="stat-label">Modos de Juego</span>
+                <div class="lp-feat">
+                    <span class="lp-feat-icon">◈</span>
+                    <div>
+                        <div class="lp-feat-title">6 Capítulos</div>
+                        <div class="lp-feat-desc">Modo Historia</div>
+                    </div>
+                </div>
+                <div class="lp-feat">
+                    <span class="lp-feat-icon">◫</span>
+                    <div>
+                        <div class="lp-feat-title">30+ Retos</div>
+                        <div class="lp-feat-desc">5 lenguajes</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Side: Feature Showcase -->
-        <div class="hero-right">
+        <!-- Battle terminal derecha -->
+        <div class="lp-battle">
 
-            <!-- 3D Tilt Card Carousel -->
-            <div class="feature-carousel" id="featureCarousel">
-
-                <div class="feature-card active" data-label="Ranking ELO">
-                    <div class="card-glow"></div>
-                    <div class="card-icon-wrap">
-                        <div class="card-icon">&#9651;</div>
+            <div class="battle-card">
+                <!-- Header de partida -->
+                <div class="bc-header">
+                    <div class="bc-live">
+                        <span class="bc-live-dot"></span>
+                        PARTIDA CLASIFICATORIA
                     </div>
-                    <h3>Sistema ELO</h3>
-                    <p>Tu puntuación sube y baja tras cada batalla. Escala desde Bronce hasta los rangos más altos enfrentando a rivales de tu nivel.</p>
-                    <div class="card-tag">Clasificatoria</div>
+                    <div class="bc-timer" id="bcTimer">02:47</div>
                 </div>
 
-                <div class="feature-card" data-label="Modo Historia">
-                    <div class="card-glow"></div>
-                    <div class="card-icon-wrap">
-                        <div class="card-icon">&#9724;</div>
+                <!-- Jugadores -->
+                <div class="bc-players">
+                    <div class="bc-player bc-p1">
+                        <div class="bc-pav" id="p1av">P</div>
+                        <div class="bc-pinfo">
+                            <div class="bc-pname">Player_01</div>
+                            <div class="bc-prank">Bronce II · 248 ELO</div>
+                        </div>
+                        <div class="bc-plang bc-lang-py">Python</div>
                     </div>
-                    <h3>Modo Historia</h3>
-                    <p>Aprende desde cero con 6 capítulos de programación competitiva. Desbloquea cada sección completando los desafíos anteriores.</p>
-                    <div class="card-tag">Aprendizaje</div>
+                    <div class="bc-vs-sep">
+                        <span>VS</span>
+                    </div>
+                    <div class="bc-player bc-p2">
+                        <div class="bc-plang bc-lang-cpp">C++</div>
+                        <div class="bc-pinfo" style="text-align:right;">
+                            <div class="bc-pname">xX_Dev_Xx</div>
+                            <div class="bc-prank">Plata I · 312 ELO</div>
+                        </div>
+                        <div class="bc-pav" id="p2av">D</div>
+                    </div>
                 </div>
 
-                <div class="feature-card" data-label="Batallas Online">
-                    <div class="card-glow"></div>
-                    <div class="card-icon-wrap">
-                        <div class="card-icon">&#10005;</div>
+                <!-- Código -->
+                <div class="bc-editors">
+                    <div class="bc-editor bc-ed-left">
+                        <div class="bc-ed-header">
+                            <span class="bc-ed-dot" style="background:#ff5f57"></span>
+                            <span class="bc-ed-dot" style="background:#febc2e"></span>
+                            <span class="bc-ed-dot" style="background:#28c840"></span>
+                            <span class="bc-ed-filename">solution.py</span>
+                        </div>
+                        <div class="bc-ed-body">
+                            <div class="bc-linenos" id="leftLinenos">1</div>
+                            <pre class="bc-code" id="leftCode"></pre>
+                        </div>
                     </div>
-                    <h3>Batallas 1vs1</h3>
-                    <p>Enfréntate en tiempo real a otro programador. El que resuelve el ejercicio más rápido gana. Sin excusas, sin respiro.</p>
-                    <div class="card-tag">Multijugador</div>
+                    <div class="bc-editor-divider"></div>
+                    <div class="bc-editor bc-ed-right">
+                        <div class="bc-ed-header">
+                            <span class="bc-ed-dot" style="background:#ff5f57"></span>
+                            <span class="bc-ed-dot" style="background:#febc2e"></span>
+                            <span class="bc-ed-dot" style="background:#28c840"></span>
+                            <span class="bc-ed-filename">solution.cpp</span>
+                        </div>
+                        <div class="bc-ed-body">
+                            <div class="bc-linenos" id="rightLinenos">1</div>
+                            <pre class="bc-code" id="rightCode"></pre>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="feature-card" data-label="Perfil">
-                    <div class="card-glow"></div>
-                    <div class="card-icon-wrap">
-                        <div class="card-icon">&#9671;</div>
+                <!-- Progress -->
+                <div class="bc-progress-section">
+                    <div class="bc-prog-row">
+                        <span class="bc-prog-name">Player_01</span>
+                        <div class="bc-prog-bar">
+                            <div class="bc-prog-fill bc-prog-left" id="p1bar"></div>
+                        </div>
+                        <span class="bc-prog-pct" id="p1pct">0%</span>
                     </div>
-                    <h3>Tu Legado</h3>
-                    <p>Sube tu avatar, muestra tu rango, tus lenguajes favoritos y tu historial de victorias. Tu perfil habla por ti.</p>
-                    <div class="card-tag">Perfil</div>
-                </div>
-
-                <!-- Carousel nav dots -->
-                <div class="carousel-dots" id="carouselDots">
-                    <span class="dot active" data-idx="0"></span>
-                    <span class="dot" data-idx="1"></span>
-                    <span class="dot" data-idx="2"></span>
-                    <span class="dot" data-idx="3"></span>
+                    <div class="bc-prog-row">
+                        <span class="bc-prog-name">xX_Dev_Xx</span>
+                        <div class="bc-prog-bar">
+                            <div class="bc-prog-fill bc-prog-right" id="p2bar"></div>
+                        </div>
+                        <span class="bc-prog-pct" id="p2pct">0%</span>
+                    </div>
                 </div>
 
             </div>
 
+            <!-- Stats debajo de la battle card -->
+            <div class="lp-stats">
+                <div class="lp-stat">
+                    <span class="lp-stat-num" data-target="30">0</span>
+                    <span class="lp-stat-label">Retos</span>
+                </div>
+                <span class="lp-stat-sep">·</span>
+                <div class="lp-stat">
+                    <span class="lp-stat-num" data-target="6">0</span>
+                    <span class="lp-stat-label">Capítulos</span>
+                </div>
+                <span class="lp-stat-sep">·</span>
+                <div class="lp-stat">
+                    <span class="lp-stat-num" data-target="5">0</span>
+                    <span class="lp-stat-label">Lenguajes</span>
+                </div>
+                <span class="lp-stat-sep">·</span>
+                <div class="lp-stat">
+                    <span class="lp-stat-num" data-target="3">0</span>
+                    <span class="lp-stat-label">Modos</span>
+                </div>
+            </div>
         </div>
 
     </div>
 
-    <!-- Bottom bar -->
-    <div class="bottom-bar">
-        <div class="bottom-brand">Codex<span>ar</span></div>
-        <div class="bottom-langs">
-            <span>Python</span>
-            <span class="sep">·</span>
-            <span>JavaScript</span>
-            <span class="sep">·</span>
-            <span>C++</span>
-            <span class="sep">·</span>
-            <span>Java</span>
+    <!-- Footer bar -->
+    <div class="lp-footer">
+        <span class="lp-footer-brand">Codex<span>ar</span></span>
+        <div class="lp-footer-langs">
+            <span>Python</span><span class="sep">·</span>
+            <span>C++</span><span class="sep">·</span>
+            <span>Java</span><span class="sep">·</span>
+            <span>Go</span><span class="sep">·</span>
+            <span>C#</span>
         </div>
-        <div class="bottom-label">Combate de Programación</div>
+        <span class="lp-footer-label">Arena de Programación Competitiva</span>
     </div>
 
     <script src="../services/index.js"></script>

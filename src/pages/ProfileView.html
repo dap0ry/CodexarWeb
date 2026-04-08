@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — Perfil</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/ProfileView.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html"        class="dropdown-item">Inicio</a>
+                <a href="Profile.html"     class="dropdown-item">Perfil</a>
+                <a href="Logros.html"      class="dropdown-item">Logros</a>
+                <a href="Friends.html"     class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="#"                class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pv-main" id="pvMain">
+
+        <!-- Loading state -->
+        <div class="pv-loading" id="pvLoading">
+            <div class="pv-loading-dot"></div>
+            <div class="pv-loading-dot"></div>
+            <div class="pv-loading-dot"></div>
+        </div>
+
+        <!-- Error state -->
+        <div class="pv-error hidden" id="pvError">
+            <div class="pv-error-icon">⚠</div>
+            <div class="pv-error-msg" id="pvErrorMsg">Usuario no encontrado.</div>
+            <button class="pv-back-btn" onclick="history.back()">← Volver</button>
+        </div>
+
+        <!-- Profile content -->
+        <div class="pv-content hidden" id="pvContent">
+
+            <!-- TOP SECTION -->
+            <div class="pv-top">
+
+                <!-- Left column: avatar + achievements -->
+                <div class="pv-left">
+                    <div class="pv-avatar" id="pvAvatar"></div>
+                    <div class="pv-achievements" id="pvAchievements">
+                        <div class="pv-ach-card pv-ach-empty" id="pvAch0"></div>
+                        <div class="pv-ach-card pv-ach-empty" id="pvAch1"></div>
+                        <div class="pv-ach-card pv-ach-empty" id="pvAch2"></div>
+                    </div>
+                </div>
+
+                <!-- Right section: info + exercise stats -->
+                <div class="pv-right">
+                    <div class="pv-identity">
+                        <div class="pv-username-row">
+                            <span class="pv-username" id="pvUsername">—</span>
+                            <div class="pv-langs" id="pvLangs"></div>
+                            <button class="pv-friend-btn hidden" id="pvFriendBtn"></button>
+                        </div>
+                        <div class="pv-desc" id="pvDesc"></div>
+                    </div>
+
+                    <div class="pv-divider"></div>
+
+                    <div class="pv-exercises">
+                        <div class="pv-exercises-header">
+                            <span class="pv-section-label">Ejercicios Resueltos</span>
+                            <span class="pv-exercises-total" id="pvExTotal">0</span>
+                        </div>
+                        <div class="pv-chart" id="pvChart">
+                            <!-- difficulty bars injected by JS -->
+                        </div>
+                        <div class="pv-lang-bar-wrap hidden" id="pvLangBarWrap">
+                            <div class="pv-section-sublabel">Por lenguaje</div>
+                            <div class="pv-lang-bar" id="pvLangBar">
+                                <!-- segmented bar injected by JS -->
+                            </div>
+                            <div class="pv-lang-legend" id="pvLangLegend">
+                                <!-- legend injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM SECTION -->
+            <div class="pv-bottom">
+
+                <!-- Ranked stats -->
+                <div class="pv-stat-card pv-ranked-card">
+                    <div class="pv-card-label">// CLASIFICATORIA //</div>
+                    <div class="pv-stat-rows" id="pvRankedStats"></div>
+                </div>
+
+                <!-- VS CPU stats -->
+                <div class="pv-stat-card pv-bot-card">
+                    <div class="pv-card-label">// VS CPU //</div>
+                    <div class="pv-stat-rows" id="pvBotStats"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="../services/matchmakingGlobal.js"></script>
+    <script src="../services/profileView.js"></script>
+</body>
+</html>

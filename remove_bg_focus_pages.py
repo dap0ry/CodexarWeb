@@ -1,5 +1,5 @@
 """
-Remove globalBg.js from pages where it would distract: SolvePage, RankedBattle, UnrankedBattle, Ranked, Unranked, StoryMode
+Remove globalBg.js from pages where it would distract: SolvePage, RankedBattle, Ranked, StoryMode
 """
 import os
 import glob
@@ -10,9 +10,7 @@ PAGES_DIR = r"c:\Users\dapory\Documents\Codexar\WEB\src\pages"
 REMOVE_FROM = {
     'SolvePage.html',
     'RankedBattle.html',
-    'UnrankedBattle.html',
     'Ranked.html',
-    'Unranked.html',
     'StoryMode.html',
 }
 

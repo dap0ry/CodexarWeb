@@ -1,34 +1,113 @@
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'https://codexarapi.onrender.com/api';
 let exerciseData = null;
-let checkPassed = false;
-let selectedLang = 'Python';
+let checkPassed   = false;
+let selectedLang  = 'Python';
+let editor        = null;   // Monaco instance
 
-// --- Init ---
+const MONACO_LANG = {
+    'Python': 'python',
+    'C++':    'cpp',
+    'Java':   'java',
+    'Go':     'go',
+    'C#':     'csharp',
+};
+
+// ─── Monaco bootstrap ────────────────────────────────────────────
+require.config({
+    paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }
+});
+
+require(['vs/editor/editor.main'], function () {
+    // Custom dark theme matching Codexar palette
+    monaco.editor.defineTheme('codexar-dark', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+            { token: 'comment',   foreground: '555577', fontStyle: 'italic' },
+            { token: 'keyword',   foreground: '00ffcc' },
+            { token: 'string',    foreground: 'a8ff78' },
+            { token: 'number',    foreground: 'f89820' },
+            { token: 'type',      foreground: '79b8ff' },
+            { token: 'delimiter', foreground: 'cccccc' },
+        ],
+        colors: {
+            'editor.background':              '#08080e',
+            'editor.foreground':              '#e0e0e0',
+            'editor.lineHighlightBackground': '#0f0f1a',
+            'editor.selectionBackground':     '#00ffcc22',
+            'editorCursor.foreground':        '#00ffcc',
+            'editorLineNumber.foreground':    '#333355',
+            'editorLineNumber.activeForeground': '#00ffcc88',
+            'editorIndentGuide.background':   '#1a1a2e',
+            'editorWidget.background':        '#0d0d18',
+            'editorSuggestWidget.background': '#0d0d18',
+            'editorSuggestWidget.border':     '#1e1e3a',
+            'editorSuggestWidget.selectedBackground': '#00ffcc18',
+            'scrollbarSlider.background':     '#00ffcc18',
+            'scrollbarSlider.hoverBackground':'#00ffcc30',
+        }
+    });
+
+    editor = monaco.editor.create(document.getElementById('codeEditor'), {
+        value:                '',
+        language:             'python',
+        theme:                'codexar-dark',
+        fontFamily:           "'JetBrains Mono', monospace",
+        fontSize:             14,
+        lineHeight:           24,
+        minimap:              { enabled: false },
+        scrollBeyondLastLine: false,
+        lineNumbers:          'on',
+        renderLineHighlight:  'gutter',
+        roundedSelection:     true,
+        automaticLayout:      true,
+        tabSize:              4,
+        insertSpaces:         true,
+        wordWrap:             'off',
+        folding:              true,
+        bracketPairColorization: { enabled: true },
+        renderWhitespace:     'selection',
+        suggestOnTriggerCharacters: true,
+        quickSuggestions:     { other: true, comments: false, strings: false },
+        acceptSuggestionOnEnter: 'on',
+        padding:              { top: 16, bottom: 16 },
+        scrollbar: {
+            verticalScrollbarSize:   8,
+            horizontalScrollbarSize: 8,
+        },
+    });
+
+    // Ctrl+Enter → comprobar código
+    editor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+        () => { if (!document.getElementById('btnCheck').disabled) handleCheck(); }
+    );
+
+    initSolvePage();
+});
+
+// ─── Init ────────────────────────────────────────────────────────
 async function initSolvePage() {
     const token = localStorage.getItem('access_token');
     if (!token) { window.location.href = 'Login.html'; return; }
 
-    // Get exercise ID from URL
-    const params = new URLSearchParams(window.location.search);
+    const params     = new URLSearchParams(window.location.search);
     const exerciseId = params.get('id');
     if (!exerciseId) { window.location.href = 'Exercises.html'; return; }
 
     try {
-        // Load user for navbar
-        const userRes = await fetch(`${API_BASE}/user/me`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const [userRes, exRes] = await Promise.all([
+            fetch(`${API_BASE}/user/me`,             { headers: { Authorization: `Bearer ${token}` } }),
+            fetch(`${API_BASE}/exercises/${exerciseId}`, { headers: { Authorization: `Bearer ${token}` } }),
+        ]);
+
         if (!userRes.ok) throw new Error('Auth Fault');
+        if (!exRes.ok)   throw new Error('Exercise Fault');
+
         const user = await userRes.json();
+        exerciseData  = await exRes.json();
+
         populateNavbar(user);
-
-        // Load exercise
-        const exRes = await fetch(`${API_BASE}/exercises/${exerciseId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (!exRes.ok) throw new Error('Exercise Fault');
-        exerciseData = await exRes.json();
-
         renderExercise(exerciseData, user);
     } catch (err) {
         console.error('Init error:', err);
@@ -36,52 +115,41 @@ async function initSolvePage() {
     }
 }
 
-// --- Navbar ---
+// ─── Navbar ──────────────────────────────────────────────────────
 function populateNavbar(user) {
     document.getElementById('navUsername').textContent = user.username;
     const navAvatar = document.getElementById('navAvatar');
     if (user.avatar) {
-        navAvatar.style.backgroundImage = `url(${user.avatar})`;
-        navAvatar.style.backgroundSize = 'cover';
-        navAvatar.style.backgroundPosition = 'center';
-        navAvatar.style.border = '1px solid var(--accent-cyan)';
+        navAvatar.style.cssText = `background-image:url(${user.avatar});background-size:cover;background-position:center;border:1px solid var(--accent-cyan);`;
         navAvatar.textContent = '';
     } else {
         navAvatar.textContent = user.username.charAt(0).toUpperCase();
     }
 }
 
-// --- Render Exercise ---
+// ─── Render Exercise ─────────────────────────────────────────────
 function renderExercise(ex, user) {
-    // Breadcrumb
     document.getElementById('breadcrumbTitle').textContent = ex.title;
     document.title = `Codexar - ${ex.title}`;
-
-    // Title & badges
     document.getElementById('exTitle').textContent = ex.title;
 
     let diffClass = 'badge-normal';
-    if (ex.difficulty === 'Fácil') diffClass = 'badge-facil';
+    if (ex.difficulty === 'Fácil')   diffClass = 'badge-facil';
     if (ex.difficulty === 'Difícil') diffClass = 'badge-dificil';
 
-    const badgesEl = document.getElementById('exBadges');
-    badgesEl.innerHTML = `
+    document.getElementById('exBadges').innerHTML = `
         <span class="ex-badge ${diffClass}">${ex.difficulty}</span>
         <span class="ex-badge badge-category">${ex.category}</span>
         ${ex.solved ? '<span class="ex-badge badge-solved-ex">✓ Resuelto</span>' : ''}
     `;
 
-    // Description
     document.getElementById('exDescription').textContent = ex.description;
-
-    // Test cases
     renderTestCases(ex.test_cases, null);
 
-    // Set up lang pills
+    // Language pills
     const pills = document.querySelectorAll('.lang-pill');
 
-    // Pre-select user's first language if available
-    if (user && user.languages && user.languages.length > 0) {
+    if (user?.languages?.length > 0) {
         const preferred = user.languages[0];
         const match = [...pills].find(p => p.dataset.lang === preferred);
         if (match) {
@@ -103,28 +171,31 @@ function renderExercise(ex, user) {
         });
     });
 
-    // If already solved, show info
-    if (ex.solved) {
-        showAlreadySolved();
-    }
+    if (ex.solved) showAlreadySolved();
 
-    // Buttons
     document.getElementById('btnCheck').addEventListener('click', handleCheck);
     document.getElementById('btnSave').addEventListener('click', handleSave);
 }
 
 function loadStub(lang) {
-    if (!exerciseData || !exerciseData.stub) return;
-    const stub = exerciseData.stub[lang];
-    if (stub) {
-        document.getElementById('codeEditor').value = stub;
-    }
+    if (!exerciseData?.stub) return;
+    const stub = exerciseData.stub[lang] || '';
+
+    // Set Monaco language
+    const model = editor.getModel();
+    monaco.editor.setModelLanguage(model, MONACO_LANG[lang] || 'plaintext');
+
+    // Set content and move cursor to end of stub
+    editor.setValue(stub);
+    editor.setPosition({ lineNumber: editor.getModel().getLineCount(), column: 1 });
+    editor.focus();
 }
 
+// ─── Test Cases ──────────────────────────────────────────────────
 function renderTestCases(testCases, result) {
     const list = document.getElementById('testCasesList');
-    if (!testCases || testCases.length === 0) {
-        list.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem;">No hay casos de prueba disponibles.</div>';
+    if (!testCases?.length) {
+        list.innerHTML = '<div style="color:var(--text-muted);font-size:0.82rem;">No hay casos de prueba disponibles.</div>';
         return;
     }
 
@@ -134,27 +205,26 @@ function renderTestCases(testCases, result) {
         card.className = 'testcase-card';
         card.id = `tc-${i}`;
 
-        // Determine pass/fail state
-        if (result) {
-            if (result.correct) {
-                card.classList.add('passing');
-            } else if (result.failed_case === i + 1) {
-                card.classList.add('failing');
-            } else if (result.failed_case > i + 1 || (result.failed_case === undefined && !result.correct)) {
-                // cases before the failed one passed
-            }
+        if (result?.correct) {
+            card.classList.add('passing');
+        } else if (result?.failed_case === i + 1) {
+            card.classList.add('failing');
         }
 
-        const gotHtml = (result && result.failed_case === i + 1 && result.got !== undefined)
+        const stateText = result?.correct
+            ? '✓ Superado'
+            : result?.failed_case === i + 1
+                ? '✗ Fallido'
+                : '';
+
+        const gotHtml = (result?.failed_case === i + 1 && result.got !== undefined)
             ? `<div class="tc-row"><span class="tc-label">Obtenido</span><span class="tc-value got-wrong">${escHtml(result.got)}</span></div>`
             : '';
 
         card.innerHTML = `
             <div class="tc-row">
                 <span class="tc-label">Caso ${i + 1}</span>
-                <span class="tc-value" style="color:var(--text-muted); font-size:0.72rem; padding-top:2px;">
-                    ${result && result.correct ? '✓ Superado' : result && result.failed_case === i + 1 ? '✗ Fallido' : ''}
-                </span>
+                <span class="tc-value" style="color:var(--text-muted);font-size:0.72rem;padding-top:2px;">${stateText}</span>
             </div>
             <div class="tc-row">
                 <span class="tc-label">Entrada</span>
@@ -170,13 +240,11 @@ function renderTestCases(testCases, result) {
     });
 }
 
-// --- Check Handler ---
+// ─── Check ───────────────────────────────────────────────────────
 async function handleCheck() {
-    const token = localStorage.getItem('access_token');
-    const code = document.getElementById('codeEditor').value.trim();
-    const lang = selectedLang;
+    const token   = localStorage.getItem('access_token');
+    const code    = editor.getValue().trim();
     const btnCheck = document.getElementById('btnCheck');
-    const output = document.getElementById('editorOutput');
     const statusEl = document.getElementById('editorStatus');
 
     if (!code) {
@@ -184,23 +252,22 @@ async function handleCheck() {
         return;
     }
 
-    // Loading state
     btnCheck.disabled = true;
     btnCheck.classList.add('loading');
     btnCheck.innerHTML = '<span class="btn-icon">⏳</span> Comprobando...';
     statusEl.textContent = 'Ejecutando casos de prueba...';
     statusEl.style.color = 'var(--text-muted)';
-    output.style.display = 'none';
-    resetCheck();
+    document.getElementById('editorOutput').style.display = 'none';
+    resetCheck(false); // don't re-render test cases yet
 
     try {
         const res = await fetch(`${API_BASE}/exercises/${exerciseData.id}/solve`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                Authorization:  `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ code, language: lang, save: false })
+            body: JSON.stringify({ code, language: selectedLang, save: false }),
         });
         const data = await res.json();
 
@@ -219,7 +286,7 @@ async function handleCheck() {
             renderTestCases(exerciseData.test_cases, data);
             document.getElementById('btnSave').style.display = 'none';
         }
-    } catch (err) {
+    } catch {
         statusEl.textContent = 'Error de conexión con la API';
         statusEl.style.color = 'var(--accent-red)';
         showOutput('error', { message: 'No se pudo conectar con el servidor.' });
@@ -230,12 +297,11 @@ async function handleCheck() {
     }
 }
 
-// --- Save Handler ---
+// ─── Save ────────────────────────────────────────────────────────
 async function handleSave() {
     if (!checkPassed) return;
-    const token = localStorage.getItem('access_token');
-    const code = document.getElementById('codeEditor').value.trim();
-    const lang = selectedLang;
+    const token   = localStorage.getItem('access_token');
+    const code    = editor.getValue().trim();
     const btnSave = document.getElementById('btnSave');
 
     btnSave.disabled = true;
@@ -245,19 +311,19 @@ async function handleSave() {
         const res = await fetch(`${API_BASE}/exercises/${exerciseData.id}/solve`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                Authorization:  `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ code, language: lang, save: true })
+            body: JSON.stringify({ code, language: selectedLang, save: true }),
         });
         const data = await res.json();
 
         if (data.correct) {
             showAlreadySolved();
             btnSave.style.display = 'none';
-            document.getElementById('editorStatus').textContent = '✓ Ejercicio guardado';
-            document.getElementById('editorStatus').style.color = 'var(--accent-green)';
-            // Update badge
+            const statusEl = document.getElementById('editorStatus');
+            statusEl.textContent = '✓ Ejercicio guardado';
+            statusEl.style.color = 'var(--accent-green)';
             const badges = document.getElementById('exBadges');
             if (!badges.querySelector('.badge-solved-ex')) {
                 badges.innerHTML += '<span class="ex-badge badge-solved-ex">✓ Resuelto</span>';
@@ -270,9 +336,9 @@ async function handleSave() {
     }
 }
 
-// --- Output Display ---
+// ─── Output Display ──────────────────────────────────────────────
 function showOutput(type, data) {
-    const output = document.getElementById('editorOutput');
+    const output  = document.getElementById('editorOutput');
     const content = document.getElementById('outputContent');
     output.style.display = 'block';
 
@@ -281,56 +347,54 @@ function showOutput(type, data) {
             <div class="output-success">
                 <span style="font-size:1.3rem;">✓</span>
                 <span>${escHtml(data.message)}</span>
-            </div>
-        `;
+            </div>`;
     } else {
-        let detailHtml = '';
-        if (data.input !== undefined) {
-            detailHtml = `
-                <div class="output-error-detail">
-                    <span><span class="val-label">Entrada:</span> <span>${escHtml(data.input)}</span></span>
-                    <span><span class="val-label">Esperado:</span> <span class="val-expected">${escHtml(data.expected)}</span></span>
-                    ${data.got !== undefined ? `<span><span class="val-label">Obtenido:</span> <span class="val-got">${escHtml(data.got)}</span></span>` : ''}
-                </div>
-            `;
-        }
+        const detailHtml = data.input !== undefined ? `
+            <div class="output-error-detail">
+                <span><span class="val-label">Entrada:</span> <span>${escHtml(data.input)}</span></span>
+                <span><span class="val-label">Esperado:</span> <span class="val-expected">${escHtml(data.expected)}</span></span>
+                ${data.got !== undefined ? `<span><span class="val-label">Obtenido:</span> <span class="val-got">${escHtml(data.got)}</span></span>` : ''}
+            </div>` : '';
+
         content.innerHTML = `
             <div class="output-error">
                 <div class="output-error-title">✗ ${escHtml(data.message)}</div>
                 ${detailHtml}
-            </div>
-        `;
+            </div>`;
     }
 }
 
 function showAlreadySolved() {
     const right = document.querySelector('.solve-right');
-    const existing = right.querySelector('.solved-overlay');
-    if (existing) return;
+    if (right.querySelector('.solved-overlay')) return;
 
     const overlay = document.createElement('div');
     overlay.className = 'solved-overlay';
     overlay.innerHTML = `
         <div style="font-size:1.8rem;">✓</div>
-        <div style="font-weight:700; font-size:0.95rem;">¡Ejercicio completado!</div>
-        <div style="color:var(--text-muted); font-size:0.8rem;">Este ejercicio ya está guardado en tu perfil.</div>
-        <button onclick="window.location.href='Exercises.html'" style="margin-top:8px; padding:8px 20px; background:transparent; border:1px solid var(--accent-green); color:var(--accent-green); border-radius:6px; cursor:pointer; font-family:var(--font-heading); font-size:0.8rem;">Volver a Ejercicios</button>
-    `;
-    // Insert before editor-actions
-    const actions = right.querySelector('.editor-actions');
-    right.insertBefore(overlay, actions);
+        <div style="font-weight:700;font-size:0.95rem;">¡Ejercicio completado!</div>
+        <div style="color:var(--text-muted);font-size:0.8rem;">Este ejercicio ya está guardado en tu perfil.</div>
+        <button onclick="window.location.href='Exercises.html'"
+            style="margin-top:8px;padding:8px 20px;background:transparent;border:1px solid var(--accent-green);
+                   color:var(--accent-green);border-radius:6px;cursor:pointer;
+                   font-family:var(--font-heading);font-size:0.8rem;">
+            Volver a Ejercicios
+        </button>`;
+    right.insertBefore(overlay, right.querySelector('.editor-actions'));
 }
 
-function resetCheck() {
+function resetCheck(rerenderCases = true) {
     checkPassed = false;
     document.getElementById('btnSave').style.display = 'none';
     document.getElementById('editorOutput').style.display = 'none';
     document.getElementById('editorStatus').textContent = '';
-    renderTestCases(exerciseData ? exerciseData.test_cases : [], null);
+    if (rerenderCases && exerciseData) {
+        renderTestCases(exerciseData.test_cases, null);
+    }
 }
 
 function escHtml(str) {
-    if (str === undefined || str === null) return '';
+    if (str == null) return '';
     return String(str)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -338,22 +402,9 @@ function escHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
-// Tab key support in editor
-document.getElementById('codeEditor').addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-        e.preventDefault();
-        const start = this.selectionStart;
-        const end = this.selectionEnd;
-        this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-        this.selectionStart = this.selectionEnd = start + 4;
-    }
-});
-
 // Logout
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
     window.location.href = 'index.html';
 });
-
-document.addEventListener('DOMContentLoaded', initSolvePage);
