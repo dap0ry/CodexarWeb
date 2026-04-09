@@ -163,21 +163,25 @@ h1, h2, h3, h4, h5, h6, .brand {
 .card-inner {
     position: relative; z-index: 1;
     display: flex; flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     height: 100%;
     padding: 26px 28px 22px;
+    gap: 20px;
 }
 .card-info {
-    flex: 1; min-width: 0;
+    min-width: 0; width: 100%;
     display: flex; flex-direction: column;
+    align-items: center;
     gap: 10px; padding: 0;
 }
 .card-action {
     flex-shrink: 0;
     display: flex; flex-direction: row;
     gap: 10px; padding: 0;
-    margin-top: 20px;
     align-items: center;
+    justify-content: center;
 }
 
 /* Per-card accent */
@@ -197,14 +201,14 @@ h1, h2, h3, h4, h5, h6, .brand {
    ════════════════════════════════ */
 .card-tag {
     font-family: var(--font-heading);
-    font-size: 0.56rem; font-weight: 700;
+    font-size: 0.62rem; font-weight: 700;
     letter-spacing: 3px; text-transform: uppercase;
     color: var(--card-accent); opacity: 0.9;
 }
 
 .card-title {
     font-family: var(--font-heading);
-    font-size: 2.1rem; font-weight: 800;
+    font-size: 2.5rem; font-weight: 800;
     text-transform: uppercase; letter-spacing: 1.5px;
     color: var(--card-accent); line-height: 1.05;
     text-shadow: 0 0 28px color-mix(in srgb, var(--card-accent) 45%, transparent);
@@ -213,13 +217,13 @@ h1, h2, h3, h4, h5, h6, .brand {
 
 .card-desc {
     font-family: var(--font-heading);
-    font-size: 0.72rem; font-weight: 500;
-    letter-spacing: 1.2px; text-transform: uppercase;
+    font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 1.1px; text-transform: uppercase;
     color: rgba(230, 230, 255, 0.65);
     line-height: 1.7;
     overflow: hidden;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-    max-width: 64ch;
+    max-width: 38ch;
 }
 
 /* Tutorial language icons */
@@ -377,11 +381,10 @@ h1, h2, h3, h4, h5, h6, .brand {
     .modes-grid { gap: 8px; }
     .content-grid { gap: 10px; }
     .status-bar { height: 32px; }
-    .card-inner { padding: 16px 18px 14px; }
-    .card-action { margin-top: 12px; }
-    .card-title { font-size: 1.3rem; }
-    .card-tag { font-size: 0.48rem; }
-    .card-desc { font-size: 0.62rem; letter-spacing: 0.8px; -webkit-line-clamp: 2; }
+    .card-inner { padding: 16px 18px 14px; gap: 14px; }
+    .card-title { font-size: 1.6rem; }
+    .card-tag { font-size: 0.52rem; }
+    .card-desc { font-size: 0.65rem; letter-spacing: 0.8px; -webkit-line-clamp: 2; }
     .btn-card { padding: 7px 14px; font-size: 0.64rem; min-width: 100px; }
     .btn-card-ghost { padding: 5px 10px; font-size: 0.58rem; }
     .profile-viewer { padding: 12px; gap: 8px; }
@@ -406,9 +409,8 @@ h1, h2, h3, h4, h5, h6, .brand {
     .arena-col { gap: 6px; }
     .modes-grid { gap: 6px; }
     .content-grid { gap: 7px; }
-    .card-inner { padding: 12px 14px 10px; }
-    .card-action { margin-top: 8px; }
-    .card-title { font-size: 1.1rem; }
+    .card-inner { padding: 12px 14px 10px; gap: 10px; }
+    .card-title { font-size: 1.3rem; }
     .card-tag { font-size: 0.44rem; }
     .card-desc { display: none; }
     .btn-card { padding: 6px 12px; font-size: 0.6rem; min-width: 90px; }
