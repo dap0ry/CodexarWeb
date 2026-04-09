@@ -1,6 +1,7 @@
 const API_BASE = 'https://codexarapi.onrender.com/api';
 
 function applyActiveState(theme) {
+    if (theme === 'light') theme = 'zen';
     document.querySelectorAll('.tema-card').forEach(card => {
         const isActive = card.dataset.theme === theme;
         card.classList.toggle('active', isActive);

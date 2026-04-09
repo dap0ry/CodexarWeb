@@ -29,9 +29,20 @@
     --accent:       #00ffcc;
     --accent-dim:   rgba(0, 255, 204, 0.12);
     --border:       rgba(0, 255, 204, 0.1);
+    /* Semantic tokens */
+    --color-bg:         #0a0a0e;
+    --color-surface:    #13131a;
+    --color-border:     #1a1a28;
+    --color-primary:    #00ffcc;
+    --color-secondary:  rgba(0, 255, 204, 0.6);
+    --color-text:       #e8e8f0;
+    --color-text-muted: #6b7280;
+    --color-success:    #39ff14;
+    --color-danger:     #ff3366;
+    --color-warning:    #ffcc00;
 }
 
-/* ── LIGHT theme overrides ── */
+/* ── LIGHT theme overrides (legacy alias — kept for backwards compatibility) ── */
 html[data-theme="light"] {
     --glow-cyan:    rgba(0, 168, 132, 0.10);
     --glow-cyan-hi: rgba(0, 168, 132, 0.22);
@@ -47,13 +58,192 @@ html[data-theme="light"] {
     --text-light:   #1a1a2e;
     --text-primary: #1a1a2e;
     --text-muted:   #3a3a5a;
-    /* Auth.css aliases */
     --bg:           #f0f2f7;
     --text:         #1a1a2e;
     --muted:        #6b7280;
     --accent:       #00a884;
     --accent-dim:   rgba(0, 168, 132, 0.12);
     --border:       rgba(0, 168, 132, 0.18);
+    --color-bg:         #f0f2f7;
+    --color-surface:    #ffffff;
+    --color-border:     #d0d4e8;
+    --color-primary:    #00a884;
+    --color-secondary:  rgba(0, 168, 132, 0.6);
+    --color-text:       #1a1a2e;
+    --color-text-muted: #3a3a5a;
+    --color-success:    #22c55e;
+    --color-danger:     #e8274b;
+    --color-warning:    #d4956a;
+}
+
+/* ── ZEN theme (Japanese sakura aesthetic) ── */
+html[data-theme="zen"] {
+    --glow-cyan:    rgba(212, 104, 138, 0.10);
+    --glow-cyan-hi: rgba(212, 104, 138, 0.22);
+    --accent-cyan:  #D4688A;
+    --accent-green: #5B8C5A;
+    --accent-red:   #C0392B;
+    --bg-dark:      #FAF8F3;
+    --bg-deep:      #F0EBE3;
+    --bg-card:      #FFFFFF;
+    --bg-secondary: #F5F0EB;
+    --border-color: #E8DDD6;
+    --border-subtle: rgba(212, 104, 138, 0.15);
+    --text-light:   #1C1C1E;
+    --text-primary: #1C1C1E;
+    --text-muted:   #5A5A6A;
+    --bg:           #FAF8F3;
+    --text:         #1C1C1E;
+    --muted:        #7A7A8A;
+    --accent:       #D4688A;
+    --accent-dim:   rgba(212, 104, 138, 0.10);
+    --border:       rgba(212, 104, 138, 0.18);
+    --color-bg:         #FAF8F3;
+    --color-surface:    #FFFFFF;
+    --color-border:     #E8DDD6;
+    --color-primary:    #D4688A;
+    --color-secondary:  #5B8C5A;
+    --color-text:       #1C1C1E;
+    --color-text-muted: #5A5A6A;
+    --color-success:    #5B8C5A;
+    --color-danger:     #C0392B;
+    --color-warning:    #D4956A;
+}
+
+/* ── DRACULA theme ── */
+html[data-theme="dracula"] {
+    --glow-cyan:    rgba(189, 147, 249, 0.12);
+    --glow-cyan-hi: rgba(189, 147, 249, 0.30);
+    --accent-cyan:  #BD93F9;
+    --accent-green: #50fa7b;
+    --accent-red:   #ff5555;
+    --bg-dark:      #0D0D0F;
+    --bg-deep:      #080809;
+    --bg-card:      #1E1F29;
+    --bg-secondary: #282A36;
+    --border-color: rgba(189, 147, 249, 0.18);
+    --border-subtle: rgba(189, 147, 249, 0.10);
+    --text-light:   #F8F8F2;
+    --text-primary: #F8F8F2;
+    --text-muted:   rgba(248, 248, 242, 0.55);
+    --bg:           #0D0D0F;
+    --text:         #F8F8F2;
+    --muted:        rgba(248, 248, 242, 0.40);
+    --accent:       #BD93F9;
+    --accent-dim:   rgba(189, 147, 249, 0.12);
+    --border:       rgba(189, 147, 249, 0.18);
+    --color-bg:         #0D0D0F;
+    --color-surface:    #1E1F29;
+    --color-border:     rgba(189, 147, 249, 0.18);
+    --color-primary:    #BD93F9;
+    --color-secondary:  #FF79C6;
+    --color-text:       #F8F8F2;
+    --color-text-muted: rgba(248, 248, 242, 0.55);
+    --color-success:    #50fa7b;
+    --color-danger:     #ff5555;
+    --color-warning:    #f1fa8c;
+}
+
+/* ── NORD theme ── */
+html[data-theme="nord"] {
+    --glow-cyan:    rgba(136, 192, 208, 0.12);
+    --glow-cyan-hi: rgba(136, 192, 208, 0.30);
+    --accent-cyan:  #88C0D0;
+    --accent-green: #A3BE8C;
+    --accent-red:   #BF616A;
+    --bg-dark:      #2E3440;
+    --bg-deep:      #242933;
+    --bg-card:      #3B4252;
+    --bg-secondary: #434C5E;
+    --border-color: rgba(136, 192, 208, 0.18);
+    --border-subtle: rgba(136, 192, 208, 0.10);
+    --text-light:   #ECEFF4;
+    --text-primary: #ECEFF4;
+    --text-muted:   rgba(236, 239, 244, 0.55);
+    --bg:           #2E3440;
+    --text:         #ECEFF4;
+    --muted:        rgba(236, 239, 244, 0.40);
+    --accent:       #88C0D0;
+    --accent-dim:   rgba(136, 192, 208, 0.12);
+    --border:       rgba(136, 192, 208, 0.18);
+    --color-bg:         #2E3440;
+    --color-surface:    #3B4252;
+    --color-border:     rgba(136, 192, 208, 0.18);
+    --color-primary:    #88C0D0;
+    --color-secondary:  #81A1C1;
+    --color-text:       #ECEFF4;
+    --color-text-muted: rgba(236, 239, 244, 0.55);
+    --color-success:    #A3BE8C;
+    --color-danger:     #BF616A;
+    --color-warning:    #EBCB8B;
+}
+
+/* ── MATRIX theme ── */
+html[data-theme="matrix"] {
+    --glow-cyan:    rgba(0, 255, 136, 0.12);
+    --glow-cyan-hi: rgba(0, 255, 136, 0.30);
+    --accent-cyan:  #00FF88;
+    --accent-green: #00CC66;
+    --accent-red:   #ff3333;
+    --bg-dark:      #050505;
+    --bg-deep:      #020202;
+    --bg-card:      #0D1F0D;
+    --bg-secondary: #0F260F;
+    --border-color: rgba(0, 255, 136, 0.15);
+    --border-subtle: rgba(0, 255, 136, 0.08);
+    --text-light:   #CCFFCC;
+    --text-primary: #CCFFCC;
+    --text-muted:   rgba(204, 255, 204, 0.50);
+    --bg:           #050505;
+    --text:         #CCFFCC;
+    --muted:        rgba(204, 255, 204, 0.40);
+    --accent:       #00FF88;
+    --accent-dim:   rgba(0, 255, 136, 0.12);
+    --border:       rgba(0, 255, 136, 0.15);
+    --color-bg:         #050505;
+    --color-surface:    #0D1F0D;
+    --color-border:     rgba(0, 255, 136, 0.15);
+    --color-primary:    #00FF88;
+    --color-secondary:  #00CC66;
+    --color-text:       #CCFFCC;
+    --color-text-muted: rgba(204, 255, 204, 0.50);
+    --color-success:    #00FF88;
+    --color-danger:     #ff3333;
+    --color-warning:    #ffcc00;
+}
+
+/* ── FOCUS theme (minimal dark) ── */
+html[data-theme="focus"] {
+    --glow-cyan:    rgba(255, 255, 255, 0.08);
+    --glow-cyan-hi: rgba(255, 255, 255, 0.18);
+    --accent-cyan:  #FFFFFF;
+    --accent-green: #aaaaaa;
+    --accent-red:   #cc4444;
+    --bg-dark:      #0A0A0A;
+    --bg-deep:      #050505;
+    --bg-card:      #121212;
+    --bg-secondary: #1A1A1A;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.05);
+    --text-light:   #EAEAEA;
+    --text-primary: #EAEAEA;
+    --text-muted:   rgba(234, 234, 234, 0.45);
+    --bg:           #0A0A0A;
+    --text:         #EAEAEA;
+    --muted:        rgba(234, 234, 234, 0.35);
+    --accent:       #FFFFFF;
+    --accent-dim:   rgba(255, 255, 255, 0.08);
+    --border:       rgba(255, 255, 255, 0.08);
+    --color-bg:         #0A0A0A;
+    --color-surface:    #121212;
+    --color-border:     rgba(255, 255, 255, 0.08);
+    --color-primary:    #FFFFFF;
+    --color-secondary:  #888888;
+    --color-text:       #EAEAEA;
+    --color-text-muted: rgba(234, 234, 234, 0.45);
+    --color-success:    #aaaaaa;
+    --color-danger:     #cc4444;
+    --color-warning:    #ccaa44;
 }
 
 /* ── Body reinforcement (no extra margin/padding) ── */
@@ -400,9 +590,17 @@ h1, h2 {
    LIGHT THEME — global shared overrides
    ═══════════════════════════════════════ */
 
-/* Hide canvas particles and floating code in light mode */
+/* Hide canvas particles and floating code in light/zen modes */
 html[data-theme="light"] #globalBgCanvas,
-html[data-theme="light"] .g-code-float {
+html[data-theme="light"] .g-code-float,
+html[data-theme="zen"] #globalBgCanvas,
+html[data-theme="zen"] .g-code-float {
+    display: none !important;
+}
+
+/* Hide canvas in Focus mode for cleaner minimal look */
+html[data-theme="focus"] #globalBgCanvas,
+html[data-theme="focus"] .g-code-float {
     display: none !important;
 }
 
@@ -456,4 +654,98 @@ html[data-theme="light"] .mm-btn-no {
 html[data-theme="light"] .mm-btn-no:hover {
     color: #1a1a2e !important;
     border-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Navbar — ZEN */
+html[data-theme="zen"] .navbar {
+    background: rgba(250, 248, 243, 0.96) !important;
+    border-bottom: 1px solid rgba(212, 104, 138, 0.18) !important;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06) !important;
+}
+html[data-theme="zen"] .brand { color: #1C1C1E !important; }
+html[data-theme="zen"] .user-pill {
+    background: rgba(245, 240, 235, 0.92) !important;
+    border-color: rgba(212, 104, 138, 0.2) !important;
+}
+html[data-theme="zen"] .avatar {
+    background-color: rgba(212, 104, 138, 0.08) !important;
+    border-color: rgba(212, 104, 138, 0.28) !important;
+    color: var(--accent-cyan) !important;
+}
+html[data-theme="zen"] .username-display { color: #1C1C1E !important; }
+html[data-theme="zen"] .user-dropdown {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(212, 104, 138, 0.2) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10) !important;
+}
+html[data-theme="zen"] .dropdown-item { color: #5A5A6A !important; }
+html[data-theme="zen"] .dropdown-item:hover {
+    background: rgba(212, 104, 138, 0.06) !important;
+    color: #D4688A !important;
+}
+html[data-theme="zen"] .dropdown-divider { background: rgba(212, 104, 138, 0.12) !important; }
+html[data-theme="zen"] .mm-modal-overlay { background: rgba(0, 0, 0, 0.40) !important; }
+html[data-theme="zen"] .mm-modal-box { border-color: rgba(212, 104, 138, 0.25) !important; }
+html[data-theme="zen"] .mm-modal-text { color: #1C1C1E !important; }
+html[data-theme="zen"] .mm-btn-no { color: #5A5A6A !important; border-color: rgba(0,0,0,0.15) !important; }
+html[data-theme="zen"] .mm-btn-no:hover { color: #1C1C1E !important; border-color: rgba(0,0,0,0.28) !important; }
+
+/* Navbar — DRACULA */
+html[data-theme="dracula"] .navbar {
+    background: rgba(13, 13, 15, 0.95) !important;
+    border-bottom: 1px solid rgba(189, 147, 249, 0.12) !important;
+}
+html[data-theme="dracula"] .user-pill { border-color: rgba(189, 147, 249, 0.15) !important; }
+html[data-theme="dracula"] .user-pill:hover { border-color: rgba(189, 147, 249, 0.35) !important; }
+html[data-theme="dracula"] .avatar { border-color: rgba(189, 147, 249, 0.25) !important; }
+html[data-theme="dracula"] input:focus,
+html[data-theme="dracula"] textarea:focus,
+html[data-theme="dracula"] select:focus {
+    border-color: rgba(189, 147, 249, 0.45) !important;
+    box-shadow: 0 0 0 3px rgba(189, 147, 249, 0.08) !important;
+}
+
+/* Navbar — NORD */
+html[data-theme="nord"] .navbar {
+    background: rgba(36, 41, 51, 0.96) !important;
+    border-bottom: 1px solid rgba(136, 192, 208, 0.15) !important;
+}
+html[data-theme="nord"] .user-pill { border-color: rgba(136, 192, 208, 0.18) !important; }
+html[data-theme="nord"] .user-pill:hover { border-color: rgba(136, 192, 208, 0.38) !important; }
+html[data-theme="nord"] .avatar { border-color: rgba(136, 192, 208, 0.28) !important; }
+html[data-theme="nord"] input:focus,
+html[data-theme="nord"] textarea:focus,
+html[data-theme="nord"] select:focus {
+    border-color: rgba(136, 192, 208, 0.50) !important;
+    box-shadow: 0 0 0 3px rgba(136, 192, 208, 0.08) !important;
+}
+
+/* Navbar — MATRIX */
+html[data-theme="matrix"] .navbar {
+    background: rgba(5, 5, 5, 0.97) !important;
+    border-bottom: 1px solid rgba(0, 255, 136, 0.12) !important;
+}
+html[data-theme="matrix"] .user-pill { border-color: rgba(0, 255, 136, 0.14) !important; }
+html[data-theme="matrix"] .user-pill:hover { border-color: rgba(0, 255, 136, 0.32) !important; }
+html[data-theme="matrix"] .avatar { border-color: rgba(0, 255, 136, 0.22) !important; }
+html[data-theme="matrix"] input:focus,
+html[data-theme="matrix"] textarea:focus,
+html[data-theme="matrix"] select:focus {
+    border-color: rgba(0, 255, 136, 0.40) !important;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.06) !important;
+}
+
+/* Navbar — FOCUS */
+html[data-theme="focus"] .navbar {
+    background: rgba(10, 10, 10, 0.98) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="focus"] .user-pill { border-color: rgba(255, 255, 255, 0.08) !important; }
+html[data-theme="focus"] .user-pill:hover { border-color: rgba(255, 255, 255, 0.20) !important; }
+html[data-theme="focus"] .avatar { border-color: rgba(255, 255, 255, 0.12) !important; }
+html[data-theme="focus"] input:focus,
+html[data-theme="focus"] textarea:focus,
+html[data-theme="focus"] select:focus {
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04) !important;
 }
