@@ -1,177 +1,213 @@
 /**
  * theme-light.css — Codexar Light Theme Overrides
- * Loaded on every page after all other stylesheets.
- * Only active when <html data-theme="light"> is set by themeService.js.
- *
- * Organized by page/component section.
+ * Loaded last on every page. Active when <html data-theme="light">.
+ * High-contrast: black text, dark borders, light backgrounds.
  */
 
 /* ═══════════════════════════════════════
-   HOME — body + layout
+   GLOBAL — body + base text
    ═══════════════════════════════════════ */
 html[data-theme="light"] body {
+    background-color: #f0f2f7 !important;
     background-image:
         radial-gradient(ellipse at 0% 100%, rgba(0,168,132,0.05) 0%, transparent 55%),
         radial-gradient(ellipse at 100% 0%, rgba(100,100,200,0.04) 0%, transparent 50%),
-        linear-gradient(rgba(0,168,132,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,168,132,0.025) 1px, transparent 1px) !important;
+        linear-gradient(rgba(0,168,132,0.020) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,168,132,0.020) 1px, transparent 1px) !important;
     background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px !important;
-    color: #1a1a2e !important;
+    color: #0a0a0e !important;
 }
 
-/* ── Home cards ── */
+
+/* ═══════════════════════════════════════
+   HOME — cards + layout
+   ═══════════════════════════════════════ */
 html[data-theme="light"] .card {
     background: #ffffff !important;
-    border-color: rgba(0, 0, 0, 0.07) !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
 }
 html[data-theme="light"] .card:hover {
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.14) !important;
+    border-color: rgba(0,0,0,0.25) !important;
 }
-html[data-theme="light"] .card-desc {
-    color: rgba(40, 40, 70, 0.65) !important;
-}
-html[data-theme="light"] .card-tutorial  { border-left-color: #9b5de5 !important; }
-html[data-theme="light"] .card-exercises { border-left-color: #00a884 !important; }
-html[data-theme="light"] .card-ranked    { border-left-color: #e8274b !important; }
-html[data-theme="light"] .card-vs-cpu    { border-left-color: #e85a1a !important; }
+html[data-theme="light"] .card-title  { text-shadow: none !important; }
+html[data-theme="light"] .card-tag    { opacity: 1 !important; }
+html[data-theme="light"] .card-desc   { color: #2a2a40 !important; }
+html[data-theme="light"] .ranked-meta { color: rgba(220,30,70,0.7) !important; }
 
+/* Card border-left accents — keep vivid */
+html[data-theme="light"] .card-tutorial  { border-left: 3px solid #9b5de5 !important; }
+html[data-theme="light"] .card-exercises { border-left: 3px solid #00a884 !important; }
+html[data-theme="light"] .card-ranked    { border-left: 3px solid #e8274b !important; }
+html[data-theme="light"] .card-vs-cpu    { border-left: 3px solid #e85a1a !important; }
+html[data-theme="light"] .card-tutorial:hover  { border-color: rgba(155,93,229,0.4) !important;  border-left-color: #9b5de5 !important; }
+html[data-theme="light"] .card-exercises:hover { border-color: rgba(0,168,132,0.35) !important;  border-left-color: #00a884 !important; }
+html[data-theme="light"] .card-ranked:hover    { border-color: rgba(232,39,75,0.35) !important;  border-left-color: #e8274b !important; }
+html[data-theme="light"] .card-vs-cpu:hover    { border-color: rgba(232,90,26,0.35) !important;  border-left-color: #e85a1a !important; }
+
+/* Buttons */
 html[data-theme="light"] .btn-card {
-    background: rgba(0, 0, 0, 0.025) !important;
-    border-color: rgba(0, 0, 0, 0.12) !important;
-    color: #4a4a6a !important;
+    background: rgba(0,0,0,0.04) !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    color: #2a2a40 !important;
 }
-html[data-theme="light"] .card-ranked .btn-card  { border-color: rgba(232,39,75,0.3) !important;  color: rgba(232,39,75,0.9) !important; }
-html[data-theme="light"] .card-tutorial .btn-card { border-color: rgba(155,93,229,0.3) !important; color: rgba(155,93,229,0.9) !important; }
-html[data-theme="light"] .card-exercises .btn-card { border-color: rgba(0,168,132,0.35) !important; color: rgba(0,168,132,0.9) !important; }
-html[data-theme="light"] .card-vs-cpu .btn-card  { border-color: rgba(232,90,26,0.3) !important;  color: rgba(232,90,26,0.9) !important; }
-
+html[data-theme="light"] .card-ranked .btn-card    { border-color: rgba(232,39,75,0.45) !important;   color: #c01040 !important; }
+html[data-theme="light"] .card-tutorial .btn-card  { border-color: rgba(155,93,229,0.45) !important;  color: #6b30cc !important; }
+html[data-theme="light"] .card-exercises .btn-card { border-color: rgba(0,168,132,0.45) !important;   color: #007a60 !important; }
+html[data-theme="light"] .card-vs-cpu .btn-card    { border-color: rgba(232,90,26,0.45) !important;   color: #b84010 !important; }
 html[data-theme="light"] .btn-card-ghost {
-    border-color: rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    color: #3a3a5a !important;
 }
 
 /* ── Status bar ── */
 html[data-theme="light"] .status-bar {
     background: linear-gradient(90deg,
-        rgba(0,168,132,0.06) 0%,
-        rgba(255,255,255,0.85) 30%,
-        rgba(255,255,255,0.85) 70%,
-        rgba(0,168,132,0.04) 100%) !important;
-    border-color: rgba(0, 168, 132, 0.18) !important;
-    border-left-color: #00a884 !important;
-    box-shadow: 0 0 12px rgba(0,168,132,0.06) !important;
+        rgba(0,168,132,0.07) 0%,
+        rgba(248,249,252,0.92) 30%,
+        rgba(248,249,252,0.92) 70%,
+        rgba(0,168,132,0.05) 100%) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    border-left: 2px solid #00a884 !important;
+    box-shadow: none !important;
 }
-html[data-theme="light"] .sb-center { color: rgba(0,168,132,0.35) !important; }
+html[data-theme="light"] .sb-label    { color: #3a3a5a !important; }
+html[data-theme="light"] .sb-username { color: #0a0a0e !important; }
+html[data-theme="light"] .sb-center   { color: rgba(0,168,132,0.4) !important; }
 html[data-theme="light"] .sb-chip-rank {
-    color: rgba(0,168,132,0.8) !important;
-    background: rgba(0,168,132,0.08) !important;
-    border-color: rgba(0,168,132,0.2) !important;
+    color: #006655 !important;
+    background: rgba(0,168,132,0.1) !important;
+    border-color: rgba(0,168,132,0.3) !important;
 }
 html[data-theme="light"] .sb-chip-streak {
-    color: rgba(34,197,94,0.9) !important;
-    background: rgba(34,197,94,0.08) !important;
-    border-color: rgba(34,197,94,0.22) !important;
+    color: #1a7a30 !important;
+    background: rgba(34,197,94,0.1) !important;
+    border-color: rgba(34,197,94,0.3) !important;
+    text-shadow: none !important;
 }
 
 /* ── Profile sidebar ── */
 html[data-theme="light"] .profile-viewer {
     background: linear-gradient(155deg, #f8f9fc 0%, #f0f2f7 100%) !important;
-    border-color: #dde0ef !important;
-    box-shadow: -4px 10px 24px rgba(0, 0, 0, 0.06), inset 0 0 20px rgba(0,168,132,0.02) !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: -2px 8px 20px rgba(0,0,0,0.08) !important;
 }
 html[data-theme="light"] .profile-viewer::before {
     background-image:
-        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) !important;
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px) !important;
 }
 html[data-theme="light"] .sidebar-user-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(0,168,132,0.05)) !important;
-    border-color: rgba(0,168,132,0.25) !important;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06), inset 0 0 10px rgba(0,168,132,0.04) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(0,168,132,0.05)) !important;
+    border: 1px solid rgba(0,168,132,0.3) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
 }
+html[data-theme="light"] .sidebar-username  { color: #0a0a0e !important; }
+html[data-theme="light"] .sidebar-userbadge { color: #007a60 !important; }
 html[data-theme="light"] .sidebar-card {
-    background-color: rgba(255,255,255,0.7) !important;
-    border-color: rgba(0,0,0,0.06) !important;
-    border-top-color: rgba(255,255,255,0.9) !important;
+    background-color: rgba(255,255,255,0.85) !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
 }
-html[data-theme="light"] .sidebar-card:hover { border-color: rgba(0,168,132,0.2) !important; }
-html[data-theme="light"] .stats-divider { background-color: #dde0ef !important; }
-html[data-theme="light"] .rank-badge {
-    background: linear-gradient(135deg, #8090b0, #c0c8d8) !important;
-}
+html[data-theme="light"] .sidebar-card:hover { border-color: rgba(0,168,132,0.25) !important; }
+html[data-theme="light"] .sidebar-label  { color: #3a3a5a !important; }
+html[data-theme="light"] .sidebar-value  { color: #0a0a0e !important; }
+html[data-theme="light"] .stats-number   { color: #0a0a0e !important; }
+html[data-theme="light"] .stats-divider  { background-color: rgba(0,0,0,0.12) !important; }
+html[data-theme="light"] .rank-badge     { background: linear-gradient(135deg, #7080a0, #b0b8cc) !important; }
 html[data-theme="light"] .rank-badge::after { background-color: #f0f2f7 !important; }
-html[data-theme="light"] .rank-text { color: #3a3a5a !important; }
+html[data-theme="light"] .rank-text      { color: #1a1a2e !important; }
+html[data-theme="light"] #homeRankText   { color: #0a0a0e !important; }
+html[data-theme="light"] #homeGlobalRank { color: #0a0a0e !important; }
+html[data-theme="light"] #statsTotal     { color: #0a0a0e !important; }
+html[data-theme="light"] #statsWins      { color: #007a60 !important; }
 html[data-theme="light"] .achievement-badge {
     background-color: #eef0f8 !important;
-    border-color: #d0d4e8 !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
 }
 html[data-theme="light"] .btn-share {
-    border-color: #d0d4e8 !important;
-    color: #6b7080 !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    color: #3a3a5a !important;
 }
 html[data-theme="light"] .btn-share:hover {
-    color: var(--accent-cyan) !important;
+    color: #007a60 !important;
     border-color: rgba(0,168,132,0.35) !important;
 }
 
 /* ── Rangos modal ── */
-html[data-theme="light"] .rangos-overlay { background: rgba(0,0,0,0.45) !important; }
+html[data-theme="light"] .rangos-overlay { background: rgba(0,0,0,0.5) !important; }
 html[data-theme="light"] .rangos-modal {
     background: linear-gradient(155deg, #ffffff 0%, #f4f6fc 100%) !important;
-    border-color: rgba(232,39,75,0.2) !important;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    border-top-color: rgba(232,39,75,0.4) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18) !important;
 }
-html[data-theme="light"] .rangos-header { background: rgba(232,39,75,0.03) !important; }
-html[data-theme="light"] .rangos-title { color: rgba(40,40,70,0.55) !important; }
-html[data-theme="light"] .rangos-close { color: #6b7080 !important; }
-html[data-theme="light"] .rank-tier-row:hover { background: rgba(0,0,0,0.03) !important; }
-html[data-theme="light"] .rank-tier-champion { background: rgba(255,215,0,0.04) !important; }
-html[data-theme="light"] .rangos-footer strong { color: rgba(40,40,70,0.7) !important; }
+html[data-theme="light"] .rangos-header {
+    background: rgba(232,39,75,0.04) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+html[data-theme="light"] .rangos-title  { color: #3a3a5a !important; }
+html[data-theme="light"] .rangos-close  { color: #3a3a5a !important; }
+html[data-theme="light"] .rank-name     { color: #0a0a0e !important; }
+html[data-theme="light"] .rank-subs     { color: #3a3a5a !important; }
+html[data-theme="light"] .rank-elo      { color: #3a3a5a !important; }
+html[data-theme="light"] .rank-tier-row:hover { background: rgba(0,0,0,0.04) !important; }
+html[data-theme="light"] .rangos-footer { border-top: 1px solid rgba(0,0,0,0.08) !important; color: #3a3a5a !important; }
+html[data-theme="light"] .rangos-footer strong { color: #0a0a0e !important; }
+/* Per-rarity rank name colors stay vivid — keep from original CSS */
 
 
 /* ═══════════════════════════════════════
    EXERCISES page
    ═══════════════════════════════════════ */
 html[data-theme="light"] .offline-container {
-    background: linear-gradient(180deg, #ffffff 0%, #f4f6fc 100%) !important;
-    border-color: #d0d4e8 !important;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.07) !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
 }
 html[data-theme="light"] .filters-panel {
-    background: rgba(255,255,255,0.8) !important;
-    border-color: #d0d4e8 !important;
+    background: #f4f6fc !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
 }
+html[data-theme="light"] .filter-group label { color: #2a2a40 !important; }
 html[data-theme="light"] .cyber-select,
 html[data-theme="light"] .cyber-input {
     background: #ffffff !important;
-    border-color: #d0d4e8 !important;
-    color: #1a1a2e !important;
+    border: 1px solid rgba(0,0,0,0.2) !important;
+    color: #0a0a0e !important;
 }
-html[data-theme="light"] .cyber-select option { background: #ffffff; color: #1a1a2e; }
+html[data-theme="light"] .cyber-select option { background: #ffffff; color: #0a0a0e; }
 html[data-theme="light"] .exercises-list-wrapper {
-    background: rgba(0,0,0,0.02) !important;
-    border-color: #d0d4e8 !important;
+    background: #f8f9fc !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
 }
 html[data-theme="light"] .exercises-list-wrapper::-webkit-scrollbar-thumb {
-    background: rgba(0,168,132,0.25) !important;
+    background: rgba(0,0,0,0.18) !important;
 }
 html[data-theme="light"] .ex-card {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: #d8dcea !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.14) !important;
 }
 html[data-theme="light"] .ex-card:hover {
-    border-color: #00a884 !important;
+    border-color: rgba(0,168,132,0.5) !important;
     background: rgba(0,168,132,0.025) !important;
-    transform: translateX(4px);
 }
 html[data-theme="light"] .ex-card-solved {
-    border-left-color: rgba(34,197,94,0.5) !important;
+    border-left: 3px solid rgba(34,197,94,0.6) !important;
     background: rgba(34,197,94,0.02) !important;
 }
-html[data-theme="light"] .ex-title { color: #1a1a2e !important; }
+html[data-theme="light"] .ex-card-solved:hover {
+    border-color: rgba(34,197,94,0.6) !important;
+}
+html[data-theme="light"] .ex-title { color: #0a0a0e !important; }
+html[data-theme="light"] .ex-meta-row .ex-badge { border-color: rgba(0,0,0,0.15) !important; }
+/* Solved check mark */
+html[data-theme="light"] .solved-check { color: #22a34c !important; }
+/* Lang icon opacity in exercise list */
+html[data-theme="light"] .ex-card img { opacity: 0.85 !important; }
+
 html[data-theme="light"] .randomizer-panel {
-    background: rgba(0,0,0,0.02) !important;
-    border-color: #d0d4e8 !important;
+    background: #f4f6fc !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
 }
 html[data-theme="light"] .btn-random {
     background: #1a1a2e !important;
@@ -182,198 +218,442 @@ html[data-theme="light"] .btn-random:hover {
     box-shadow: 0 0 15px rgba(0,168,132,0.3) !important;
 }
 html[data-theme="light"] .btn-resolve {
-    border-color: #c0c4d8 !important;
-    color: #4a4a6a !important;
+    border: 1px solid rgba(0,0,0,0.2) !important;
+    color: #2a2a40 !important;
 }
 html[data-theme="light"] .ex-card:hover .btn-resolve {
     border-color: #00a884 !important;
-    color: #00a884 !important;
+    color: #007a60 !important;
+    background: rgba(0,168,132,0.06) !important;
 }
 html[data-theme="light"] .friends-tooltip {
     background: #ffffff !important;
-    border-color: rgba(0,168,132,0.25) !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14) !important;
 }
+html[data-theme="light"] .tooltip-friend-row { color: #0a0a0e !important; }
+html[data-theme="light"] .badge-solvers { border-color: rgba(0,0,0,0.2) !important; color: #2a2a40 !important; }
 
 
 /* ═══════════════════════════════════════
    SOLVE PAGE
    ═══════════════════════════════════════ */
 html[data-theme="light"] .solve-breadcrumb {
-    background: rgba(255,255,255,0.95) !important;
-    border-bottom-color: #d0d4e8 !important;
+    background: rgba(255,255,255,0.97) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.15) !important;
 }
+html[data-theme="light"] .btn-back {
+    border-color: rgba(0,0,0,0.18) !important;
+    color: #2a2a40 !important;
+}
+html[data-theme="light"] .breadcrumb-title { color: #2a2a40 !important; }
+
 html[data-theme="light"] .solve-left {
-    border-right-color: #d0d4e8 !important;
+    border-right: 1px solid rgba(0,0,0,0.15) !important;
 }
-html[data-theme="light"] .solve-left::-webkit-scrollbar-thumb {
-    background: rgba(0,168,132,0.2) !important;
-}
+html[data-theme="light"] .solve-left::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
 html[data-theme="light"] .solve-statement {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: #d0d4e8 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.14) !important;
 }
-html[data-theme="light"] .statement-body { color: #2a2a40 !important; }
-html[data-theme="light"] .statement-title { color: #1a1a2e !important; }
+html[data-theme="light"] .statement-title  { color: #0a0a0e !important; }
+html[data-theme="light"] .statement-body   { color: #1a1a2e !important; }
+
+/* Test cases */
+html[data-theme="light"] .testcases-label { color: #3a3a5a !important; }
+html[data-theme="light"] .testcase-card {
+    background: #f8f9fc !important;
+    border: 1px solid rgba(0,0,0,0.14) !important;
+}
+html[data-theme="light"] .testcase-card.passing {
+    border-color: rgba(34,197,94,0.5) !important;
+    background: rgba(34,197,94,0.04) !important;
+}
+html[data-theme="light"] .testcase-card.failing {
+    border-color: rgba(232,39,75,0.5) !important;
+    background: rgba(232,39,75,0.04) !important;
+}
+html[data-theme="light"] .tc-label { color: #3a3a5a !important; }
+html[data-theme="light"] .tc-value { color: #0a0a0e !important; }
+
+/* Right panel — editor area */
+html[data-theme="light"] .solve-right {
+    background: #f4f6fc !important;
+}
+html[data-theme="light"] .editor-toolbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .lang-pill {
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    color: #2a2a40 !important;
+}
+html[data-theme="light"] .lang-pill img { opacity: 0.8 !important; }
+html[data-theme="light"] .lang-pill:hover {
+    border-color: rgba(0,168,132,0.45) !important;
+    color: #007a60 !important;
+    background: rgba(0,168,132,0.06) !important;
+}
+html[data-theme="light"] .lang-pill.active {
+    border-color: #00a884 !important;
+    color: #007a60 !important;
+    background: rgba(0,168,132,0.1) !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .lang-pill.active img { opacity: 1 !important; }
+html[data-theme="light"] .editor-status { color: #3a3a5a !important; }
+html[data-theme="light"] .editor-output {
+    background: #ffffff !important;
+    border-top: 1px solid rgba(0,0,0,0.12) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .editor-output::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
+
+/* Monaco editor wrapper */
+html[data-theme="light"] .editor-wrapper {
+    border: 1px solid rgba(0,0,0,0.1) !important;
+}
 
 
 /* ═══════════════════════════════════════
-   BATTLE PAGES (Ranked, Friendly, VsCpu)
+   BATTLE PAGES (Ranked, Friendly, VsCpuBattle)
    ═══════════════════════════════════════ */
 html[data-theme="light"] .battle-strip {
-    background: rgba(255,255,255,0.96) !important;
-    border-bottom-color: #d0d4e8 !important;
+    background: rgba(255,255,255,0.97) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.15) !important;
 }
-html[data-theme="light"] .battle-avatar { background-color: #eef0f8 !important; }
+html[data-theme="light"] .battle-player-name  { color: #0a0a0e !important; }
+html[data-theme="light"] .battle-player-rank  { color: #3a3a5a !important; }
+html[data-theme="light"] .battle-vs           { color: #3a3a5a !important; }
+html[data-theme="light"] .battle-op-label     { color: #3a3a5a !important; }
+html[data-theme="light"] .battle-avatar {
+    background-color: #eef0f8 !important;
+    border-color: rgba(0,0,0,0.18) !important;
+}
+html[data-theme="light"] .p1-avatar { border-color: #00a884 !important; }
+html[data-theme="light"] .p2-avatar { border-color: rgba(220,50,50,0.6) !important; }
+
+
+/* ═══════════════════════════════════════
+   VS CPU — difficulty selection page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .vscpu-title    { color: #0a0a0e !important; }
+html[data-theme="light"] .vscpu-subtitle { color: #3a3a5a !important; }
+html[data-theme="light"] .vscpu-eyebrow  { color: rgba(200,40,40,0.85) !important; }
+
+html[data-theme="light"] .diff-card {
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .diff-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14) !important;
+}
+html[data-theme="light"] .diff-normal {
+    background: linear-gradient(160deg, #f0fff8 0%, #f8fcff 100%) !important;
+    border-top: 2px solid rgba(0,200,80,0.5) !important;
+}
+html[data-theme="light"] .diff-hard {
+    background: linear-gradient(160deg, #fff4f4 0%, #fffaf8 100%) !important;
+    border-top: 2px solid rgba(220,50,50,0.5) !important;
+}
+html[data-theme="light"] .diff-demencial {
+    background: linear-gradient(160deg, #f8f0ff 0%, #fff8fe 100%) !important;
+    border-top: 2px solid rgba(160,0,220,0.5) !important;
+}
+html[data-theme="light"] .diff-title { color: #0a0a0e !important; }
+html[data-theme="light"] .diff-desc  { color: #3a3a5a !important; }
+html[data-theme="light"] .diff-label { color: #3a3a5a !important; opacity: 1 !important; }
+html[data-theme="light"] .diff-tag {
+    background: rgba(0,0,0,0.05) !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+    color: #3a3a5a !important;
+}
+html[data-theme="light"] .diff-time-normal {
+    background: rgba(0,180,80,0.08) !important;
+    border-color: rgba(0,180,80,0.35) !important;
+    color: #006630 !important;
+}
+html[data-theme="light"] .diff-time-hard {
+    background: rgba(220,50,50,0.08) !important;
+    border-color: rgba(220,50,50,0.35) !important;
+    color: #881010 !important;
+}
+html[data-theme="light"] .diff-time-demencial {
+    background: rgba(150,0,220,0.08) !important;
+    border-color: rgba(150,0,220,0.35) !important;
+    color: #660099 !important;
+}
+html[data-theme="light"] .btn-diff-normal {
+    background: rgba(0,180,80,0.08) !important;
+    border-color: rgba(0,180,80,0.35) !important;
+    color: #006630 !important;
+}
+html[data-theme="light"] .btn-diff-normal:hover { background: rgba(0,180,80,0.15) !important; color: #004420 !important; }
+html[data-theme="light"] .btn-diff-hard {
+    background: rgba(220,50,50,0.08) !important;
+    border-color: rgba(220,50,50,0.35) !important;
+    color: #881010 !important;
+}
+html[data-theme="light"] .btn-diff-hard:hover { background: rgba(220,50,50,0.15) !important; color: #550808 !important; }
+html[data-theme="light"] .btn-diff-demencial {
+    background: rgba(150,0,220,0.08) !important;
+    border-color: rgba(150,0,220,0.35) !important;
+    color: #660099 !important;
+}
+html[data-theme="light"] .btn-diff-demencial:hover { background: rgba(150,0,220,0.15) !important; color: #440066 !important; }
+html[data-theme="light"] .btn-back-home { color: #3a3a5a !important; }
+html[data-theme="light"] .btn-back-home:hover { color: #0a0a0e !important; }
+
+
+/* ═══════════════════════════════════════
+   TUTORIAL page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .tut-sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .tut-sidebar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
+html[data-theme="light"] .lang-picker-label { color: #3a3a5a !important; }
+html[data-theme="light"] .lang-picker {
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+html[data-theme="light"] .lang-tab { color: #3a3a5a !important; }
+html[data-theme="light"] .lang-tab:hover {
+    background: rgba(0,0,0,0.04) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .lang-tab.active {
+    background: rgba(0,168,132,0.1) !important;
+    border-color: rgba(0,168,132,0.35) !important;
+    color: #007a60 !important;
+}
+html[data-theme="light"] .lang-tab img { opacity: 0.8 !important; }
+html[data-theme="light"] .lang-tab.active img { opacity: 1 !important; }
+html[data-theme="light"] .progress-label { color: #3a3a5a !important; }
+html[data-theme="light"] .sidebar-progress {
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   FRIENDS page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .fl-left,
+html[data-theme="light"] .fl-right {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.16) !important;
+}
+html[data-theme="light"] .fl-panel-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+html[data-theme="light"] .fl-panel-title h2 { color: #0a0a0e !important; }
+html[data-theme="light"] .friend-count {
+    background: rgba(0,168,132,0.1) !important;
+    border-color: rgba(0,168,132,0.3) !important;
+    color: #007a60 !important;
+}
+html[data-theme="light"] .friend-item,
+html[data-theme="light"] .friend-row {
+    border-bottom: 1px solid rgba(0,0,0,0.07) !important;
+}
+html[data-theme="light"] .friend-item:hover,
+html[data-theme="light"] .friend-row:hover {
+    background: rgba(0,168,132,0.04) !important;
+}
+html[data-theme="light"] .friend-username,
+html[data-theme="light"] .friend-name   { color: #0a0a0e !important; }
+html[data-theme="light"] .friend-status { color: #3a3a5a !important; }
+html[data-theme="light"] .friend-search-input,
+html[data-theme="light"] .fl-search-input {
+    background: #f4f6fc !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .fl-search-input::placeholder { color: #6b7080 !important; }
+html[data-theme="light"] .friend-card,
+html[data-theme="light"] .req-card {
+    background: #f8f9fc !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+}
+html[data-theme="light"] .req-card-username { color: #0a0a0e !important; }
+html[data-theme="light"] .req-card-meta     { color: #3a3a5a !important; }
+html[data-theme="light"] .fl-empty-msg      { color: #3a3a5a !important; }
+html[data-theme="light"] .fl-section-title  { color: #3a3a5a !important; }
+
+
+/* ═══════════════════════════════════════
+   LEADERBOARD page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .lb-scene {
+    background: none !important;
+}
+html[data-theme="light"] .lb-header { background: rgba(255,255,255,0.9) !important; }
+html[data-theme="light"] .lb-header-title { color: #0a0a0e !important; }
+html[data-theme="light"] .lb-header-sub   { color: #3a3a5a !important; }
+
+html[data-theme="light"] .player-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.16) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+}
+html[data-theme="light"] .player-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+}
+html[data-theme="light"] .rank-watermark { color: rgba(0,0,0,0.06) !important; }
+html[data-theme="light"] .lb-username    { color: #0a0a0e !important; }
+html[data-theme="light"] .lb-description { color: #3a3a5a !important; }
+html[data-theme="light"] .lb-score       { color: #3a3a5a !important; }
+html[data-theme="light"] .lb-score span[style*="accent-cyan"] { color: #007a60 !important; }
+
+
+/* ═══════════════════════════════════════
+   LOGROS (Achievements) page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .logros-container { color: #0a0a0e !important; }
+html[data-theme="light"] .logro-card,
+html[data-theme="light"] .achievement-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .logro-name,
+html[data-theme="light"] .achievement-name { color: #0a0a0e !important; }
+html[data-theme="light"] .logro-desc,
+html[data-theme="light"] .achievement-desc { color: #3a3a5a !important; }
+
+
+/* ═══════════════════════════════════════
+   PROFILE page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .profile-container {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f6fc 100%) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .profile-section-title { color: #0a0a0e !important; }
+html[data-theme="light"] .profile-label  { color: #3a3a5a !important; }
+html[data-theme="light"] .profile-value  { color: #0a0a0e !important; }
+html[data-theme="light"] .profile-input,
+html[data-theme="light"] .profile-field  {
+    background: #f8f9fc !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .profile-group {
+    background: rgba(0,0,0,0.03) !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   RANKED page (matchmaking lobby)
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .ranked-container { color: #0a0a0e !important; }
+html[data-theme="light"] .ranked-card,
+html[data-theme="light"] .rank-info-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .ranked-title    { color: #0a0a0e !important; }
+html[data-theme="light"] .ranked-subtitle { color: #3a3a5a !important; }
+
+
+/* ═══════════════════════════════════════
+   PROFILE VIEW page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .pv-main       { color: #0a0a0e !important; }
+html[data-theme="light"] .pv-card       {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .pv-username   { color: #0a0a0e !important; }
+html[data-theme="light"] .pv-badge-text { color: #3a3a5a !important; }
+html[data-theme="light"] .pv-stat-value { color: #0a0a0e !important; }
+html[data-theme="light"] .pv-stat-label { color: #3a3a5a !important; }
+html[data-theme="light"] .pv-section-title { color: #0a0a0e !important; }
+html[data-theme="light"] .pv-divider    { background: rgba(0,0,0,0.1) !important; }
 
 
 /* ═══════════════════════════════════════
    AUTH PAGES (Login, Register, Verificacion)
    ═══════════════════════════════════════ */
 html[data-theme="light"] .auth-card {
-    background: rgba(255,255,255,0.9) !important;
-    border-color: rgba(0,168,132,0.2) !important;
+    background: rgba(255,255,255,0.95) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
 }
+html[data-theme="light"] .auth-brand    { color: #0a0a0e !important; }
+html[data-theme="light"] .auth-subtitle { color: #3a3a5a !important; }
+html[data-theme="light"] .form-label    { color: #2a2a40 !important; }
 html[data-theme="light"] .form-control {
-    background: rgba(240,242,247,0.8) !important;
-    color: #1a1a2e !important;
-    border-color: rgba(0,168,132,0.2) !important;
+    background: #f4f6fc !important;
+    border: 1px solid rgba(0,0,0,0.2) !important;
+    color: #0a0a0e !important;
 }
-html[data-theme="light"] .form-control::placeholder {
-    color: rgba(40,40,80,0.3) !important;
-}
-html[data-theme="light"] .form-label { color: #5a6075 !important; }
-html[data-theme="light"] .auth-brand { color: #1a1a2e !important; }
-html[data-theme="light"] .auth-subtitle { color: #5a6075 !important; }
+html[data-theme="light"] .form-control::placeholder { color: #8888aa !important; }
+html[data-theme="light"] .auth-link     { color: #007a60 !important; }
+html[data-theme="light"] .error-msg     { color: #c01040 !important; }
+html[data-theme="light"] .cf { display: none !important; }  /* floating code fragments on auth pages */
 
 
 /* ═══════════════════════════════════════
-   PROFILE page
+   TEMA page (overrides for the card itself)
    ═══════════════════════════════════════ */
-html[data-theme="light"] .profile-container,
-html[data-theme="light"] .profile-card {
-    background: linear-gradient(180deg, #ffffff 0%, #f4f6fc 100%) !important;
-    border-color: #d0d4e8 !important;
-}
-html[data-theme="light"] .profile-field-group {
-    background-color: rgba(240,242,247,0.6) !important;
-    border-color: #d0d4e8 !important;
-}
-html[data-theme="light"] .profile-input {
-    background-color: rgba(255,255,255,0.95) !important;
-    color: #1a1a2e !important;
-    border-color: #d0d4e8 !important;
-}
-
-
-/* ═══════════════════════════════════════
-   LEADERBOARD page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .player-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f4f6fc 100%) !important;
-    border-color: #d0d4e8 !important;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.07) !important;
-}
-html[data-theme="light"] .lb-username { color: #1a1a2e !important; }
-html[data-theme="light"] .lb-description { color: #5a6075 !important; }
-html[data-theme="light"] .lb-score { color: #5a6075 !important; }
-html[data-theme="light"] .lb-scene { background: none !important; }
-html[data-theme="light"] .lb-header { background: rgba(255,255,255,0.9) !important; }
-
-
-/* ═══════════════════════════════════════
-   FRIENDS page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .friends-container,
-html[data-theme="light"] .friend-card,
-html[data-theme="light"] .friend-request-card {
+html[data-theme="light"] .tema-card {
     background: #ffffff !important;
-    border-color: #d0d4e8 !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
 }
-html[data-theme="light"] .friend-username { color: #1a1a2e !important; }
-html[data-theme="light"] .friend-info { color: #5a6075 !important; }
-html[data-theme="light"] .search-friends-input {
-    background: #ffffff !important;
-    color: #1a1a2e !important;
-    border-color: #d0d4e8 !important;
+html[data-theme="light"] .tema-card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
+    border-color: rgba(0,0,0,0.25) !important;
 }
-
-
-/* ═══════════════════════════════════════
-   LOGROS (Achievements) page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .logros-container,
-html[data-theme="light"] .logro-card {
-    background: #ffffff !important;
-    border-color: #d0d4e8 !important;
+html[data-theme="light"] .tema-card.active {
+    border-color: #00a884 !important;
+    box-shadow: 0 0 0 3px rgba(0,168,132,0.15), 0 10px 30px rgba(0,0,0,0.1) !important;
 }
-html[data-theme="light"] .logro-name,
-html[data-theme="light"] .logro-title { color: #1a1a2e !important; }
-html[data-theme="light"] .logro-desc { color: #5a6075 !important; }
-
-
-/* ═══════════════════════════════════════
-   RANKED page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .ranked-container,
-html[data-theme="light"] .ranked-card {
-    background: #ffffff !important;
-    border-color: #d0d4e8 !important;
+html[data-theme="light"] .tema-check    { color: #ffffff !important; }
+html[data-theme="light"] .tema-preview  { border: 1px solid rgba(0,0,0,0.12) !important; }
+html[data-theme="light"] .tema-card-name { color: #0a0a0e !important; }
+html[data-theme="light"] .tema-card-desc { color: #3a3a5a !important; }
+html[data-theme="light"] .tema-btn {
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    color: #3a3a5a !important;
 }
-
-
-/* ═══════════════════════════════════════
-   TUTORIAL page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .tutorial-container,
-html[data-theme="light"] .lesson-card,
-html[data-theme="light"] .step-card {
-    background: #ffffff !important;
-    border-color: #d0d4e8 !important;
+html[data-theme="light"] .tema-card:not(.active):hover .tema-btn {
+    border-color: rgba(0,0,0,0.3) !important;
+    color: #0a0a0e !important;
 }
-
-
-/* ═══════════════════════════════════════
-   VS CPU page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .vs-cpu-container {
-    background: #ffffff !important;
-    border-color: #d0d4e8 !important;
-}
-
-
-/* ═══════════════════════════════════════
-   PROFILE VIEW page
-   ═══════════════════════════════════════ */
-html[data-theme="light"] .profile-view-container,
-html[data-theme="light"] .pv-card {
-    background: linear-gradient(155deg, #ffffff 0%, #f4f6fc 100%) !important;
-    border-color: #d0d4e8 !important;
-}
-html[data-theme="light"] .pv-username { color: #1a1a2e !important; }
-html[data-theme="light"] .pv-stat-label { color: #5a6075 !important; }
-html[data-theme="light"] .pv-stat-value { color: #1a1a2e !important; }
+html[data-theme="light"] .tema-tag      { color: #007a60 !important; }
+html[data-theme="light"] .tema-title    { color: #0a0a0e !important; }
+html[data-theme="light"] .tema-subtitle { color: #3a3a5a !important; }
 
 
 /* ═══════════════════════════════════════
    GLOBAL SCROLLBARS — light
    ═══════════════════════════════════════ */
 html[data-theme="light"] ::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.03) !important;
+    background: rgba(0,0,0,0.04) !important;
 }
 html[data-theme="light"] ::-webkit-scrollbar-thumb {
-    background: rgba(0,168,132,0.22) !important;
+    background: rgba(0,0,0,0.18) !important;
 }
 html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,168,132,0.4) !important;
+    background: rgba(0,0,0,0.3) !important;
 }
 
 /* ═══════════════════════════════════════
-   INPUTS — global light override
+   INPUTS — global focus glow light
    ═══════════════════════════════════════ */
 html[data-theme="light"] input:focus,
 html[data-theme="light"] textarea:focus,
 html[data-theme="light"] select:focus {
-    border-color: rgba(0,168,132,0.4) !important;
-    box-shadow: 0 0 0 3px rgba(0,168,132,0.08) !important;
+    border-color: rgba(0,168,132,0.5) !important;
+    box-shadow: 0 0 0 3px rgba(0,168,132,0.1) !important;
 }
+
+/* ═══════════════════════════════════════
+   COMMON MISC OVERRIDES
+   ═══════════════════════════════════════ */
+/* Any white text hardcoded in the HTML (description etc.) */
+html[data-theme="light"] .card-desc,
+html[data-theme="light"] .description,
+html[data-theme="light"] .subtitle { color: #2a2a40 !important; }
+
+/* Donut chart text */
+html[data-theme="light"] .donut-text { fill: #0a0a0e !important; }

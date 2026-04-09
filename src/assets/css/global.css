@@ -46,7 +46,7 @@ html[data-theme="light"] {
     --border-subtle: rgba(0, 168, 132, 0.18);
     --text-light:   #1a1a2e;
     --text-primary: #1a1a2e;
-    --text-muted:   #5a6075;
+    --text-muted:   #3a3a5a;
     /* Auth.css aliases */
     --bg:           #f0f2f7;
     --text:         #1a1a2e;
@@ -420,7 +420,7 @@ html[data-theme="light"] .user-pill {
     border-color: rgba(0, 168, 132, 0.18) !important;
 }
 html[data-theme="light"] .avatar {
-    background: rgba(0, 168, 132, 0.1) !important;
+    background-color: rgba(0, 168, 132, 0.1) !important;
     border-color: rgba(0, 168, 132, 0.25) !important;
     color: var(--accent-cyan) !important;
 }

@@ -50,10 +50,41 @@ require(['vs/editor/editor.main'], function () {
         }
     });
 
+    monaco.editor.defineTheme('codexar-light', {
+        base: 'vs',
+        inherit: true,
+        rules: [
+            { token: 'comment',   foreground: '7777aa', fontStyle: 'italic' },
+            { token: 'keyword',   foreground: '0077bb' },
+            { token: 'string',    foreground: '559900' },
+            { token: 'number',    foreground: 'aa6600' },
+            { token: 'type',      foreground: '005599' },
+            { token: 'delimiter', foreground: '333355' },
+        ],
+        colors: {
+            'editor.background':              '#f8f9fc',
+            'editor.foreground':              '#1a1a2e',
+            'editor.lineHighlightBackground': '#eef0f8',
+            'editor.selectionBackground':     '#00a88430',
+            'editorCursor.foreground':        '#00a884',
+            'editorLineNumber.foreground':    '#8888aa',
+            'editorLineNumber.activeForeground': '#00a884',
+            'editorIndentGuide.background':   '#d0d4e8',
+            'editorWidget.background':        '#ffffff',
+            'editorSuggestWidget.background': '#ffffff',
+            'editorSuggestWidget.border':     '#c0c4d8',
+            'editorSuggestWidget.selectedBackground': '#00a88420',
+            'scrollbarSlider.background':     '#00a88420',
+            'scrollbarSlider.hoverBackground':'#00a88440',
+        }
+    });
+
+    const _monacoTheme = (typeof getTheme === 'function' && getTheme() === 'light') ? 'codexar-light' : 'codexar-dark';
+
     editor = monaco.editor.create(document.getElementById('codeEditor'), {
         value:                '',
         language:             'python',
-        theme:                'codexar-dark',
+        theme:                _monacoTheme,
         fontFamily:           "'JetBrains Mono', monospace",
         fontSize:             14,
         lineHeight:           24,
