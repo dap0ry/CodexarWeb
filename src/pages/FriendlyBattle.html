@@ -88,18 +88,33 @@
         <!-- Right Panel -->
         <div class="solve-right">
             <div class="editor-toolbar">
-                <div class="editor-lang-label">Lenguaje:</div>
-                <select id="langSelect" class="cyber-select lang-select">
-                    <option value="Python">Python</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="C++">C++</option>
-                    <option value="Java">Java</option>
-                </select>
+                <div class="lang-pills" id="langPills">
+                    <button class="lang-pill active" data-lang="Python">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                        Python
+                    </button>
+                    <button class="lang-pill" data-lang="C++">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+                        C++
+                    </button>
+                    <button class="lang-pill" data-lang="Java">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                        Java
+                    </button>
+                    <button class="lang-pill" data-lang="Go">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go">
+                        Go
+                    </button>
+                    <button class="lang-pill" data-lang="C#">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                        C#
+                    </button>
+                </div>
                 <div class="editor-status" id="editorStatus"></div>
             </div>
 
             <div class="editor-wrapper">
-                <textarea id="codeEditor" class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+                <div id="codeEditor"></div>
             </div>
 
             <div class="editor-output" id="editorOutput" style="display:none;">
@@ -129,6 +144,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
     <script src="../services/friendlyBattle.js"></script>
 </body>
 </html>

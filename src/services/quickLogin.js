@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const user = await res.json();
-        usernameEl.innerHTML = `<span>${user.username || 'Usuario'}</span>`;
+        usernameEl.textContent = user.username || 'Usuario';
         avatarEl.src = user.avatar || DEFAULT_AVATAR;
         avatarEl.onerror = () => { avatarEl.src = DEFAULT_AVATAR; };
 

@@ -3,7 +3,88 @@ let matchData = null;
 let matchActive = true;
 let matchClockSeconds = 0;
 let clockInterval = null;
-let codeIsCorrect = false; // tracks if last check passed
+let codeIsCorrect = false;
+let selectedLang = 'Python';
+let editor = null;
+
+const MONACO_LANG = {
+    'Python': 'python',
+    'C++':    'cpp',
+    'Java':   'java',
+    'Go':     'go',
+    'C#':     'csharp',
+};
+
+// ─── Monaco bootstrap ────────────────────────────────────────────
+require.config({
+    paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }
+});
+
+require(['vs/editor/editor.main'], function () {
+    monaco.editor.defineTheme('codexar-dark', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+            { token: 'comment',   foreground: '555577', fontStyle: 'italic' },
+            { token: 'keyword',   foreground: '00ffcc' },
+            { token: 'string',    foreground: 'a8ff78' },
+            { token: 'number',    foreground: 'f89820' },
+            { token: 'type',      foreground: '79b8ff' },
+            { token: 'delimiter', foreground: 'cccccc' },
+        ],
+        colors: {
+            'editor.background':              '#08080e',
+            'editor.foreground':              '#e0e0e0',
+            'editor.lineHighlightBackground': '#0f0f1a',
+            'editor.selectionBackground':     '#00ffcc22',
+            'editorCursor.foreground':        '#00ffcc',
+            'editorLineNumber.foreground':    '#333355',
+            'editorLineNumber.activeForeground': '#00ffcc88',
+            'editorIndentGuide.background':   '#1a1a2e',
+            'editorWidget.background':        '#0d0d18',
+            'editorSuggestWidget.background': '#0d0d18',
+            'editorSuggestWidget.border':     '#1e1e3a',
+            'editorSuggestWidget.selectedBackground': '#00ffcc18',
+            'scrollbarSlider.background':     '#00ffcc18',
+            'scrollbarSlider.hoverBackground':'#00ffcc30',
+        }
+    });
+
+    editor = monaco.editor.create(document.getElementById('codeEditor'), {
+        value:                '',
+        language:             'python',
+        theme:                'codexar-dark',
+        fontFamily:           "'JetBrains Mono', monospace",
+        fontSize:             14,
+        lineHeight:           24,
+        minimap:              { enabled: false },
+        scrollBeyondLastLine: false,
+        lineNumbers:          'on',
+        renderLineHighlight:  'gutter',
+        roundedSelection:     true,
+        automaticLayout:      true,
+        tabSize:              4,
+        insertSpaces:         true,
+        wordWrap:             'off',
+        folding:              true,
+        bracketPairColorization: { enabled: true },
+        suggestOnTriggerCharacters: true,
+        quickSuggestions:     { other: true, comments: false, strings: false },
+        acceptSuggestionOnEnter: 'on',
+        padding:              { top: 16, bottom: 16 },
+        scrollbar: {
+            verticalScrollbarSize:   8,
+            horizontalScrollbarSize: 8,
+        },
+    });
+
+    editor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+        () => { if (!document.getElementById('btnCheck').disabled) handleCheck(); }
+    );
+
+    initRankedBattle();
+});
 
 // --- Init ---
 async function initRankedBattle() {
@@ -24,7 +105,6 @@ async function initRankedBattle() {
         setupPlayers(matchData);
         renderExercise(matchData.exercise);
 
-        // Start clock
         clockInterval = setInterval(() => {
             matchClockSeconds++;
             const m = Math.floor(matchClockSeconds / 60);
@@ -39,11 +119,9 @@ async function initRankedBattle() {
         window.location.href = 'Ranked.html';
     }
 
-    // Button handlers
     document.getElementById('btnCheck').addEventListener('click', handleCheck);
     document.getElementById('btnSave').addEventListener('click', handleSave);
 
-    // Logout
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.removeItem('access_token');
@@ -69,7 +147,6 @@ function setupPlayers(data) {
 
     setAvatar(document.getElementById('myAvatar'), data.me.avatar, data.me.username);
     setAvatar(document.getElementById('navAvatar'), data.me.avatar, data.me.username);
-    // Cyan border for nav avatar
     if (data.me.avatar) {
         document.getElementById('navAvatar').style.border = '1px solid var(--accent-cyan)';
     }
@@ -95,20 +172,29 @@ function renderExercise(ex) {
     document.getElementById('exDescription').textContent = ex.description;
     renderTestCases(ex.test_cases, null);
 
-    const langSelect = document.getElementById('langSelect');
-    loadStub(langSelect.value);
-    langSelect.addEventListener('change', () => {
-        loadStub(langSelect.value);
-        // Reset correct flag when language changes
-        codeIsCorrect = false;
-        document.getElementById('btnSave').style.display = 'none';
+    loadStub(selectedLang);
+
+    const pills = document.querySelectorAll('.lang-pill');
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            pills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            selectedLang = pill.dataset.lang;
+            loadStub(selectedLang);
+            codeIsCorrect = false;
+            document.getElementById('btnSave').style.display = 'none';
+        });
     });
 }
 
 function loadStub(lang) {
     if (!matchData?.exercise?.stub) return;
-    const stub = matchData.exercise.stub[lang];
-    if (stub) document.getElementById('codeEditor').value = stub;
+    const stub = matchData.exercise.stub[lang] || '';
+    const model = editor.getModel();
+    monaco.editor.setModelLanguage(model, MONACO_LANG[lang] || 'plaintext');
+    editor.setValue(stub);
+    editor.setPosition({ lineNumber: editor.getModel().getLineCount(), column: 1 });
+    editor.focus();
 }
 
 function renderTestCases(testCases, result) {
@@ -134,22 +220,18 @@ function renderTestCases(testCases, result) {
     });
 }
 
-// STEP 1: Check code correctness (does NOT submit to server)
 async function handleCheck() {
     if (!matchActive) return;
     const token = localStorage.getItem('access_token');
-    const code = document.getElementById('codeEditor').value.trim();
-    const lang = document.getElementById('langSelect').value;
+    const code = editor.getValue().trim();
     const btnCheck = document.getElementById('btnCheck');
     const btnSave = document.getElementById('btnSave');
     const status = document.getElementById('editorStatus');
 
     if (!code) return;
 
-    // Reset save button
     codeIsCorrect = false;
     btnSave.style.display = 'none';
-
     btnCheck.disabled = true;
     btnCheck.classList.add('loading');
     btnCheck.innerHTML = '<span class="btn-icon">⏳</span> Comprobando...';
@@ -163,7 +245,7 @@ async function handleCheck() {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ code, language: lang, save: false })
+            body: JSON.stringify({ code, language: selectedLang, save: false })
         });
         const evalData = await res.json();
 
@@ -174,7 +256,6 @@ async function handleCheck() {
             codeIsCorrect = true;
             status.textContent = '✓ Correcto — ya puedes guardar';
             status.style.color = 'var(--accent-green)';
-            // Show and enable Guardar
             btnSave.style.display = 'flex';
             btnSave.disabled = false;
         } else {
@@ -193,7 +274,6 @@ async function handleCheck() {
     }
 }
 
-// STEP 2: Submit to match server (only reachable if code was correct)
 async function handleSave() {
     if (!matchActive || !codeIsCorrect) return;
     const token = localStorage.getItem('access_token');
@@ -300,5 +380,3 @@ function escHtml(str) {
     if (str === undefined || str === null) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-
-document.addEventListener('DOMContentLoaded', initRankedBattle);
