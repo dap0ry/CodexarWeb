@@ -37,7 +37,7 @@ function buildPlayerCard(player, rank) {
     };
 
     return `
-        <div class="player-card ${rankClass}">
+        <div class="player-card ${rankClass}" style="cursor:pointer;" onclick="window.location.href='ProfileView.html?u=${encodeURIComponent(player.username)}'">
             <div class="rank-watermark">POSICIÓN ${rank + 1}</div>
             <div class="rank-number">${rank + 1}</div>
             <div class="lb-avatar" style="${avatarStyle}">${avatarText}</div>
