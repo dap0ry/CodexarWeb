@@ -874,7 +874,7 @@ html[data-theme="light"] .lobby-meta    { color: #5a5a7a !important; }
 
 /* Player slots */
 html[data-theme="light"] .lobby-slot-avatar {
-    background: rgba(0,0,0,0.04) !important;
+    background-color: rgba(0,0,0,0.04) !important;
     border: 2px solid rgba(0,0,0,0.2) !important;
     color: #006630 !important;
 }
