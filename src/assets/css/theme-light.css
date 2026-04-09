@@ -233,6 +233,8 @@ html[data-theme="light"] .friends-tooltip {
 }
 html[data-theme="light"] .tooltip-friend-row { color: #0a0a0e !important; }
 html[data-theme="light"] .badge-solvers { border-color: rgba(0,0,0,0.2) !important; color: #2a2a40 !important; }
+/* First solver badge — username was white, make dark */
+html[data-theme="light"] .badge-first-solver .fs-name { color: #1a1a2e !important; }
 
 
 /* ═══════════════════════════════════════
@@ -312,6 +314,27 @@ html[data-theme="light"] .editor-output::-webkit-scrollbar-thumb { background: r
 /* Monaco editor wrapper */
 html[data-theme="light"] .editor-wrapper {
     border: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+/* Editor actions bar + check button */
+html[data-theme="light"] .editor-actions {
+    background: #ffffff !important;
+    border-top: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .btn-check {
+    background: #1a1a2e !important;
+    border: 1px solid #1a1a2e !important;
+    color: #f0f2f7 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .btn-check:hover {
+    background: #2a2a44 !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2) !important;
+}
+html[data-theme="light"] .btn-check.loading {
+    background: #e8eaf2 !important;
+    border-color: rgba(0,0,0,0.2) !important;
+    color: #6b7080 !important;
 }
 
 
@@ -410,6 +433,33 @@ html[data-theme="light"] .btn-back-home:hover { color: #0a0a0e !important; }
 html[data-theme="light"] .tut-sidebar {
     background: #ffffff !important;
     border-right: 1px solid rgba(0,0,0,0.15) !important;
+}
+
+/* Tutorial code blocks */
+html[data-theme="light"] .code-block {
+    background: #f4f6fc !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .code-header {
+    background: rgba(0,0,0,0.04) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+html[data-theme="light"] .code-lang-badge { color: #5a5a7a !important; }
+html[data-theme="light"] pre.code-body {
+    background: #f4f6fc !important;
+    color: #1a1a2e !important;
+}
+html[data-theme="light"] .kw  { color: #7c3aed !important; }
+html[data-theme="light"] .fn  { color: #1d4ed8 !important; }
+html[data-theme="light"] .str { color: #15803d !important; }
+html[data-theme="light"] .num { color: #c2410c !important; }
+html[data-theme="light"] .cm  { color: #6b7280 !important; }
+html[data-theme="light"] .op  { color: #00a884 !important; }
+html[data-theme="light"] .ty  { color: #b45309 !important; }
+html[data-theme="light"] .ic {
+    background: rgba(0,168,132,0.08) !important;
+    color: #007a60 !important;
+    border: 1px solid rgba(0,168,132,0.2) !important;
 }
 html[data-theme="light"] .tut-sidebar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
 html[data-theme="light"] .lang-picker-label { color: #3a3a5a !important; }
@@ -558,17 +608,75 @@ html[data-theme="light"] .ranked-subtitle { color: #3a3a5a !important; }
 /* ═══════════════════════════════════════
    PROFILE VIEW page
    ═══════════════════════════════════════ */
-html[data-theme="light"] .pv-main       { color: #0a0a0e !important; }
-html[data-theme="light"] .pv-card       {
+html[data-theme="light"] .pv-main {
+    color: #0a0a0e !important;
+}
+
+/* Left column */
+html[data-theme="light"] .pv-avatar {
+    background-color: #e8eaf2 !important;
+    border-color: rgba(0,168,132,0.4) !important;
+    color: #007a60 !important;
+}
+html[data-theme="light"] .pv-ach-card {
+    background: #f4f6fc !important;
+    border: 1px solid rgba(0,0,0,0.14) !important;
+}
+html[data-theme="light"] .pv-ach-title { color: #0a0a0e !important; }
+
+/* Right info panel */
+html[data-theme="light"] .pv-right {
     background: #ffffff !important;
     border: 1px solid rgba(0,0,0,0.15) !important;
 }
-html[data-theme="light"] .pv-username   { color: #0a0a0e !important; }
-html[data-theme="light"] .pv-badge-text { color: #3a3a5a !important; }
-html[data-theme="light"] .pv-stat-value { color: #0a0a0e !important; }
-html[data-theme="light"] .pv-stat-label { color: #3a3a5a !important; }
-html[data-theme="light"] .pv-section-title { color: #0a0a0e !important; }
-html[data-theme="light"] .pv-divider    { background: rgba(0,0,0,0.1) !important; }
+html[data-theme="light"] .pv-username        { color: #0a0a0e !important; text-shadow: none !important; }
+html[data-theme="light"] .pv-desc            { color: #5a5a7a !important; }
+html[data-theme="light"] .pv-divider         { background: rgba(0,0,0,0.1) !important; }
+html[data-theme="light"] .pv-section-label   { color: #5a5a7a !important; }
+html[data-theme="light"] .pv-section-sublabel{ color: #7a7a9a !important; }
+html[data-theme="light"] .pv-exercises-total { color: #00a884 !important; }
+html[data-theme="light"] .pv-bar-label       { color: #5a5a7a !important; }
+html[data-theme="light"] .pv-bar-track       { background: rgba(0,0,0,0.08) !important; }
+html[data-theme="light"] .pv-bar-count       { color: #5a5a7a !important; }
+html[data-theme="light"] .pv-lang-bar-wrap   { border-top: 1px solid rgba(0,0,0,0.1) !important; }
+html[data-theme="light"] .pv-lang-legend-item{ color: #5a5a7a !important; }
+
+/* Bottom stat cards */
+html[data-theme="light"] .pv-stat-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .pv-ranked-card { border-top: 2px solid rgba(220,39,75,0.5) !important; }
+html[data-theme="light"] .pv-bot-card    { border-top: 2px solid rgba(232,90,26,0.5) !important; }
+html[data-theme="light"] .pv-card-label  { border-bottom: 1px solid rgba(0,0,0,0.1) !important; }
+html[data-theme="light"] .pv-ranked-card .pv-card-label { color: rgba(200,30,70,0.8) !important; }
+html[data-theme="light"] .pv-bot-card    .pv-card-label { color: rgba(200,80,30,0.8) !important; }
+html[data-theme="light"] .pv-stat-key    { color: #7a7a9a !important; }
+html[data-theme="light"] .pv-stat-val    { color: #0a0a0e !important; text-shadow: none !important; }
+html[data-theme="light"] .pv-stat-val.accent-cyan  { color: #00a884 !important; text-shadow: none !important; }
+html[data-theme="light"] .pv-stat-val.accent-green { color: #22a34c !important; text-shadow: none !important; }
+html[data-theme="light"] .pv-stat-val.accent-muted { color: #8888aa !important; }
+html[data-theme="light"] .pvb-divider    { background: rgba(0,0,0,0.08) !important; }
+html[data-theme="light"] .pvb-diff-label { color: #6a6a8a !important; }
+html[data-theme="light"] .pvb-diff-track { background: rgba(0,0,0,0.08) !important; }
+html[data-theme="light"] .pvb-diff-count { color: #3a3a5a !important; }
+html[data-theme="light"] .pvb-diff-of    { color: #8888aa !important; }
+
+/* Error + back button */
+html[data-theme="light"] .pv-error-msg  { color: #5a5a7a !important; }
+html[data-theme="light"] .pv-back-btn   { border-color: rgba(0,0,0,0.2) !important; color: #3a3a5a !important; }
+html[data-theme="light"] .pv-back-btn:hover { color: #0a0a0e !important; border-color: rgba(0,0,0,0.35) !important; }
+
+/* Friend button */
+html[data-theme="light"] .pv-friend-btn {
+    background: rgba(0,168,132,0.07) !important;
+    border-color: rgba(0,168,132,0.35) !important;
+    color: #007a60 !important;
+}
+html[data-theme="light"] .pv-friend-btn:hover:not(:disabled) {
+    background: rgba(0,168,132,0.14) !important;
+    color: #005544 !important;
+}
 
 
 /* ═══════════════════════════════════════
