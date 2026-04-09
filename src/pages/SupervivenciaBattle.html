@@ -15,41 +15,39 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="brand" onclick="confirmLeave()" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="brand" onclick="confirmLeave('Home.html')" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
                 <div class="username-display" id="navUsername">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="Home.html"        class="dropdown-item">Inicio</a>
-                <a href="Profile.html"     class="dropdown-item">Perfil</a>
-                <a href="Logros.html"      class="dropdown-item">Logros</a>
-                <a href="Friends.html"     class="dropdown-item">Amigos</a>
-                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
-                <a href="Tema.html"        class="dropdown-item">Tema</a>
-                <a href="#"                class="dropdown-item">Ayuda</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('Home.html'); return false;">Inicio</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('Profile.html'); return false;">Perfil</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('Logros.html'); return false;">Logros</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('Friends.html'); return false;">Amigos</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('Leaderboard.html'); return false;">Clasificación</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('Tema.html'); return false;">Tema</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <!-- Survival Header Bar -->
-    <div class="surv-header-bar">
-        <div class="surv-header-left">
+    <!-- Survival Meta Bar (combines header info + players + timer) -->
+    <div class="surv-meta-bar">
+        <div class="surv-meta-left">
             <span class="surv-mode-label">SUPERVIVENCIA</span>
             <span class="surv-sep">·</span>
             <span class="surv-diff-label" id="survDiffLabel">NORMAL</span>
             <span class="surv-sep">·</span>
             <span class="surv-ex-label">Ejercicio <span id="survExNum">#1</span></span>
         </div>
+        <div class="surv-meta-players" id="survPlayersBar">
+            <!-- Injected by JS -->
+        </div>
         <div class="surv-timer-display" id="survTimer">01:00</div>
-    </div>
-
-    <!-- Players Bar -->
-    <div class="surv-players-bar" id="survPlayersBar">
-        <!-- Injected by JS -->
     </div>
 
     <!-- Main Solve Layout -->
@@ -58,10 +56,10 @@
         <div class="solve-left">
             <div class="solve-statement">
                 <div class="statement-header">
-                    <div class="statement-title" id="exTitle">Cargando ejercicio...</div>
+                    <div class="statement-title" id="exTitle">Conectando...</div>
                     <div class="statement-badges" id="exBadges"></div>
                 </div>
-                <div class="statement-body" id="exDescription">Cargando enunciado...</div>
+                <div class="statement-body" id="exDescription">Esperando datos del servidor...</div>
             </div>
             <div class="solve-testcases">
                 <div class="testcases-label">Casos de Prueba</div>
@@ -116,17 +114,17 @@
         </div>
     </main>
 
-    <!-- Abandon Modal -->
-    <div class="battle-modal-overlay hidden" id="abandonOverlay">
-        <div class="battle-modal battle-modal-abandon">
-            <div class="modal-glow modal-glow-abandon"></div>
-            <div class="modal-inner">
-                <div class="modal-icon modal-icon-abandon">⚠</div>
-                <div class="modal-title modal-title-abandon">¿Abandonar?</div>
-                <div class="modal-subtitle">Saldrás de la partida en curso.</div>
-                <div class="modal-actions">
-                    <button class="btn-modal btn-modal-secondary" onclick="closeAbandonModal()">Quedarse</button>
-                    <button class="btn-modal btn-modal-abandon" onclick="doLeave()">Abandonar</button>
+    <!-- Abandon / Leave Modal -->
+    <div class="surv-leave-overlay hidden" id="abandonOverlay">
+        <div class="surv-leave-modal">
+            <div class="surv-leave-glow"></div>
+            <div class="surv-leave-inner">
+                <div class="surv-leave-icon">⚠</div>
+                <div class="surv-leave-title">¿Seguro que quieres salir?</div>
+                <div class="surv-leave-subtitle" id="abandonSubtitle">Se perderá la partida en curso y todos los compañeros quedarán eliminados.</div>
+                <div class="surv-leave-actions">
+                    <button class="surv-leave-btn surv-leave-btn-cancel" onclick="closeAbandonModal()">Quedarse</button>
+                    <button class="surv-leave-btn surv-leave-btn-confirm" onclick="doLeave()">Salir</button>
                 </div>
             </div>
         </div>
@@ -137,8 +135,9 @@
         <div class="surv-gameover-box">
             <div class="surv-gameover-glow"></div>
             <div class="surv-gameover-inner">
-                <div class="surv-gameover-icon">⏱</div>
-                <div class="surv-gameover-title">Tiempo Agotado</div>
+                <div class="surv-gameover-icon" id="goIcon">⏱</div>
+                <div class="surv-gameover-title" id="goTitle">Tiempo Agotado</div>
+                <div class="surv-gameover-abandon hidden" id="goAbandonMsg"></div>
                 <div class="surv-gameover-solved">
                     <span class="surv-gameover-num" id="goExercisesNum">0</span>
                     <span class="surv-gameover-label">ejercicios resueltos</span>
@@ -147,10 +146,10 @@
                     <span class="surv-record-badge">★ NUEVO RÉCORD</span>
                 </div>
                 <div class="surv-gameover-actions">
-                    <button class="btn-modal btn-modal-secondary" onclick="window.location.href='Home.html'">
+                    <button class="surv-go-btn surv-go-btn-secondary" onclick="window.location.href='Home.html'">
                         ← Menú Principal
                     </button>
-                    <button class="btn-modal btn-modal-primary btn-modal-win" onclick="replaySurvival()">
+                    <button class="surv-go-btn surv-go-btn-primary" onclick="replaySurvival()">
                         Jugar de nuevo ↺
                     </button>
                 </div>

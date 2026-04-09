@@ -5,27 +5,37 @@
 /* ── Utility ──────────────────────────────────────────────── */
 .hidden { display: none !important; }
 
-/* ── Survival Header Bar ──────────────────────────────────── */
-.surv-header-bar {
+/* ── Survival Meta Bar (single bar: info + players + timer) ── */
+.surv-meta-bar {
     position: fixed;
-    top: 70px;
-    left: 0; right: 0;
+    top: 70px; left: 0; right: 0;
     z-index: 90;
+    height: 54px;
     background: #0a0a14;
-    border-bottom: 1px solid rgba(57, 255, 20, 0.1);
-    padding: 6px 20px;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.12);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 44px;
+    padding: 0 20px;
+    gap: 16px;
 }
 
-.surv-header-left {
+.surv-meta-left {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
 }
 
+.surv-meta-players {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+    justify-content: center;
+}
+
+/* ── Labels inside meta bar ───────────────────────────────── */
 .surv-mode-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
@@ -57,26 +67,28 @@
     font-size: 0.65rem;
 }
 
+/* ── Timer ────────────────────────────────────────────────── */
 .surv-timer-display {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.6rem;
+    font-size: 1.55rem;
     font-weight: 800;
     letter-spacing: 2px;
     color: #39ff14;
-    text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+    text-shadow: 0 0 18px rgba(57, 255, 20, 0.5);
     transition: color 0.5s ease;
-    min-width: 80px;
+    min-width: 76px;
     text-align: right;
+    flex-shrink: 0;
 }
 
 .surv-timer-display.warning {
     color: #f59e0b;
-    text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    text-shadow: 0 0 18px rgba(245, 158, 11, 0.5);
 }
 
 .surv-timer-display.danger {
     color: #ef4444;
-    text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    text-shadow: 0 0 18px rgba(239, 68, 68, 0.5);
     animation: pulse-timer 0.5s ease-in-out infinite;
 }
 
@@ -90,34 +102,20 @@
 }
 @keyframes flash-bonus {
     0%  { color: #fff; text-shadow: 0 0 30px #39ff14, 0 0 60px #39ff14; }
-    100% { color: #39ff14; text-shadow: 0 0 20px rgba(57,255,20,0.5); }
+    100% { color: #39ff14; text-shadow: 0 0 18px rgba(57,255,20,0.5); }
 }
 
-/* ── Players Bar ──────────────────────────────────────────── */
-.surv-players-bar {
-    position: fixed;
-    top: 114px; /* navbar(70) + header-bar(44) */
-    left: 0; right: 0;
-    z-index: 89;
-    background: rgba(10, 10, 20, 0.95);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    padding: 8px 20px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    min-height: 52px;
-}
-
+/* ── Player slots inside meta bar ─────────────────────────── */
 .surv-player-slot {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     min-width: 0;
 }
 
 .surv-player-avatar {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
@@ -125,7 +123,7 @@
     align-items: center;
     justify-content: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     flex-shrink: 0;
     background-size: cover;
@@ -135,37 +133,140 @@
 }
 
 .surv-player-avatar.solved {
-    box-shadow: 0 0 0 2px #39ff14, 0 0 20px rgba(57, 255, 20, 0.6);
+    box-shadow: 0 0 0 2px #39ff14, 0 0 16px rgba(57, 255, 20, 0.6);
     animation: solved-pulse 0.5s ease-out;
 }
 @keyframes solved-pulse {
-    0%   { box-shadow: 0 0 0 4px #39ff14, 0 0 40px rgba(57,255,20,0.9); }
-    100% { box-shadow: 0 0 0 2px #39ff14, 0 0 20px rgba(57,255,20,0.6); }
+    0%   { box-shadow: 0 0 0 4px #39ff14, 0 0 30px rgba(57,255,20,0.9); }
+    100% { box-shadow: 0 0 0 2px #39ff14, 0 0 16px rgba(57,255,20,0.6); }
 }
 
 .surv-player-name {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    color: rgba(230,230,240,0.7);
+    color: rgba(230,230,240,0.65);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 90px;
+    max-width: 80px;
 }
 
 .surv-player-sep {
     width: 1px;
-    height: 20px;
+    height: 18px;
     background: rgba(255,255,255,0.06);
     flex-shrink: 0;
 }
 
-/* ── Adjust solve-main top offset ────────────────────────── */
+/* ── Main solve area — offset by navbar(70) + meta-bar(54) ── */
 .surv-solve-main {
-    /* navbar(70) + header-bar(44) + players-bar(52) = 166px */
-    margin-top: 166px !important;
-    height: calc(100vh - 166px) !important;
+    margin-top: 124px !important;
+    height: calc(100vh - 124px) !important;
+}
+
+/* ── Leave / Abandon Modal ────────────────────────────────── */
+.surv-leave-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.82);
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.surv-leave-overlay.hidden { display: none !important; }
+
+.surv-leave-modal {
+    background: rgba(8, 10, 18, 0.98);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 18px;
+    padding: 44px 52px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 340px;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.surv-leave-glow {
+    position: absolute;
+    top: 0; left: 15%; right: 15%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(239,68,68,0.5) 50%, transparent);
+    box-shadow: 0 0 16px rgba(239,68,68,0.3);
+}
+
+.surv-leave-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.surv-leave-icon {
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+.surv-leave-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #e6e6f0;
+}
+
+.surv-leave-subtitle {
+    font-size: 0.82rem;
+    color: rgba(230,230,240,0.45);
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+.surv-leave-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.surv-leave-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.surv-leave-btn-cancel {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(230,230,240,0.6);
+}
+.surv-leave-btn-cancel:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.3);
+    color: #e6e6f0;
+}
+
+.surv-leave-btn-confirm {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: rgba(239,68,68,0.9);
+}
+.surv-leave-btn-confirm:hover {
+    background: rgba(239,68,68,0.22);
+    border-color: rgba(239,68,68,0.65);
+    color: #ef4444;
 }
 
 /* ── Game Over Overlay ─────────────────────────────────────── */
@@ -178,7 +279,7 @@
     align-items: center;
     justify-content: center;
 }
-.surv-gameover-overlay.hidden { display: none; }
+.surv-gameover-overlay.hidden { display: none !important; }
 
 .surv-gameover-box {
     background: rgba(8, 10, 18, 0.98);
@@ -192,6 +293,7 @@
     align-items: center;
     text-align: center;
     min-width: 360px;
+    max-width: 460px;
 }
 
 .surv-gameover-glow {
@@ -210,10 +312,7 @@
     gap: 16px;
 }
 
-.surv-gameover-icon {
-    font-size: 2.8rem;
-    line-height: 1;
-}
+.surv-gameover-icon { font-size: 2.8rem; line-height: 1; }
 
 .surv-gameover-title {
     font-family: 'JetBrains Mono', monospace;
@@ -222,6 +321,13 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #e6e6f0;
+}
+
+.surv-gameover-abandon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(239,68,68,0.75);
+    letter-spacing: 1px;
 }
 
 .surv-gameover-solved {
@@ -275,17 +381,56 @@
 
 .surv-gameover-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     margin-top: 8px;
+}
+
+/* Game over buttons */
+.surv-go-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.surv-go-btn-secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(230,230,240,0.6);
+}
+.surv-go-btn-secondary:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.3);
+    color: #e6e6f0;
+}
+
+.surv-go-btn-primary {
+    background: rgba(57,255,20,0.1);
+    border: 1px solid rgba(57,255,20,0.4);
+    color: #39ff14;
+}
+.surv-go-btn-primary:hover {
+    background: rgba(57,255,20,0.2);
+    border-color: rgba(57,255,20,0.65);
+    box-shadow: 0 0 20px rgba(57,255,20,0.2);
 }
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-height: 700px) {
+    .surv-meta-bar  { height: 46px; }
     .surv-timer-display { font-size: 1.25rem; }
-    .surv-header-bar { height: 38px; padding: 4px 16px; }
-    .surv-players-bar { top: 108px; min-height: 44px; }
     .surv-solve-main {
-        margin-top: 152px !important;
-        height: calc(100vh - 152px) !important;
+        margin-top: 116px !important;
+        height: calc(100vh - 116px) !important;
     }
+}
+
+@media (max-width: 680px) {
+    .surv-meta-left { display: none; }
+    .surv-meta-bar  { padding: 0 14px; }
 }

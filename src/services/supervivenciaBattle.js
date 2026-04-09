@@ -16,17 +16,22 @@ const MONACO_LANG = {
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
-let exerciseData = null;
-let selectedLang = 'Python';
-let editor       = null;
-let battleEnded  = false;
-let ws           = null;
-let timeLeft     = 60;
-let timerDisplay = null;
-let myUsername   = null;
+let exerciseData      = null;
+let selectedLang      = 'Python';
+let editor            = null;
+let battleEnded       = false;
+let ws                = null;
+let timeLeft          = 60;
+let timerInterval     = null;
+let myUsername        = null;
+let pendingNavHref    = 'Home.html';
 
-// Players map: username → avatar element reference
-let playerSlots  = {};
+// Shared editor sync
+let syncingFromRemote = false;
+let syncTimer         = null;
+
+// Players map: username → avatar element
+let playerSlots = {};
 
 const params     = new URLSearchParams(window.location.search);
 const roomId     = params.get('room');
@@ -107,6 +112,13 @@ require(['vs/editor/editor.main'], function () {
         scrollbar: { verticalScrollbarSize: 8, horizontalScrollbarSize: 8 },
     });
 
+    // Shared real-time editor sync — debounced 250ms
+    editor.onDidChangeModelContent(() => {
+        if (syncingFromRemote || battleEnded || !exerciseData) return;
+        clearTimeout(syncTimer);
+        syncTimer = setTimeout(sendCodeSync, 250);
+    });
+
     editor.addCommand(
         monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
         () => { if (!document.getElementById('btnCheck').disabled) handleCheck(); }
@@ -122,7 +134,6 @@ async function initBattle() {
     const token = localStorage.getItem('access_token');
     if (!token) { window.location.href = 'Login.html'; return; }
 
-    // Set difficulty label
     document.getElementById('survDiffLabel').textContent = DIFF_LABELS[difficulty] || 'NORMAL';
     document.title = `Codexar — Supervivencia ${DIFF_LABELS[difficulty] || ''}`;
 
@@ -147,9 +158,6 @@ async function initBattle() {
         return;
     }
 
-    // Connect WebSocket
-    connectWebSocket(token);
-
     // Setup lang pills
     const pills = document.querySelectorAll('.lang-pill');
     pills.forEach(pill => {
@@ -159,6 +167,10 @@ async function initBattle() {
             pill.classList.add('active');
             selectedLang = pill.dataset.lang;
             loadStub(selectedLang);
+            // Broadcast language change to teammates
+            if (ws?.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ action: 'lang_sync', lang: selectedLang }));
+            }
         });
     });
 
@@ -167,7 +179,23 @@ async function initBattle() {
     document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
+        battleEnded = true;
         window.location.href = 'Login.html';
+    });
+
+    // Connect WebSocket
+    connectWebSocket(token);
+
+    // Intercept browser close / reload
+    window.addEventListener('beforeunload', e => {
+        if (!battleEnded) {
+            e.preventDefault();
+            e.returnValue = '';
+            // Best-effort abandon signal
+            if (ws?.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ action: 'abandon' }));
+            }
+        }
     });
 }
 
@@ -175,10 +203,24 @@ async function initBattle() {
 function connectWebSocket(token) {
     ws = new WebSocket(`${WS_BASE}/survival/ws/${roomId}?token=${encodeURIComponent(token)}`);
 
+    ws.addEventListener('open', () => {
+        // Connection established — clear any error state
+        const titleEl = document.getElementById('exTitle');
+        if (titleEl.textContent === 'Error de conexión') {
+            titleEl.textContent = 'Conectando...';
+        }
+    });
+
     ws.addEventListener('message', e => {
         let msg;
         try { msg = JSON.parse(e.data); } catch { return; }
         handleWsMessage(msg);
+    });
+
+    ws.addEventListener('error', () => {
+        document.getElementById('exTitle').textContent = 'Error de conexión';
+        document.getElementById('exDescription').textContent =
+            'No se pudo conectar al servidor de la partida. Recarga la página para reintentar.';
     });
 
     ws.addEventListener('close', () => {
@@ -186,12 +228,13 @@ function connectWebSocket(token) {
             // Attempt reconnect after 2s
             setTimeout(() => {
                 const t = localStorage.getItem('access_token');
-                if (t) connectWebSocket(t);
+                if (t && !battleEnded) connectWebSocket(t);
             }, 2000);
         }
     });
 }
 
+// ── WS message dispatcher ─────────────────────────────────────────────────────
 function handleWsMessage(msg) {
     switch (msg.type) {
         case 'game_started':
@@ -199,6 +242,12 @@ function handleWsMessage(msg) {
             updateTimerDisplay(msg.time_left);
             document.getElementById('survExNum').textContent = `#${msg.exercise_num}`;
             startClientTimer();
+            // Apply shared code if reconnecting mid-game
+            if (msg.current_code && msg.current_code.trim()) {
+                syncingFromRemote = true;
+                editor.setValue(msg.current_code);
+                syncingFromRemote = false;
+            }
             break;
 
         case 'exercise_solved':
@@ -207,30 +256,72 @@ function handleWsMessage(msg) {
             updateTimerDisplay(msg.time_left);
             document.getElementById('survExNum').textContent = `#${msg.exercise_num}`;
             flashTimerBonus();
-            // Reset editor state
             resetCheckState();
+            // Clear shared editor for new exercise
+            syncingFromRemote = true;
+            editor.setValue('');
+            syncingFromRemote = false;
             break;
 
         case 'time_sync':
             updateTimerDisplay(msg.time_left);
             break;
 
-        case 'player_joined':
-            renderPlayersBar(msg.players);
+        case 'code_sync':
+            if (msg.username !== myUsername) {
+                syncingFromRemote = true;
+                const pos = editor.getPosition();
+                editor.setValue(msg.code);
+                editor.setPosition(pos || { lineNumber: 1, column: 1 });
+                syncingFromRemote = false;
+                // Sync language if it changed
+                if (msg.lang && msg.lang !== selectedLang) {
+                    updateSelectedLang(msg.lang, /* remoteOnly */ true);
+                }
+            }
             break;
 
+        case 'lang_sync':
+            if (msg.username !== myUsername) {
+                updateSelectedLang(msg.lang, /* remoteOnly */ true);
+            }
+            break;
+
+        case 'player_joined':
         case 'player_left':
             renderPlayersBar(msg.players);
             break;
 
         case 'wrong_answer':
-            // Brief notification only visible to the submitter (server sends only to them)
             showWrongAnswerToast(msg.details);
             break;
 
         case 'game_over':
-            showGameOver(msg.exercises_solved, msg.new_record);
+            showGameOver(msg.exercises_solved, msg.new_record, msg.abandoned_by);
             break;
+    }
+}
+
+// ── Shared code sync ──────────────────────────────────────────────────────────
+function sendCodeSync() {
+    if (!ws || ws.readyState !== WebSocket.OPEN || battleEnded) return;
+    ws.send(JSON.stringify({ action: 'code_sync', code: editor.getValue(), lang: selectedLang }));
+}
+
+// ── Language update ───────────────────────────────────────────────────────────
+function updateSelectedLang(lang, remoteOnly = false) {
+    selectedLang = lang;
+    const pills = document.querySelectorAll('.lang-pill');
+    pills.forEach(p => {
+        if (p.dataset.lang === lang) p.classList.add('active');
+        else p.classList.remove('active');
+    });
+    // Update Monaco language
+    if (editor && exerciseData) {
+        const model = editor.getModel();
+        monaco.editor.setModelLanguage(model, MONACO_LANG[lang] || 'plaintext');
+        // Only load stub if we're the one changing (not a remote sync)
+        if (!remoteOnly) loadStub(lang);
     }
 }
 
@@ -267,7 +358,6 @@ function renderPlayersBar(players) {
         slot.appendChild(avatarEl);
         slot.appendChild(nameEl);
         bar.appendChild(slot);
-
         playerSlots[player.username] = avatarEl;
     });
 }
@@ -294,17 +384,14 @@ function renderTimer() {
     el.textContent = `${String(mins).padStart(2, '0')}:${secs}`;
 
     el.classList.remove('warning', 'danger');
-    if (timeLeft <= 10) {
-        el.classList.add('danger');
-    } else if (timeLeft <= 15) {
-        el.classList.add('warning');
-    }
+    if (timeLeft <= 10)      el.classList.add('danger');
+    else if (timeLeft <= 15) el.classList.add('warning');
 }
 
 function startClientTimer() {
-    if (timerDisplay) clearInterval(timerDisplay);
-    timerDisplay = setInterval(() => {
-        if (battleEnded) { clearInterval(timerDisplay); return; }
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        if (battleEnded) { clearInterval(timerInterval); return; }
         timeLeft = Math.max(0, timeLeft - 1);
         renderTimer();
     }, 1000);
@@ -314,7 +401,6 @@ function flashTimerBonus() {
     const el = document.getElementById('survTimer');
     if (!el) return;
     el.classList.remove('bonus-flash');
-    // Force reflow to restart animation
     void el.offsetWidth;
     el.classList.add('bonus-flash');
     setTimeout(() => el.classList.remove('bonus-flash'), 600);
@@ -347,7 +433,10 @@ function loadStub(lang) {
     const stub = exerciseData.stub[lang] || '';
     const model = editor.getModel();
     monaco.editor.setModelLanguage(model, MONACO_LANG[lang] || 'plaintext');
+    // Use setValue without triggering our sync (stub load is intentional)
+    syncingFromRemote = true;
     editor.setValue(stub);
+    syncingFromRemote = false;
     editor.setPosition({ lineNumber: editor.getModel().getLineCount(), column: 1 });
     editor.focus();
 }
@@ -423,7 +512,6 @@ async function handleCheck() {
             statusEl.style.color = 'var(--accent-green)';
             showOutput('success', data);
             renderTestCases(exerciseData.test_cases, { correct: true });
-            // Show Save button
             document.getElementById('btnSave').classList.remove('hidden');
             btnCheck.classList.add('hidden');
         } else {
@@ -451,7 +539,6 @@ function handleSave() {
     const btnSave = document.getElementById('btnSave');
     btnSave.disabled = true;
     btnSave.innerHTML = '<span class="btn-icon">⏳</span> Enviando...';
-
     ws.send(JSON.stringify({ action: 'submit' }));
 }
 
@@ -507,7 +594,7 @@ function showWrongAnswerToast(details) {
         background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.35);
         color: rgba(239,68,68,0.9); padding: 10px 20px; border-radius: 8px;
         font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700;
-        z-index: 400; animation: survToastIn 0.3s ease;
+        z-index: 400;
     `;
     toast.textContent = `✗ ${details || 'Solución incorrecta'}`;
     document.body.appendChild(toast);
@@ -515,34 +602,63 @@ function showWrongAnswerToast(details) {
 }
 
 // ── Game Over ─────────────────────────────────────────────────────────────────
-function showGameOver(exercisesSolved, newRecord) {
+function showGameOver(exercisesSolved, newRecord, abandonedBy) {
     battleEnded = true;
-    clearInterval(timerDisplay);
+    clearInterval(timerInterval);
+    clearTimeout(syncTimer);
 
     if (editor) editor.updateOptions({ readOnly: true });
     document.getElementById('btnCheck').disabled = true;
     document.getElementById('btnSave').disabled  = true;
 
     document.getElementById('goExercisesNum').textContent = exercisesSolved;
+
+    const iconEl   = document.getElementById('goIcon');
+    const titleEl  = document.getElementById('goTitle');
+    const abandonEl = document.getElementById('goAbandonMsg');
+
+    if (abandonedBy) {
+        iconEl.textContent  = '🚪';
+        titleEl.textContent = 'Partida Terminada';
+        abandonEl.textContent = abandonedBy === myUsername
+            ? 'Abandonaste la partida'
+            : `${abandonedBy} salió de la partida`;
+        abandonEl.classList.remove('hidden');
+    } else {
+        iconEl.textContent  = '⏱';
+        titleEl.textContent = 'Tiempo Agotado';
+    }
+
     if (newRecord) {
         document.getElementById('goNewRecord').classList.remove('hidden');
     }
     document.getElementById('gameOverOverlay').classList.remove('hidden');
 }
 
-// ── Abandon modal ─────────────────────────────────────────────────────────────
-window.confirmLeave = function () {
-    if (battleEnded) { window.location.href = 'Home.html'; return; }
+// ── Leave / Abandon flow ──────────────────────────────────────────────────────
+window.confirmLeave = function (href) {
+    if (battleEnded) {
+        window.location.href = href || 'Home.html';
+        return;
+    }
+    pendingNavHref = href || 'Home.html';
     document.getElementById('abandonOverlay').classList.remove('hidden');
 };
+
 window.closeAbandonModal = function () {
     document.getElementById('abandonOverlay').classList.add('hidden');
 };
+
 window.doLeave = function () {
-    if (ws) ws.close();
-    window.location.href = 'Home.html';
+    if (ws?.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ action: 'abandon' }));
+    }
+    battleEnded = true;
+    window.location.href = pendingNavHref || 'Home.html';
 };
+
 window.replaySurvival = function () {
+    battleEnded = true;
     window.location.href = `SupervivenciaLobby.html?difficulty=${difficulty}`;
 };
 

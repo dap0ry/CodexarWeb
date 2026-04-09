@@ -952,6 +952,11 @@ html[data-theme="light"] .surv-modal-empty { color: #7a7a9a !important; }
 /* ═══════════════════════════════════════
    SUPERVIVENCIA BATTLE page
    ═══════════════════════════════════════ */
+html[data-theme="light"] .surv-meta-bar {
+    background: rgba(255,255,255,0.97) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.15) !important;
+}
+/* Legacy selectors kept for safety */
 html[data-theme="light"] .surv-header-bar {
     background: rgba(255,255,255,0.97) !important;
     border-bottom: 1px solid rgba(0,0,0,0.15) !important;
@@ -995,6 +1000,39 @@ html[data-theme="light"] .surv-player-avatar.solved {
 html[data-theme="light"] .surv-player-name { color: #3a3a5a !important; }
 html[data-theme="light"] .surv-player-sep  { background: rgba(0,0,0,0.12) !important; }
 
+/* Leave modal */
+html[data-theme="light"] .surv-leave-overlay {
+    background: rgba(0,0,0,0.55) !important;
+}
+html[data-theme="light"] .surv-leave-modal {
+    background: #ffffff !important;
+    border: 1px solid rgba(220,50,50,0.25) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .surv-leave-glow {
+    background: linear-gradient(90deg, transparent, rgba(220,50,50,0.2) 50%, transparent) !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .surv-leave-title { color: #0a0a0e !important; }
+html[data-theme="light"] .surv-leave-subtitle { color: #5a5a7a !important; }
+html[data-theme="light"] .surv-leave-btn-cancel {
+    border-color: rgba(0,0,0,0.2) !important;
+    color: #5a5a7a !important;
+}
+html[data-theme="light"] .surv-leave-btn-cancel:hover {
+    background: rgba(0,0,0,0.04) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .surv-leave-btn-confirm {
+    background: rgba(220,50,50,0.08) !important;
+    border-color: rgba(220,50,50,0.35) !important;
+    color: #881010 !important;
+}
+html[data-theme="light"] .surv-leave-btn-confirm:hover {
+    background: rgba(220,50,50,0.15) !important;
+    color: #550808 !important;
+}
+
 /* Game over overlay */
 html[data-theme="light"] .surv-gameover-overlay {
     background: rgba(240,242,247,0.92) !important;
@@ -1021,6 +1059,24 @@ html[data-theme="light"] .surv-record-badge {
     box-shadow: none !important;
     animation: none !important;
 }
+html[data-theme="light"] .surv-go-btn-secondary {
+    border-color: rgba(0,0,0,0.2) !important;
+    color: #5a5a7a !important;
+}
+html[data-theme="light"] .surv-go-btn-secondary:hover {
+    background: rgba(0,0,0,0.04) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .surv-go-btn-primary {
+    background: rgba(0,140,60,0.08) !important;
+    border-color: rgba(0,140,60,0.35) !important;
+    color: #005a28 !important;
+}
+html[data-theme="light"] .surv-go-btn-primary:hover {
+    background: rgba(0,140,60,0.15) !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .surv-gameover-abandon { color: rgba(180,30,30,0.8) !important; }
 
 
 /* ═══════════════════════════════════════
