@@ -145,7 +145,10 @@ function renderExercise(ex, user) {
 
     let diffClass = 'badge-normal';
     if (ex.difficulty === 'Fácil')   diffClass = 'badge-facil';
-    if (ex.difficulty === 'Difícil') diffClass = 'badge-dificil';
+    if (ex.difficulty === 'Difícil')     diffClass = 'badge-dificil';
+    if (ex.difficulty === 'Muy Difícil') diffClass = 'badge-muy-dificil';
+    if (ex.difficulty === 'Insane')      diffClass = 'badge-insane';
+    if (ex.difficulty === 'Abyssal')     diffClass = 'badge-abyssal';
 
     document.getElementById('exBadges').innerHTML = `
         <span class="ex-badge ${diffClass}">${ex.difficulty}</span>

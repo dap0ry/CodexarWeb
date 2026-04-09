@@ -73,7 +73,10 @@ function renderExercises(data) {
     data.forEach(ex => {
         let diffColorClass = 'badge-normal';
         if (ex.difficulty === 'Fácil') diffColorClass = 'badge-facil';
-        if (ex.difficulty === 'Difícil') diffColorClass = 'badge-dificil';
+        if (ex.difficulty === 'Difícil')     diffColorClass = 'badge-dificil';
+        if (ex.difficulty === 'Muy Difícil') diffColorClass = 'badge-muy-dificil';
+        if (ex.difficulty === 'Insane')      diffColorClass = 'badge-insane';
+        if (ex.difficulty === 'Abyssal')     diffColorClass = 'badge-abyssal';
 
         // First solver badge
         let firstSolverHtml = '';

@@ -441,5 +441,8 @@
 .badge-facil { border-color: rgba(57,255,20,0.5); color: var(--accent-green); background: rgba(57,255,20,0.05); }
 .badge-normal { border-color: rgba(248,152,32,0.5); color: #f89820; background: rgba(248,152,32,0.05); }
 .badge-dificil { border-color: rgba(255,51,102,0.5); color: var(--accent-red); background: rgba(255,51,102,0.05); }
+.badge-muy-dificil { border-color: rgba(255,80,0,0.7); color: #ff5a00; background: rgba(255,80,0,0.08); text-shadow: 0 0 6px rgba(255,80,0,0.4); }
+.badge-insane { border-color: rgba(140,0,255,0.7); color: #a000ff; background: rgba(140,0,255,0.1); text-shadow: 0 0 8px rgba(160,0,255,0.6); }
+.badge-abyssal { border-color: rgba(255,0,60,0.9); color: #ff003c; background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(40,0,10,0.95)); text-shadow: 0 0 6px rgba(255,0,60,0.8), 0 0 12px rgba(255,0,60,0.6); box-shadow: 0 0 10px rgba(255,0,60,0.5), inset 0 0 12px rgba(0,0,0,0.9); }
 .badge-category { border-color: rgba(0,255,204,0.3); color: var(--accent-cyan); background: transparent; }
 .badge-solved-ex { border-color: rgba(57,255,20,0.5); color: var(--accent-green); background: rgba(57,255,20,0.08); }
