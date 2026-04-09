@@ -445,8 +445,11 @@ body {
     overflow: hidden;
 }
 
-.pv-ranked-card { border-top: 2px solid rgba(255, 46, 99, 0.5); }
-.pv-bot-card    { border-top: 2px solid rgba(255, 107, 53, 0.5); }
+.pv-ranked-card   { border-top: 2px solid rgba(255, 46, 99, 0.5); }
+.pv-bot-card      { border-top: 2px solid rgba(255, 107, 53, 0.5); }
+.pv-survival-card { border-top: 2px solid rgba(57, 255, 20, 0.45); }
+.pv-survival-card .pv-card-label { color: rgba(57, 255, 20, 0.7); }
+.pv-survival-card .pv-stat-rows { display: flex; flex-direction: column; }
 
 /* ── VS CPU card inner layout ──────────────────────────────── */
 .pvb-body {

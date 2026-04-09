@@ -189,12 +189,14 @@ h1, h2, h3, h4, h5, h6, .brand {
 .card-exercises { --card-accent: #00ffcc; grid-area: exercises; border-left: 3px solid #00ffcc; }
 .card-ranked    { --card-accent: #ff2e63; grid-area: ranked;    border-left: 3px solid #ff2e63; }
 .card-vs-cpu    { --card-accent: #ff6b35; grid-area: vs-cpu;    border-left: 3px solid #ff6b35; }
+.card-survival  { --card-accent: #39ff14; border-left: 3px solid #39ff14; border-color: rgba(57,255,20,0.14); }
 
 .card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.45); }
 .card-tutorial:hover  { border-color: rgba(155,93,229,0.25);  border-left-color: #b47aff; }
 .card-exercises:hover { border-color: rgba(0,255,204,0.2);    border-left-color: #33ffda; }
 .card-ranked:hover    { border-color: rgba(255,46,99,0.22);   border-left-color: #ff5580; }
 .card-vs-cpu:hover    { border-color: rgba(255,107,53,0.22);  border-left-color: #ff8c55; }
+.card-survival:hover  { border-color: rgba(57,255,20,0.28);   border-left-color: #39ff14; box-shadow: 0 8px 28px rgba(57,255,20,0.06), 0 8px 28px rgba(0,0,0,0.45); }
 
 /* ════════════════════════════════
    CARD SHARED COMPONENTS
@@ -278,6 +280,8 @@ h1, h2, h3, h4, h5, h6, .brand {
 .card-ranked    .btn-card:hover { background: rgba(255,46,99,0.1); border-color: rgba(255,46,99,0.55); color: #fff; }
 .card-vs-cpu    .btn-card { border-color: rgba(255,107,53,0.3);   color: rgba(255,107,53,0.9); }
 .card-vs-cpu    .btn-card:hover { background: rgba(255,107,53,0.1); border-color: rgba(255,107,53,0.55); color: #fff; }
+.card-survival  .btn-card { border-color: rgba(57,255,20,0.3);    color: rgba(57,255,20,0.9); }
+.card-survival  .btn-card:hover { background: rgba(57,255,20,0.1); border-color: rgba(57,255,20,0.55); color: #fff; }
 
 .btn-card-ghost {
     width: 100%; padding: 7px 14px;

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../services/themeService.js"></script>
-    <title>Codexar — VS CPU</title>
+    <title>Codexar — Supervivencia</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/VsCpu.css">
+    <link rel="stylesheet" href="../assets/css/Supervivencia.css">
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/theme-light.css">
 </head>
@@ -33,73 +33,76 @@
         </div>
     </nav>
 
-    <div class="vscpu-container">
+    <div class="surv-container">
 
-        <div class="vscpu-header">
-            <div class="vscpu-eyebrow">
-                <span class="eyebrow-dot-red"></span>
-                VS CPU · MODO INDIVIDUAL
+        <div class="surv-header">
+            <div class="surv-eyebrow">
+                <span class="eyebrow-dot-green"></span>
+                SUPERVIVENCIA · COOPERATIVO
             </div>
-            <h1 class="vscpu-title">Elige tu dificultad</h1>
-            <p class="vscpu-subtitle">Resuelve un ejercicio aleatorio antes de que el tiempo se acabe.</p>
+            <h1 class="surv-title">Elige tu dificultad</h1>
+            <p class="surv-subtitle">Resuelve ejercicios en cadena. Cada solución suma tiempo. ¿Hasta cuándo aguantarás?</p>
         </div>
 
-        <div class="diff-grid">
+        <div class="surv-diff-grid">
 
             <!-- NORMAL -->
-            <div class="diff-card diff-normal" onclick="window.location.href='VsCpuBattle.html?difficulty=normal'">
-                <div class="diff-glow diff-glow-normal"></div>
+            <div class="diff-card diff-surv-normal" onclick="window.location.href='SupervivenciaLobby.html?difficulty=normal'">
+                <div class="diff-glow diff-glow-surv-normal"></div>
                 <div class="diff-card-inner">
                     <div class="diff-icon">🟢</div>
                     <div class="diff-label">NORMAL</div>
                     <div class="diff-title">Modo Estándar</div>
-                    <p class="diff-desc">Tiempo suficiente para pensar y refinar tu solución.</p>
-                    <div class="diff-time-badge diff-time-normal">
+                    <p class="diff-desc">Tiempo inicial generoso. Ideal para aprender el ritmo de la supervivencia.</p>
+                    <div class="diff-time-badge diff-time-surv-normal">
                         <span class="diff-time-icon">⏱</span>
-                        <span>6 – 45 min</span>
+                        <span>60s · +10s por ejercicio</span>
                     </div>
                     <div class="diff-tags">
-                        <span class="diff-tag">EJERCICIO ALEATORIO</span>
+                        <span class="diff-tag">1 – 4 JUGADORES</span>
+                        <span class="diff-tag">COOPERATIVO</span>
                     </div>
-                    <button class="btn-diff btn-diff-normal">JUGAR →</button>
+                    <button class="btn-diff btn-diff-surv-normal">JUGAR →</button>
                 </div>
             </div>
 
             <!-- DIFÍCIL -->
-            <div class="diff-card diff-hard" onclick="window.location.href='VsCpuBattle.html?difficulty=dificil'">
-                <div class="diff-glow diff-glow-hard"></div>
+            <div class="diff-card diff-surv-hard" onclick="window.location.href='SupervivenciaLobby.html?difficulty=dificil'">
+                <div class="diff-glow diff-glow-surv-hard"></div>
                 <div class="diff-card-inner">
                     <div class="diff-icon">🔴</div>
                     <div class="diff-label">DIFÍCIL</div>
                     <div class="diff-title">Modo Presión</div>
-                    <p class="diff-desc">El bot no te da respiro. La mitad del tiempo.</p>
-                    <div class="diff-time-badge diff-time-hard">
+                    <p class="diff-desc">Menos tiempo, menos bonus. Cada segundo cuenta más que el anterior.</p>
+                    <div class="diff-time-badge diff-time-surv-hard">
                         <span class="diff-time-icon">⚡</span>
-                        <span>3 – 25 min</span>
+                        <span>45s · +7s por ejercicio</span>
                     </div>
                     <div class="diff-tags">
-                        <span class="diff-tag">EJERCICIO ALEATORIO</span>
+                        <span class="diff-tag">1 – 4 JUGADORES</span>
+                        <span class="diff-tag">COOPERATIVO</span>
                     </div>
-                    <button class="btn-diff btn-diff-hard">JUGAR →</button>
+                    <button class="btn-diff btn-diff-surv-hard">JUGAR →</button>
                 </div>
             </div>
 
             <!-- DEMENCIAL -->
-            <div class="diff-card diff-demencial" onclick="window.location.href='VsCpuBattle.html?difficulty=demencial'">
-                <div class="diff-glow diff-glow-demencial"></div>
+            <div class="diff-card diff-surv-demencial" onclick="window.location.href='SupervivenciaLobby.html?difficulty=demencial'">
+                <div class="diff-glow diff-glow-surv-demencial"></div>
                 <div class="diff-card-inner">
                     <div class="diff-icon">💀</div>
                     <div class="diff-label">DEMENCIAL</div>
                     <div class="diff-title">Sin Piedad</div>
-                    <p class="diff-desc">Un cuarto del tiempo. Solo para los mejores.</p>
-                    <div class="diff-time-badge diff-time-demencial">
+                    <p class="diff-desc">30 segundos. 5 de bonus. Solo para los mejores equipos.</p>
+                    <div class="diff-time-badge diff-time-surv-demencial">
                         <span class="diff-time-icon">☠</span>
-                        <span>90s – 15 min</span>
+                        <span>30s · +5s por ejercicio</span>
                     </div>
                     <div class="diff-tags">
-                        <span class="diff-tag">EJERCICIO ALEATORIO</span>
+                        <span class="diff-tag">1 – 4 JUGADORES</span>
+                        <span class="diff-tag">COOPERATIVO</span>
                     </div>
-                    <button class="btn-diff btn-diff-demencial">JUGAR →</button>
+                    <button class="btn-diff btn-diff-surv-demencial">JUGAR →</button>
                 </div>
             </div>
 
@@ -110,7 +113,7 @@
     </div>
 
     <script src="../services/matchmakingGlobal.js"></script>
-    <script src="../services/vsCpu.js"></script>
+    <script src="../services/supervivencia.js"></script>
     <script src="../services/friendlyNotifications.js"></script>
     <script src="../services/survivalNotifications.js"></script>
 </body>

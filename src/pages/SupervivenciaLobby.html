@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../services/themeService.js"></script>
+    <title>Codexar — Supervivencia Lobby</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/SupervivenciaLobby.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Supervivencia.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html"        class="dropdown-item">Inicio</a>
+                <a href="Profile.html"     class="dropdown-item">Perfil</a>
+                <a href="Logros.html"      class="dropdown-item">Logros</a>
+                <a href="Friends.html"     class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Tema.html"        class="dropdown-item">Tema</a>
+                <a href="#"                class="dropdown-item">Ayuda</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="lobby-container">
+
+        <!-- Main lobby box -->
+        <div class="lobby-box">
+
+            <div class="lobby-header">
+                <div class="lobby-eyebrow">
+                    <span class="eyebrow-dot-green"></span>
+                    <span id="lobbyTitle">SUPERVIVENCIA · NORMAL</span>
+                </div>
+                <div class="lobby-meta" id="lobbyMeta">60s de inicio · +10s por ejercicio</div>
+            </div>
+
+            <!-- Player slots -->
+            <div class="lobby-slots" id="lobbySlots">
+                <!-- Injected by JS -->
+            </div>
+
+            <!-- Host actions -->
+            <div class="lobby-actions" id="lobbyActions">
+                <!-- Injected by JS -->
+            </div>
+
+            <button class="btn-back-lobby" onclick="window.location.href='Supervivencia.html'">← Cambiar dificultad</button>
+
+        </div>
+
+    </div>
+
+    <!-- Friend invite modal -->
+    <div class="surv-modal-overlay hidden" id="inviteModal">
+        <div class="surv-modal">
+            <div class="surv-modal-header">
+                <span class="surv-modal-title">Invitar Amigo</span>
+                <button class="surv-modal-close" id="closeModal">✕</button>
+            </div>
+            <div class="surv-modal-body">
+                <div class="surv-friend-list" id="friendList">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../services/matchmakingGlobal.js"></script>
+    <script src="../services/supervivenciaLobby.js"></script>
+    <script src="../services/friendlyNotifications.js"></script>
+    <script src="../services/survivalNotifications.js"></script>
+</body>
+</html>

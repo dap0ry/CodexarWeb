@@ -1,0 +1,317 @@
+/* ============================================================
+   Supervivencia.css — Codexar Survival Mode — Selección de dificultad
+   ============================================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #07070f;
+    color: #e6e6f0;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Container ────────────────────────────────────────────── */
+.surv-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 24px;
+    gap: 32px;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.surv-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.surv-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(57, 255, 20, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.eyebrow-dot-green {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #39ff14;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.9);
+    animation: blink-green 2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+@keyframes blink-green { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.surv-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e6e6f0;
+    line-height: 1;
+}
+
+.surv-subtitle {
+    font-size: 0.85rem;
+    color: rgba(230, 230, 240, 0.45);
+    max-width: 480px;
+}
+
+/* ── Difficulty Grid ──────────────────────────────────────── */
+.surv-diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 960px;
+}
+
+/* ── Diff Card (shared) ───────────────────────────────────── */
+.diff-card {
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.diff-card-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 28px 24px;
+}
+
+/* Normal (green) */
+.diff-surv-normal {
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(57,255,20,0.16) 0%, transparent 65%),
+        linear-gradient(160deg, #070f07 0%, #07090d 100%);
+    border-top: 1px solid rgba(57,255,20,0.5);
+    border-color: rgba(57,255,20,0.12);
+}
+.diff-surv-normal:hover {
+    border-color: rgba(57,255,20,0.4);
+    box-shadow: 0 0 40px rgba(57,255,20,0.1), 0 12px 40px rgba(0,0,0,0.5);
+    transform: translateY(-4px);
+}
+
+/* Hard (red) */
+.diff-surv-hard {
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(255,60,60,0.2) 0%, transparent 65%),
+        linear-gradient(160deg, #0f0607 0%, #09070d 100%);
+    border-top: 1px solid rgba(255,60,60,0.55);
+    border-color: rgba(255,60,60,0.14);
+}
+.diff-surv-hard:hover {
+    border-color: rgba(255,60,60,0.42);
+    box-shadow: 0 0 40px rgba(255,60,60,0.12), 0 12px 40px rgba(0,0,0,0.5);
+    transform: translateY(-4px);
+}
+
+/* Demencial (purple) */
+.diff-surv-demencial {
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(180,0,255,0.22) 0%, transparent 65%),
+        linear-gradient(160deg, #0c0614 0%, #09060e 100%);
+    border-top: 1px solid rgba(180,0,255,0.55);
+    border-color: rgba(180,0,255,0.14);
+}
+.diff-surv-demencial:hover {
+    border-color: rgba(180,0,255,0.45);
+    box-shadow: 0 0 40px rgba(180,0,255,0.14), 0 12px 40px rgba(0,0,0,0.5);
+    transform: translateY(-4px);
+}
+
+/* Top glow lines */
+.diff-glow {
+    position: absolute;
+    top: 0; left: 10%; right: 10%; height: 1px;
+    z-index: 2;
+    animation: glow-breathe 3s ease-in-out infinite;
+}
+.diff-glow-surv-normal {
+    background: linear-gradient(90deg, transparent, rgba(57,255,20,0.7) 50%, transparent);
+    box-shadow: 0 0 14px rgba(57,255,20,0.6);
+}
+.diff-glow-surv-hard {
+    background: linear-gradient(90deg, transparent, rgba(255,60,60,0.8) 50%, transparent);
+    box-shadow: 0 0 14px rgba(255,60,60,0.7);
+}
+.diff-glow-surv-demencial {
+    background: linear-gradient(90deg, transparent, rgba(180,0,255,0.85) 50%, transparent);
+    box-shadow: 0 0 14px rgba(180,0,255,0.7);
+}
+@keyframes glow-breathe { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+.diff-icon { font-size: 2rem; line-height: 1; }
+
+.diff-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.5;
+}
+
+.diff-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #e6e6f0;
+    line-height: 1;
+}
+
+.diff-desc {
+    font-size: 0.78rem;
+    color: rgba(230,230,240,0.5);
+    line-height: 1.5;
+    max-width: 220px;
+}
+
+.diff-time-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+.diff-time-surv-normal {
+    background: rgba(57,255,20,0.07);
+    border: 1px solid rgba(57,255,20,0.25);
+    color: rgba(57,255,20,0.85);
+}
+.diff-time-surv-hard {
+    background: rgba(255,60,60,0.07);
+    border: 1px solid rgba(255,60,60,0.3);
+    color: rgba(255,80,80,0.9);
+}
+.diff-time-surv-demencial {
+    background: rgba(180,0,255,0.07);
+    border: 1px solid rgba(180,0,255,0.3);
+    color: rgba(200,80,255,0.9);
+}
+
+.diff-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.diff-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(230,230,240,0.4);
+}
+
+/* Buttons */
+.btn-diff {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    margin-top: 4px;
+}
+.btn-diff-surv-normal {
+    background: rgba(57,255,20,0.08);
+    border: 1px solid rgba(57,255,20,0.3);
+    color: rgba(57,255,20,0.9);
+}
+.btn-diff-surv-normal:hover {
+    background: rgba(57,255,20,0.16);
+    border-color: rgba(57,255,20,0.6);
+    box-shadow: 0 0 22px rgba(57,255,20,0.2);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.btn-diff-surv-hard {
+    background: rgba(255,60,60,0.08);
+    border: 1px solid rgba(255,60,60,0.32);
+    color: rgba(255,80,80,0.9);
+}
+.btn-diff-surv-hard:hover {
+    background: rgba(255,60,60,0.16);
+    border-color: rgba(255,60,60,0.6);
+    box-shadow: 0 0 22px rgba(255,60,60,0.2);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.btn-diff-surv-demencial {
+    background: rgba(180,0,255,0.08);
+    border: 1px solid rgba(180,0,255,0.32);
+    color: rgba(200,80,255,0.9);
+}
+.btn-diff-surv-demencial:hover {
+    background: rgba(180,0,255,0.16);
+    border-color: rgba(180,0,255,0.6);
+    box-shadow: 0 0 22px rgba(180,0,255,0.2);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ── Back button ──────────────────────────────────────────── */
+.btn-back-home {
+    background: transparent;
+    border: none;
+    color: rgba(230,230,240,0.35);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px 0;
+}
+.btn-back-home:hover { color: rgba(230,230,240,0.75); }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-height: 700px) {
+    .surv-container { gap: 20px; padding-top: 72px; }
+    .surv-title { font-size: 1.7rem; }
+    .diff-card-inner { padding: 18px 18px; gap: 8px; }
+    .diff-icon { font-size: 1.5rem; }
+}
+
+@media (max-width: 800px) {
+    .surv-diff-grid { grid-template-columns: 1fr; max-width: 360px; }
+}

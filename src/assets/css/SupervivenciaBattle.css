@@ -1,0 +1,291 @@
+/* ============================================================
+   SupervivenciaBattle.css — Codexar Survival Mode Battle
+   ============================================================ */
+
+/* ── Utility ──────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Survival Header Bar ──────────────────────────────────── */
+.surv-header-bar {
+    position: fixed;
+    top: 70px;
+    left: 0; right: 0;
+    z-index: 90;
+    background: #0a0a14;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.1);
+    padding: 6px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+}
+
+.surv-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.surv-mode-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(57, 255, 20, 0.7);
+}
+
+.surv-diff-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(230, 230, 240, 0.5);
+}
+
+.surv-ex-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(230, 230, 240, 0.4);
+}
+
+.surv-sep {
+    color: rgba(255,255,255,0.15);
+    font-size: 0.65rem;
+}
+
+.surv-timer-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #39ff14;
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+    transition: color 0.5s ease;
+    min-width: 80px;
+    text-align: right;
+}
+
+.surv-timer-display.warning {
+    color: #f59e0b;
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+.surv-timer-display.danger {
+    color: #ef4444;
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    animation: pulse-timer 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse-timer {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+}
+
+.surv-timer-display.bonus-flash {
+    animation: flash-bonus 0.5s ease-out;
+}
+@keyframes flash-bonus {
+    0%  { color: #fff; text-shadow: 0 0 30px #39ff14, 0 0 60px #39ff14; }
+    100% { color: #39ff14; text-shadow: 0 0 20px rgba(57,255,20,0.5); }
+}
+
+/* ── Players Bar ──────────────────────────────────────────── */
+.surv-players-bar {
+    position: fixed;
+    top: 114px; /* navbar(70) + header-bar(44) */
+    left: 0; right: 0;
+    z-index: 89;
+    background: rgba(10, 10, 20, 0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 52px;
+}
+
+.surv-player-slot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.surv-player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+    color: rgba(230,230,240,0.8);
+    transition: box-shadow 0.3s ease;
+}
+
+.surv-player-avatar.solved {
+    box-shadow: 0 0 0 2px #39ff14, 0 0 20px rgba(57, 255, 20, 0.6);
+    animation: solved-pulse 0.5s ease-out;
+}
+@keyframes solved-pulse {
+    0%   { box-shadow: 0 0 0 4px #39ff14, 0 0 40px rgba(57,255,20,0.9); }
+    100% { box-shadow: 0 0 0 2px #39ff14, 0 0 20px rgba(57,255,20,0.6); }
+}
+
+.surv-player-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: rgba(230,230,240,0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+}
+
+.surv-player-sep {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+
+/* ── Adjust solve-main top offset ────────────────────────── */
+.surv-solve-main {
+    /* navbar(70) + header-bar(44) + players-bar(52) = 166px */
+    margin-top: 166px !important;
+    height: calc(100vh - 166px) !important;
+}
+
+/* ── Game Over Overlay ─────────────────────────────────────── */
+.surv-gameover-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.surv-gameover-overlay.hidden { display: none; }
+
+.surv-gameover-box {
+    background: rgba(8, 10, 18, 0.98);
+    border: 1px solid rgba(57, 255, 20, 0.15);
+    border-radius: 20px;
+    padding: 48px 56px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 360px;
+}
+
+.surv-gameover-glow {
+    position: absolute;
+    top: 0; left: 20%; right: 20%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(57,255,20,0.5) 50%, transparent);
+    box-shadow: 0 0 20px rgba(57,255,20,0.3);
+}
+
+.surv-gameover-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.surv-gameover-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+}
+
+.surv-gameover-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e6e6f0;
+}
+
+.surv-gameover-solved {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.surv-gameover-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #39ff14;
+    text-shadow: 0 0 30px rgba(57, 255, 20, 0.4);
+    line-height: 1;
+}
+
+.surv-gameover-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(230, 230, 240, 0.4);
+}
+
+.surv-gameover-record {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.surv-record-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(57, 255, 20, 0.1);
+    border: 1px solid rgba(57, 255, 20, 0.35);
+    color: #39ff14;
+    animation: record-glow 2s ease-in-out infinite;
+}
+@keyframes record-glow {
+    0%,100% { box-shadow: 0 0 10px rgba(57,255,20,0.2); }
+    50%      { box-shadow: 0 0 20px rgba(57,255,20,0.5); }
+}
+
+.surv-gameover-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-height: 700px) {
+    .surv-timer-display { font-size: 1.25rem; }
+    .surv-header-bar { height: 38px; padding: 4px 16px; }
+    .surv-players-bar { top: 108px; min-height: 44px; }
+    .surv-solve-main {
+        margin-top: 152px !important;
+        height: calc(100vh - 152px) !important;
+    }
+}
