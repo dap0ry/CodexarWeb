@@ -765,3 +765,327 @@ html[data-theme="light"] .subtitle { color: #2a2a40 !important; }
 
 /* Donut chart text */
 html[data-theme="light"] .donut-text { fill: #0a0a0e !important; }
+
+
+/* ═══════════════════════════════════════
+   SUPERVIVENCIA — difficulty selection page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .surv-title    { color: #0a0a0e !important; text-shadow: none !important; }
+html[data-theme="light"] .surv-subtitle { color: #3a3a5a !important; }
+html[data-theme="light"] .surv-eyebrow  { color: rgba(0,130,60,0.85) !important; }
+html[data-theme="light"] .eyebrow-dot-green {
+    background: #007a30 !important;
+    box-shadow: 0 0 6px rgba(0,120,50,0.35) !important;
+}
+
+/* Difficulty cards — survival */
+html[data-theme="light"] .diff-surv-normal {
+    background: linear-gradient(160deg, #f0fff8 0%, #f8fcff 100%) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    border-top: 2px solid rgba(0,180,80,0.5) !important;
+}
+html[data-theme="light"] .diff-surv-hard {
+    background: linear-gradient(160deg, #fff4f4 0%, #fffaf8 100%) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    border-top: 2px solid rgba(220,50,50,0.5) !important;
+}
+html[data-theme="light"] .diff-surv-demencial {
+    background: linear-gradient(160deg, #f8f0ff 0%, #fff8fe 100%) !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    border-top: 2px solid rgba(160,0,220,0.5) !important;
+}
+html[data-theme="light"] .diff-surv-normal:hover,
+html[data-theme="light"] .diff-surv-hard:hover,
+html[data-theme="light"] .diff-surv-demencial:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14) !important;
+}
+
+/* Glow lines — hide in light mode */
+html[data-theme="light"] .diff-glow { opacity: 0 !important; animation: none !important; }
+
+/* Diff card inner text */
+html[data-theme="light"] .diff-surv-normal .diff-title,
+html[data-theme="light"] .diff-surv-hard   .diff-title,
+html[data-theme="light"] .diff-surv-demencial .diff-title { color: #0a0a0e !important; }
+html[data-theme="light"] .diff-surv-normal .diff-desc,
+html[data-theme="light"] .diff-surv-hard   .diff-desc,
+html[data-theme="light"] .diff-surv-demencial .diff-desc  { color: #3a3a5a !important; }
+html[data-theme="light"] .diff-label  { color: #5a5a7a !important; opacity: 1 !important; }
+html[data-theme="light"] .diff-tag {
+    background: rgba(0,0,0,0.05) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+    color: #5a5a7a !important;
+}
+
+/* Time badges — survival variants */
+html[data-theme="light"] .diff-time-surv-normal {
+    background: rgba(0,180,80,0.08) !important;
+    border-color: rgba(0,180,80,0.35) !important;
+    color: #006630 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .diff-time-surv-hard {
+    background: rgba(220,50,50,0.08) !important;
+    border-color: rgba(220,50,50,0.35) !important;
+    color: #881010 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .diff-time-surv-demencial {
+    background: rgba(150,0,220,0.08) !important;
+    border-color: rgba(150,0,220,0.35) !important;
+    color: #660099 !important;
+    box-shadow: none !important;
+}
+
+/* Start buttons on diff cards */
+html[data-theme="light"] .btn-diff-surv-normal {
+    background: rgba(0,180,80,0.08) !important;
+    border-color: rgba(0,180,80,0.35) !important;
+    color: #006630 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .btn-diff-surv-normal:hover { background: rgba(0,180,80,0.15) !important; color: #004420 !important; }
+html[data-theme="light"] .btn-diff-surv-hard {
+    background: rgba(220,50,50,0.08) !important;
+    border-color: rgba(220,50,50,0.35) !important;
+    color: #881010 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .btn-diff-surv-hard:hover { background: rgba(220,50,50,0.15) !important; color: #550808 !important; }
+html[data-theme="light"] .btn-diff-surv-demencial {
+    background: rgba(150,0,220,0.08) !important;
+    border-color: rgba(150,0,220,0.35) !important;
+    color: #660099 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .btn-diff-surv-demencial:hover { background: rgba(150,0,220,0.15) !important; color: #440066 !important; }
+
+
+/* ═══════════════════════════════════════
+   SUPERVIVENCIA LOBBY page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .lobby-box {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10) !important;
+}
+html[data-theme="light"] .lobby-eyebrow { color: rgba(0,130,60,0.85) !important; }
+html[data-theme="light"] .lobby-meta    { color: #5a5a7a !important; }
+
+/* Player slots */
+html[data-theme="light"] .lobby-slot-avatar {
+    background: rgba(0,0,0,0.04) !important;
+    border: 2px solid rgba(0,0,0,0.2) !important;
+    color: #006630 !important;
+}
+html[data-theme="light"] .lobby-slot-empty-avatar {
+    background: rgba(0,0,0,0.03) !important;
+    border: 2px dashed rgba(0,0,0,0.22) !important;
+}
+html[data-theme="light"] .lobby-slot-empty-avatar:hover {
+    background: rgba(0,150,70,0.06) !important;
+    border-color: rgba(0,150,70,0.4) !important;
+}
+html[data-theme="light"] .lobby-slot-plus  { color: rgba(0,120,50,0.5) !important; }
+html[data-theme="light"] .lobby-slot-empty-avatar:hover .lobby-slot-plus { color: rgba(0,120,50,0.9) !important; }
+html[data-theme="light"] .lobby-slot-name  { color: #1a1a2e !important; }
+html[data-theme="light"] .lobby-slot-badge {
+    background: rgba(0,140,60,0.08) !important;
+    border-color: rgba(0,140,60,0.28) !important;
+    color: #005a28 !important;
+}
+html[data-theme="light"] .lobby-slot-pending { color: #7a7a9a !important; }
+
+/* Start button */
+html[data-theme="light"] .btn-start {
+    background: rgba(0,160,70,0.1) !important;
+    border-color: rgba(0,160,70,0.45) !important;
+    color: #006630 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .btn-start:hover {
+    background: rgba(0,160,70,0.18) !important;
+    border-color: rgba(0,160,70,0.65) !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12) !important;
+}
+html[data-theme="light"] .lobby-waiting-text { color: #7a7a9a !important; }
+html[data-theme="light"] .btn-back-lobby     { color: #7a7a9a !important; }
+html[data-theme="light"] .btn-back-lobby:hover { color: #1a1a2e !important; }
+
+/* Friend invite modal */
+html[data-theme="light"] .surv-modal-overlay {
+    background: rgba(0,0,0,0.55) !important;
+}
+html[data-theme="light"] .surv-modal {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18) !important;
+}
+html[data-theme="light"] .surv-modal-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+html[data-theme="light"] .surv-modal-title { color: rgba(0,130,60,0.85) !important; }
+html[data-theme="light"] .surv-modal-close { color: #5a5a7a !important; }
+html[data-theme="light"] .surv-modal-close:hover { color: #0a0a0e !important; }
+html[data-theme="light"] .surv-friend-row:hover { background: rgba(0,150,70,0.04) !important; }
+html[data-theme="light"] .surv-friend-avatar {
+    background: #f0f2f7 !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    color: #3a3a5a !important;
+}
+html[data-theme="light"] .surv-friend-name   { color: #0a0a0e !important; }
+html[data-theme="light"] .surv-friend-status { color: #5a5a7a !important; }
+html[data-theme="light"] .surv-friend-status.online { color: #006630 !important; }
+html[data-theme="light"] .surv-friend-invite-btn {
+    background: rgba(0,140,60,0.08) !important;
+    border-color: rgba(0,140,60,0.30) !important;
+    color: #005a28 !important;
+}
+html[data-theme="light"] .surv-friend-invite-btn:hover {
+    background: rgba(0,140,60,0.16) !important;
+    border-color: rgba(0,140,60,0.5) !important;
+    color: #004020 !important;
+}
+html[data-theme="light"] .surv-modal-empty { color: #7a7a9a !important; }
+
+
+/* ═══════════════════════════════════════
+   SUPERVIVENCIA BATTLE page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .surv-header-bar {
+    background: rgba(255,255,255,0.97) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .surv-mode-label { color: rgba(0,120,55,0.85) !important; }
+html[data-theme="light"] .surv-diff-label { color: #3a3a5a !important; }
+html[data-theme="light"] .surv-ex-label   { color: #5a5a7a !important; }
+html[data-theme="light"] .surv-sep        { color: rgba(0,0,0,0.25) !important; }
+
+/* Timer — all states */
+html[data-theme="light"] .surv-timer-display {
+    color: #006630 !important;
+    text-shadow: none !important;
+}
+html[data-theme="light"] .surv-timer-display.warning {
+    color: #b06000 !important;
+    text-shadow: none !important;
+}
+html[data-theme="light"] .surv-timer-display.danger {
+    color: #b01010 !important;
+    text-shadow: none !important;
+}
+html[data-theme="light"] .surv-timer-display.bonus-flash {
+    animation: none !important;
+    color: #006630 !important;
+}
+
+/* Players bar */
+html[data-theme="light"] .surv-players-bar {
+    background: rgba(255,255,255,0.95) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.12) !important;
+}
+html[data-theme="light"] .surv-player-avatar {
+    background-color: #e8eaf2 !important;
+    border-color: rgba(0,0,0,0.18) !important;
+    color: #3a3a5a !important;
+}
+html[data-theme="light"] .surv-player-avatar.solved {
+    box-shadow: 0 0 0 2px #006630, 0 0 10px rgba(0,100,50,0.25) !important;
+}
+html[data-theme="light"] .surv-player-name { color: #3a3a5a !important; }
+html[data-theme="light"] .surv-player-sep  { background: rgba(0,0,0,0.12) !important; }
+
+/* Game over overlay */
+html[data-theme="light"] .surv-gameover-overlay {
+    background: rgba(240,242,247,0.92) !important;
+}
+html[data-theme="light"] .surv-gameover-box {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .surv-gameover-glow {
+    background: linear-gradient(90deg, transparent, rgba(0,160,80,0.25) 50%, transparent) !important;
+    box-shadow: 0 0 14px rgba(0,140,70,0.15) !important;
+}
+html[data-theme="light"] .surv-gameover-title { color: #0a0a0e !important; }
+html[data-theme="light"] .surv-gameover-num {
+    color: #006630 !important;
+    text-shadow: none !important;
+}
+html[data-theme="light"] .surv-gameover-label { color: #5a5a7a !important; }
+html[data-theme="light"] .surv-record-badge {
+    background: rgba(0,140,60,0.08) !important;
+    border-color: rgba(0,140,60,0.35) !important;
+    color: #005a28 !important;
+    box-shadow: none !important;
+    animation: none !important;
+}
+
+
+/* ═══════════════════════════════════════
+   HOME — Survival card
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .card-survival {
+    background: #ffffff !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    border-left-color: rgba(0,160,70,0.6) !important;
+}
+html[data-theme="light"] .card-survival:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+}
+html[data-theme="light"] .card-survival .btn-card {
+    border-color: rgba(0,150,65,0.35) !important;
+    color: #005a28 !important;
+    background: transparent !important;
+}
+html[data-theme="light"] .card-survival .btn-card:hover {
+    background: rgba(0,150,65,0.1) !important;
+    border-color: rgba(0,150,65,0.55) !important;
+    color: #003d1a !important;
+}
+
+
+/* ═══════════════════════════════════════
+   PROFILE VIEW — Survival stats card
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .pv-survival-card {
+    border-top: 2px solid rgba(0,160,70,0.45) !important;
+}
+html[data-theme="light"] .pv-survival-card .pv-card-label {
+    color: rgba(0,130,55,0.8) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   SURVIVAL NOTIFICATIONS — toast
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .sn-toast {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.18) !important;
+    border-left: 3px solid rgba(0,150,65,0.6) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .sn-toast-title { color: #0a0a0e !important; }
+html[data-theme="light"] .sn-toast-body  { color: #3a3a5a !important; }
+html[data-theme="light"] .sn-btn-accept {
+    background: rgba(0,140,60,0.1) !important;
+    border-color: rgba(0,140,60,0.35) !important;
+    color: #005a28 !important;
+}
+html[data-theme="light"] .sn-btn-accept:hover {
+    background: rgba(0,140,60,0.18) !important;
+    color: #003d1a !important;
+}
+html[data-theme="light"] .sn-btn-reject {
+    background: transparent !important;
+    border-color: rgba(0,0,0,0.18) !important;
+    color: #5a5a7a !important;
+}
+html[data-theme="light"] .sn-btn-reject:hover {
+    background: rgba(0,0,0,0.05) !important;
+    border-color: rgba(0,0,0,0.3) !important;
+    color: #0a0a0e !important;
+}
+html[data-theme="light"] .sn-toast-sub { color: #5a5a7a !important; }
