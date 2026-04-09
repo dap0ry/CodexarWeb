@@ -1,0 +1,379 @@
+/**
+ * theme-light.css — Codexar Light Theme Overrides
+ * Loaded on every page after all other stylesheets.
+ * Only active when <html data-theme="light"> is set by themeService.js.
+ *
+ * Organized by page/component section.
+ */
+
+/* ═══════════════════════════════════════
+   HOME — body + layout
+   ═══════════════════════════════════════ */
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(ellipse at 0% 100%, rgba(0,168,132,0.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 100% 0%, rgba(100,100,200,0.04) 0%, transparent 50%),
+        linear-gradient(rgba(0,168,132,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,168,132,0.025) 1px, transparent 1px) !important;
+    background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px !important;
+    color: #1a1a2e !important;
+}
+
+/* ── Home cards ── */
+html[data-theme="light"] .card {
+    background: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.07) !important;
+}
+html[data-theme="light"] .card:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+}
+html[data-theme="light"] .card-desc {
+    color: rgba(40, 40, 70, 0.65) !important;
+}
+html[data-theme="light"] .card-tutorial  { border-left-color: #9b5de5 !important; }
+html[data-theme="light"] .card-exercises { border-left-color: #00a884 !important; }
+html[data-theme="light"] .card-ranked    { border-left-color: #e8274b !important; }
+html[data-theme="light"] .card-vs-cpu    { border-left-color: #e85a1a !important; }
+
+html[data-theme="light"] .btn-card {
+    background: rgba(0, 0, 0, 0.025) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    color: #4a4a6a !important;
+}
+html[data-theme="light"] .card-ranked .btn-card  { border-color: rgba(232,39,75,0.3) !important;  color: rgba(232,39,75,0.9) !important; }
+html[data-theme="light"] .card-tutorial .btn-card { border-color: rgba(155,93,229,0.3) !important; color: rgba(155,93,229,0.9) !important; }
+html[data-theme="light"] .card-exercises .btn-card { border-color: rgba(0,168,132,0.35) !important; color: rgba(0,168,132,0.9) !important; }
+html[data-theme="light"] .card-vs-cpu .btn-card  { border-color: rgba(232,90,26,0.3) !important;  color: rgba(232,90,26,0.9) !important; }
+
+html[data-theme="light"] .btn-card-ghost {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ── Status bar ── */
+html[data-theme="light"] .status-bar {
+    background: linear-gradient(90deg,
+        rgba(0,168,132,0.06) 0%,
+        rgba(255,255,255,0.85) 30%,
+        rgba(255,255,255,0.85) 70%,
+        rgba(0,168,132,0.04) 100%) !important;
+    border-color: rgba(0, 168, 132, 0.18) !important;
+    border-left-color: #00a884 !important;
+    box-shadow: 0 0 12px rgba(0,168,132,0.06) !important;
+}
+html[data-theme="light"] .sb-center { color: rgba(0,168,132,0.35) !important; }
+html[data-theme="light"] .sb-chip-rank {
+    color: rgba(0,168,132,0.8) !important;
+    background: rgba(0,168,132,0.08) !important;
+    border-color: rgba(0,168,132,0.2) !important;
+}
+html[data-theme="light"] .sb-chip-streak {
+    color: rgba(34,197,94,0.9) !important;
+    background: rgba(34,197,94,0.08) !important;
+    border-color: rgba(34,197,94,0.22) !important;
+}
+
+/* ── Profile sidebar ── */
+html[data-theme="light"] .profile-viewer {
+    background: linear-gradient(155deg, #f8f9fc 0%, #f0f2f7 100%) !important;
+    border-color: #dde0ef !important;
+    box-shadow: -4px 10px 24px rgba(0, 0, 0, 0.06), inset 0 0 20px rgba(0,168,132,0.02) !important;
+}
+html[data-theme="light"] .profile-viewer::before {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) !important;
+}
+html[data-theme="light"] .sidebar-user-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(0,168,132,0.05)) !important;
+    border-color: rgba(0,168,132,0.25) !important;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06), inset 0 0 10px rgba(0,168,132,0.04) !important;
+}
+html[data-theme="light"] .sidebar-card {
+    background-color: rgba(255,255,255,0.7) !important;
+    border-color: rgba(0,0,0,0.06) !important;
+    border-top-color: rgba(255,255,255,0.9) !important;
+}
+html[data-theme="light"] .sidebar-card:hover { border-color: rgba(0,168,132,0.2) !important; }
+html[data-theme="light"] .stats-divider { background-color: #dde0ef !important; }
+html[data-theme="light"] .rank-badge {
+    background: linear-gradient(135deg, #8090b0, #c0c8d8) !important;
+}
+html[data-theme="light"] .rank-badge::after { background-color: #f0f2f7 !important; }
+html[data-theme="light"] .rank-text { color: #3a3a5a !important; }
+html[data-theme="light"] .achievement-badge {
+    background-color: #eef0f8 !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .btn-share {
+    border-color: #d0d4e8 !important;
+    color: #6b7080 !important;
+}
+html[data-theme="light"] .btn-share:hover {
+    color: var(--accent-cyan) !important;
+    border-color: rgba(0,168,132,0.35) !important;
+}
+
+/* ── Rangos modal ── */
+html[data-theme="light"] .rangos-overlay { background: rgba(0,0,0,0.45) !important; }
+html[data-theme="light"] .rangos-modal {
+    background: linear-gradient(155deg, #ffffff 0%, #f4f6fc 100%) !important;
+    border-color: rgba(232,39,75,0.2) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+}
+html[data-theme="light"] .rangos-header { background: rgba(232,39,75,0.03) !important; }
+html[data-theme="light"] .rangos-title { color: rgba(40,40,70,0.55) !important; }
+html[data-theme="light"] .rangos-close { color: #6b7080 !important; }
+html[data-theme="light"] .rank-tier-row:hover { background: rgba(0,0,0,0.03) !important; }
+html[data-theme="light"] .rank-tier-champion { background: rgba(255,215,0,0.04) !important; }
+html[data-theme="light"] .rangos-footer strong { color: rgba(40,40,70,0.7) !important; }
+
+
+/* ═══════════════════════════════════════
+   EXERCISES page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .offline-container {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f6fc 100%) !important;
+    border-color: #d0d4e8 !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07) !important;
+}
+html[data-theme="light"] .filters-panel {
+    background: rgba(255,255,255,0.8) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .cyber-select,
+html[data-theme="light"] .cyber-input {
+    background: #ffffff !important;
+    border-color: #d0d4e8 !important;
+    color: #1a1a2e !important;
+}
+html[data-theme="light"] .cyber-select option { background: #ffffff; color: #1a1a2e; }
+html[data-theme="light"] .exercises-list-wrapper {
+    background: rgba(0,0,0,0.02) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .exercises-list-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(0,168,132,0.25) !important;
+}
+html[data-theme="light"] .ex-card {
+    background: rgba(255,255,255,0.9) !important;
+    border-color: #d8dcea !important;
+}
+html[data-theme="light"] .ex-card:hover {
+    border-color: #00a884 !important;
+    background: rgba(0,168,132,0.025) !important;
+    transform: translateX(4px);
+}
+html[data-theme="light"] .ex-card-solved {
+    border-left-color: rgba(34,197,94,0.5) !important;
+    background: rgba(34,197,94,0.02) !important;
+}
+html[data-theme="light"] .ex-title { color: #1a1a2e !important; }
+html[data-theme="light"] .randomizer-panel {
+    background: rgba(0,0,0,0.02) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .btn-random {
+    background: #1a1a2e !important;
+    color: #f0f2f7 !important;
+}
+html[data-theme="light"] .btn-random:hover {
+    background: #00a884 !important;
+    box-shadow: 0 0 15px rgba(0,168,132,0.3) !important;
+}
+html[data-theme="light"] .btn-resolve {
+    border-color: #c0c4d8 !important;
+    color: #4a4a6a !important;
+}
+html[data-theme="light"] .ex-card:hover .btn-resolve {
+    border-color: #00a884 !important;
+    color: #00a884 !important;
+}
+html[data-theme="light"] .friends-tooltip {
+    background: #ffffff !important;
+    border-color: rgba(0,168,132,0.25) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   SOLVE PAGE
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .solve-breadcrumb {
+    background: rgba(255,255,255,0.95) !important;
+    border-bottom-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .solve-left {
+    border-right-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .solve-left::-webkit-scrollbar-thumb {
+    background: rgba(0,168,132,0.2) !important;
+}
+html[data-theme="light"] .solve-statement {
+    background: rgba(255,255,255,0.9) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .statement-body { color: #2a2a40 !important; }
+html[data-theme="light"] .statement-title { color: #1a1a2e !important; }
+
+
+/* ═══════════════════════════════════════
+   BATTLE PAGES (Ranked, Friendly, VsCpu)
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .battle-strip {
+    background: rgba(255,255,255,0.96) !important;
+    border-bottom-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .battle-avatar { background-color: #eef0f8 !important; }
+
+
+/* ═══════════════════════════════════════
+   AUTH PAGES (Login, Register, Verificacion)
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .auth-card {
+    background: rgba(255,255,255,0.9) !important;
+    border-color: rgba(0,168,132,0.2) !important;
+}
+html[data-theme="light"] .form-control {
+    background: rgba(240,242,247,0.8) !important;
+    color: #1a1a2e !important;
+    border-color: rgba(0,168,132,0.2) !important;
+}
+html[data-theme="light"] .form-control::placeholder {
+    color: rgba(40,40,80,0.3) !important;
+}
+html[data-theme="light"] .form-label { color: #5a6075 !important; }
+html[data-theme="light"] .auth-brand { color: #1a1a2e !important; }
+html[data-theme="light"] .auth-subtitle { color: #5a6075 !important; }
+
+
+/* ═══════════════════════════════════════
+   PROFILE page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .profile-container,
+html[data-theme="light"] .profile-card {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f6fc 100%) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .profile-field-group {
+    background-color: rgba(240,242,247,0.6) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .profile-input {
+    background-color: rgba(255,255,255,0.95) !important;
+    color: #1a1a2e !important;
+    border-color: #d0d4e8 !important;
+}
+
+
+/* ═══════════════════════════════════════
+   LEADERBOARD page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .player-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f4f6fc 100%) !important;
+    border-color: #d0d4e8 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07) !important;
+}
+html[data-theme="light"] .lb-username { color: #1a1a2e !important; }
+html[data-theme="light"] .lb-description { color: #5a6075 !important; }
+html[data-theme="light"] .lb-score { color: #5a6075 !important; }
+html[data-theme="light"] .lb-scene { background: none !important; }
+html[data-theme="light"] .lb-header { background: rgba(255,255,255,0.9) !important; }
+
+
+/* ═══════════════════════════════════════
+   FRIENDS page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .friends-container,
+html[data-theme="light"] .friend-card,
+html[data-theme="light"] .friend-request-card {
+    background: #ffffff !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .friend-username { color: #1a1a2e !important; }
+html[data-theme="light"] .friend-info { color: #5a6075 !important; }
+html[data-theme="light"] .search-friends-input {
+    background: #ffffff !important;
+    color: #1a1a2e !important;
+    border-color: #d0d4e8 !important;
+}
+
+
+/* ═══════════════════════════════════════
+   LOGROS (Achievements) page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .logros-container,
+html[data-theme="light"] .logro-card {
+    background: #ffffff !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .logro-name,
+html[data-theme="light"] .logro-title { color: #1a1a2e !important; }
+html[data-theme="light"] .logro-desc { color: #5a6075 !important; }
+
+
+/* ═══════════════════════════════════════
+   RANKED page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .ranked-container,
+html[data-theme="light"] .ranked-card {
+    background: #ffffff !important;
+    border-color: #d0d4e8 !important;
+}
+
+
+/* ═══════════════════════════════════════
+   TUTORIAL page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .tutorial-container,
+html[data-theme="light"] .lesson-card,
+html[data-theme="light"] .step-card {
+    background: #ffffff !important;
+    border-color: #d0d4e8 !important;
+}
+
+
+/* ═══════════════════════════════════════
+   VS CPU page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .vs-cpu-container {
+    background: #ffffff !important;
+    border-color: #d0d4e8 !important;
+}
+
+
+/* ═══════════════════════════════════════
+   PROFILE VIEW page
+   ═══════════════════════════════════════ */
+html[data-theme="light"] .profile-view-container,
+html[data-theme="light"] .pv-card {
+    background: linear-gradient(155deg, #ffffff 0%, #f4f6fc 100%) !important;
+    border-color: #d0d4e8 !important;
+}
+html[data-theme="light"] .pv-username { color: #1a1a2e !important; }
+html[data-theme="light"] .pv-stat-label { color: #5a6075 !important; }
+html[data-theme="light"] .pv-stat-value { color: #1a1a2e !important; }
+
+
+/* ═══════════════════════════════════════
+   GLOBAL SCROLLBARS — light
+   ═══════════════════════════════════════ */
+html[data-theme="light"] ::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.03) !important;
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: rgba(0,168,132,0.22) !important;
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,168,132,0.4) !important;
+}
+
+/* ═══════════════════════════════════════
+   INPUTS — global light override
+   ═══════════════════════════════════════ */
+html[data-theme="light"] input:focus,
+html[data-theme="light"] textarea:focus,
+html[data-theme="light"] select:focus {
+    border-color: rgba(0,168,132,0.4) !important;
+    box-shadow: 0 0 0 3px rgba(0,168,132,0.08) !important;
+}

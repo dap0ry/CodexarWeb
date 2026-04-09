@@ -4,18 +4,56 @@
  * breaking layouts or adding unwanted spacing/overflow.
  */
 
-/* ── Root tokens ── */
+/* ── Root tokens — DARK theme (default) ── */
 :root {
     --glow-cyan:    rgba(0, 255, 204, 0.12);
     --glow-cyan-hi: rgba(0, 255, 204, 0.30);
     --accent-cyan:  #00ffcc;
     --accent-green: #39ff14;
+    --accent-red:   #ff3366;
     --bg-dark:      #0a0a0e;
+    --bg-deep:      #07070f;
     --bg-card:      #13131a;
+    --bg-secondary: #1a1a24;
+    --border-color: #1a1a28;
+    --border-subtle: rgba(0, 255, 204, 0.10);
     --font-mono:    'JetBrains Mono', monospace;
     --font-body:    'Inter', sans-serif;
     --text-light:   #e8e8f0;
+    --text-primary: #e8e8f0;
     --text-muted:   #6b7280;
+    /* Auth.css aliases */
+    --bg:           #0a0a0e;
+    --text:         #e8e8f0;
+    --muted:        #52536a;
+    --accent:       #00ffcc;
+    --accent-dim:   rgba(0, 255, 204, 0.12);
+    --border:       rgba(0, 255, 204, 0.1);
+}
+
+/* ── LIGHT theme overrides ── */
+html[data-theme="light"] {
+    --glow-cyan:    rgba(0, 168, 132, 0.10);
+    --glow-cyan-hi: rgba(0, 168, 132, 0.22);
+    --accent-cyan:  #00a884;
+    --accent-green: #22c55e;
+    --accent-red:   #e8274b;
+    --bg-dark:      #f0f2f7;
+    --bg-deep:      #e4e8f0;
+    --bg-card:      #ffffff;
+    --bg-secondary: #eef0f8;
+    --border-color: #d0d4e8;
+    --border-subtle: rgba(0, 168, 132, 0.18);
+    --text-light:   #1a1a2e;
+    --text-primary: #1a1a2e;
+    --text-muted:   #5a6075;
+    /* Auth.css aliases */
+    --bg:           #f0f2f7;
+    --text:         #1a1a2e;
+    --muted:        #6b7280;
+    --accent:       #00a884;
+    --accent-dim:   rgba(0, 168, 132, 0.12);
+    --border:       rgba(0, 168, 132, 0.18);
 }
 
 /* ── Body reinforcement (no extra margin/padding) ── */
@@ -357,3 +395,65 @@ h1, h2 {
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .mm-btn-no:hover { color: var(--text-light); border-color: rgba(255, 255, 255, 0.4); }
+
+/* ═══════════════════════════════════════
+   LIGHT THEME — global shared overrides
+   ═══════════════════════════════════════ */
+
+/* Hide canvas particles and floating code in light mode */
+html[data-theme="light"] #globalBgCanvas,
+html[data-theme="light"] .g-code-float {
+    display: none !important;
+}
+
+/* Navbar light */
+html[data-theme="light"] .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(0, 168, 132, 0.15) !important;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08);
+}
+html[data-theme="light"] .brand { color: #1a1a2e !important; }
+
+/* User pill light */
+html[data-theme="light"] .user-pill {
+    background: rgba(240, 242, 247, 0.9) !important;
+    border-color: rgba(0, 168, 132, 0.18) !important;
+}
+html[data-theme="light"] .avatar {
+    background: rgba(0, 168, 132, 0.1) !important;
+    border-color: rgba(0, 168, 132, 0.25) !important;
+    color: var(--accent-cyan) !important;
+}
+html[data-theme="light"] .username-display { color: #1a1a2e !important; }
+
+/* Dropdown light */
+html[data-theme="light"] .user-dropdown {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(0, 168, 132, 0.18) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+}
+html[data-theme="light"] .dropdown-item { color: #5a6075 !important; }
+html[data-theme="light"] .dropdown-item:hover {
+    background: rgba(0, 168, 132, 0.07) !important;
+    color: var(--accent-cyan) !important;
+}
+html[data-theme="light"] .dropdown-divider {
+    background: rgba(0, 168, 132, 0.12) !important;
+}
+
+/* Matchmaking modal light */
+html[data-theme="light"] .mm-modal-overlay {
+    background: rgba(0, 0, 0, 0.45) !important;
+}
+html[data-theme="light"] .mm-modal-box {
+    border-color: rgba(0, 168, 132, 0.25) !important;
+}
+html[data-theme="light"] .mm-modal-text { color: #1a1a2e !important; }
+html[data-theme="light"] .mm-btn-no {
+    color: #5a6075 !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+}
+html[data-theme="light"] .mm-btn-no:hover {
+    color: #1a1a2e !important;
+    border-color: rgba(0, 0, 0, 0.3) !important;
+}
