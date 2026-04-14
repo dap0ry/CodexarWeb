@@ -35,26 +35,133 @@
         </div>
     </nav>
 
-    <!-- ── Sub-nav ── -->
-    <div class="sub-nav">
-        <div class="sub-nav-inner">
-            <a href="Home.html" class="sub-nav-item active">Inicio</a>
-            <a href="Exercises.html" class="sub-nav-item">Ejercicios</a>
-            <div class="sub-nav-item sub-nav-dropdown-wrap">
-                Competir <span class="sub-nav-arrow">▾</span>
-                <div class="sub-nav-dropdown">
-                    <a href="Ranked.html" class="sub-nav-dd-item">Clasificatoria</a>
-                    <a href="VsCpu.html"  class="sub-nav-dd-item">VS CPU</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <main class="main-container">
         <div class="content-grid">
 
-            <!-- ── Feed de Noticias ── -->
-            <div class="news-col">
+            <!-- ── Left: Profile + Navigation ── -->
+            <aside class="home-left">
+
+                <!-- Profile Hero -->
+                <div class="profile-hero">
+                    <div class="hero-top">
+                        <div class="hero-avatar-wrap">
+                            <div class="hero-avatar" id="sidebarAvatar"></div>
+                            <div class="hero-online-dot"></div>
+                        </div>
+                        <div class="hero-identity">
+                            <div class="hero-username" id="sidebarUsername">Cargando...</div>
+                            <div class="hero-role-badge" id="heroRoleBadge"></div>
+                            <div class="hero-desc" id="sidebarBadge">JUGADOR CODEXAR</div>
+                            <div class="hero-langs" id="sidebarLangs"></div>
+                        </div>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-val accent-cyan" id="homeRankText">—</div>
+                            <div class="hero-stat-label">Rango</div>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-val" id="statsTotal">0</div>
+                            <div class="hero-stat-label">Ejercicios</div>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-val accent-green" id="statsWins">0</div>
+                            <div class="hero-stat-label">Victorias</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-elo-row">
+                        <span class="hero-elo-label">ELO</span>
+                        <span class="hero-elo-val" id="heroElo">—</span>
+                        <span class="hero-global-rank" id="homeGlobalRank">#— Global</span>
+                    </div>
+
+                    <div class="hero-actions">
+                        <a href="Profile.html" class="btn-hero-action">Ver Perfil</a>
+                        <button class="btn-hero-share" id="shareProfileBtn" title="Compartir perfil">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation List -->
+                <nav class="home-nav-list">
+                    <a href="Ranked.html" class="hnl-item hnl-ranked">
+                        <span class="hnl-icon">⚔</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Clasificatoria</div>
+                            <div class="hnl-sub">Compite por ELO</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="Exercises.html" class="hnl-item hnl-exercises">
+                        <span class="hnl-icon">💻</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Ejercicios</div>
+                            <div class="hnl-sub">Práctica libre</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="VsCpu.html" class="hnl-item hnl-vscpu">
+                        <span class="hnl-icon">🤖</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">VS CPU</div>
+                            <div class="hnl-sub">Contra el bot</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="Tutorial.html" class="hnl-item hnl-tutorial">
+                        <span class="hnl-icon">📚</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Tutorial</div>
+                            <div class="hnl-sub">Aprende a programar</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="Friends.html" class="hnl-item hnl-friends">
+                        <span class="hnl-icon">👥</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Amigos</div>
+                            <div class="hnl-sub">Tu red</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="Leaderboard.html" class="hnl-item hnl-leaderboard">
+                        <span class="hnl-icon">🏆</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Clasificación</div>
+                            <div class="hnl-sub">Top jugadores</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="Teams.html" class="hnl-item hnl-teams">
+                        <span class="hnl-icon">🛡</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Equipos</div>
+                            <div class="hnl-sub">Crea o únete</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                    <a href="Tournaments.html" class="hnl-item hnl-tournaments">
+                        <span class="hnl-icon">🎯</span>
+                        <div class="hnl-text">
+                            <div class="hnl-title">Torneos</div>
+                            <div class="hnl-sub">Compite en equipo</div>
+                        </div>
+                        <span class="hnl-arrow">›</span>
+                    </a>
+                </nav>
+
+            </aside>
+
+            <!-- ── Right: News Feed ── -->
+            <div class="home-right">
                 <div class="news-header">
                     <span class="news-header-title">// NOTICIAS //</span>
                     <span class="news-header-sub">Novedades de la plataforma</span>
@@ -64,64 +171,6 @@
                 </div>
             </div>
 
-            <!-- ── Profile Sidebar ── -->
-            <div class="profile-viewer" id="profileViewer">
-
-                <div class="sidebar-user-card">
-                    <div class="user-info-text">
-                        <div class="sidebar-username-row">
-                            <div class="sidebar-username" id="sidebarUsername">Cargando...</div>
-                            <div class="sidebar-langs" id="sidebarLangs"></div>
-                        </div>
-                        <div class="sidebar-userbadge" id="sidebarBadge">JUGADOR CODEXAR</div>
-                    </div>
-                    <div class="sidebar-avatar" id="sidebarAvatar"></div>
-                </div>
-
-                <div class="sidebar-card rank-display">
-                    <div class="sidebar-label">Rango Actual</div>
-                    <div class="rank-badge"></div>
-                    <div class="rank-text" id="homeRankText">Plata II</div>
-                </div>
-
-                <div class="sidebar-card stats-card-split">
-                    <div class="stats-half">
-                        <div class="stats-text">
-                            <div class="sidebar-label" style="text-align:left; margin-bottom:2px;">Ejercicios Resueltos</div>
-                            <div class="stats-number" id="statsTotal">0</div>
-                        </div>
-                        <div class="stats-chart" id="statsChart">
-                            <svg width="42" height="42" viewBox="0 0 42 42" class="donut-svg">
-                                <circle cx="21" cy="21" r="16" fill="transparent" stroke="#2a2a35" stroke-width="8"></circle>
-                                <g id="donutSegments"></g>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="stats-divider"></div>
-                    <div class="stats-half" style="flex-direction:column; align-items:flex-start; justify-content:center; gap:4px;">
-                        <div class="sidebar-label" style="text-align:left; margin-bottom:0;">Victorias</div>
-                        <div class="stats-number" id="statsWins" style="color:var(--accent-cyan); font-size:1.25rem;">0</div>
-                        <div class="sidebar-label" id="statsWR" style="margin-bottom:0; color:var(--accent-green);">--%&nbsp;WR</div>
-                    </div>
-                </div>
-
-                <div class="sidebar-card">
-                    <div class="sidebar-label">Clasificación Global</div>
-                    <div class="sidebar-value" id="homeGlobalRank">#— Global</div>
-                </div>
-
-                <div class="sidebar-card">
-                    <div class="sidebar-label">Logros Equipados</div>
-                    <div class="achievements-row">
-                        <div class="achievement-badge" id="equippedBadge0"></div>
-                        <div class="achievement-badge" id="equippedBadge1"></div>
-                        <div class="achievement-badge" id="equippedBadge2"></div>
-                    </div>
-                </div>
-
-                <button class="btn btn-share" id="shareProfileBtn">Compartir Perfil</button>
-
-            </div>
         </div>
     </main>
 

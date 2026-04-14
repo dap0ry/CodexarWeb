@@ -159,11 +159,20 @@ async function initDashboard() {
             });
         }
 
-        // Rank & global rank
+        // Rank, ELO & global rank
         const rankText = document.getElementById('homeRankText');
         const globalRank = document.getElementById('homeGlobalRank');
+        const heroElo = document.getElementById('heroElo');
         if (rankText) rankText.textContent = user.rank_name || 'Bronce I';
         if (globalRank) globalRank.textContent = user.global_rank ? `#${user.global_rank} Global` : 'Sin ranking';
+        if (heroElo) heroElo.textContent = user.elo !== undefined ? user.elo : '—';
+
+        // Role badge
+        const roleBadge = document.getElementById('heroRoleBadge');
+        if (roleBadge && user.role && user.role !== 'user') {
+            roleBadge.textContent = user.role === 'admin' ? '◈ ADMIN' : '◈ MOD';
+            roleBadge.className = 'hero-role-badge ' + (user.role === 'admin' ? 'admin' : 'mod');
+        }
 
         // Avatars
         function setAvatar(el) {
@@ -173,7 +182,7 @@ async function initDashboard() {
                 el.style.backgroundSize = 'cover';
                 el.style.backgroundPosition = 'center';
                 el.textContent = '';
-                el.style.border = '1px solid var(--accent-cyan)';
+                el.style.border = '2px solid rgba(0,255,204,0.35)';
             } else {
                 el.textContent = user.username.charAt(0).toUpperCase();
             }

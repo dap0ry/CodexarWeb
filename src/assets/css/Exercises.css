@@ -1,6 +1,6 @@
 /* Exercises.css */
 .offline-body {
-    padding-top: 136px; /* Clear navbar + sub-nav */
+    padding-top: 80px;
     height: 100vh;
     display: flex;
     justify-content: center;

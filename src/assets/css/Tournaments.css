@@ -1,0 +1,151 @@
+/* Tournaments.css — Codexar Tournaments */
+
+body { overflow: hidden; }
+
+.tourn-layout {
+    margin-top: 70px;
+    height: calc(100vh - 70px);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+}
+
+.tourn-header {
+    padding: 20px 5% 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+.tourn-title-row {
+    display: flex; flex-direction: column; gap: 4px;
+}
+.tourn-title {
+    font-family: var(--font-mono); font-size: 1.4rem; font-weight: 800;
+    color: var(--text-light); letter-spacing: 2px;
+}
+.tourn-title span { color: var(--accent-cyan); }
+.tourn-subtitle {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    color: var(--text-muted); letter-spacing: 1px;
+}
+.tourn-tabs {
+    display: flex; gap: 4px;
+}
+.tourn-tab {
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+}
+.tourn-tab.active {
+    border-color: rgba(0,255,204,0.3);
+    color: var(--accent-cyan);
+    background: rgba(0,255,204,0.05);
+}
+.tourn-tab:hover:not(.active) { border-color: rgba(255,255,255,0.12); color: var(--text-light); }
+
+/* ── Content ── */
+.tourn-content {
+    flex: 1; overflow-y: auto;
+    padding: 24px 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px; align-content: start;
+}
+.tourn-content::-webkit-scrollbar { width: 5px; }
+.tourn-content::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.12); border-radius: 4px; }
+
+/* ── Tournament Card ── */
+.tourn-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 20px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: all 0.15s ease; cursor: pointer;
+}
+.tourn-card:hover {
+    border-color: rgba(0,255,204,0.18);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+}
+
+/* Status accent */
+.tourn-card.status-upcoming  { border-left: 3px solid #ffcc00; }
+.tourn-card.status-active    { border-left: 3px solid var(--accent-green); }
+.tourn-card.status-finished  { border-left: 3px solid var(--text-muted); opacity: 0.7; }
+
+.tourn-card-top {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+}
+.tourn-card-name {
+    font-family: var(--font-mono); font-size: 1rem; font-weight: 800;
+    color: var(--text-light); letter-spacing: 0.5px; line-height: 1.2;
+}
+.tourn-status-badge {
+    padding: 3px 9px; border-radius: 4px;
+    font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+}
+.tourn-status-badge.upcoming  { color: #ffcc00; border: 1px solid rgba(255,204,0,0.25); background: rgba(255,204,0,0.04); }
+.tourn-status-badge.active    { color: var(--accent-green); border: 1px solid rgba(57,255,20,0.25); background: rgba(57,255,20,0.04); }
+.tourn-status-badge.finished  { color: var(--text-muted); border: 1px solid rgba(114,114,138,0.25); }
+
+.tourn-card-desc {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    color: rgba(230,230,240,0.6); line-height: 1.65;
+}
+
+.tourn-card-meta {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.tourn-meta-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 7px; padding: 8px 10px;
+}
+.tourn-meta-label {
+    font-family: var(--font-mono); font-size: 0.5rem;
+    color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 3px;
+}
+.tourn-meta-val {
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+    color: var(--text-light);
+}
+.tourn-meta-val.prize-val { color: #ffd700; }
+
+.tourn-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.04);
+}
+.tourn-teams-count {
+    font-family: var(--font-mono); font-size: 0.6rem;
+    color: var(--text-muted);
+}
+.btn-register-team {
+    padding: 6px 14px;
+    background: rgba(57,255,20,0.07);
+    border: 1px solid rgba(57,255,20,0.25);
+    border-radius: 6px;
+    font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(57,255,20,0.9); cursor: pointer; transition: all 0.15s;
+}
+.btn-register-team:hover { background: rgba(57,255,20,0.14); border-color: rgba(57,255,20,0.5); }
+.btn-register-team:disabled { opacity: 0.4; cursor: default; }
+
+.tourn-empty {
+    grid-column: 1 / -1;
+    text-align: center; padding: 60px 20px;
+    font-family: var(--font-mono); font-size: 0.72rem;
+    color: var(--text-muted); letter-spacing: 1px;
+}
+.tourn-loading {
+    grid-column: 1 / -1;
+    text-align: center; padding: 40px;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    color: var(--text-muted); letter-spacing: 1px;
+}

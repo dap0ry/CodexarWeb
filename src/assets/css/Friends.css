@@ -18,8 +18,8 @@
 
 /* ── Root layout grid ── */
 .friends-layout {
-    margin-top: 106px;
-    height: calc(100vh - 106px);
+    margin-top: 70px;
+    height: calc(100vh - 70px);
     display: grid;
     grid-template-columns: 58fr 42fr;
     gap: 18px;

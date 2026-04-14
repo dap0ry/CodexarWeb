@@ -99,7 +99,7 @@ async function handleSubmit(e) {
     const body = {
         title:       document.getElementById('ceTitle').value.trim(),
         description: document.getElementById('ceDesc').value.trim(),
-        difficulty:  document.getElementById('ceDiff').value,
+        difficulty:  parseInt(document.getElementById('ceDiff').value, 10),
         category:    document.getElementById('ceCat').value,
         test_cases,
         stub_python: document.getElementById('stub-python').value,

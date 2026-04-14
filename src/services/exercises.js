@@ -71,12 +71,14 @@ function renderExercises(data) {
     }
 
     data.forEach(ex => {
+        const d = typeof ex.difficulty === 'number' ? ex.difficulty : 1200;
         let diffColorClass = 'badge-normal';
-        if (ex.difficulty === 'Fácil') diffColorClass = 'badge-facil';
-        if (ex.difficulty === 'Difícil')     diffColorClass = 'badge-dificil';
-        if (ex.difficulty === 'Muy Difícil') diffColorClass = 'badge-muy-dificil';
-        if (ex.difficulty === 'Insane')      diffColorClass = 'badge-insane';
-        if (ex.difficulty === 'Abyssal')     diffColorClass = 'badge-abyssal';
+        if (d < 1000)       diffColorClass = 'badge-facil';
+        else if (d < 1400)  diffColorClass = 'badge-normal';
+        else if (d < 1800)  diffColorClass = 'badge-dificil';
+        else if (d < 2400)  diffColorClass = 'badge-muy-dificil';
+        else if (d < 3000)  diffColorClass = 'badge-insane';
+        else                diffColorClass = 'badge-abyssal';
 
         // First solver badge
         let firstSolverHtml = '';
@@ -130,7 +132,7 @@ function renderExercises(data) {
                     ${ex.solved ? '<span class="solved-check">✓</span> ' : ''}${escHtml(ex.title)}
                 </div>
                 <div class="ex-meta-row">
-                    <span class="ex-badge ${diffColorClass}">${escHtml(ex.difficulty)}</span>
+                    <span class="ex-badge ${diffColorClass}">${typeof ex.difficulty === 'number' ? ex.difficulty : escHtml(ex.difficulty)}</span>
                     <span class="ex-badge badge-category">${escHtml(ex.category)}</span>
                     <span class="ex-badge badge-solvers">${parseInt(ex.total_solvers) || 0} Resueltos</span>
                     ${firstSolverHtml}
@@ -159,7 +161,12 @@ function applyFilters() {
     const filtered = masterExercises.filter(ex => {
         const matchesTerm = ex.title.toLowerCase().includes(term);
         const matchesCat = cat === 'All' || ex.category === cat;
-        const matchesDiff = diff === 'All' || ex.difficulty === diff;
+        const d = typeof ex.difficulty === 'number' ? ex.difficulty : 1200;
+        const matchesDiff = diff === 'All'
+            || (diff === 'easy'   && d <= 1000)
+            || (diff === 'medium' && d >= 1200 && d <= 1600)
+            || (diff === 'hard'   && d >= 1800 && d <= 2200)
+            || (diff === 'expert' && d >= 2400);
         return matchesTerm && matchesCat && matchesDiff;
     });
 

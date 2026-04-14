@@ -7,7 +7,7 @@
 .tutorial-container {
     display: flex;
     height: 100vh;
-    padding-top: 106px;
+    padding-top: 70px;
     box-sizing: border-box;
     overflow: hidden;
 }

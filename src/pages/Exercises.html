@@ -37,21 +37,6 @@
         </div>
     </nav>
 
-    <!-- Sub-nav -->
-    <div class="sub-nav">
-        <div class="sub-nav-inner">
-            <a href="Home.html" class="sub-nav-item">Inicio</a>
-            <a href="Exercises.html" class="sub-nav-item active">Ejercicios</a>
-            <div class="sub-nav-item sub-nav-dropdown-wrap">
-                Competir <span class="sub-nav-arrow">▾</span>
-                <div class="sub-nav-dropdown">
-                    <a href="Ranked.html" class="sub-nav-dd-item">Clasificatoria</a>
-                    <a href="VsCpu.html"  class="sub-nav-dd-item">VS CPU</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Exercises Architecture -->
     <main class="offline-body">
         <div class="offline-container">
@@ -72,12 +57,10 @@
                     <label>Dificultad</label>
                     <select id="filterDifficulty" class="cyber-select">
                         <option value="All">Todas</option>
-                        <option value="Fácil">Fácil</option>
-                        <option value="Normal">Normal</option>
-                        <option value="Difícil">Difícil</option>
-                        <option value="Muy Difícil">Muy Difícil</option>
-                        <option value="Insane">Insane</option>
-                        <option value="Abyssal">Abyssal</option>
+                        <option value="easy">≤ 1000 (Básico)</option>
+                        <option value="medium">1200 – 1600 (Medio)</option>
+                        <option value="hard">1800 – 2200 (Difícil)</option>
+                        <option value="expert">≥ 2400 (Experto)</option>
                     </select>
                 </div>
                 
