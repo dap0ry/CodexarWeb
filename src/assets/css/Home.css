@@ -100,8 +100,8 @@ h1, h2, h3, h4, h5, h6, .brand {
    LAYOUT
    ════════════════════════════════ */
 .main-container {
-    margin-top: 64px; height: calc(100vh - 64px);
-    padding: 22px 4.5% 58px; display: flex; flex-direction: column;
+    margin-top: 100px; height: calc(100vh - 100px);
+    padding: 18px 4.5% 18px; display: flex; flex-direction: column;
 }
 .content-grid {
     display: grid; grid-template-columns: 1fr 276px;
@@ -109,68 +109,6 @@ h1, h2, h3, h4, h5, h6, .brand {
 }
 
 .arena-col { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
-
-/* ════════════════════════════════
-   SUB-NAV HORIZONTAL — bottom bar
-   ════════════════════════════════ */
-.sub-nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    height: 42px; z-index: 900;
-    background: transparent;
-    display: flex; align-items: center;
-}
-.sub-nav-inner {
-    display: flex; align-items: center; justify-content: center; gap: 0;
-    padding: 0 5%;
-    height: 100%;
-}
-.sub-nav-item {
-    font-family: var(--font-heading); font-size: 0.68rem; font-weight: 700;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    color: rgba(114,114,138,0.55); text-decoration: none;
-    padding: 0 18px; height: 100%;
-    display: flex; align-items: center; gap: 5px;
-    border-top: 2px solid transparent;
-    transition: color 0.15s ease, border-color 0.15s ease;
-    cursor: pointer; position: relative;
-}
-.sub-nav-item:hover,
-.sub-nav-item.active {
-    color: rgba(0,255,204,0.75);
-    border-top-color: rgba(0,255,204,0.5);
-}
-.sub-nav-arrow { font-size: 0.55rem; opacity: 0.5; }
-
-/* dropdown opens upward */
-.sub-nav-dropdown-wrap { user-select: none; }
-.sub-nav-dropdown {
-    position: absolute; bottom: 100%; left: 0; top: auto;
-    min-width: 160px; margin-bottom: 0;
-    background: rgba(9,9,18,0.97);
-    border: 1px solid var(--border-color);
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    padding: 4px 0;
-    opacity: 0; visibility: hidden;
-    transform: translateY(4px);
-    transition: all 0.15s ease;
-    z-index: 950;
-}
-.sub-nav-dropdown-wrap:hover .sub-nav-dropdown {
-    opacity: 1; visibility: visible; transform: translateY(0);
-}
-.sub-nav-dd-item {
-    display: block; padding: 9px 16px;
-    font-family: var(--font-heading); font-size: 0.7rem; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase;
-    color: var(--text-muted); text-decoration: none;
-    transition: color 0.15s, background 0.15s;
-    border-left: 2px solid transparent;
-}
-.sub-nav-dd-item:hover {
-    color: var(--accent-cyan); background: rgba(0,255,204,0.04);
-    border-left-color: var(--accent-cyan); padding-left: 20px;
-}
 
 /* ════════════════════════════════
    NEWS FEED
@@ -550,8 +488,7 @@ h1, h2, h3, h4, h5, h6, .brand {
    ════════════════════════════════ */
 @media (max-height: 820px) {
     .navbar { height: 56px; }
-    .sub-nav { height: 36px; }
-    .main-container { margin-top: 56px; height: calc(100vh - 56px); padding: 14px 3% 50px; }
+    .main-container { margin-top: 92px; height: calc(100vh - 92px); padding: 12px 3%; }
     .arena-col { gap: 8px; }
     .modes-grid { gap: 8px; }
     .content-grid { gap: 10px; }
