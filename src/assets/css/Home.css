@@ -100,7 +100,7 @@ h1, h2, h3, h4, h5, h6, .brand {
    LAYOUT
    ════════════════════════════════ */
 .main-container {
-    margin-top: 64px; height: calc(100vh - 64px);
+    margin-top: 102px; height: calc(100vh - 102px);
     padding: 18px 4.5%; display: flex; flex-direction: column;
 }
 .content-grid {
@@ -109,6 +109,178 @@ h1, h2, h3, h4, h5, h6, .brand {
 }
 
 .arena-col { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+
+/* ════════════════════════════════
+   SUB-NAV HORIZONTAL
+   ════════════════════════════════ */
+.sub-nav {
+    position: fixed; top: 64px; left: 0; right: 0;
+    height: 38px; z-index: 900;
+    background: rgba(7,7,15,0.96);
+    border-bottom: 1px solid rgba(0,255,204,0.08);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center;
+}
+.sub-nav-inner {
+    display: flex; align-items: center; gap: 2px;
+    padding: 0 5%;
+    height: 100%;
+}
+.sub-nav-item {
+    font-family: var(--font-heading); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    padding: 0 14px; height: 100%;
+    display: flex; align-items: center; gap: 5px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    cursor: pointer; position: relative;
+}
+.sub-nav-item:hover,
+.sub-nav-item.active {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
+}
+.sub-nav-arrow { font-size: 0.6rem; opacity: 0.6; }
+
+/* dropdown within sub-nav */
+.sub-nav-dropdown-wrap { user-select: none; }
+.sub-nav-dropdown {
+    position: absolute; top: 100%; left: 0;
+    min-width: 160px; margin-top: 0;
+    background: rgba(9,9,18,0.98);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 4px 0;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-4px);
+    transition: all 0.15s ease;
+    z-index: 950;
+}
+.sub-nav-dropdown-wrap:hover .sub-nav-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+}
+.sub-nav-dd-item {
+    display: block; padding: 9px 16px;
+    font-family: var(--font-heading); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+}
+.sub-nav-dd-item:hover {
+    color: var(--accent-cyan); background: rgba(0,255,204,0.04);
+    border-left-color: var(--accent-cyan); padding-left: 20px;
+}
+
+/* ════════════════════════════════
+   NEWS FEED
+   ════════════════════════════════ */
+.news-col {
+    display: flex; flex-direction: column; gap: 12px;
+    min-height: 0; overflow: hidden;
+}
+.news-header {
+    flex-shrink: 0;
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 0 2px;
+}
+.news-header-title {
+    font-family: var(--font-heading); font-size: 0.6rem; font-weight: 800;
+    letter-spacing: 3px; color: rgba(0,255,204,0.35); text-transform: uppercase;
+}
+.news-header-sub {
+    font-family: var(--font-heading); font-size: 0.58rem;
+    color: var(--text-muted); letter-spacing: 1px;
+}
+.news-feed {
+    flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+    padding-right: 4px;
+}
+.news-feed::-webkit-scrollbar { width: 4px; }
+.news-feed::-webkit-scrollbar-track { background: transparent; }
+.news-feed::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.15); border-radius: 4px; }
+.news-feed::-webkit-scrollbar-thumb:hover { background: rgba(0,255,204,0.3); }
+
+.news-skeleton {
+    font-family: var(--font-heading); font-size: 0.7rem;
+    color: var(--text-muted); letter-spacing: 1px; padding: 20px 0;
+    text-align: center;
+}
+
+/* ── News Card ── */
+.news-card {
+    background: #0c0c14;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid rgba(0,255,204,0.35);
+    border-radius: 10px;
+    padding: 20px 24px 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+.news-card:hover {
+    border-color: rgba(0,255,204,0.18);
+    border-left-color: var(--accent-cyan);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.news-card-header { display: flex; flex-direction: column; gap: 4px; }
+.news-card-title {
+    font-family: var(--font-heading); font-size: 1.05rem; font-weight: 800;
+    color: var(--text-light); letter-spacing: 0.5px; line-height: 1.2;
+}
+.news-card-subtitle {
+    font-family: var(--font-heading); font-size: 0.68rem; font-weight: 500;
+    color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase;
+    opacity: 0.8;
+}
+.news-card-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-heading); font-size: 0.6rem;
+    color: var(--text-muted); letter-spacing: 0.5px;
+}
+.news-card-creator {
+    color: rgba(0,255,204,0.65); font-weight: 700;
+}
+.news-card-dot { opacity: 0.3; }
+
+.news-card-body {
+    font-family: var(--font-heading); font-size: 0.75rem;
+    color: rgba(230,230,240,0.75); line-height: 1.75;
+    letter-spacing: 0.3px; white-space: pre-wrap;
+}
+.news-mention {
+    color: var(--accent-cyan); font-weight: 700; cursor: pointer;
+    text-decoration: none; border-bottom: 1px solid rgba(0,255,204,0.25);
+    transition: border-color 0.15s, color 0.15s;
+}
+.news-mention:hover {
+    color: #fff; border-bottom-color: var(--accent-cyan);
+}
+
+.news-card-footer {
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.04);
+}
+.news-like-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: transparent; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 5px 12px; cursor: pointer;
+    font-family: var(--font-heading); font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 1px; color: var(--text-muted);
+    transition: all 0.15s ease;
+}
+.news-like-btn:hover {
+    border-color: rgba(255,46,99,0.35); color: #ff5577;
+    background: rgba(255,46,99,0.04);
+}
+.news-like-btn.liked {
+    border-color: rgba(255,46,99,0.45); color: #ff5577;
+    background: rgba(255,46,99,0.07);
+}
+.news-like-icon { font-size: 0.8rem; }
 
 /* ── Status Bar ── */
 .status-bar {
@@ -380,7 +552,8 @@ h1, h2, h3, h4, h5, h6, .brand {
    ════════════════════════════════ */
 @media (max-height: 820px) {
     .navbar { height: 56px; }
-    .main-container { margin-top: 56px; height: calc(100vh - 56px); padding: 10px 3%; }
+    .sub-nav { top: 56px; height: 34px; }
+    .main-container { margin-top: 90px; height: calc(100vh - 90px); padding: 10px 3%; }
     .arena-col { gap: 8px; }
     .modes-grid { gap: 8px; }
     .content-grid { gap: 10px; }

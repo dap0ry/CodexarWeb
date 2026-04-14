@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../services/themeService.js"></script>
-    <title>Codexar — Arena</title>
+    <title>Codexar — Inicio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -35,113 +35,36 @@
         </div>
     </nav>
 
+    <!-- ── Sub-nav horizontal estilo Codeforces ── -->
+    <div class="sub-nav">
+        <div class="sub-nav-inner">
+            <a href="Home.html" class="sub-nav-item active">Inicio</a>
+            <a href="Exercises.html" class="sub-nav-item">Ejercicios</a>
+            <div class="sub-nav-item sub-nav-dropdown-wrap">
+                Competir <span class="sub-nav-arrow">▾</span>
+                <div class="sub-nav-dropdown">
+                    <a href="Ranked.html" class="sub-nav-dd-item">Clasificatoria</a>
+                    <a href="VsCpu.html"  class="sub-nav-dd-item">VS CPU</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main class="main-container">
         <div class="content-grid">
 
-            <!-- ── Arena Column ── -->
-            <div class="arena-col">
-
-                <!-- Status Bar -->
-                <div class="status-bar">
-                    <div class="sb-left">
-                        <span class="sb-dot"></span>
-                        <span class="sb-label">SESIÓN</span>
-                        <span class="sb-username" id="sbUsername">—</span>
-                    </div>
-                    <div class="sb-center">// ARENA //</div>
-                    <div class="sb-right">
-                        <span class="sb-chip sb-chip-rank" id="sbRank">—</span>
-                        <span class="sb-chip sb-chip-streak" id="sbStreak">—</span>
-                    </div>
+            <!-- ── Feed de Noticias ── -->
+            <div class="news-col">
+                <div class="news-header">
+                    <span class="news-header-title">// NOTICIAS //</span>
+                    <span class="news-header-sub">Novedades de la plataforma</span>
                 </div>
-
-                <!-- Modes Grid -->
-                <div class="modes-grid">
-
-                    <!-- ── TUTORIAL ── -->
-                    <div class="card card-tutorial" data-glyph="01" onclick="window.location.href='Tutorial.html'">
-                        <div class="card-inner">
-                            <div class="card-info">
-                                <div class="card-tag">APRENDE · DESDE CERO</div>
-                                <h2 class="card-title"><span class="ac">T</span>utorial</h2>
-                                <p class="card-desc">Una ruta guiada para construir bases solidas, entender la logica de cada paso y llegar preparado a tus primeros desafios reales.</p>
-                                <div class="tut-langs">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"      class="tut-lang-icon" title="Python">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" class="tut-lang-icon" title="C++">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"          class="tut-lang-icon" title="Java">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"              class="tut-lang-icon" title="Go">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"      class="tut-lang-icon" title="C#">
-                                </div>
-                            </div>
-                            <div class="card-action">
-                                <button class="btn-card">COMENZAR →</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── EJERCICIOS ── -->
-                    <div class="card card-exercises" data-glyph="02" onclick="window.location.href='Exercises.html'">
-                        <div class="card-inner">
-                            <div class="card-info">
-                                <div class="card-tag">MODO LIBRE · 30+ EJERCICIOS</div>
-                                <h2 class="card-title"><span class="ac">E</span>jercicios</h2>
-                                <p class="card-desc">Entrena con problemas practicos, sin presion de tiempo, y mejora tu consistencia tecnica sesion tras sesion.</p>
-                            </div>
-                            <div class="card-action">
-                                <button class="btn-card">PRACTICAR →</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── CLASIFICATORIA ── -->
-                    <div class="card card-ranked" data-glyph="03" onclick="window.location.href='Ranked.html'">
-                        <div class="card-inner">
-                            <div class="card-info">
-                                <div class="card-tag">CLASIFICATORIO · ELO ACTIVO</div>
-                                <h2 class="card-title"><span class="ac">C</span>lasificatoria</h2>
-                                <p class="card-desc">Compite en duelos directos, mide tu rendimiento bajo presion y escala en el ranking con cada victoria.</p>
-                                <div class="ranked-meta">±25 ELO · SBMM · 1 vs 1</div>
-                            </div>
-                            <div class="card-action">
-                                <button class="btn-card" onclick="event.stopPropagation(); window.location.href='Ranked.html'">BUSCAR RIVAL ⚡</button>
-                                <button class="btn-card-ghost" onclick="event.stopPropagation(); document.getElementById('rangosOverlay').classList.remove('hidden')">VER RANGOS</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── VS CPU ── -->
-                    <div class="card card-vs-cpu" data-glyph="04" onclick="window.location.href='VsCpu.html'">
-                        <div class="card-inner">
-                            <div class="card-info">
-                                <div class="card-tag">VS BOT · CONTRA RELOJ</div>
-                                <h2 class="card-title"><span class="ac">V</span>S CPU</h2>
-                                <p class="card-desc">Pon a prueba tu velocidad de resolucion frente al bot y afina tus reflejos en escenarios de alto ritmo.</p>
-                            </div>
-                            <div class="card-action">
-                                <button class="btn-card">JUGAR →</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── SUPERVIVENCIA ── -->
-                    <div class="card card-survival" data-glyph="05" onclick="window.location.href='Supervivencia.html'" style="grid-column: span 2;">
-                        <div class="card-inner">
-                            <div class="card-info">
-                                <div class="card-tag">COOPERATIVO · 1–4 JUGADORES</div>
-                                <h2 class="card-title"><span class="ac">S</span>upervivencia</h2>
-                                <p class="card-desc">Resuelve ejercicios en cadena contra el reloj. Cada solución suma tiempo. Un jugador resuelve, todos avanzan. ¿Hasta cuándo aguantarás?</p>
-                                <div class="ranked-meta" style="color: rgba(57,255,20,0.55);">NORMAL · DIFÍCIL · DEMENCIAL</div>
-                            </div>
-                            <div class="card-action">
-                                <button class="btn-card">SOBREVIVIR →</button>
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="news-feed" id="newsFeed">
+                    <div class="news-skeleton">Cargando noticias...</div>
                 </div>
             </div>
 
-            <!-- ── Profile Sidebar (sin cambios) ── -->
+            <!-- ── Profile Sidebar ── -->
             <div class="profile-viewer" id="profileViewer">
 
                 <div class="sidebar-user-card">

@@ -6,13 +6,11 @@ async function fetchUserData() {
         window.location.href = 'Login.html';
         return null;
     }
-    
+
     const response = await fetch(`${API_BASE_URL}/user/me`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
     });
-    
+
     if (!response.ok) {
         if (response.status === 401) window.location.href = 'Login.html';
         throw new Error('No se pudo cargar el perfil');
@@ -20,43 +18,129 @@ async function fetchUserData() {
     return await response.json();
 }
 
-// Initialize dashboard data
+// ── Mention parser: converts @username into clickable links ──────────────────
+function parseMentions(text) {
+    return text.replace(/@(\w+)/g, (match, username) => {
+        return `<a class="news-mention" href="ProfileView.html?u=${encodeURIComponent(username)}">@${username}</a>`;
+    });
+}
+
+// ── Format date ──────────────────────────────────────────────────────────────
+function formatDate(isoStr) {
+    if (!isoStr) return '';
+    const d = new Date(isoStr);
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+// ── Render a single news card ─────────────────────────────────────────────────
+function buildNewsCard(news) {
+    const card = document.createElement('div');
+    card.className = 'news-card';
+    card.dataset.id = news.id;
+
+    const bodyHtml = parseMentions(news.body || '');
+    const likedClass = news.liked_by_me ? ' liked' : '';
+
+    card.innerHTML = `
+        <div class="news-card-header">
+            <div class="news-card-title">${escapeHtml(news.title)}</div>
+            <div class="news-card-subtitle">${escapeHtml(news.subtitle)}</div>
+        </div>
+        <div class="news-card-meta">
+            <span class="news-card-creator">@${escapeHtml(news.creator)}</span>
+            <span class="news-card-dot">·</span>
+            <span>${formatDate(news.created_at)}</span>
+        </div>
+        <div class="news-card-body">${bodyHtml}</div>
+        <div class="news-card-footer">
+            <button class="news-like-btn${likedClass}" data-id="${news.id}">
+                <span class="news-like-icon">${news.liked_by_me ? '♥' : '♡'}</span>
+                <span class="news-like-count">${news.like_count}</span>
+            </button>
+        </div>
+    `;
+
+    // Like toggle handler
+    card.querySelector('.news-like-btn').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const btn = e.currentTarget;
+        const token = localStorage.getItem('access_token');
+        try {
+            const res = await fetch(`${API_BASE_URL}/news/${news.id}/like`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                btn.classList.toggle('liked', data.liked);
+                btn.querySelector('.news-like-icon').textContent = data.liked ? '♥' : '♡';
+                btn.querySelector('.news-like-count').textContent = data.like_count;
+            }
+        } catch (err) {
+            console.warn('Error al dar like:', err);
+        }
+    });
+
+    return card;
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+// ── Load news feed ────────────────────────────────────────────────────────────
+async function loadNews(token) {
+    const feed = document.getElementById('newsFeed');
+    if (!feed) return;
+    try {
+        const res = await fetch(`${API_BASE_URL}/news/`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Error cargando noticias');
+        const newsList = await res.json();
+        feed.innerHTML = '';
+        if (newsList.length === 0) {
+            feed.innerHTML = '<div class="news-skeleton">No hay noticias aún.</div>';
+            return;
+        }
+        newsList.forEach(n => feed.appendChild(buildNewsCard(n)));
+    } catch (err) {
+        console.warn('No se pudieron cargar las noticias:', err);
+        if (feed) feed.innerHTML = '<div class="news-skeleton">No se pudieron cargar las noticias.</div>';
+    }
+}
+
+// ── Dashboard init ────────────────────────────────────────────────────────────
 async function initDashboard() {
     try {
         const token = localStorage.getItem('access_token');
         const user = await fetchUserData();
         if (!user) return;
 
-        // Populate status bar
-        const sbUsername = document.getElementById('sbUsername');
-        const sbRank = document.getElementById('sbRank');
-        const sbStreak = document.getElementById('sbStreak');
-        if (sbUsername) sbUsername.textContent = user.username;
-        if (sbRank) sbRank.textContent = user.rank_name || 'Bronce I';
-        if (sbStreak) {
-            const s = user.win_streak || 0;
-            sbStreak.textContent = s > 0 ? `${s} victorias` : 'Sin racha';
-        }
-
-        // Inject username into navbar pill and sidebar
+        // Navbar pill
         const navUsername = document.getElementById('navUsername');
-        const sidebarUsername = document.getElementById('sidebarUsername');
-        
         if (navUsername) navUsername.textContent = user.username;
+
+        // Sidebar user card
+        const sidebarUsername = document.getElementById('sidebarUsername');
         if (sidebarUsername) sidebarUsername.textContent = user.username;
-        
+
         const sidebarBadge = document.getElementById('sidebarBadge');
         if (sidebarBadge) sidebarBadge.textContent = user.description ? user.description.toUpperCase() : "JUGADOR CODEXAR";
 
-        // Inject Languages Icons
+        // Language icons
         const langIcons = {
-            "C++": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
+            "C++":    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
             "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-            "Java": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-            "Go": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
-            "C#": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+            "Java":   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+            "Go":     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
+            "C#":     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
         };
-        
+
         const sidebarLangs = document.getElementById('sidebarLangs');
         if (sidebarLangs && user.languages) {
             sidebarLangs.innerHTML = '';
@@ -75,35 +159,29 @@ async function initDashboard() {
             });
         }
 
-        // Update Rank & Global Position
+        // Rank & global rank
         const rankText = document.getElementById('homeRankText');
         const globalRank = document.getElementById('homeGlobalRank');
         if (rankText) rankText.textContent = user.rank_name || 'Bronce I';
-        if (globalRank) {
-            globalRank.textContent = user.global_rank ? `#${user.global_rank} Global` : 'Sin ranking';
-        }
+        if (globalRank) globalRank.textContent = user.global_rank ? `#${user.global_rank} Global` : 'Sin ranking';
 
-        // Inject Avatar logic (Navbar and Sidebar)
-        const navAvatar = document.getElementById('navAvatar');
-        const sidebarAvatar = document.getElementById('sidebarAvatar');
-        
+        // Avatars
         function setAvatar(el) {
             if (!el) return;
             if (user.avatar) {
                 el.style.backgroundImage = `url(${user.avatar})`;
                 el.style.backgroundSize = 'cover';
                 el.style.backgroundPosition = 'center';
-                el.textContent = ''; // clear text if image exists
+                el.textContent = '';
                 el.style.border = '1px solid var(--accent-cyan)';
             } else {
                 el.textContent = user.username.charAt(0).toUpperCase();
             }
         }
-        
-        setAvatar(navAvatar);
-        setAvatar(sidebarAvatar);
+        setAvatar(document.getElementById('navAvatar'));
+        setAvatar(document.getElementById('sidebarAvatar'));
 
-        // Fetch real exercise stats from API
+        // Exercise stats + donut chart
         let realStats = { easy: 0, medium: 0, hard: 0, total: 0 };
         try {
             const statsRes = await fetch(`${API_BASE_URL}/user/stats`, {
@@ -148,20 +226,7 @@ async function initDashboard() {
             }
         }
 
-        // Banner: username + chips
-        const welcomeText = document.getElementById('welcomeText');
-        if (welcomeText) welcomeText.textContent = user.username;
-
-        const wbRank = document.getElementById('wbRank');
-        if (wbRank) wbRank.textContent = user.rank_name || 'Bronce I';
-
-        const wbStreak = document.getElementById('wbStreak');
-        if (wbStreak) {
-            const s = user.win_streak || 0;
-            wbStreak.textContent = s > 0 ? `${s} victorias` : 'Sin racha';
-        }
-
-        // --- Real wins & win rate ---
+        // Wins & win rate
         const wins = user.wins || 0;
         const played = user.matches_played || 0;
         const wr = played > 0 ? Math.round((wins / played) * 100) : 0;
@@ -170,11 +235,10 @@ async function initDashboard() {
         if (statsWins) statsWins.textContent = wins;
         if (statsWR) statsWR.textContent = played > 0 ? `${wr}% WR` : '-- WR';
 
-        // Load equipped achievements for sidebar badges
+        // Equipped achievements
         try {
-            const achToken = localStorage.getItem('access_token');
             const equippedRes = await fetch(`${API_BASE_URL}/achievements/equipped`, {
-                headers: { 'Authorization': `Bearer ${achToken}` }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (equippedRes.ok) {
                 const equippedData = await equippedRes.json();
@@ -190,7 +254,7 @@ async function initDashboard() {
             console.warn('No se pudieron cargar los logros equipados:', e);
         }
 
-        // Logout logic
+        // Logout
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', (e) => {
@@ -200,35 +264,31 @@ async function initDashboard() {
             });
         }
 
-        // Capture Logic
+        // Share profile
         const shareBtn = document.getElementById('shareProfileBtn');
         if (shareBtn) {
             shareBtn.addEventListener('click', async () => {
                 const profileViewer = document.getElementById('profileViewer');
-                // Temporarily hide the button so it isn't recorded in the photo
                 shareBtn.style.display = 'none';
-                
                 try {
                     const canvas = await html2canvas(profileViewer, {
-                        backgroundColor: '#121216',
-                        scale: 2,
-                        useCORS: true, // Allow Cloudinary PFP
-                        allowTaint: true
+                        backgroundColor: '#121216', scale: 2,
+                        useCORS: true, allowTaint: true
                     });
-                    
                     const link = document.createElement('a');
                     link.download = `Codexar_Perfil_${user.username}.png`;
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                 } catch (err) {
                     console.error('Error capturando perfil:', err);
-                    alert('Hubo un error al generar la imagen. Inténtalo de nuevo.');
                 } finally {
-                    // Restore button visibility
                     shareBtn.style.display = '';
                 }
             });
         }
+
+        // Load news feed
+        await loadNews(token);
 
         console.log("Dashboard inicializado con éxito para " + user.username);
     } catch (error) {
@@ -236,10 +296,4 @@ async function initDashboard() {
     }
 }
 
-// Generic button click handler
-function handleAction(actionMsg) {
-    console.log(actionMsg);
-}
-
-// Run initialization on page load
 window.addEventListener('DOMContentLoaded', initDashboard);
