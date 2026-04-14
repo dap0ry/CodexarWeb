@@ -331,6 +331,21 @@ function renderProfile(data) {
     document.getElementById('pvDesc').textContent     = data.description || '';
     renderLangs(document.getElementById('pvLangs'), data.languages);
 
+    // Role badge (only for moderator / admin)
+    const roleBadge = document.getElementById('pvRoleBadge');
+    if (roleBadge) {
+        const role = data.role || 'user';
+        if (role === 'moderator') {
+            roleBadge.textContent = '⚙ Moderador';
+            roleBadge.className = 'pv-role-badge pv-role-moderator';
+        } else if (role === 'admin') {
+            roleBadge.textContent = '★ Administrador';
+            roleBadge.className = 'pv-role-badge pv-role-admin';
+        } else {
+            roleBadge.className = 'pv-role-badge hidden';
+        }
+    }
+
     // Friend button
     setupFriendBtn(data.friendship_status, username);
 

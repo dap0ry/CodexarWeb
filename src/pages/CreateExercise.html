@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../services/themeService.js"></script>
+    <title>Codexar — Crear Ejercicio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/themes.css">
+    <link rel="stylesheet" href="../assets/css/CreateExercise.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html"        class="dropdown-item">Inicio</a>
+                <a href="Profile.html"     class="dropdown-item">Perfil</a>
+                <a href="Logros.html"      class="dropdown-item">Logros</a>
+                <a href="Friends.html"     class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Tema.html"        class="dropdown-item">Tema</a>
+                <div class="dropdown-divider"></div>
+                <a href="CreateExercise.html" class="dropdown-item">Crear Ejercicio</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sub-nav -->
+    <div class="sub-nav">
+        <div class="sub-nav-inner">
+            <a href="Home.html" class="sub-nav-item">Inicio</a>
+            <a href="Exercises.html" class="sub-nav-item active">Ejercicios</a>
+            <div class="sub-nav-item sub-nav-dropdown-wrap">
+                Competir <span class="sub-nav-arrow">▾</span>
+                <div class="sub-nav-dropdown">
+                    <a href="Ranked.html" class="sub-nav-dd-item">Clasificatoria</a>
+                    <a href="VsCpu.html"  class="sub-nav-dd-item">VS CPU</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="ce-main">
+        <div class="ce-container">
+
+            <div class="ce-header">
+                <div class="ce-header-label">MODERACIÓN · CONTENIDO</div>
+                <h1 class="ce-title">Crear Ejercicio</h1>
+            </div>
+
+            <form class="ce-form" id="ceForm">
+
+                <!-- ── Datos básicos ── -->
+                <div class="ce-section">
+                    <div class="ce-section-title">Información General</div>
+                    <div class="ce-row">
+                        <div class="ce-field ce-field-grow">
+                            <label class="ce-label">Título</label>
+                            <input type="text" id="ceTitle" class="ce-input" placeholder="Ej: Suma de dos números" required maxlength="120">
+                        </div>
+                    </div>
+                    <div class="ce-row">
+                        <div class="ce-field ce-field-grow">
+                            <label class="ce-label">Descripción</label>
+                            <textarea id="ceDesc" class="ce-textarea" rows="4" placeholder="Describe el problema con claridad. Puedes incluir ejemplos en texto." required></textarea>
+                        </div>
+                    </div>
+                    <div class="ce-row ce-row-cols">
+                        <div class="ce-field">
+                            <label class="ce-label">Dificultad</label>
+                            <select id="ceDiff" class="ce-select">
+                                <option value="Fácil">Fácil</option>
+                                <option value="Normal" selected>Normal</option>
+                                <option value="Difícil">Difícil</option>
+                                <option value="Muy Difícil">Muy Difícil</option>
+                                <option value="Insane">Insane</option>
+                                <option value="Abyssal">Abyssal</option>
+                            </select>
+                        </div>
+                        <div class="ce-field ce-field-grow">
+                            <label class="ce-label">Categoría</label>
+                            <select id="ceCat" class="ce-select">
+                                <option value="Arrays">Arrays</option>
+                                <option value="Strings">Strings</option>
+                                <option value="Math">Math</option>
+                                <option value="Recursión">Recursión</option>
+                                <option value="Ordenamiento">Ordenamiento</option>
+                                <option value="Búsqueda">Búsqueda</option>
+                                <option value="Grafos">Grafos</option>
+                                <option value="Programación Dinámica">Programación Dinámica</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Casos de prueba ── -->
+                <div class="ce-section">
+                    <div class="ce-section-title">Casos de Prueba</div>
+                    <div class="ce-hint">Los inputs deben ser valores Python válidos (ej: <code>3, [1,2,3], "texto"</code>). La salida esperada debe ser lo que devuelve tu función.</div>
+
+                    <div class="ce-tc-list" id="tcList">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+
+                <!-- ── Código base (stubs) ── -->
+                <div class="ce-section">
+                    <div class="ce-section-title">Código Base por Lenguaje</div>
+                    <div class="ce-hint">El código base es la plantilla que verá el usuario al abrir el ejercicio. Incluye al menos la firma de la función.</div>
+
+                    <div class="ce-tabs" id="stubTabs">
+                        <button type="button" class="ce-tab active" data-lang="python">Python</button>
+                        <button type="button" class="ce-tab" data-lang="cpp">C++</button>
+                        <button type="button" class="ce-tab" data-lang="java">Java</button>
+                        <button type="button" class="ce-tab" data-lang="go">Go</button>
+                        <button type="button" class="ce-tab" data-lang="csharp">C#</button>
+                    </div>
+                    <div class="ce-stub-panels">
+                        <textarea class="ce-code active" id="stub-python" rows="8" placeholder="def solve(...):\n    # tu código aquí\n    pass"></textarea>
+                        <textarea class="ce-code" id="stub-cpp"    rows="8" placeholder="// C++ stub\nreturn_type solve(...) {\n    \n}"></textarea>
+                        <textarea class="ce-code" id="stub-java"   rows="8" placeholder="// Java stub\nstatic return_type solve(...) {\n    \n}"></textarea>
+                        <textarea class="ce-code" id="stub-go"     rows="8" placeholder="// Go stub\nfunc solve(...) return_type {\n    \n}"></textarea>
+                        <textarea class="ce-code" id="stub-csharp" rows="8" placeholder="// C# stub\nstatic return_type Solve(...) {\n    \n}"></textarea>
+                    </div>
+                </div>
+
+                <div id="ceError" class="ce-error hidden"></div>
+                <div id="ceSuccess" class="ce-success hidden"></div>
+
+                <div class="ce-actions">
+                    <button type="button" class="ce-btn-ghost" onclick="history.back()">Cancelar</button>
+                    <button type="submit" class="ce-btn-primary" id="ceSubmitBtn">Publicar Ejercicio</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="../services/createExercise.js"></script>
+    <script src="../services/globalBg.js"></script>
+</body>
+</html>

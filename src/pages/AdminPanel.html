@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../services/themeService.js"></script>
+    <title>Codexar — Panel Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/themes.css">
+    <link rel="stylesheet" href="../assets/css/AdminPanel.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">Cargando...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="Home.html"        class="dropdown-item">Inicio</a>
+                <a href="Profile.html"     class="dropdown-item">Perfil</a>
+                <a href="Logros.html"      class="dropdown-item">Logros</a>
+                <a href="Friends.html"     class="dropdown-item">Amigos</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Tema.html"        class="dropdown-item">Tema</a>
+                <div class="dropdown-divider"></div>
+                <a href="CreateExercise.html" class="dropdown-item">Crear Ejercicio</a>
+                <a href="AdminPanel.html"     class="dropdown-item">Panel Admin</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sub-nav -->
+    <div class="sub-nav">
+        <div class="sub-nav-inner">
+            <a href="Home.html" class="sub-nav-item">Inicio</a>
+            <a href="Exercises.html" class="sub-nav-item">Ejercicios</a>
+            <div class="sub-nav-item sub-nav-dropdown-wrap">
+                Competir <span class="sub-nav-arrow">▾</span>
+                <div class="sub-nav-dropdown">
+                    <a href="Ranked.html" class="sub-nav-dd-item">Clasificatoria</a>
+                    <a href="VsCpu.html"  class="sub-nav-dd-item">VS CPU</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="ap-main">
+        <div class="ap-container">
+
+            <div class="ap-header">
+                <div class="ap-header-label">SISTEMA · ADMINISTRACIÓN</div>
+                <h1 class="ap-title">Panel de Administración</h1>
+            </div>
+
+            <!-- ── Tabs ── -->
+            <div class="ap-tabs">
+                <button class="ap-tab active" data-section="users">Usuarios</button>
+                <button class="ap-tab" data-section="exercises">Ejercicios</button>
+            </div>
+
+            <!-- ── Usuarios ── -->
+            <div class="ap-section" id="section-users">
+                <div class="ap-search-row">
+                    <input type="text" id="userSearch" class="ap-search" placeholder="Buscar por usuario o email...">
+                    <div class="ap-count" id="userCount">— usuarios</div>
+                </div>
+                <div class="ap-table-wrap">
+                    <table class="ap-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>ELO</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <tr><td colspan="6" class="ap-loading">Cargando usuarios...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ── Ejercicios ── -->
+            <div class="ap-section hidden" id="section-exercises">
+                <div class="ap-search-row">
+                    <input type="text" id="exSearch" class="ap-search" placeholder="Buscar por título...">
+                    <div class="ap-count" id="exCount">— ejercicios</div>
+                </div>
+                <div class="ap-table-wrap">
+                    <table class="ap-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Categoría</th>
+                                <th>Dificultad</th>
+                                <th>Creado por</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exTableBody">
+                            <tr><td colspan="5" class="ap-loading">Cargando ejercicios...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="apToast" class="ap-toast hidden"></div>
+
+        </div>
+    </main>
+
+    <script src="../services/adminPanel.js"></script>
+    <script src="../services/globalBg.js"></script>
+</body>
+</html>

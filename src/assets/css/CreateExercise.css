@@ -1,0 +1,245 @@
+/* CreateExercise.css */
+body {
+    background-color: #07070f;
+    color: #e6e6f0;
+    font-family: 'Inter', sans-serif;
+    overflow-y: auto;
+    min-height: 100vh;
+}
+
+.ce-main {
+    padding: 110px 5% 60px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.ce-container {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ── Header ── */
+.ce-header { display: flex; flex-direction: column; gap: 4px; }
+.ce-header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(0,255,204,0.45);
+}
+.ce-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem; font-weight: 800;
+    color: #e6e6f0; letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ── Form ── */
+.ce-form { display: flex; flex-direction: column; gap: 24px; }
+
+.ce-section {
+    background: #0c0c14;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid rgba(0,255,204,0.3);
+    border-radius: 10px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ce-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; font-weight: 800;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: rgba(0,255,204,0.6);
+    margin-bottom: 4px;
+}
+
+.ce-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    color: rgba(114,114,138,0.8);
+    letter-spacing: 0.3px;
+    line-height: 1.6;
+}
+.ce-hint code {
+    background: rgba(0,255,204,0.07);
+    color: rgba(0,255,204,0.75);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.ce-row { display: flex; gap: 14px; }
+.ce-row-cols { flex-wrap: wrap; }
+.ce-field { display: flex; flex-direction: column; gap: 6px; }
+.ce-field-grow { flex: 1; }
+
+.ce-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(114,114,138,0.9);
+}
+
+.ce-input, .ce-textarea, .ce-select {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 7px;
+    color: #e6e6f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    padding: 10px 14px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+.ce-input:focus, .ce-textarea:focus, .ce-select:focus {
+    border-color: rgba(0,255,204,0.4);
+    box-shadow: 0 0 0 3px rgba(0,255,204,0.06);
+}
+.ce-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.ce-select { cursor: pointer; }
+.ce-select option { background: #0d0d1a; }
+
+/* ── Test cases ── */
+.ce-tc-list { display: flex; flex-direction: column; gap: 12px; }
+
+.ce-tc-card {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ce-tc-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,196,46,0.6);
+}
+
+.ce-tc-fields { display: flex; gap: 12px; }
+.ce-tc-fields .ce-field { flex: 1; }
+
+/* ── Stub language tabs ── */
+.ce-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-bottom: 0;
+}
+.ce-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(114,114,138,0.6);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    margin-bottom: -1px;
+}
+.ce-tab:hover { color: rgba(0,255,204,0.7); }
+.ce-tab.active {
+    color: rgba(0,255,204,0.9);
+    border-bottom-color: rgba(0,255,204,0.6);
+}
+
+.ce-stub-panels { position: relative; }
+.ce-code {
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0 8px 8px 8px;
+    color: #e6e6f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.65;
+    padding: 14px 16px;
+    resize: vertical;
+    min-height: 140px;
+    outline: none;
+    transition: border-color 0.15s;
+    tab-size: 4;
+}
+.ce-code.active { display: block; }
+.ce-code:focus { border-color: rgba(0,255,204,0.3); }
+
+/* ── Feedback messages ── */
+.ce-error {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #ff5566;
+    background: rgba(255,85,102,0.07);
+    border: 1px solid rgba(255,85,102,0.2);
+    border-radius: 7px;
+    padding: 12px 16px;
+}
+.ce-success {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #39ff14;
+    background: rgba(57,255,20,0.06);
+    border: 1px solid rgba(57,255,20,0.2);
+    border-radius: 7px;
+    padding: 12px 16px;
+}
+.hidden { display: none !important; }
+
+/* ── Actions ── */
+.ce-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-bottom: 20px;
+}
+
+.ce-btn-ghost {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(114,114,138,0.7);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 7px;
+    padding: 11px 22px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.ce-btn-ghost:hover { color: #e6e6f0; border-color: rgba(255,255,255,0.2); }
+
+.ce-btn-primary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; font-weight: 800;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: #07070f;
+    background: var(--accent-cyan, #00ffcc);
+    border: none;
+    border-radius: 7px;
+    padding: 11px 26px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.ce-btn-primary:hover {
+    background: #33ffda;
+    box-shadow: 0 0 18px rgba(0,255,204,0.3);
+    transform: translateY(-1px);
+}
+.ce-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}

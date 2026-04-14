@@ -632,3 +632,30 @@ body {
     .pv-username-row { flex-wrap: wrap; }
     .pv-friend-btn { margin-left: 0; }
 }
+
+/* ── Role badge ── */
+.pv-role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    width: fit-content;
+}
+.pv-role-badge.hidden { display: none !important; }
+.pv-role-moderator {
+    color: rgba(0,212,255,0.9);
+    background: rgba(0,212,255,0.07);
+    border: 1px solid rgba(0,212,255,0.25);
+}
+.pv-role-admin {
+    color: rgba(255,46,99,0.95);
+    background: rgba(255,46,99,0.07);
+    border: 1px solid rgba(255,46,99,0.28);
+}
