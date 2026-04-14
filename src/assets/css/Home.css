@@ -100,8 +100,8 @@ h1, h2, h3, h4, h5, h6, .brand {
    LAYOUT
    ════════════════════════════════ */
 .main-container {
-    margin-top: 102px; height: calc(100vh - 102px);
-    padding: 18px 4.5%; display: flex; flex-direction: column;
+    margin-top: 64px; height: calc(100vh - 64px);
+    padding: 22px 4.5% 58px; display: flex; flex-direction: column;
 }
 .content-grid {
     display: grid; grid-template-columns: 1fr 276px;
@@ -111,50 +111,48 @@ h1, h2, h3, h4, h5, h6, .brand {
 .arena-col { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
 
 /* ════════════════════════════════
-   SUB-NAV HORIZONTAL
+   SUB-NAV HORIZONTAL — bottom bar
    ════════════════════════════════ */
 .sub-nav {
-    position: fixed; top: 64px; left: 0; right: 0;
-    height: 38px; z-index: 900;
-    background: rgba(7,7,15,0.96);
-    border-bottom: 1px solid rgba(0,255,204,0.08);
-    backdrop-filter: blur(12px);
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 42px; z-index: 900;
+    background: transparent;
     display: flex; align-items: center;
 }
 .sub-nav-inner {
-    display: flex; align-items: center; gap: 2px;
+    display: flex; align-items: center; justify-content: center; gap: 0;
     padding: 0 5%;
     height: 100%;
 }
 .sub-nav-item {
-    font-family: var(--font-heading); font-size: 0.72rem; font-weight: 700;
+    font-family: var(--font-heading); font-size: 0.68rem; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--text-muted); text-decoration: none;
-    padding: 0 14px; height: 100%;
+    color: rgba(114,114,138,0.55); text-decoration: none;
+    padding: 0 18px; height: 100%;
     display: flex; align-items: center; gap: 5px;
-    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
     transition: color 0.15s ease, border-color 0.15s ease;
     cursor: pointer; position: relative;
 }
 .sub-nav-item:hover,
 .sub-nav-item.active {
-    color: var(--accent-cyan);
-    border-bottom-color: var(--accent-cyan);
+    color: rgba(0,255,204,0.75);
+    border-top-color: rgba(0,255,204,0.5);
 }
-.sub-nav-arrow { font-size: 0.6rem; opacity: 0.6; }
+.sub-nav-arrow { font-size: 0.55rem; opacity: 0.5; }
 
-/* dropdown within sub-nav */
+/* dropdown opens upward */
 .sub-nav-dropdown-wrap { user-select: none; }
 .sub-nav-dropdown {
-    position: absolute; top: 100%; left: 0;
-    min-width: 160px; margin-top: 0;
-    background: rgba(9,9,18,0.98);
+    position: absolute; bottom: 100%; left: 0; top: auto;
+    min-width: 160px; margin-bottom: 0;
+    background: rgba(9,9,18,0.97);
     border: 1px solid var(--border-color);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
     padding: 4px 0;
     opacity: 0; visibility: hidden;
-    transform: translateY(-4px);
+    transform: translateY(4px);
     transition: all 0.15s ease;
     z-index: 950;
 }
@@ -552,8 +550,8 @@ h1, h2, h3, h4, h5, h6, .brand {
    ════════════════════════════════ */
 @media (max-height: 820px) {
     .navbar { height: 56px; }
-    .sub-nav { top: 56px; height: 34px; }
-    .main-container { margin-top: 90px; height: calc(100vh - 90px); padding: 10px 3%; }
+    .sub-nav { height: 36px; }
+    .main-container { margin-top: 56px; height: calc(100vh - 56px); padding: 14px 3% 50px; }
     .arena-col { gap: 8px; }
     .modes-grid { gap: 8px; }
     .content-grid { gap: 10px; }
