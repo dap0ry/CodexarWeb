@@ -348,8 +348,17 @@ function renderProfile(data) {
     // Full-page background wallpaper
     if (data.profile_background) {
         const overlay = document.getElementById('pvBgOverlay');
-        overlay.style.backgroundImage = `url(${data.profile_background})`;
         overlay.classList.remove('hidden');
+        if (data.profile_background.includes('.mp4') || data.profile_background.includes('video')) {
+            overlay.style.backgroundImage = 'none';
+            const vid = document.createElement('video');
+            vid.autoplay = true; vid.loop = true; vid.muted = true; vid.playsInline = true;
+            vid.src = data.profile_background;
+            vid.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;';
+            document.body.insertBefore(vid, document.body.firstChild);
+        } else {
+            overlay.style.backgroundImage = `url(${data.profile_background})`;
+        }
     }
 
     // Top banner strip

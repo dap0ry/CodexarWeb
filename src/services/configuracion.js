@@ -80,10 +80,20 @@ function initPerfilSection(user) {
     // Background preview
     if (user.profile_background) {
         const strip = document.getElementById('cfgBgStrip');
-        strip.style.backgroundImage   = `url(${user.profile_background})`;
-        strip.style.backgroundSize    = 'cover';
-        strip.style.backgroundPosition = 'center';
         document.getElementById('cfgBgEmpty').style.display = 'none';
+        if (user.profile_background.includes('.mp4') || user.profile_background.includes('video')) {
+            strip.style.position = 'relative';
+            const vid = document.createElement('video');
+            vid.className = 'cfg-bg-preview-video';
+            vid.autoplay = true; vid.loop = true; vid.muted = true; vid.playsInline = true;
+            vid.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
+            vid.src = user.profile_background;
+            strip.appendChild(vid);
+        } else {
+            strip.style.backgroundImage    = `url(${user.profile_background})`;
+            strip.style.backgroundSize     = 'cover';
+            strip.style.backgroundPosition = 'center';
+        }
     }
 
     document.getElementById('cfgUsername').value = user.username || '';
@@ -119,14 +129,32 @@ function initPerfilSection(user) {
         if (!file) return;
         bgFileChanged = true;
         const strip = document.getElementById('cfgBgStrip');
-        const reader = new FileReader();
-        reader.onload = ev => {
-            strip.style.backgroundImage    = `url(${ev.target.result})`;
-            strip.style.backgroundSize     = 'cover';
-            strip.style.backgroundPosition = 'center';
-            document.getElementById('cfgBgEmpty').style.display = 'none';
-        };
-        reader.readAsDataURL(file);
+        document.getElementById('cfgBgEmpty').style.display = 'none';
+
+        if (file.type === 'video/mp4') {
+            const url = URL.createObjectURL(file);
+            strip.style.backgroundImage = 'none';
+            let vid = strip.querySelector('video.cfg-bg-preview-video');
+            if (!vid) {
+                vid = document.createElement('video');
+                vid.className = 'cfg-bg-preview-video';
+                vid.autoplay = true; vid.loop = true; vid.muted = true; vid.playsInline = true;
+                vid.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;';
+                strip.style.position = 'relative';
+                strip.appendChild(vid);
+            }
+            vid.src = url;
+        } else {
+            const vid = strip.querySelector('video.cfg-bg-preview-video');
+            if (vid) vid.remove();
+            const reader = new FileReader();
+            reader.onload = ev => {
+                strip.style.backgroundImage    = `url(${ev.target.result})`;
+                strip.style.backgroundSize     = 'cover';
+                strip.style.backgroundPosition = 'center';
+            };
+            reader.readAsDataURL(file);
+        }
     });
 
     // Username availability check
