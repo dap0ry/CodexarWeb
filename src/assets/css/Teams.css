@@ -361,65 +361,56 @@ body {
 /* ── Members grid ── */
 .tm-members-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 20px 10px;
 }
 
+/* No box — just avatar + name floating */
 .tm-member-card {
-    background: rgba(12,12,20,0.85);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 14px;
-    padding: 20px 16px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
+    padding: 6px 4px;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.15s, background 0.15s, transform 0.15s;
-    position: relative;
+    transition: opacity 0.15s, transform 0.15s;
     cursor: pointer;
+    position: relative;
+    background: none;
+    border: none;
+    border-radius: 0;
 }
-.tm-member-card:hover {
-    border-color: rgba(0,255,204,0.2);
-    background: rgba(0,255,204,0.03);
-    transform: translateY(-2px);
-}
-
-.tm-member-card.is-owner {
-    border-color: rgba(255,196,0,0.22);
-    background: rgba(255,196,0,0.025);
-}
-.tm-member-card.is-owner:hover { border-color: rgba(255,196,0,0.45); }
+.tm-member-card:hover { opacity: 0.8; transform: translateY(-2px); }
 
 .tm-mc-avatar {
-    width: 64px; height: 64px;
+    width: 72px; height: 72px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    border: 2px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.07);
+    border: 2px solid rgba(255,255,255,0.13);
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: rgba(0,255,204,0.6);
     flex-shrink: 0;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
 }
 .tm-member-card.is-owner .tm-mc-avatar {
-    border-color: rgba(255,196,0,0.45);
-    box-shadow: 0 0 14px rgba(255,196,0,0.1);
+    border-color: rgba(255,196,0,0.5);
+    box-shadow: 0 0 16px rgba(255,196,0,0.12);
 }
-.tm-member-card:hover .tm-mc-avatar { border-color: rgba(0,255,204,0.4); }
+.tm-member-card:hover .tm-mc-avatar { border-color: rgba(0,255,204,0.45); }
 
 .tm-mc-name {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    color: #e6e6f0;
+    color: rgba(230,230,240,0.85);
     text-align: center;
     max-width: 100%;
     overflow: hidden;
@@ -427,49 +418,38 @@ body {
     white-space: nowrap;
 }
 
-.tm-mc-elo {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: rgba(0,255,204,0.7);
-}
-
-.tm-mc-solved {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    color: rgba(114,114,138,0.55);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
 .tm-mc-captain {
     position: absolute;
-    top: 8px; right: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.48rem;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    color: rgba(255,196,0,0.85);
-    background: rgba(255,196,0,0.08);
-    border: 1px solid rgba(255,196,0,0.22);
-    border-radius: 3px;
-    padding: 2px 5px;
-    text-transform: uppercase;
+    top: -4px; right: -4px;
+    width: 18px; height: 18px;
+    background: rgba(255,196,0,0.15);
+    border: 1px solid rgba(255,196,0,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: #ffc400;
 }
+.tm-mc-captain::after { content: '★'; }
 
 .tm-mc-kick {
     position: absolute;
-    top: 6px; left: 8px;
-    background: transparent;
-    border: none;
-    color: rgba(255,85,102,0.3);
-    font-size: 0.7rem;
+    top: -2px; left: -2px;
+    width: 18px; height: 18px;
+    background: rgba(255,85,102,0.1);
+    border: 1px solid rgba(255,85,102,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: rgba(255,85,102,0.5);
     cursor: pointer;
-    padding: 3px;
-    transition: color 0.15s;
+    transition: all 0.15s;
     line-height: 1;
 }
-.tm-mc-kick:hover { color: #ff5566; }
+.tm-mc-kick:hover { background: rgba(255,85,102,0.2); color: #ff5566; border-color: rgba(255,85,102,0.6); }
 
 /* ── Invite section ── */
 .tm-invite-wrap {

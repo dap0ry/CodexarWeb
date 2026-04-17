@@ -4,23 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../services/themeService.js"></script>
-    <title>Codexar — Equipo</title>
+    <title>Codexar — Club</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/ProfileView.css">
-    <link rel="stylesheet" href="../assets/css/TeamView.css">
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/themes.css">
+    <link rel="stylesheet" href="../assets/css/Teams.css">
+    <link rel="stylesheet" href="../assets/css/TeamView.css">
 </head>
 <body>
 
-    <nav class="navbar">
+    <div class="tm-bg-overlay" id="tvBgOverlay"></div>
+
+    <nav class="navbar" style="position:relative;z-index:10;">
         <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername">...</div>
             </div>
             <div class="user-dropdown">
                 <a href="Home.html"           class="dropdown-item">Inicio</a>
@@ -34,136 +36,79 @@
         </div>
     </nav>
 
-    <main class="pv-main" id="tvMain">
+    <main class="tm-main" style="position:relative;z-index:1;">
 
         <!-- Loading -->
-        <div class="pv-loading" id="tvLoading">
-            <div class="pv-loading-dot"></div>
-            <div class="pv-loading-dot"></div>
-            <div class="pv-loading-dot"></div>
+        <div id="tvLoading" class="tm-loading">
+            <div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div>
         </div>
 
         <!-- Error -->
-        <div class="pv-error hidden" id="tvError">
-            <div class="pv-error-icon">⚠</div>
-            <div class="pv-error-msg">Equipo no encontrado</div>
-            <button class="pv-back-btn" onclick="history.back()">← Volver</button>
+        <div id="tvError" class="tv-error hidden">
+            <div class="tv-error-code">404</div>
+            <div class="tv-error-msg">Club no encontrado</div>
+            <button class="tm-btn-cancel" onclick="history.back()">← Volver</button>
         </div>
 
-        <!-- Content -->
-        <div class="pv-content hidden" id="tvContent">
+        <!-- Content (mirrors Teams.html has-team view, read-only) -->
+        <div id="tvContent" class="tm-page hidden" style="position:relative;z-index:1;">
+            <div class="tm-content">
 
-            <!-- Banner -->
-            <div class="tv-banner hidden" id="tvBanner"></div>
+                <!-- Hero -->
+                <div class="tm-hero">
+                    <div class="tm-banner hidden" id="tvBanner"></div>
 
-            <!-- TOP -->
-            <div class="pv-top">
+                    <div class="tm-identity-row">
+                        <div class="tm-photo-wrap" style="cursor:default;">
+                            <div class="tm-photo" id="tvPhoto"></div>
+                        </div>
 
-                <!-- Left: team photo -->
-                <div class="pv-left">
-                    <div class="tv-team-photo" id="tvPhoto"></div>
-                    <!-- Stat mini cards -->
-                    <div class="pv-achievements">
-                        <div class="pv-ach-card tv-mini-stat">
-                            <div class="pv-ach-info">
-                                <div class="pv-ach-title" id="tvMiniSolved">—</div>
-                                <div class="pv-ach-rarity rarity-ultimate">ejercicios resueltos</div>
+                        <div class="tm-identity-info">
+                            <div class="tm-club-label">// CLUB PÚBLICO</div>
+                            <h1 class="tm-club-name" id="tvName">—</h1>
+                            <p  class="tm-club-desc" id="tvDesc"></p>
+                            <div class="tm-role-row">
+                                <span class="tm-member-count" id="tvMemberCount">— miembros</span>
                             </div>
                         </div>
-                        <div class="pv-ach-card tv-mini-stat">
-                            <div class="pv-ach-info">
-                                <div class="pv-ach-title" id="tvMiniElo">—</div>
-                                <div class="pv-ach-rarity rarity-legendary">ELO más alto</div>
-                            </div>
+
+                        <div class="tm-hero-actions">
+                            <button class="tm-btn-cancel tv-back-btn" onclick="history.back()">← Volver</button>
                         </div>
-                        <div class="pv-ach-card tv-mini-stat">
-                            <div class="pv-ach-info">
-                                <div class="pv-ach-title" id="tvMiniMembers">—</div>
-                                <div class="pv-ach-rarity rarity-rare">miembros</div>
-                            </div>
+                    </div>
+
+                    <div class="tm-stats-bar">
+                        <div class="tm-stat-pill">
+                            <span class="tm-stat-val"         id="tvStatMembers">0</span>
+                            <span class="tm-stat-lbl">Miembros</span>
+                        </div>
+                        <div class="tm-stat-sep"></div>
+                        <div class="tm-stat-pill">
+                            <span class="tm-stat-val tm-cyan" id="tvStatTotalSolved">0</span>
+                            <span class="tm-stat-lbl">Ejercicios resueltos</span>
+                        </div>
+                        <div class="tm-stat-sep"></div>
+                        <div class="tm-stat-pill">
+                            <span class="tm-stat-val tm-pink" id="tvStatHighestElo">0</span>
+                            <span class="tm-stat-lbl">ELO más alto</span>
+                        </div>
+                        <div class="tm-stat-sep"></div>
+                        <div class="tm-stat-pill">
+                            <span class="tm-stat-val tm-gold" id="tvStatAvgElo">0</span>
+                            <span class="tm-stat-lbl">ELO promedio</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: info + podium -->
-                <div class="pv-right">
-                    <div class="pv-identity-wrap">
-                        <div class="pv-identity">
-                            <div class="pv-username-row">
-                                <span class="pv-username" id="tvName">—</span>
-                            </div>
-                            <div class="tv-team-label">// EQUIPO PÚBLICO</div>
-                            <div class="pv-desc" id="tvDesc"></div>
-                        </div>
+                <!-- Members grid (all, read-only) -->
+                <div class="tm-section">
+                    <div class="tm-section-head">
+                        <div class="tm-section-label">// MIEMBROS</div>
                     </div>
-
-                    <div class="pv-divider"></div>
-
-                    <!-- Top 3 podium -->
-                    <div class="pv-exercises">
-                        <div class="pv-exercises-header">
-                            <span class="pv-section-label">Top Miembros</span>
-                            <span class="pv-exercises-total" id="tvAvgEloLabel">0 ELO prom.</span>
-                        </div>
-                        <div class="tv-podium" id="tvPodium"></div>
-                    </div>
+                    <div class="tm-members-grid" id="tvMembersGrid"></div>
                 </div>
 
             </div>
-
-            <!-- BOTTOM: stat cards -->
-            <div class="pv-bottom">
-
-                <div class="pv-stat-card tv-stat-card-cyan">
-                    <div class="pv-card-label">// EJERCICIOS //</div>
-                    <div class="pv-stat-rows">
-                        <div class="pv-stat-row">
-                            <div class="pv-stat-val accent-cyan" id="tvStatTotalSolved">0</div>
-                            <div class="pv-stat-key">Total resueltos</div>
-                        </div>
-                        <div class="pv-stat-row">
-                            <div class="pv-stat-val" id="tvStatAvgSolved">0</div>
-                            <div class="pv-stat-key">Promedio por miembro</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pv-stat-card tv-stat-card-pink">
-                    <div class="pv-card-label">// ELO //</div>
-                    <div class="pv-stat-rows">
-                        <div class="pv-stat-row">
-                            <div class="pv-stat-val tv-accent-pink" id="tvStatHighestElo">0</div>
-                            <div class="pv-stat-key">Más alto</div>
-                        </div>
-                        <div class="pv-stat-row">
-                            <div class="pv-stat-val" id="tvStatAvgElo">0</div>
-                            <div class="pv-stat-key">Promedio</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pv-stat-card tv-stat-card-gold">
-                    <div class="pv-card-label">// EQUIPO //</div>
-                    <div class="pv-stat-rows">
-                        <div class="pv-stat-row">
-                            <div class="pv-stat-val tv-accent-gold" id="tvStatMembers">0</div>
-                            <div class="pv-stat-key">Miembros</div>
-                        </div>
-                        <div class="pv-stat-row">
-                            <div class="pv-stat-val" id="tvStatLeader">—</div>
-                            <div class="pv-stat-key">Líder</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- All members -->
-            <div class="tv-all-members" id="tvAllSection">
-                <div class="pv-section-label" style="padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:4px;">Todos los miembros</div>
-                <div class="tv-members-list" id="tvMembersList"></div>
-            </div>
-
         </div>
     </main>
 

@@ -13,7 +13,7 @@ async function initTeamView() {
     const teamName = params.get('t');
     if (!teamName) { showError(); return; }
 
-    // Navbar (optional — works without login too)
+    // Navbar (optional)
     const t = token();
     if (t) {
         const res = await fetch(`${TV_API}/user/me`, { headers: { 'Authorization': `Bearer ${t}` } });
@@ -60,10 +60,17 @@ function renderTeam(team) {
 
     document.title = `Codexar — ${team.name}`;
 
-    // Banner (use photo_url blurred as banner)
-    if (team.photo_url) {
+    // Full-page background overlay (same as teams.html)
+    if (team.background_url) {
+        const overlay = document.getElementById('tvBgOverlay');
+        overlay.style.backgroundImage = `url(${team.background_url})`;
+    }
+
+    // Banner strip (background_url if available, else photo)
+    const bannerSrc = team.background_url || team.photo_url;
+    if (bannerSrc) {
         const banner = document.getElementById('tvBanner');
-        banner.style.backgroundImage = `url(${team.photo_url})`;
+        banner.style.backgroundImage = `url(${bannerSrc})`;
         banner.classList.remove('hidden');
     }
 
@@ -75,85 +82,33 @@ function renderTeam(team) {
         photo.textContent = (team.name || '?').charAt(0).toUpperCase();
     }
 
-    // Header
-    document.getElementById('tvName').textContent    = team.name;
-    document.getElementById('tvDesc').textContent    = team.description || '';
-    document.getElementById('tvAvgEloLabel').textContent = `${team.avg_elo ?? 0} ELO prom.`;
+    document.getElementById('tvName').textContent        = team.name;
+    document.getElementById('tvDesc').textContent        = team.description || '';
+    document.getElementById('tvMemberCount').textContent = `${team.member_count ?? 0} miembro${(team.member_count ?? 0) !== 1 ? 's' : ''}`;
 
-    // Left mini stats
-    document.getElementById('tvMiniSolved').textContent  = team.total_solved ?? 0;
-    document.getElementById('tvMiniElo').textContent     = team.highest_elo ?? 0;
-    document.getElementById('tvMiniMembers').textContent = team.member_count ?? 0;
-
-    // Bottom stat cards
+    document.getElementById('tvStatMembers').textContent    = team.member_count ?? 0;
     document.getElementById('tvStatTotalSolved').textContent = team.total_solved ?? 0;
-    const members = team.members_info || [];
-    const avgSolved = members.length
-        ? Math.round(members.reduce((s, m) => s + m.solved, 0) / members.length)
-        : 0;
-    document.getElementById('tvStatAvgSolved').textContent  = avgSolved;
     document.getElementById('tvStatHighestElo').textContent = team.highest_elo ?? 0;
     document.getElementById('tvStatAvgElo').textContent     = team.avg_elo ?? 0;
-    document.getElementById('tvStatMembers').textContent    = team.member_count ?? 0;
-    const leader = members.find(m => m.is_owner);
-    document.getElementById('tvStatLeader').textContent     = leader ? leader.username : '—';
 
-    renderPodium(members.slice(0, 3));
-    renderMembersList(members);
-
-    if (members.length === 0) {
-        document.getElementById('tvAllSection').style.display = 'none';
-    }
+    renderMembersGrid(team.members_info || []);
 }
 
-const RANK_CLASSES = ['rank-1', 'rank-2', 'rank-3'];
-const RANK_LABELS  = ['#1', '#2', '#3'];
-
-function renderPodium(top3) {
-    const container = document.getElementById('tvPodium');
-    if (!top3.length) {
-        container.innerHTML = '<div style="color:rgba(114,114,138,0.45);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem">Sin miembros</div>';
+function renderMembersGrid(members) {
+    const grid = document.getElementById('tvMembersGrid');
+    if (!members.length) {
+        grid.innerHTML = '<div class="tm-empty">Sin miembros</div>';
         return;
     }
-    container.innerHTML = top3.map((m, i) => {
+    grid.innerHTML = members.map(m => {
         const initials    = m.username.charAt(0).toUpperCase();
-        const avatarStyle = m.avatar ? `style="background-image:url(${m.avatar})"` : '';
-        const ownerBadge  = m.is_owner ? '<div class="tv-podium-owner">Líder</div>' : '';
+        const avatarStyle = m.avatar ? `style="background-image:url(${esc(m.avatar)})"` : '';
+        const captainBadge = m.is_owner ? '<div class="tm-mc-captain">CAPITÁN</div>' : '';
         return `
-            <div class="tv-podium-card ${RANK_CLASSES[i]}">
-                <div class="tv-podium-rank">${RANK_LABELS[i]}</div>
-                <div class="tv-podium-avatar" ${avatarStyle}>${m.avatar ? '' : initials}</div>
-                <a href="ProfileView.html?u=${encodeURIComponent(m.username)}" class="tv-podium-username">${esc(m.username)}</a>
-                ${ownerBadge}
-                <div class="tv-podium-stats">
-                    <div class="tv-podium-stat">
-                        <span class="tv-podium-stat-val">${m.elo}</span>
-                        <span class="tv-podium-stat-lbl">ELO</span>
-                    </div>
-                    <div class="tv-podium-stat">
-                        <span class="tv-podium-stat-val">${m.solved}</span>
-                        <span class="tv-podium-stat-lbl">Resueltos</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function renderMembersList(members) {
-    const list = document.getElementById('tvMembersList');
-    list.innerHTML = members.map((m, i) => {
-        const initials    = m.username.charAt(0).toUpperCase();
-        const avatarStyle = m.avatar ? `style="background-image:url(${m.avatar})"` : '';
-        const ownerBadge  = m.is_owner ? '<span class="tv-member-owner">Líder</span>' : '';
-        return `
-            <a href="ProfileView.html?u=${encodeURIComponent(m.username)}" class="tv-member-row">
-                <div class="tv-member-pos">${i + 1}</div>
-                <div class="tv-member-avatar" ${avatarStyle}>${m.avatar ? '' : initials}</div>
-                <div class="tv-member-name">${esc(m.username)}</div>
-                ${ownerBadge}
-                <div class="tv-member-elo">${m.elo} ELO</div>
-                <div class="tv-member-solved">${m.solved} resueltos</div>
+            <a href="ProfileView.html?u=${encodeURIComponent(m.username)}" class="tm-member-card${m.is_owner ? ' is-owner' : ''}">
+                ${captainBadge}
+                <div class="tm-mc-avatar" ${avatarStyle}>${m.avatar ? '' : initials}</div>
+                <div class="tm-mc-name">${esc(m.username)}</div>
             </a>
         `;
     }).join('');

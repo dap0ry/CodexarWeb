@@ -1,308 +1,41 @@
-/* TeamView.css — overrides / extensions on top of ProfileView.css */
+/* TeamView.css — public-only overrides on top of Teams.css */
 
-/* Scrollable main (teams can have many members) */
-body { overflow-y: auto; height: auto; }
-
-.pv-main {
-    padding: 90px max(20px, calc(50% - 580px)) 60px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    overflow: visible;
-    height: auto;
-}
-
-.pv-content { max-width: 1160px; width: 100%; }
-
-/* ── Banner ────────────────────────────────────────────────── */
-.tv-banner {
-    width: 100%;
-    height: 130px;
-    border-radius: 14px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-.tv-banner::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(7,7,15,0.05) 0%, rgba(7,7,15,0.55) 100%);
-    border-radius: inherit;
-}
-
-/* ── Team photo (replaces pv-avatar) ───────────────────────── */
-.tv-team-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 18px;
-    background: #1a1a2e;
-    border: 2.5px solid rgba(255, 196, 0, 0.3);
-    box-shadow: 0 0 28px rgba(255, 196, 0, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: rgba(255, 196, 0, 0.55);
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-/* ── Team label under name ──────────────────────────────────── */
-.tv-team-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: rgba(255, 196, 0, 0.4);
-    text-transform: uppercase;
-    margin-top: 2px;
-}
-
-/* ── Mini stat cards (left column) ─────────────────────────── */
-.tv-mini-stat { cursor: default; }
-
-/* ── Stat card accents ──────────────────────────────────────── */
-.tv-stat-card-cyan  { border-top: 2px solid rgba(0, 255, 204, 0.5); }
-.tv-stat-card-pink  { border-top: 2px solid rgba(255, 46, 99, 0.5); }
-.tv-stat-card-gold  { border-top: 2px solid rgba(255, 196, 0, 0.5); }
-
-.tv-stat-card-cyan .pv-card-label  { color: rgba(0, 255, 204, 0.7); }
-.tv-stat-card-pink .pv-card-label  { color: rgba(255, 80, 120, 0.75); }
-.tv-stat-card-gold .pv-card-label  { color: rgba(255, 196, 0, 0.7); }
-
-.pv-stat-card .pv-stat-rows {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 10px;
-    justify-items: center;
-}
-
-.tv-accent-pink { color: #ff2e63; text-shadow: 0 0 14px rgba(255,46,99,0.3); }
-.tv-accent-gold { color: #ffc400; text-shadow: 0 0 14px rgba(255,196,0,0.3); }
-
-/* ── Podium (top 3 inside the right card) ──────────────────── */
-.tv-podium {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.tv-podium-card {
-    position: relative;
-    flex: 1;
-    min-width: 130px;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 12px;
-    padding: 16px 14px 14px;
+/* Error state */
+.tv-error {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    transition: border-color 0.15s, background 0.15s;
-}
-.tv-podium-card:hover { border-color: rgba(255,255,255,0.13); background: rgba(255,255,255,0.035); }
-
-.tv-podium-card.rank-1 { border-color: rgba(255,196,0,0.28); background: rgba(255,196,0,0.03); }
-.tv-podium-card.rank-2 { border-color: rgba(160,168,188,0.22); }
-.tv-podium-card.rank-3 { border-color: rgba(180,100,50,0.22); }
-
-.tv-podium-rank {
-    position: absolute;
-    top: 8px; right: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: rgba(114,114,138,0.45);
-}
-.tv-podium-card.rank-1 .tv-podium-rank { color: rgba(255,196,0,0.75); }
-.tv-podium-card.rank-2 .tv-podium-rank { color: rgba(180,180,200,0.7); }
-.tv-podium-card.rank-3 .tv-podium-rank { color: rgba(210,120,60,0.7); }
-
-.tv-podium-avatar {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    border: 2px solid rgba(255,255,255,0.1);
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
     justify-content: center;
+    gap: 14px;
+    min-height: calc(100vh - 64px);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: rgba(0,255,204,0.6);
-    flex-shrink: 0;
-}
-.tv-podium-card.rank-1 .tv-podium-avatar { border-color: rgba(255,196,0,0.45); box-shadow: 0 0 14px rgba(255,196,0,0.12); }
-
-.tv-podium-username {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #e6e6f0;
     text-align: center;
-    text-decoration: none;
-    transition: color 0.15s;
 }
-.tv-podium-username:hover { color: #00ffcc; }
-
-.tv-podium-owner {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: rgba(0,255,204,0.8);
-    background: rgba(0,255,204,0.08);
-    border: 1px solid rgba(0,255,204,0.2);
-    border-radius: 4px;
-    padding: 2px 6px;
-    text-transform: uppercase;
-}
-
-.tv-podium-stats {
-    display: flex;
-    gap: 14px;
-    margin-top: 2px;
-}
-
-.tv-podium-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1px;
-}
-
-.tv-podium-stat-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.88rem;
+.tv-error-code {
+    font-size: 5rem;
     font-weight: 800;
-    color: #e6e6f0;
+    color: rgba(255,46,99,0.2);
+    line-height: 1;
+}
+.tv-error-msg {
+    font-size: 0.82rem;
+    color: rgba(114,114,138,0.6);
 }
 
-.tv-podium-stat-lbl {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.48rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: rgba(114,114,138,0.5);
-    text-transform: uppercase;
+/* Back button (reuse tm-btn-cancel style) */
+.tv-back-btn {
+    align-self: flex-start;
 }
 
-/* ── All members section ────────────────────────────────────── */
-.tv-all-members {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-top: 4px;
+/* Public member cards — same grid but no kick/captain overlay */
+.tm-members-grid .tm-member-card .tm-mc-captain { display: none; }
+
+/* ── news-team-mention (used in Home news feed) ── */
+.news-team-mention {
+    color: rgba(255,196,0,0.85) !important;
+    border-bottom-color: rgba(255,196,0,0.3) !important;
 }
-
-.tv-members-list {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.tv-member-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 18px;
-    background: #0c0c14;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.15s, background 0.15s;
-}
-.tv-member-row:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); }
-
-.tv-member-pos {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    font-weight: 700;
-    color: rgba(114,114,138,0.35);
-    width: 22px;
-    text-align: right;
-    flex-shrink: 0;
-}
-
-.tv-member-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    border: 1.5px solid rgba(255,255,255,0.1);
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: rgba(0,255,204,0.6);
-    flex-shrink: 0;
-}
-
-.tv-member-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #e6e6f0;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.tv-member-owner {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: rgba(0,255,204,0.7);
-    background: rgba(0,255,204,0.06);
-    border: 1px solid rgba(0,255,204,0.18);
-    border-radius: 3px;
-    padding: 2px 6px;
-    text-transform: uppercase;
-    flex-shrink: 0;
-}
-
-.tv-member-elo {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: rgba(0,255,204,0.75);
-    flex-shrink: 0;
-    min-width: 70px;
-    text-align: right;
-}
-
-.tv-member-solved {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    color: rgba(114,114,138,0.5);
-    flex-shrink: 0;
-    min-width: 80px;
-    text-align: right;
-}
-
-/* ── news-team-mention ── */
-.news-team-mention { color: rgba(255,196,0,0.85) !important; border-bottom-color: rgba(255,196,0,0.3) !important; }
-.news-team-mention:hover { color: #ffc400 !important; border-bottom-color: rgba(255,196,0,0.7) !important; }
-
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 700px) {
-    .tv-podium { flex-direction: column; }
-    .tv-member-solved { display: none; }
+.news-team-mention:hover {
+    color: #ffc400 !important;
+    border-bottom-color: rgba(255,196,0,0.7) !important;
 }

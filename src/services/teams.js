@@ -169,8 +169,6 @@ function renderMembersGrid(members, teamId, isOwner) {
                 ${kickBtn}
                 <div class="tm-mc-avatar" ${avatarStyle}>${m.avatar ? '' : initials}</div>
                 <div class="tm-mc-name">${esc(m.username)}</div>
-                <div class="tm-mc-elo">${m.elo} ELO</div>
-                <div class="tm-mc-solved">${m.solved} resueltos</div>
             </a>
         `;
     }).join('');
