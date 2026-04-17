@@ -9,11 +9,11 @@ function esc(str) {
 }
 
 async function initTeamView() {
-    const params = new URLSearchParams(window.location.search);
+    const params   = new URLSearchParams(window.location.search);
     const teamName = params.get('t');
     if (!teamName) { showError(); return; }
 
-    // Populate navbar if logged in
+    // Navbar (optional — works without login too)
     const t = token();
     if (t) {
         const res = await fetch(`${TV_API}/user/me`, { headers: { 'Authorization': `Bearer ${t}` } });
@@ -24,8 +24,8 @@ async function initTeamView() {
             if (navUsername) navUsername.textContent = user.username;
             if (navAvatar) {
                 if (user.avatar) {
-                    navAvatar.style.backgroundImage  = `url(${user.avatar})`;
-                    navAvatar.style.backgroundSize   = 'cover';
+                    navAvatar.style.backgroundImage    = `url(${user.avatar})`;
+                    navAvatar.style.backgroundSize     = 'cover';
                     navAvatar.style.backgroundPosition = 'center';
                 } else {
                     navAvatar.textContent = user.username.charAt(0).toUpperCase();
@@ -60,7 +60,14 @@ function renderTeam(team) {
 
     document.title = `Codexar — ${team.name}`;
 
-    // Photo
+    // Banner (use photo_url blurred as banner)
+    if (team.photo_url) {
+        const banner = document.getElementById('tvBanner');
+        banner.style.backgroundImage = `url(${team.photo_url})`;
+        banner.classList.remove('hidden');
+    }
+
+    // Team photo
     const photo = document.getElementById('tvPhoto');
     if (team.photo_url) {
         photo.style.backgroundImage = `url(${team.photo_url})`;
@@ -68,37 +75,50 @@ function renderTeam(team) {
         photo.textContent = (team.name || '?').charAt(0).toUpperCase();
     }
 
-    document.getElementById('tvName').textContent        = team.name;
-    document.getElementById('tvDesc').textContent        = team.description || '';
-    document.getElementById('tvMemberCount').textContent = team.member_count ?? 0;
-    document.getElementById('tvTotalSolved').textContent = team.total_solved ?? 0;
-    document.getElementById('tvHighestElo').textContent  = team.highest_elo ?? 0;
-    document.getElementById('tvAvgElo').textContent      = team.avg_elo ?? 0;
+    // Header
+    document.getElementById('tvName').textContent    = team.name;
+    document.getElementById('tvDesc').textContent    = team.description || '';
+    document.getElementById('tvAvgEloLabel').textContent = `${team.avg_elo ?? 0} ELO prom.`;
 
+    // Left mini stats
+    document.getElementById('tvMiniSolved').textContent  = team.total_solved ?? 0;
+    document.getElementById('tvMiniElo').textContent     = team.highest_elo ?? 0;
+    document.getElementById('tvMiniMembers').textContent = team.member_count ?? 0;
+
+    // Bottom stat cards
+    document.getElementById('tvStatTotalSolved').textContent = team.total_solved ?? 0;
     const members = team.members_info || [];
+    const avgSolved = members.length
+        ? Math.round(members.reduce((s, m) => s + m.solved, 0) / members.length)
+        : 0;
+    document.getElementById('tvStatAvgSolved').textContent  = avgSolved;
+    document.getElementById('tvStatHighestElo').textContent = team.highest_elo ?? 0;
+    document.getElementById('tvStatAvgElo').textContent     = team.avg_elo ?? 0;
+    document.getElementById('tvStatMembers').textContent    = team.member_count ?? 0;
+    const leader = members.find(m => m.is_owner);
+    document.getElementById('tvStatLeader').textContent     = leader ? leader.username : '—';
+
     renderPodium(members.slice(0, 3));
     renderMembersList(members);
 
     if (members.length <= 3) {
-        document.getElementById('tvAllMembersSection').style.display = 'none';
+        document.getElementById('tvAllSection').style.display = 'none';
     }
 }
 
-const RANK_LABELS = ['#1', '#2', '#3'];
 const RANK_CLASSES = ['rank-1', 'rank-2', 'rank-3'];
+const RANK_LABELS  = ['#1', '#2', '#3'];
 
 function renderPodium(top3) {
     const container = document.getElementById('tvPodium');
     if (!top3.length) {
-        container.innerHTML = '<div style="color:rgba(114,114,138,0.5);font-family:\'JetBrains Mono\',monospace;font-size:0.75rem">Sin miembros</div>';
+        container.innerHTML = '<div style="color:rgba(114,114,138,0.45);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem">Sin miembros</div>';
         return;
     }
     container.innerHTML = top3.map((m, i) => {
-        const initials = m.username.charAt(0).toUpperCase();
-        const avatarStyle = m.avatar
-            ? `style="background-image:url(${m.avatar})"` : '';
-        const ownerBadge = m.is_owner
-            ? '<div class="tv-podium-owner-badge">Líder</div>' : '';
+        const initials    = m.username.charAt(0).toUpperCase();
+        const avatarStyle = m.avatar ? `style="background-image:url(${m.avatar})"` : '';
+        const ownerBadge  = m.is_owner ? '<div class="tv-podium-owner">Líder</div>' : '';
         return `
             <div class="tv-podium-card ${RANK_CLASSES[i]}">
                 <div class="tv-podium-rank">${RANK_LABELS[i]}</div>
@@ -123,10 +143,9 @@ function renderPodium(top3) {
 function renderMembersList(members) {
     const list = document.getElementById('tvMembersList');
     list.innerHTML = members.map((m, i) => {
-        const initials = m.username.charAt(0).toUpperCase();
-        const avatarStyle = m.avatar
-            ? `style="background-image:url(${m.avatar})"` : '';
-        const ownerBadge = m.is_owner ? '<span class="tv-member-owner">Líder</span>' : '';
+        const initials    = m.username.charAt(0).toUpperCase();
+        const avatarStyle = m.avatar ? `style="background-image:url(${m.avatar})"` : '';
+        const ownerBadge  = m.is_owner ? '<span class="tv-member-owner">Líder</span>' : '';
         return `
             <a href="ProfileView.html?u=${encodeURIComponent(m.username)}" class="tv-member-row">
                 <div class="tv-member-pos">${i + 1}</div>
