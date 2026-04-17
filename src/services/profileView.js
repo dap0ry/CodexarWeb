@@ -370,8 +370,9 @@ function renderProfile(data) {
     document.getElementById('pvDesc').textContent     = data.description || '';
     renderLangs(document.getElementById('pvLangs'), data.languages);
 
-    // Role badge (only for moderator / admin)
+    // Role badge (moderator / admin) + subscription badge (plus / max)
     const roleBadge = document.getElementById('pvRoleBadge');
+    const subBadge  = document.getElementById('pvSubBadge');
     if (roleBadge) {
         const role = data.role || 'user';
         if (role === 'moderator') {
@@ -382,6 +383,18 @@ function renderProfile(data) {
             roleBadge.className = 'pv-role-badge pv-role-admin';
         } else {
             roleBadge.className = 'pv-role-badge hidden';
+        }
+    }
+    if (subBadge) {
+        const plan = data.subscription_plan;
+        if (plan === 'max') {
+            subBadge.textContent = '◆ MAX';
+            subBadge.className = 'pv-role-badge pv-sub-max';
+        } else if (plan === 'plus' || plan === 'plus_boosted') {
+            subBadge.textContent = '▲ PLUS';
+            subBadge.className = 'pv-role-badge pv-sub-plus';
+        } else {
+            subBadge.className = 'pv-role-badge hidden';
         }
     }
 

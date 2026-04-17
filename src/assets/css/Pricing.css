@@ -1,0 +1,444 @@
+/* Pricing.css — Codexar subscription plans */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #07070f;
+    color: #e6e6f0;
+    font-family: 'Inter', sans-serif;
+    overflow-y: auto;
+    min-height: 100vh;
+}
+
+.pr-main {
+    padding: 90px max(20px, calc(50% - 580px)) 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+}
+
+/* ── Header ── */
+.pr-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+}
+
+.pr-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(0,255,204,0.45);
+    text-transform: uppercase;
+}
+
+.pr-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    color: #f0f0ff;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.pr-title-accent {
+    background: linear-gradient(135deg, #00ffcc, #00d4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pr-subtitle {
+    font-size: 0.9rem;
+    color: rgba(230,230,240,0.45);
+    max-width: 480px;
+    line-height: 1.6;
+}
+
+/* ── Current plan banner ── */
+.pr-current-plan {
+    background: rgba(0,255,204,0.05);
+    border: 1px solid rgba(0,255,204,0.2);
+    border-radius: 12px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(0,255,204,0.85);
+    flex-wrap: wrap;
+}
+
+.pr-manage-btn {
+    padding: 6px 14px;
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.28);
+    border-radius: 6px;
+    color: #00ffcc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.pr-manage-btn:hover { background: rgba(0,255,204,0.16); }
+
+/* ── Cards grid ── */
+.pr-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+/* ── Card base ── */
+.pr-card {
+    background: rgba(12,12,20,0.95);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 28px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: relative;
+    transition: border-color 0.15s;
+}
+
+.pr-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Featured (Max) card */
+.pr-featured {
+    border-color: rgba(255,196,0,0.3);
+    background: rgba(12,12,18,0.98);
+    box-shadow: 0 0 40px rgba(255,196,0,0.06);
+    margin-top: -12px;
+    padding-top: 40px;
+}
+
+.pr-popular-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ffc400, #ff8c00);
+    color: #000;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.pr-plan-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    width: fit-content;
+}
+.pr-badge-plus {
+    color: rgba(0,200,255,0.95);
+    background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.25);
+}
+.pr-badge-max {
+    color: rgba(255,196,0,0.95);
+    background: rgba(255,196,0,0.08);
+    border: 1px solid rgba(255,196,0,0.3);
+}
+
+.pr-plan-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #f0f0ff;
+}
+
+.pr-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.pr-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #f0f0ff;
+    line-height: 1;
+}
+
+.pr-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(114,114,138,0.6);
+}
+
+.pr-plus .pr-price  { color: #00c8ff; }
+.pr-max  .pr-price  { color: #ffc400; }
+
+.pr-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: rgba(114,114,138,0.55);
+    letter-spacing: 0.5px;
+}
+
+/* ── Features list ── */
+.pr-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.pr-feat {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    font-size: 0.82rem;
+    color: rgba(230,230,240,0.75);
+    line-height: 1.4;
+}
+
+.pr-feat-dim { opacity: 0.4; }
+
+.pr-feat-check {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(114,114,138,0.5);
+    flex-shrink: 0;
+}
+.pr-check-plus { color: #00c8ff; }
+.pr-check-max  { color: #ffc400; }
+
+.pr-feat-x {
+    font-size: 0.65rem;
+    color: rgba(114,114,138,0.4);
+    flex-shrink: 0;
+}
+
+.pr-inline-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+/* ── Card footer ── */
+.pr-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pr-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+}
+
+.pr-btn-free {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.35);
+    cursor: not-allowed;
+}
+
+.pr-btn-plus {
+    background: rgba(0,200,255,0.08);
+    border-color: rgba(0,200,255,0.28);
+    color: #00c8ff;
+}
+.pr-btn-plus:hover:not(:disabled) { background: rgba(0,200,255,0.16); border-color: rgba(0,200,255,0.5); }
+
+.pr-btn-max {
+    background: rgba(255,196,0,0.1);
+    border-color: rgba(255,196,0,0.3);
+    color: #ffc400;
+}
+.pr-btn-max:hover:not(:disabled) { background: rgba(255,196,0,0.18); border-color: rgba(255,196,0,0.55); }
+
+.pr-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pr-btn-active {
+    background: rgba(57,255,20,0.06) !important;
+    border-color: rgba(57,255,20,0.2) !important;
+    color: rgba(57,255,20,0.8) !important;
+    cursor: not-allowed !important;
+}
+
+.pr-secure {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: rgba(114,114,138,0.4);
+    text-align: center;
+}
+
+/* ── FAQ ── */
+.pr-faq {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pr-faq-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(0,255,204,0.4);
+    text-transform: uppercase;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.pr-faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.pr-faq-item {
+    background: rgba(12,12,20,0.95);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pr-faq-q {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #e6e6f0;
+}
+
+.pr-faq-a {
+    font-size: 0.78rem;
+    color: rgba(230,230,240,0.45);
+    line-height: 1.6;
+}
+
+/* ── Boost section ── */
+.pr-boost-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pr-boost-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(255,196,0,0.5);
+    text-transform: uppercase;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.pr-boost-card {
+    background: rgba(12,12,20,0.95);
+    border: 1px solid rgba(255,196,0,0.2);
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pr-boost-desc {
+    font-size: 0.82rem;
+    color: rgba(230,230,240,0.5);
+    line-height: 1.6;
+}
+
+.pr-boost-form {
+    display: flex;
+    gap: 10px;
+}
+
+.pr-input {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: #e6e6f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 9px 13px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+.pr-input:focus { border-color: rgba(255,196,0,0.3); }
+.pr-input::placeholder { color: rgba(114,114,138,0.45); }
+
+.pr-boost-feedback {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    min-height: 14px;
+    color: rgba(114,114,138,0.5);
+}
+.pr-boost-feedback.ok  { color: #39ff14; }
+.pr-boost-feedback.err { color: #ff5566; }
+
+/* ── Toast ── */
+.pr-toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: #0d0d1a;
+    border: 1px solid rgba(0,255,204,0.25);
+    border-radius: 8px;
+    color: #00ffcc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 12px 18px;
+    z-index: 999;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+    animation: prToastIn 0.2s ease;
+}
+.pr-toast.err { color: #ff5566; border-color: rgba(255,85,102,0.25); }
+@keyframes prToastIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+    .pr-cards { grid-template-columns: 1fr; }
+    .pr-featured { margin-top: 0; }
+    .pr-faq-grid { grid-template-columns: 1fr; }
+}
