@@ -160,15 +160,19 @@ function initPerfilSection(user) {
     // Delete banner
     document.getElementById('cfgBannerDeleteBtn')?.addEventListener('click', async () => {
         if (!confirm('¿Eliminar el banner?')) return;
+        const tk = localStorage.getItem('access_token');
         try {
             const res = await fetch(`${API_BASE}/user/delete-banner`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${tk}` }
             });
             if (res.ok) {
                 const bannerStrip = document.getElementById('cfgBannerStrip');
                 bannerStrip.style.backgroundImage = 'none';
+                bannerStrip.style.backgroundSize = '';
+                bannerStrip.style.backgroundPosition = '';
                 document.getElementById('cfgBannerEmpty').style.display = '';
+                document.getElementById('cfgBannerInput').value = '';
                 setStatus('cfgSaveStatus', 'Banner eliminado', 'ok');
             }
         } catch { setStatus('cfgSaveStatus', 'Error eliminando banner', 'err'); }
@@ -177,17 +181,21 @@ function initPerfilSection(user) {
     // Delete background
     document.getElementById('cfgBgDeleteBtn')?.addEventListener('click', async () => {
         if (!confirm('¿Eliminar el fondo de perfil?')) return;
+        const tk = localStorage.getItem('access_token');
         try {
             const res = await fetch(`${API_BASE}/user/delete-background`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${tk}` }
             });
             if (res.ok) {
                 const strip = document.getElementById('cfgBgStrip');
                 strip.style.backgroundImage = 'none';
+                strip.style.backgroundSize = '';
+                strip.style.backgroundPosition = '';
                 const vid = strip.querySelector('video.cfg-bg-preview-video');
                 if (vid) vid.remove();
                 document.getElementById('cfgBgEmpty').style.display = '';
+                document.getElementById('cfgBgInput').value = '';
                 setStatus('cfgSaveStatus', 'Fondo eliminado', 'ok');
             }
         } catch { setStatus('cfgSaveStatus', 'Error eliminando fondo', 'err'); }
