@@ -46,6 +46,7 @@ async function initPage() {
     bindTabs();
     await loadUsers();
     await loadExercises();
+    initNewsForm();
 
     document.getElementById('userSearch').addEventListener('input', filterUsers);
     document.getElementById('exSearch').addEventListener('input', filterExercises);
@@ -59,6 +60,7 @@ function bindTabs() {
             document.querySelectorAll('.ap-section').forEach(s => s.classList.add('hidden'));
             tab.classList.add('active');
             document.getElementById(`section-${tab.dataset.section}`)?.classList.remove('hidden');
+            if (tab.dataset.section === 'news' && !allNews.length) loadNews();
         });
     });
 }
@@ -196,6 +198,118 @@ async function deleteExercise(id, title) {
     });
     const data = await res.json();
     if (res.ok) { showToast(data.message); await loadExercises(); }
+    else showToast(data.detail || 'Error', true);
+}
+
+// ── News ─────────────────────────────────────────────────────────────────────
+
+let allNews = [];
+
+function initNewsForm() {
+    const bodyInput   = document.getElementById('newsBody');
+    const mentionsPre = document.getElementById('newsMentionsPreview');
+    const charCount   = document.getElementById('newsBodyCount');
+
+    // Live mention detection + char counter
+    bodyInput.addEventListener('input', () => {
+        charCount.textContent = bodyInput.value.length;
+        const mentions = [...new Set((bodyInput.value.match(/@(\w+)/g) || []))];
+        mentionsPre.textContent = mentions.length
+            ? 'Menciones: ' + mentions.join('  ')
+            : '';
+    });
+
+    document.getElementById('newsSubmitBtn').addEventListener('click', submitNews);
+}
+
+async function submitNews() {
+    const title    = document.getElementById('newsTitle').value.trim();
+    const subtitle = document.getElementById('newsSubtitle').value.trim();
+    const body     = document.getElementById('newsBody').value.trim();
+
+    if (!title)  { showToast('El título es obligatorio.', true); return; }
+    if (!body)   { showToast('El contenido es obligatorio.', true); return; }
+
+    const btn = document.getElementById('newsSubmitBtn');
+    btn.disabled    = true;
+    btn.textContent = 'Publicando...';
+
+    try {
+        const res  = await fetch(`${API_BASE}/news/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token()}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, subtitle: subtitle || title, body }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+            showToast('¡Noticia publicada!');
+            document.getElementById('newsTitle').value    = '';
+            document.getElementById('newsSubtitle').value = '';
+            document.getElementById('newsBody').value     = '';
+            document.getElementById('newsMentionsPreview').textContent = '';
+            document.getElementById('newsBodyCount').textContent = '0';
+            await loadNews();
+        } else {
+            showToast(data.detail || 'Error al publicar.', true);
+        }
+    } catch {
+        showToast('Error de conexión.', true);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Publicar noticia';
+}
+
+async function loadNews() {
+    const res = await fetch(`${API_BASE}/news/`, {
+        headers: { 'Authorization': `Bearer ${token()}` },
+    });
+    if (!res.ok) { showToast('Error al cargar noticias', true); return; }
+    allNews = await res.json();
+    renderNews(allNews);
+}
+
+function renderNews(items) {
+    document.getElementById('newsCount').textContent = `${items.length} noticias`;
+    const tbody = document.getElementById('newsTableBody');
+    if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="ap-loading">No hay noticias publicadas</td></tr>';
+        return;
+    }
+    tbody.innerHTML = items.map(n => {
+        const date = n.created_at
+            ? new Date(n.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
+            : '—';
+        const mentions = (n.mentions || []).map(m => `@${esc(m)}`).join(', ') || '—';
+        return `
+            <tr>
+                <td><strong>${esc(n.title)}</strong><br><span style="color:rgba(114,114,138,0.55);font-size:0.65rem">${esc(n.subtitle || '')}</span></td>
+                <td style="color:rgba(0,255,204,0.6)">${esc(n.creator)}</td>
+                <td style="color:rgba(0,255,204,0.45);font-size:0.68rem">${mentions}</td>
+                <td style="color:#e6e6f0">${n.like_count ?? 0}</td>
+                <td style="color:rgba(114,114,138,0.55)">${date}</td>
+                <td>
+                    <div class="ap-actions-cell">
+                        <button class="ap-btn ap-btn-delete" onclick="deleteNews('${esc(n.id)}')">Eliminar</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+async function deleteNews(id) {
+    if (!confirm('¿Eliminar esta noticia? No se puede deshacer.')) return;
+    const res  = await fetch(`${API_BASE}/admin/news/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token()}` },
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); await loadNews(); }
     else showToast(data.detail || 'Error', true);
 }
 
