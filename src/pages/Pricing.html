@@ -14,11 +14,10 @@
 </head>
 <body>
 
-<div class="pr-scene">
+<div class="pr-bg">
     <div class="pr-orb pr-orb-1"></div>
     <div class="pr-orb pr-orb-2"></div>
-    <div class="pr-orb pr-orb-3"></div>
-    <div class="pr-grid-overlay"></div>
+    <div class="pr-grid"></div>
 </div>
 
 <nav class="navbar" style="position:relative;z-index:10;">
@@ -42,198 +41,121 @@
 
 <main class="pr-main">
 
-    <!-- Hero -->
     <div class="pr-hero">
-        <div class="pr-eyebrow">
-            <span class="pr-eyebrow-dot"></span>
-            PLANES Y PRECIOS
-            <span class="pr-eyebrow-dot"></span>
-        </div>
-        <h1 class="pr-title">
-            Compite en serio.<br>
-            <span class="pr-title-gradient">Sin límites.</span>
-        </h1>
-        <p class="pr-subtitle">Desbloquea todo el potencial de Codexar. Torneos con premios, GIFs, fondos de video y mucho más.</p>
-
-        <!-- Current plan banner -->
+        <div class="pr-kicker">PLANES · CODEXAR</div>
+        <h1 class="pr-title">Compite sin<br><em>restricciones</em></h1>
+        <p class="pr-sub">Torneos con premios. Perfil sin límites. Tu club en serio.</p>
         <div id="prCurrentPlan" class="pr-current-plan hidden"></div>
     </div>
 
-    <!-- Cards -->
     <div class="pr-cards">
 
         <!-- FREE -->
         <div class="pr-card pr-card-free">
-            <div class="pr-card-accent pr-accent-free"></div>
-            <div class="pr-card-inner">
-                <div class="pr-card-header">
-                    <div class="pr-plan-tag pr-tag-free">FREE</div>
-                    <div class="pr-plan-price">
-                        <span class="pr-price-num">€0</span>
-                        <span class="pr-price-per">/mes</span>
-                    </div>
-                    <div class="pr-plan-desc">Para empezar a competir</div>
-                </div>
-                <div class="pr-divider"></div>
-                <ul class="pr-feats">
-                    <li class="pr-feat pr-feat-on"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Ejercicios ilimitados</li>
-                    <li class="pr-feat pr-feat-on"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Sistema ELO y rangos</li>
-                    <li class="pr-feat pr-feat-on"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Clubes y amigos</li>
-                    <li class="pr-feat pr-feat-on"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Perfil público</li>
-                    <li class="pr-feat pr-feat-off"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>Fotos hasta 3 MB · sin GIFs</li>
-                    <li class="pr-feat pr-feat-off"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>Torneos con premios</li>
-                    <li class="pr-feat pr-feat-off"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>Discord oficial</li>
-                </ul>
-                <button class="pr-btn pr-btn-free" disabled>Plan actual</button>
+            <div class="pr-card-label">FREE</div>
+            <div class="pr-card-price">
+                <span class="pr-price-big">€0</span>
+                <span class="pr-price-mo">/mes</span>
             </div>
+            <div class="pr-card-tagline">Para empezar</div>
+            <div class="pr-sep"></div>
+            <ul class="pr-list">
+                <li class="pr-li pr-li-yes">Ejercicios ilimitados</li>
+                <li class="pr-li pr-li-yes">ELO y rangos</li>
+                <li class="pr-li pr-li-yes">Clubes y amigos</li>
+                <li class="pr-li pr-li-yes">Perfil público</li>
+                <li class="pr-li pr-li-no">Fotos hasta 3 MB · sin GIFs</li>
+                <li class="pr-li pr-li-no">Torneos con premios</li>
+                <li class="pr-li pr-li-no">Discord oficial</li>
+            </ul>
+            <button class="pr-btn pr-btn-disabled" disabled>Plan actual</button>
         </div>
 
-        <!-- MAX (centro, featured) -->
-        <div class="pr-card pr-card-max pr-card-featured" id="maxCard">
-            <div class="pr-card-accent pr-accent-max"></div>
-            <div class="pr-featured-crown">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v2H2v-2zM4 17l4-8 4 4 4-6 4 10H4z"/></svg>
-                MÁS POPULAR
+        <!-- PLUS — featured / centro -->
+        <div class="pr-card pr-card-plus pr-card-featured" id="plusCard">
+            <div class="pr-popular">MÁS COMPRADO</div>
+            <div class="pr-card-label pr-label-plus">▲ PLUS</div>
+            <div class="pr-card-price">
+                <span class="pr-price-big pr-price-plus">€0<span class="pr-price-cents">.99</span></span>
+                <span class="pr-price-mo">/mes</span>
             </div>
-            <div class="pr-card-inner">
-                <div class="pr-card-header">
-                    <div class="pr-plan-tag pr-tag-max">◆ MAX</div>
-                    <div class="pr-plan-price">
-                        <span class="pr-price-num pr-price-max">$9<span class="pr-price-dec">.99</span></span>
-                        <span class="pr-price-per">/mes</span>
-                    </div>
-                    <div class="pr-plan-desc">Para los más serios</div>
-                </div>
-                <div class="pr-divider pr-divider-max"></div>
-                <ul class="pr-feats">
-                    <li class="pr-feat pr-feat-max"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Todo lo de Plus</li>
-                    <li class="pr-feat pr-feat-max"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Badge <span class="pr-ibadge pr-ibadge-max">◆ MAX</span> en tu perfil</li>
-                    <li class="pr-feat pr-feat-max"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Crear torneos oficiales</li>
-                    <li class="pr-feat pr-feat-max"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Reglas y nombre del torneo</li>
-                    <li class="pr-feat pr-feat-max"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Discord VIP · canales exclusivos</li>
-                    <li class="pr-feat pr-feat-max"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Noticias antes que nadie</li>
-                    <li class="pr-feat pr-feat-max pr-feat-highlight"><svg viewBox="0 0 16 16"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6z"/></svg><strong>Boost gratuito a 1 amigo</strong></li>
-                </ul>
-                <button class="pr-btn pr-btn-max" id="maxBtn" onclick="subscribe('max')">
-                    Suscribirse · $9.99/mes
-                </button>
-                <div class="pr-stripe-note">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    Pago seguro con Stripe
-                </div>
-            </div>
+            <div class="pr-card-tagline">Para los competitivos</div>
+            <div class="pr-sep pr-sep-plus"></div>
+            <ul class="pr-list">
+                <li class="pr-li pr-li-plus">Todo lo de Free</li>
+                <li class="pr-li pr-li-plus">Fotos y fondos hasta 10 MB</li>
+                <li class="pr-li pr-li-plus">GIFs y fondos de video MP4</li>
+                <li class="pr-li pr-li-plus">Badge <span class="pr-ib pr-ib-plus">▲ PLUS</span> en perfil</li>
+                <li class="pr-li pr-li-plus">Torneos oficiales con premios</li>
+                <li class="pr-li pr-li-plus">Discord oficial de Codexar</li>
+                <li class="pr-li pr-li-no">Crear torneos propios</li>
+            </ul>
+            <button class="pr-btn pr-btn-plus" id="plusBtn" onclick="subscribe('plus')">Suscribirse · €0.99/mes</button>
+            <div class="pr-secure-note">Pago seguro · Stripe · Cancela cuando quieras</div>
         </div>
 
-        <!-- PLUS -->
-        <div class="pr-card pr-card-plus" id="plusCard">
-            <div class="pr-card-accent pr-accent-plus"></div>
-            <div class="pr-card-inner">
-                <div class="pr-card-header">
-                    <div class="pr-plan-tag pr-tag-plus">▲ PLUS</div>
-                    <div class="pr-plan-price">
-                        <span class="pr-price-num pr-price-plus">€0<span class="pr-price-dec">.99</span></span>
-                        <span class="pr-price-per">/mes</span>
-                    </div>
-                    <div class="pr-plan-desc">Para los competitivos</div>
-                </div>
-                <div class="pr-divider pr-divider-plus"></div>
-                <ul class="pr-feats">
-                    <li class="pr-feat pr-feat-plus"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Todo lo de Free</li>
-                    <li class="pr-feat pr-feat-plus"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Fotos y fondos hasta 10 MB</li>
-                    <li class="pr-feat pr-feat-plus"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>GIFs y fondos de video MP4</li>
-                    <li class="pr-feat pr-feat-plus"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Badge <span class="pr-ibadge pr-ibadge-plus">▲ PLUS</span> en tu perfil</li>
-                    <li class="pr-feat pr-feat-plus"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Torneos con premios</li>
-                    <li class="pr-feat pr-feat-plus"><svg viewBox="0 0 16 16"><path d="M3 8l3.5 3.5L13 4.5"/></svg>Discord oficial de Codexar</li>
-                    <li class="pr-feat pr-feat-off"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>Crear torneos propios</li>
-                </ul>
-                <button class="pr-btn pr-btn-plus" id="plusBtn" onclick="subscribe('plus')">
-                    Suscribirse · €0.99/mes
-                </button>
-                <div class="pr-stripe-note">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    Pago seguro con Stripe
-                </div>
+        <!-- MAX -->
+        <div class="pr-card pr-card-max" id="maxCard">
+            <div class="pr-card-label pr-label-max">◆ MAX</div>
+            <div class="pr-card-price">
+                <span class="pr-price-big pr-price-max">$9<span class="pr-price-cents">.99</span></span>
+                <span class="pr-price-mo">/mes</span>
             </div>
+            <div class="pr-card-tagline">Para los más serios</div>
+            <div class="pr-sep pr-sep-max"></div>
+            <ul class="pr-list">
+                <li class="pr-li pr-li-max">Todo lo de Plus</li>
+                <li class="pr-li pr-li-max">Badge <span class="pr-ib pr-ib-max">◆ MAX</span> en perfil</li>
+                <li class="pr-li pr-li-max">Crear torneos oficiales</li>
+                <li class="pr-li pr-li-max">Reglas y nombre del torneo</li>
+                <li class="pr-li pr-li-max">Discord VIP · canales exclusivos</li>
+                <li class="pr-li pr-li-max">Noticias antes que nadie</li>
+                <li class="pr-li pr-li-max pr-li-star">Boost gratuito a 1 amigo</li>
+            </ul>
+            <button class="pr-btn pr-btn-max" id="maxBtn" onclick="subscribe('max')">Suscribirse · $9.99/mes</button>
+            <div class="pr-secure-note">Pago seguro · Stripe · Cancela cuando quieras</div>
         </div>
 
-    </div>
-
-    <!-- Stats bar -->
-    <div class="pr-stats-bar">
-        <div class="pr-stat">
-            <span class="pr-stat-num">+2.400</span>
-            <span class="pr-stat-lbl">Jugadores activos</span>
-        </div>
-        <div class="pr-stat-sep"></div>
-        <div class="pr-stat">
-            <span class="pr-stat-num">98%</span>
-            <span class="pr-stat-lbl">Satisfacción</span>
-        </div>
-        <div class="pr-stat-sep"></div>
-        <div class="pr-stat">
-            <span class="pr-stat-num">€0.99</span>
-            <span class="pr-stat-lbl">Precio de entrada</span>
-        </div>
-        <div class="pr-stat-sep"></div>
-        <div class="pr-stat">
-            <span class="pr-stat-num">Stripe</span>
-            <span class="pr-stat-lbl">Pagos seguros</span>
-        </div>
     </div>
 
     <!-- FAQ -->
     <div class="pr-faq">
-        <div class="pr-section-label">// PREGUNTAS FRECUENTES</div>
+        <div class="pr-faq-hd">// PREGUNTAS FRECUENTES</div>
         <div class="pr-faq-grid">
             <div class="pr-faq-item">
-                <div class="pr-faq-icon">?</div>
-                <div>
-                    <div class="pr-faq-q">¿Puedo cancelar cuando quiera?</div>
-                    <div class="pr-faq-a">Sí. Cancela desde el portal de cliente en cualquier momento. Mantienes los beneficios hasta el fin del periodo pagado.</div>
-                </div>
+                <div class="pr-faq-q">¿Puedo cancelar cuando quiera?</div>
+                <div class="pr-faq-a">Sí. Cancela desde el portal de cliente en cualquier momento. Mantienes los beneficios hasta el fin del periodo pagado.</div>
             </div>
             <div class="pr-faq-item">
-                <div class="pr-faq-icon">?</div>
-                <div>
-                    <div class="pr-faq-q">¿Qué pasa con el boost si cancelo Max?</div>
-                    <div class="pr-faq-a">El boost a tu amigo se retira automáticamente al cancelar o expirar tu suscripción Max.</div>
-                </div>
+                <div class="pr-faq-q">¿Qué pasa con el boost si cancelo Max?</div>
+                <div class="pr-faq-a">El boost a tu amigo se retira automáticamente al cancelar o expirar tu suscripción Max.</div>
             </div>
             <div class="pr-faq-item">
-                <div class="pr-faq-icon">?</div>
-                <div>
-                    <div class="pr-faq-q">¿Cómo funciona el boost?</div>
-                    <div class="pr-faq-a">Con Max puedes elegir un amigo y darle acceso a todos los beneficios Plus de forma gratuita mientras tu suscripción esté activa.</div>
-                </div>
+                <div class="pr-faq-q">¿Cómo funciona el boost para un amigo?</div>
+                <div class="pr-faq-a">Con Max puedes elegir un amigo y darle acceso a todos los beneficios Plus de forma gratuita mientras tu suscripción esté activa.</div>
             </div>
             <div class="pr-faq-item">
-                <div class="pr-faq-icon">?</div>
-                <div>
-                    <div class="pr-faq-q">¿Son seguros los pagos?</div>
-                    <div class="pr-faq-a">Sí. Todos los pagos se procesan a través de Stripe. Codexar nunca almacena datos de tu tarjeta.</div>
-                </div>
+                <div class="pr-faq-q">¿Son seguros los pagos?</div>
+                <div class="pr-faq-a">Todos los pagos se procesan a través de Stripe. Codexar nunca almacena los datos de tu tarjeta.</div>
             </div>
         </div>
     </div>
 
-    <!-- Boost section (Max users only) -->
-    <div class="pr-boost-section hidden" id="prBoostSection">
-        <div class="pr-section-label pr-section-label-gold">// BOOST PARA UN AMIGO</div>
-        <div class="pr-boost-card">
-            <div class="pr-boost-left">
-                <div class="pr-boost-icon">⚡</div>
-                <div>
-                    <div class="pr-boost-title">Da acceso Plus a un amigo</div>
-                    <div class="pr-boost-desc">Como usuario Max, puedes dar acceso Plus gratuito a uno de tus amigos mientras tu suscripción esté activa.</div>
-                </div>
+    <!-- Boost (Max users) -->
+    <div class="pr-boost hidden" id="prBoostSection">
+        <div class="pr-faq-hd pr-faq-hd-gold">// BOOST PARA UN AMIGO</div>
+        <div class="pr-boost-wrap">
+            <div class="pr-boost-info">
+                <div class="pr-boost-ttl">Da acceso Plus a un amigo</div>
+                <div class="pr-boost-txt">Como usuario Max, puedes elegir un amigo y darle acceso Plus gratuito mientras tu suscripción esté activa.</div>
             </div>
-            <div class="pr-boost-right">
+            <div class="pr-boost-ctrl">
                 <div id="prBoostStatus"></div>
-                <div class="pr-boost-form" id="prBoostForm">
+                <div class="pr-boost-row" id="prBoostForm">
                     <input type="text" id="boostInput" class="pr-input" placeholder="Nombre de usuario..." autocomplete="off">
-                    <button class="pr-btn pr-btn-max" style="white-space:nowrap;padding:10px 20px;" onclick="applyBoost()">Dar boost ⚡</button>
+                    <button class="pr-btn pr-btn-max" style="white-space:nowrap;padding:10px 18px;font-size:0.62rem;" onclick="applyBoost()">Dar boost</button>
                 </div>
-                <p class="pr-boost-feedback" id="boostFeedback"></p>
+                <p class="pr-boost-fb" id="boostFeedback"></p>
             </div>
         </div>
     </div>
