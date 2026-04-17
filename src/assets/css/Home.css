@@ -442,6 +442,8 @@ h1, h2, h3, h4, h5, h6, .brand {
     transition: border-color 0.15s, color 0.15s;
 }
 .news-mention:hover { color: #fff; border-bottom-color: var(--accent-cyan); }
+.news-team-mention { color: rgba(255,196,0,0.85) !important; border-bottom-color: rgba(255,196,0,0.3) !important; }
+.news-team-mention:hover { color: #ffc400 !important; border-bottom-color: rgba(255,196,0,0.7) !important; }
 .news-card-footer {
     display: flex; align-items: center; justify-content: flex-end;
     padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.04);

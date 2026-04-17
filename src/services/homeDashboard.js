@@ -18,11 +18,16 @@ async function fetchUserData() {
     return await response.json();
 }
 
-// ── Mention parser: converts @username into clickable links ──────────────────
+// ── Mention parser: converts @username and #TeamName into clickable links ─────
 function parseMentions(text) {
-    return text.replace(/@(\w+)/g, (match, username) => {
-        return `<a class="news-mention" href="ProfileView.html?u=${encodeURIComponent(username)}">@${username}</a>`;
-    });
+    return text
+        .replace(/#([\w\s]{1,20}?)(?=\s|$|[^a-zA-Z0-9_\s])/g, (match, name) => {
+            const trimmed = name.trim();
+            return `<a class="news-mention news-team-mention" href="TeamView.html?t=${encodeURIComponent(trimmed)}">#${trimmed}</a>`;
+        })
+        .replace(/@(\w+)/g, (match, username) => {
+            return `<a class="news-mention" href="ProfileView.html?u=${encodeURIComponent(username)}">@${username}</a>`;
+        });
 }
 
 // ── Format date ──────────────────────────────────────────────────────────────
