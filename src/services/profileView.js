@@ -320,6 +320,13 @@ function renderProfile(data) {
 
     document.title = `Codexar — ${username}`;
 
+    // Background banner
+    if (data.profile_background) {
+        const banner = document.getElementById('pvBgBanner');
+        banner.style.backgroundImage = `url(${data.profile_background})`;
+        banner.classList.remove('hidden');
+    }
+
     // Avatar
     renderAvatar(document.getElementById('pvAvatar'), username, data.avatar);
 
