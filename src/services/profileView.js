@@ -385,10 +385,10 @@ function renderProfile(data) {
     if (roleBadge) {
         const role = data.role || 'user';
         if (role === 'moderator') {
-            roleBadge.textContent = '⚙ Moderador';
+            roleBadge.textContent = 'MOD';
             roleBadge.className = 'pv-role-badge pv-role-moderator';
         } else if (role === 'admin') {
-            roleBadge.textContent = '★ Administrador';
+            roleBadge.textContent = 'ADMIN';
             roleBadge.className = 'pv-role-badge pv-role-admin';
         } else {
             roleBadge.className = 'pv-role-badge hidden';
