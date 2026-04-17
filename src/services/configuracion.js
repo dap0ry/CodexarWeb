@@ -233,6 +233,51 @@ async function savePerfilSection() {
     btn.disabled = false; btn.textContent = 'Guardar cambios';
 }
 
+// ── Socials section ───────────────────────────────────────────
+
+function initSocialsSection(user) {
+    const links = user.social_links || {};
+    document.getElementById('cfgGithub').value     = links.github     || '';
+    document.getElementById('cfgLinkedin').value   = links.linkedin   || '';
+    document.getElementById('cfgCodeforces').value = links.codeforces || '';
+    document.getElementById('cfgInstagram').value  = links.instagram  || '';
+    document.getElementById('cfgTiktok').value     = links.tiktok     || '';
+
+    document.getElementById('cfgSocialSaveBtn').addEventListener('click', async () => {
+        const token = localStorage.getItem('access_token');
+        const btn   = document.getElementById('cfgSocialSaveBtn');
+        btn.disabled = true; btn.textContent = 'Guardando...';
+        setFeedback('cfgSocialFeedback', '', '');
+
+        const body = {
+            github:     document.getElementById('cfgGithub').value.trim()     || null,
+            linkedin:   document.getElementById('cfgLinkedin').value.trim()   || null,
+            codeforces: document.getElementById('cfgCodeforces').value.trim() || null,
+            instagram:  document.getElementById('cfgInstagram').value.trim()  || null,
+            tiktok:     document.getElementById('cfgTiktok').value.trim()     || null,
+        };
+
+        try {
+            const res  = await fetch(`${API_BASE}/user/update-socials`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setFeedback('cfgSocialFeedback', '¡Redes guardadas!', 'ok');
+                setTimeout(() => setFeedback('cfgSocialFeedback', '', ''), 3000);
+            } else {
+                setFeedback('cfgSocialFeedback', data.detail || 'Error al guardar.', 'err');
+            }
+        } catch {
+            setFeedback('cfgSocialFeedback', 'Error de conexión.', 'err');
+        }
+
+        btn.disabled = false; btn.textContent = 'Guardar redes';
+    });
+}
+
 // ── Apariencia section ────────────────────────────────────────────────────
 
 function initAparienciaSection() {
@@ -448,6 +493,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     populateNavbar(userData);
     initPerfilSection(userData);
+    initSocialsSection(userData);
     initAparienciaSection();
     initLenguajesSection();
     initSeguridadSection(userData);

@@ -256,6 +256,31 @@ function renderSurvivalStats(data) {
     el.innerHTML = `<div class="pvb-body"><div class="pvb-diff-bars">${diffBars}</div></div>`;
 }
 
+// ── Social links ──────────────────────────────────────────────
+const SOCIAL_CONFIG = [
+    { key: 'github',     icon: 'https://cdn.simpleicons.org/github',     label: 'GitHub'     },
+    { key: 'linkedin',   icon: 'https://cdn.simpleicons.org/linkedin',   label: 'LinkedIn'   },
+    { key: 'codeforces', icon: 'https://cdn.simpleicons.org/codeforces', label: 'Codeforces' },
+    { key: 'instagram',  icon: 'https://cdn.simpleicons.org/instagram',  label: 'Instagram'  },
+    { key: 'tiktok',     icon: 'https://cdn.simpleicons.org/tiktok',     label: 'TikTok'     },
+];
+
+function renderSocials(socialLinks) {
+    const el = document.getElementById('pvSocials');
+    const links = socialLinks || {};
+    const active = SOCIAL_CONFIG.filter(s => links[s.key]);
+    if (!active.length) return;
+
+    el.innerHTML = active.map(s => `
+        <a href="${escHtml(links[s.key])}" target="_blank" rel="noopener noreferrer"
+           class="pv-social-link" title="${escHtml(s.label)}">
+            <img src="${s.icon}" alt="${escHtml(s.label)}" class="pv-social-icon">
+        </a>
+    `).join('');
+
+    el.classList.remove('hidden');
+}
+
 // ── Friend button ─────────────────────────────────────────────
 function setupFriendBtn(status, username) {
     const btn = document.getElementById('pvFriendBtn');
@@ -359,6 +384,9 @@ function renderProfile(data) {
             roleBadge.className = 'pv-role-badge hidden';
         }
     }
+
+    // Social links
+    renderSocials(data.social_links);
 
     // Friend button
     setupFriendBtn(data.friendship_status, username);
