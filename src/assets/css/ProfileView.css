@@ -660,8 +660,32 @@ body {
     border: 1px solid rgba(255,46,99,0.28);
 }
 
-/* ── Profile background banner ─────────────────────────────── */
-.pv-bg-banner {
+/* ── Full-page background overlay ──────────────────────────── */
+.pv-bg-overlay {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.pv-bg-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 7, 15, 0.72);
+}
+
+/* Ensure everything renders above the overlay */
+.navbar,
+.pv-main {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Banner superior ────────────────────────────────────────── */
+.pv-banner {
     width: 100%;
     height: 130px;
     border-radius: 14px;
@@ -672,10 +696,10 @@ body {
     flex-shrink: 0;
 }
 
-.pv-bg-banner::after {
+.pv-banner::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(7,7,15,0.1) 0%, rgba(7,7,15,0.55) 100%);
+    background: linear-gradient(to bottom, rgba(7,7,15,0.05) 0%, rgba(7,7,15,0.5) 100%);
     border-radius: inherit;
 }

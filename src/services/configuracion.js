@@ -68,6 +68,15 @@ function initPerfilSection(user) {
     const img = document.getElementById('cfgAvatarImg');
     img.src = user.avatar || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
 
+    // Banner preview
+    if (user.profile_banner) {
+        const bannerStrip = document.getElementById('cfgBannerStrip');
+        bannerStrip.style.backgroundImage    = `url(${user.profile_banner})`;
+        bannerStrip.style.backgroundSize     = 'cover';
+        bannerStrip.style.backgroundPosition = 'center';
+        document.getElementById('cfgBannerEmpty').style.display = 'none';
+    }
+
     // Background preview
     if (user.profile_background) {
         const strip = document.getElementById('cfgBgStrip');
@@ -89,7 +98,22 @@ function initPerfilSection(user) {
         reader.readAsDataURL(file);
     });
 
-    // Background file picker
+    // Banner file picker (uploads to /upload-banner)
+    document.getElementById('cfgBannerInput').addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const bannerStrip = document.getElementById('cfgBannerStrip');
+        const reader = new FileReader();
+        reader.onload = ev => {
+            bannerStrip.style.backgroundImage    = `url(${ev.target.result})`;
+            bannerStrip.style.backgroundSize     = 'cover';
+            bannerStrip.style.backgroundPosition = 'center';
+            document.getElementById('cfgBannerEmpty').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Background file picker (uploads to /upload-background)
     document.getElementById('cfgBgInput').addEventListener('change', e => {
         const file = e.target.files[0];
         if (!file) return;
@@ -137,6 +161,23 @@ async function savePerfilSection() {
     setFeedback('cfgPerfilFeedback', '', '');
 
     try {
+        // Upload banner separately if changed
+        const bannerFile = document.getElementById('cfgBannerInput').files[0];
+        if (bannerFile) {
+            const bannerForm = new FormData();
+            bannerForm.append('banner', bannerFile);
+            const bannerRes = await fetch(`${API_BASE}/user/upload-banner`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+                body: bannerForm,
+            });
+            if (!bannerRes.ok) {
+                const err = await bannerRes.json().catch(() => ({}));
+                setFeedback('cfgPerfilFeedback', err.detail || 'Error subiendo el banner.', 'err');
+                btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
+            }
+        }
+
         // Upload background separately if changed
         const bgFile = document.getElementById('cfgBgInput').files[0];
         if (bgFile) {
@@ -148,7 +189,8 @@ async function savePerfilSection() {
                 body: bgForm,
             });
             if (!bgRes.ok) {
-                setFeedback('cfgPerfilFeedback', 'Error subiendo el fondo.', 'err');
+                const err = await bgRes.json().catch(() => ({}));
+                setFeedback('cfgPerfilFeedback', err.detail || 'Error subiendo el fondo.', 'err');
                 btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
             }
         }

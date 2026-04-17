@@ -95,18 +95,32 @@
                 </div>
             </div>
 
-            <!-- Background del perfil -->
+            <!-- Banner superior -->
             <div class="cfg-field-group">
-                <label class="cfg-label">Fondo del perfil</label>
+                <label class="cfg-label">Banner superior</label>
+                <div class="cfg-bg-strip" id="cfgBannerStrip">
+                    <span class="cfg-bg-empty" id="cfgBannerEmpty">Sin banner</span>
+                </div>
+                <label for="cfgBannerInput" class="cfg-upload-btn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                    Subir banner
+                </label>
+                <input type="file" id="cfgBannerInput" accept="image/png,image/jpeg,image/webp" hidden>
+                <span class="cfg-hint">Franja en la parte superior del perfil · máx. 2 MB</span>
+            </div>
+
+            <!-- Fondo completo del perfil -->
+            <div class="cfg-field-group">
+                <label class="cfg-label">Fondo de perfil <span class="cfg-label-hint">(wallpaper completo)</span></label>
                 <div class="cfg-bg-strip" id="cfgBgStrip">
                     <span class="cfg-bg-empty" id="cfgBgEmpty">Sin fondo personalizado</span>
                 </div>
                 <label for="cfgBgInput" class="cfg-upload-btn">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                    Subir imagen de fondo
+                    Subir fondo completo
                 </label>
                 <input type="file" id="cfgBgInput" accept="image/png,image/jpeg,image/webp" hidden>
-                <span class="cfg-hint">Aparece como banner en tu perfil público · máx. 3 MB</span>
+                <span class="cfg-hint">Cubre todo el fondo del perfil público · máx. 3 MB</span>
             </div>
 
             <!-- Username + Descripción -->

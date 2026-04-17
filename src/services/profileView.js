@@ -320,10 +320,17 @@ function renderProfile(data) {
 
     document.title = `Codexar — ${username}`;
 
-    // Background banner
+    // Full-page background wallpaper
     if (data.profile_background) {
-        const banner = document.getElementById('pvBgBanner');
-        banner.style.backgroundImage = `url(${data.profile_background})`;
+        const overlay = document.getElementById('pvBgOverlay');
+        overlay.style.backgroundImage = `url(${data.profile_background})`;
+        overlay.classList.remove('hidden');
+    }
+
+    // Top banner strip
+    if (data.profile_banner) {
+        const banner = document.getElementById('pvBanner');
+        banner.style.backgroundImage = `url(${data.profile_banner})`;
         banner.classList.remove('hidden');
     }
 
