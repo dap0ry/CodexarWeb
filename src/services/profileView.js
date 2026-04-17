@@ -382,7 +382,7 @@ function renderProfile(data) {
     // Global rank
     const rankEl = document.getElementById('pvGlobalRank');
     if (rankEl && data.global_rank) {
-        rankEl.textContent = `#${data.global_rank}`;
+        rankEl.innerHTML = `Posición global: <strong>#${data.global_rank}</strong>`;
         rankEl.classList.remove('hidden');
     }
 

@@ -198,6 +198,7 @@ body {
 .pv-identity-wrap {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     gap: 16px;
 }
 
@@ -275,15 +276,15 @@ body {
 
 .pv-global-rank {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: rgba(0,255,204,0.55);
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border: 1px solid rgba(0,255,204,0.15);
-    border-radius: 5px;
-    background: rgba(0,255,204,0.04);
+    font-size: 0.62rem;
+    font-weight: 400;
+    color: rgba(0,255,204,0.45);
+    letter-spacing: 0.3px;
     white-space: nowrap;
+}
+.pv-global-rank strong {
+    font-weight: 800;
+    color: rgba(0,255,204,0.75);
 }
 
 .pv-langs {
