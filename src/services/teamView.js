@@ -101,7 +101,7 @@ function renderTeam(team) {
     renderPodium(members.slice(0, 3));
     renderMembersList(members);
 
-    if (members.length <= 3) {
+    if (members.length === 0) {
         document.getElementById('tvAllSection').style.display = 'none';
     }
 }
