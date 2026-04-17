@@ -363,6 +363,11 @@ h1, h2, h3, h4, h5, h6, .brand {
 .hnl-tournaments:hover .hnl-title { color: #ffaa33; }
 .hnl-tournaments:hover .hnl-icon  { color: #ffaa33; }
 
+.hnl-pricing::before { background: #ffc400; }
+.hnl-pricing:hover   { border-color: rgba(255,196,0,0.15); }
+.hnl-pricing:hover .hnl-title { color: #ffd740; }
+.hnl-pricing:hover .hnl-icon  { color: #ffd740; }
+
 /* ════════════════════════════════
    RIGHT PANEL — News Feed
    ════════════════════════════════ */
