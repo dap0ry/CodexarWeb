@@ -273,6 +273,19 @@ body {
     text-shadow: 0 0 20px rgba(255,255,255,0.1);
 }
 
+.pv-global-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(0,255,204,0.55);
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border: 1px solid rgba(0,255,204,0.15);
+    border-radius: 5px;
+    background: rgba(0,255,204,0.04);
+    white-space: nowrap;
+}
+
 .pv-langs {
     display: flex;
     gap: 5px;

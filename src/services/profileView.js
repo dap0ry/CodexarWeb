@@ -379,6 +379,13 @@ function renderProfile(data) {
     document.getElementById('pvDesc').textContent     = data.description || '';
     renderLangs(document.getElementById('pvLangs'), data.languages);
 
+    // Global rank
+    const rankEl = document.getElementById('pvGlobalRank');
+    if (rankEl && data.global_rank) {
+        rankEl.textContent = `#${data.global_rank}`;
+        rankEl.classList.remove('hidden');
+    }
+
     // Role badge (moderator / admin) + subscription badge (plus / max)
     const roleBadge = document.getElementById('pvRoleBadge');
     const subBadge  = document.getElementById('pvSubBadge');
