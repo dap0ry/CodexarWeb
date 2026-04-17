@@ -84,8 +84,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-top: 12px;
-    padding-bottom: 12px;
 }
 
 /* ── TOP section ───────────────────────────────────────────── */
@@ -752,7 +750,7 @@ body {
 /* ── Banner superior ────────────────────────────────────────── */
 .pv-banner {
     width: 100%;
-    height: 170px;
+    height: 130px;
     border-radius: 14px;
     background-size: cover;
     background-position: center;
