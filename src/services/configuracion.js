@@ -157,6 +157,42 @@ function initPerfilSection(user) {
         }
     });
 
+    // Delete banner
+    document.getElementById('cfgBannerDeleteBtn')?.addEventListener('click', async () => {
+        if (!confirm('¿Eliminar el banner?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/user/delete-banner`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const bannerStrip = document.getElementById('cfgBannerStrip');
+                bannerStrip.style.backgroundImage = 'none';
+                document.getElementById('cfgBannerEmpty').style.display = '';
+                setStatus('cfgSaveStatus', 'Banner eliminado', 'ok');
+            }
+        } catch { setStatus('cfgSaveStatus', 'Error eliminando banner', 'err'); }
+    });
+
+    // Delete background
+    document.getElementById('cfgBgDeleteBtn')?.addEventListener('click', async () => {
+        if (!confirm('¿Eliminar el fondo de perfil?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/user/delete-background`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const strip = document.getElementById('cfgBgStrip');
+                strip.style.backgroundImage = 'none';
+                const vid = strip.querySelector('video.cfg-bg-preview-video');
+                if (vid) vid.remove();
+                document.getElementById('cfgBgEmpty').style.display = '';
+                setStatus('cfgSaveStatus', 'Fondo eliminado', 'ok');
+            }
+        } catch { setStatus('cfgSaveStatus', 'Error eliminando fondo', 'err'); }
+    });
+
     // Username availability check
     let debounce;
     document.getElementById('cfgUsername').addEventListener('input', () => {

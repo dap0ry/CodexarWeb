@@ -102,10 +102,16 @@
                 <div class="cfg-bg-strip" id="cfgBannerStrip">
                     <span class="cfg-bg-empty" id="cfgBannerEmpty">Sin banner</span>
                 </div>
-                <label for="cfgBannerInput" class="cfg-upload-btn">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                    Subir banner
-                </label>
+                <div class="cfg-upload-row">
+                    <label for="cfgBannerInput" class="cfg-upload-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                        Subir banner
+                    </label>
+                    <button type="button" class="cfg-delete-btn" id="cfgBannerDeleteBtn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                        Eliminar
+                    </button>
+                </div>
                 <input type="file" id="cfgBannerInput" accept="image/png,image/jpeg,image/webp" hidden>
                 <span class="cfg-hint">Franja en la parte superior del perfil · máx. 2 MB</span>
             </div>
@@ -116,10 +122,16 @@
                 <div class="cfg-bg-strip" id="cfgBgStrip">
                     <span class="cfg-bg-empty" id="cfgBgEmpty">Sin fondo personalizado</span>
                 </div>
-                <label for="cfgBgInput" class="cfg-upload-btn">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                    Subir fondo completo
-                </label>
+                <div class="cfg-upload-row">
+                    <label for="cfgBgInput" class="cfg-upload-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                        Subir fondo completo
+                    </label>
+                    <button type="button" class="cfg-delete-btn" id="cfgBgDeleteBtn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                        Eliminar
+                    </button>
+                </div>
                 <input type="file" id="cfgBgInput" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4" hidden>
                 <span class="cfg-hint">Cubre todo el fondo del perfil público · máx. 3 MB (10 MB con Plus/Max · GIF y MP4 con Plus/Max)</span>
             </div>
