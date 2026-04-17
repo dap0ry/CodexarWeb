@@ -276,15 +276,15 @@ body {
 
 .pv-global-rank {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     font-weight: 400;
-    color: rgba(0,255,204,0.45);
+    color: rgba(0,255,204,0.5);
     letter-spacing: 0.3px;
     white-space: nowrap;
 }
 .pv-global-rank strong {
     font-weight: 800;
-    color: rgba(0,255,204,0.75);
+    color: rgba(0,255,204,0.85);
 }
 
 .pv-langs {

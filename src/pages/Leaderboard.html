@@ -23,9 +23,10 @@
             <div class="user-dropdown">
                 <a href="Home.html" class="dropdown-item">Inicio</a>
                 <a href="Configuracion.html" class="dropdown-item">Configuración</a>
+                <a href="Pricing.html" class="dropdown-item">✦ Planes</a>
                 <a href="Logros.html" class="dropdown-item">Logros</a>
                 <a href="Friends.html" class="dropdown-item">Amigos</a>
-                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
                 <a href="#" class="dropdown-item">Ayuda</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
@@ -51,6 +52,19 @@
 
         <!-- Loading / Empty state -->
         <div id="lbLoading" class="lb-loading">Cargando clasificación...</div>
+
+        <!-- Full player list -->
+        <div class="lb-list-section">
+            <div class="lb-list-header">
+                <span class="lb-list-col lb-col-pos">#</span>
+                <span class="lb-list-col lb-col-player">Jugador</span>
+                <span class="lb-list-col lb-col-rank">Rango</span>
+                <span class="lb-list-col lb-col-elo">ELO</span>
+                <span class="lb-list-col lb-col-solved">Resueltos</span>
+            </div>
+            <div id="lbPlayerList"></div>
+            <button class="lb-load-more hidden" id="lbLoadMore">Cargar más jugadores</button>
+        </div>
     </main>
 
     <script src="../services/matchmakingGlobal.js"></script>
