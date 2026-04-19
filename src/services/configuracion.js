@@ -201,32 +201,24 @@ function initPerfilSection(user) {
         } catch { setStatus('cfgSaveStatus', 'Error eliminando fondo', 'err'); }
     });
 
-    // Box style selector
-    const savedStyle = localStorage.getItem('codexar_box_style') || 'solid';
-    document.querySelectorAll('.cfg-box-style-btn').forEach(btn => {
-        if (btn.dataset.style === savedStyle) btn.classList.add('active');
-        else btn.classList.remove('active');
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.cfg-box-style-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            localStorage.setItem('codexar_box_style', btn.dataset.style);
-        });
-    });
-
-    // Background visibility selector
-    function initVisGroup(groupId, lsKey, dataAttr) {
-        const saved = localStorage.getItem(lsKey) || 'dim';
-        document.querySelectorAll(`#${groupId} [data-${dataAttr}]`).forEach(btn => {
+    // Generic group initializer — each group is fully independent
+    function initStyleGroup(groupId, lsKey, dataAttr, defaultVal) {
+        const group = document.getElementById(groupId);
+        if (!group) return;
+        const saved = localStorage.getItem(lsKey) || defaultVal;
+        group.querySelectorAll(`[data-${dataAttr}]`).forEach(btn => {
             btn.classList.toggle('active', btn.dataset[dataAttr] === saved);
             btn.addEventListener('click', () => {
-                document.querySelectorAll(`#${groupId} [data-${dataAttr}]`).forEach(b => b.classList.remove('active'));
+                group.querySelectorAll(`[data-${dataAttr}]`).forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 localStorage.setItem(lsKey, btn.dataset[dataAttr]);
             });
         });
     }
-    initVisGroup('cfgBgVisGroup',     'codexar_bg_vis',     'vis');
-    initVisGroup('cfgBannerVisGroup', 'codexar_banner_vis', 'banvis');
+
+    initStyleGroup('cfgBoxStyleGroup',  'codexar_box_style',  'style',  'solid');
+    initStyleGroup('cfgBgVisGroup',     'codexar_bg_vis',     'vis',    'dim');
+    initStyleGroup('cfgBannerVisGroup', 'codexar_banner_vis', 'banvis', 'dim');
 
     // Username availability check
     let debounce;
