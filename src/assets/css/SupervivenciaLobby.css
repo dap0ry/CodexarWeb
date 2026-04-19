@@ -12,6 +12,12 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-image:
+        radial-gradient(ellipse at 0% 100%, rgba(0,255,204,0.045) 0%, transparent 55%),
+        radial-gradient(ellipse at 100% 0%,  rgba(0,255,204,0.025) 0%, transparent 50%),
+        linear-gradient(rgba(0,255,204,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,204,0.018) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px;
 }
 
 /* ── Utility ──────────────────────────────────────────────── */
@@ -29,7 +35,7 @@ body {
 /* ── Lobby Box ────────────────────────────────────────────── */
 .lobby-box {
     background: rgba(13, 13, 22, 0.9);
-    border: 1px solid rgba(57, 255, 20, 0.15);
+    border: 1px solid rgba(0, 255, 204, 0.15);
     border-radius: 20px;
     padding: 40px 48px;
     display: flex;
@@ -38,7 +44,7 @@ body {
     gap: 32px;
     min-width: 640px;
     max-width: 760px;
-    box-shadow: 0 0 60px rgba(57, 255, 20, 0.05), 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 0 60px rgba(0, 255, 204, 0.05), 0 20px 60px rgba(0,0,0,0.5);
 }
 
 /* ── Header ───────────────────────────────────────────────── */
@@ -56,7 +62,7 @@ body {
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(57, 255, 20, 0.8);
+    color: rgba(0, 255, 204, 0.8);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -65,12 +71,12 @@ body {
 .eyebrow-dot-green {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: #39ff14;
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.9);
-    animation: blink-green 2s ease-in-out infinite;
+    background: #00ffcc;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.9);
+    animation: blink-cyan-l 2s ease-in-out infinite;
     flex-shrink: 0;
 }
-@keyframes blink-green { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes blink-cyan-l { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
 .lobby-meta {
     font-family: 'JetBrains Mono', monospace;
@@ -99,15 +105,15 @@ body {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: rgba(57, 255, 20, 0.08);
-    border: 2px solid rgba(57, 255, 20, 0.25);
+    background: rgba(0, 255, 204, 0.08);
+    border: 2px solid rgba(0, 255, 204, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.6rem;
     font-weight: 800;
-    color: #39ff14;
+    color: #00ffcc;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -119,7 +125,7 @@ body {
     height: 72px;
     border-radius: 50%;
     background: rgba(255,255,255,0.02);
-    border: 2px dashed rgba(57, 255, 20, 0.2);
+    border: 2px dashed rgba(0, 255, 204, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,17 +133,17 @@ body {
     transition: all 0.2s ease;
 }
 .lobby-slot-empty-avatar:hover {
-    background: rgba(57, 255, 20, 0.06);
-    border-color: rgba(57, 255, 20, 0.45);
+    background: rgba(0, 255, 204, 0.06);
+    border-color: rgba(0, 255, 204, 0.45);
 }
 .lobby-slot-plus {
     font-size: 1.6rem;
-    color: rgba(57, 255, 20, 0.5);
+    color: rgba(0, 255, 204, 0.5);
     line-height: 1;
     transition: color 0.2s;
 }
 .lobby-slot-empty-avatar:hover .lobby-slot-plus {
-    color: rgba(57, 255, 20, 0.9);
+    color: rgba(0, 255, 204, 0.9);
 }
 
 .lobby-slot-name {
@@ -160,9 +166,9 @@ body {
     text-transform: uppercase;
     padding: 2px 7px;
     border-radius: 4px;
-    background: rgba(57, 255, 20, 0.08);
-    border: 1px solid rgba(57, 255, 20, 0.2);
-    color: rgba(57, 255, 20, 0.7);
+    background: rgba(0, 255, 204, 0.08);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    color: rgba(0, 255, 204, 0.7);
 }
 
 .lobby-slot-pending {
@@ -181,9 +187,9 @@ body {
 }
 
 .btn-start {
-    background: rgba(57, 255, 20, 0.1);
-    border: 1px solid rgba(57, 255, 20, 0.4);
-    color: #39ff14;
+    background: rgba(0, 255, 204, 0.1);
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    color: #00ffcc;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.8rem;
     font-weight: 800;
@@ -195,9 +201,9 @@ body {
     transition: all 0.22s ease;
 }
 .btn-start:hover {
-    background: rgba(57, 255, 20, 0.2);
-    border-color: rgba(57, 255, 20, 0.7);
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
+    background: rgba(0, 255, 204, 0.2);
+    border-color: rgba(0, 255, 204, 0.7);
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.2);
     transform: translateY(-1px);
 }
 .btn-start:disabled {
@@ -245,7 +251,7 @@ body {
 
 .surv-modal {
     background: #0d0d18;
-    border: 1px solid rgba(57, 255, 20, 0.2);
+    border: 1px solid rgba(0, 255, 204, 0.2);
     border-radius: 16px;
     width: 380px;
     max-height: 480px;
@@ -269,7 +275,7 @@ body {
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(57, 255, 20, 0.8);
+    color: rgba(0, 255, 204, 0.8);
 }
 
 .surv-modal-close {
@@ -303,7 +309,7 @@ body {
     transition: background 0.15s;
 }
 .surv-friend-row:hover {
-    background: rgba(57, 255, 20, 0.04);
+    background: rgba(0, 255, 204, 0.04);
 }
 .surv-friend-row.disabled {
     opacity: 0.4;
@@ -351,7 +357,8 @@ body {
     font-size: 0.65rem;
     color: rgba(230,230,240,0.4);
 }
-.surv-friend-status.online { color: #39ff14; }
+.surv-friend-status.online { color: #00ffcc; }
+
 
 .surv-friend-invite-btn {
     font-family: 'JetBrains Mono', monospace;
@@ -361,17 +368,17 @@ body {
     text-transform: uppercase;
     padding: 5px 12px;
     border-radius: 6px;
-    background: rgba(57, 255, 20, 0.08);
-    border: 1px solid rgba(57, 255, 20, 0.25);
-    color: rgba(57, 255, 20, 0.8);
+    background: rgba(0, 255, 204, 0.08);
+    border: 1px solid rgba(0, 255, 204, 0.25);
+    color: rgba(0, 255, 204, 0.8);
     cursor: pointer;
     transition: all 0.18s;
     white-space: nowrap;
 }
 .surv-friend-invite-btn:hover {
-    background: rgba(57, 255, 20, 0.16);
-    border-color: rgba(57, 255, 20, 0.5);
-    color: #39ff14;
+    background: rgba(0, 255, 204, 0.16);
+    border-color: rgba(0, 255, 204, 0.5);
+    color: #00ffcc;
 }
 .surv-friend-invite-btn:disabled {
     opacity: 0.4;
