@@ -9,12 +9,12 @@ const LANG_ICONS = {
 };
 
 const DIFF_CONFIG = [
-    { key: 'Fácil',       label: 'Fácil',      cls: 'bar-facil'   },
-    { key: 'Normal',      label: 'Normal',     cls: 'bar-normal'  },
-    { key: 'Difícil',     label: 'Difícil',    cls: 'bar-dificil' },
-    { key: 'Muy Difícil', label: 'Muy Dif.',   cls: 'bar-muydif'  },
-    { key: 'Insane',      label: 'Insane',     cls: 'bar-insane'  },
-    { key: 'Abyssal',     label: 'Abyssal',    cls: 'bar-abyssal' },
+    { key: 'Fácil',       label: '800 – 1200',  cls: 'bar-facil'   },
+    { key: 'Normal',      label: '1200 – 1800', cls: 'bar-normal'  },
+    { key: 'Difícil',     label: '1800 – 2400', cls: 'bar-dificil' },
+    { key: 'Muy Difícil', label: '2400 – 3000', cls: 'bar-muydif'  },
+    { key: 'Insane',      label: '3000 – 3500', cls: 'bar-insane'  },
+    { key: 'Abyssal',     label: '3500+',       cls: 'bar-abyssal' },
 ];
 
 function escHtml(str) {
@@ -98,14 +98,14 @@ function renderChart(solved_by_diff, lang_stats, total) {
 
     chartEl.innerHTML = DIFF_CONFIG.map(({ key, label, cls }) => {
         const count = solved_by_diff[key] || 0;
-        const pct   = Math.round((count / diffMax) * 100);
+        const pct   = count > 0 ? Math.max(Math.round((count / diffMax) * 100), 4) : 0;
         return `
             <div class="pv-bar-row">
                 <span class="pv-bar-label">${escHtml(label)}</span>
                 <div class="pv-bar-track">
                     <div class="pv-bar-fill ${cls}" style="width:${pct}%"></div>
                 </div>
-                <span class="pv-bar-count">${count}</span>
+                <span class="pv-bar-count${count > 0 ? ' pv-bar-count-active' : ''}">${count}</span>
             </div>
         `;
     }).join('');

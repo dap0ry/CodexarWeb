@@ -401,7 +401,7 @@ body {
     font-size: 0.62rem;
     font-weight: 700;
     color: rgba(230, 230, 240, 0.4);
-    width: 68px;
+    width: 86px;
     flex-shrink: 0;
     text-align: right;
 }
@@ -423,10 +423,14 @@ body {
 .pv-bar-count {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem;
-    color: rgba(230, 230, 240, 0.35);
+    color: rgba(230, 230, 240, 0.25);
     width: 24px;
     text-align: right;
     flex-shrink: 0;
+}
+.pv-bar-count-active {
+    color: rgba(230, 230, 240, 0.85);
+    font-weight: 700;
 }
 
 /* Bar difficulty colors */
