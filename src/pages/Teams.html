@@ -24,6 +24,7 @@
         <div class="user-dropdown">
             <a href="Home.html"          class="dropdown-item">Inicio</a>
             <a href="Configuracion.html" class="dropdown-item">Configuración</a>
+            <a href="Pricing.html"       class="dropdown-item">✦ Planes</a>
             <a href="Logros.html"        class="dropdown-item">Logros</a>
             <a href="Friends.html"       class="dropdown-item">Amigos</a>
             <a href="Leaderboard.html"   class="dropdown-item">Clasificación</a>
@@ -35,176 +36,58 @@
 
 <main class="tm-main">
 
-    <!-- ══════════════════ LOADING ══════════════════ -->
+    <!-- Loading -->
     <div id="tmLoading" class="tm-loading">
         <div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div>
     </div>
 
-    <!-- ══════════════════ HAS TEAM ══════════════════ -->
-    <div id="tmHasTeam" class="tm-page hidden">
+    <!-- Page (hidden until loaded) -->
+    <div id="tmPage" class="tm-page-wrap hidden">
 
-        <!-- Background overlay -->
-        <div class="tm-bg-overlay" id="tmBgOverlay"></div>
-
-        <div class="tm-content">
-
-            <!-- Hero -->
-            <div class="tm-hero">
-
-                <!-- Banner -->
-                <div class="tm-banner hidden" id="tmBanner"></div>
-
-                <!-- Identity row -->
-                <div class="tm-identity-row">
-                    <div class="tm-photo-wrap">
-                        <div class="tm-photo" id="tmPhoto"></div>
-                        <div class="tm-photo-overlay" id="tmPhotoOverlay" style="display:none;">
-                            <label class="tm-upload-icon" for="photoInput" title="Cambiar foto">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                            </label>
-                            <input type="file" id="photoInput" accept="image/*" style="display:none">
-                        </div>
-                    </div>
-
-                    <div class="tm-identity-info">
-                        <div class="tm-club-label">// CLUB</div>
-                        <h1 class="tm-club-name" id="tmClubName">—</h1>
-                        <p  class="tm-club-desc" id="tmClubDesc"></p>
-                        <div class="tm-role-row">
-                            <span class="tm-role-badge" id="tmRoleBadge">MIEMBRO</span>
-                            <span class="tm-member-count" id="tmMemberCount">— miembros</span>
-                        </div>
-                    </div>
-
-                    <div class="tm-hero-actions">
-                        <a class="tm-btn-view" id="tmViewPublicBtn" href="#">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                            Ver página del club
-                        </a>
-                        <div class="tm-btn-group" id="tmOwnerTools" style="display:none;">
-                            <label class="tm-btn-secondary" for="bgInput" title="Cambiar fondo del club">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                Fondo
-                            </label>
-                            <input type="file" id="bgInput" accept="image/*" style="display:none">
-                            <button class="tm-btn-secondary" id="tmEditBtn">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                Editar
-                            </button>
-                        </div>
-                        <button class="tm-btn-leave" id="tmLeaveBtn">Abandonar</button>
-                    </div>
-                </div>
-
-                <!-- Stats bar -->
-                <div class="tm-stats-bar">
-                    <div class="tm-stat-pill">
-                        <span class="tm-stat-val" id="tmStatMembers">0</span>
-                        <span class="tm-stat-lbl">Miembros</span>
-                    </div>
-                    <div class="tm-stat-sep"></div>
-                    <div class="tm-stat-pill">
-                        <span class="tm-stat-val tm-cyan" id="tmStatTotalSolved">0</span>
-                        <span class="tm-stat-lbl">Ejercicios resueltos</span>
-                    </div>
-                    <div class="tm-stat-sep"></div>
-                    <div class="tm-stat-pill">
-                        <span class="tm-stat-val tm-pink" id="tmStatAvgElo">0</span>
-                        <span class="tm-stat-lbl">ELO promedio</span>
-                    </div>
-                    <div class="tm-stat-sep"></div>
-                    <div class="tm-stat-pill">
-                        <span class="tm-stat-val tm-gold" id="tmStatAvgSolved">0</span>
-                        <span class="tm-stat-lbl">Resueltos promedio</span>
-                    </div>
-                </div>
+        <!-- Top bar: invites + create (only when no team) -->
+        <div id="tmTopBar" class="tm-top-bar hidden">
+            <div id="tmPendingStrip" class="tm-pending-strip hidden"></div>
+            <div class="tm-top-bar-inner">
+                <div class="tm-top-eyebrow">// CLUBES · CODEXAR</div>
+                <h1 class="tm-top-title">Encuentra tu equipo</h1>
+                <p  class="tm-top-sub">Únete a un club o funda el tuyo propio.</p>
+                <button class="tm-btn-open-create" id="tmOpenCreateBtn">+ Fundar club</button>
             </div>
-
-            <!-- Members grid -->
-            <div class="tm-section">
-                <div class="tm-section-head">
-                    <div class="tm-section-label">// MIEMBROS DEL CLUB</div>
-                </div>
-                <div class="tm-members-grid" id="tmMembersGrid"></div>
-            </div>
-
-            <!-- Invite section (owner) -->
-            <div class="tm-section" id="tmInviteSection" style="display:none;">
-                <div class="tm-section-head">
-                    <div class="tm-section-label">// INVITAR AL CLUB</div>
-                </div>
-                <div class="tm-invite-wrap">
-                    <div class="tm-invite-form">
-                        <input type="text" id="inviteInput" class="tm-input" placeholder="Nombre de usuario..." autocomplete="off" spellcheck="false">
-                        <button class="tm-btn-invite" id="inviteBtn">Invitar</button>
-                    </div>
-                    <p id="inviteFeedback" class="tm-feedback"></p>
-                    <!-- Friends quick-invite -->
-                    <div class="tm-friends-label">Invitar amigos</div>
-                    <div class="tm-friends-row" id="tmFriendsRow">
-                        <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:rgba(114,114,138,0.5)">Cargando amigos...</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Edit modal -->
-            <div class="tm-modal-backdrop hidden" id="tmEditModal">
-                <div class="tm-modal">
-                    <div class="tm-modal-title">// EDITAR CLUB //</div>
-                    <input type="text" id="editName" class="tm-input" placeholder="Nombre del club" maxlength="20">
-                    <textarea id="editDesc" class="tm-input tm-textarea" placeholder="Descripción (opcional)"></textarea>
-                    <div class="tm-modal-actions">
-                        <button class="tm-btn-cancel" id="tmEditCancel">Cancelar</button>
-                        <button class="tm-btn-save"   id="tmEditSave">Guardar</button>
-                    </div>
-                    <p id="editFeedback" class="tm-feedback"></p>
-                </div>
-            </div>
-
         </div>
-    </div>
 
-    <!-- ══════════════════ NO TEAM ══════════════════ -->
-    <div id="tmNoTeam" class="tm-page hidden">
-        <div class="tm-no-team-layout">
-
-            <!-- Left: pending invites + create -->
-            <aside class="tm-no-left">
-
-                <!-- Pending invites -->
-                <div class="tm-panel" id="tmPendingPanel" style="display:none;">
-                    <div class="tm-panel-title">// INVITACIONES</div>
-                    <div id="tmPendingList" class="tm-pending-list"></div>
-                </div>
-
-                <!-- Create -->
-                <div class="tm-panel">
-                    <div class="tm-panel-title">// CREAR CLUB</div>
-                    <div class="tm-create-form">
-                        <input type="text" id="createName" class="tm-input" placeholder="Nombre del club (máx. 20 car.)" maxlength="20" autocomplete="off">
-                        <textarea id="createDesc" class="tm-input tm-textarea" placeholder="Descripción (opcional)"></textarea>
-                        <button class="tm-btn-create" id="createTeamBtn">Fundar club</button>
-                        <p id="createFeedback" class="tm-feedback"></p>
-                    </div>
-                </div>
-
-            </aside>
-
-            <!-- Right: all teams -->
-            <main class="tm-no-right">
-                <div class="tm-panel-title" style="margin-bottom:14px;">// TODOS LOS CLUBES</div>
-                <div class="tm-teams-grid" id="teamsGrid">
-                    <div class="tm-empty">Cargando clubes...</div>
-                </div>
-            </main>
-
+        <!-- Has-team bar -->
+        <div id="tmMyTeamBar" class="tm-my-team-bar hidden">
+            <div class="tm-my-team-bar-inner">
+                <div class="tm-top-eyebrow">// CLUBES · CODEXAR</div>
+                <h1 class="tm-top-title">Todos los clubes</h1>
+                <p  class="tm-top-sub">Tu club aparece primero. Haz clic en cualquier tarjeta para ver su perfil.</p>
+            </div>
         </div>
+
+        <!-- Clubs grid -->
+        <div class="tm-clubs-section">
+            <div class="tm-clubs-grid" id="tmClubsGrid">
+                <div class="tm-empty">Cargando clubes...</div>
+            </div>
+        </div>
+
     </div>
 
 </main>
 
-<!-- Pending invites while in a team -->
-<div class="tm-invites-toast-wrap" id="tmInvitesToastWrap" style="display:none;"></div>
+<!-- Create club modal -->
+<div class="tm-modal-backdrop hidden" id="tmCreateModal">
+    <div class="tm-modal">
+        <div class="tm-modal-title">// FUNDAR CLUB</div>
+        <input  type="text" id="createName" class="tm-input" placeholder="Nombre del club (máx. 20 car.)" maxlength="20" autocomplete="off">
+        <textarea id="createDesc" class="tm-input tm-textarea" placeholder="Descripción (opcional)"></textarea>
+        <div class="tm-modal-actions">
+            <button class="tm-btn-cancel" id="tmCreateCancel">Cancelar</button>
+            <button class="tm-btn-save"   id="tmCreateSave">Fundar</button>
+        </div>
+        <p id="createFeedback" class="tm-feedback"></p>
+    </div>
+</div>
 
 <div id="tmToast" class="tm-toast hidden"></div>
 
