@@ -2,7 +2,11 @@
    ProfileView.css — Codexar Public Profile Page
    ============================================================ */
 
-:root { --pv-box-opacity: 0.8; }
+:root {
+    --pv-box-opacity: 1;
+    --pv-bg-dim:      1;
+    --pv-banner-dim:  1;
+}
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -760,6 +764,7 @@ body {
     position: absolute;
     inset: 0;
     background: rgba(7, 7, 15, 0.57);
+    opacity: var(--pv-bg-dim);
 }
 
 /* Ensure everything renders above the overlay */
@@ -787,4 +792,5 @@ body {
     inset: 0;
     background: linear-gradient(to bottom, rgba(7,7,15,0.05) 0%, rgba(7,7,15,0.5) 100%);
     border-radius: inherit;
+    opacity: var(--pv-banner-dim);
 }

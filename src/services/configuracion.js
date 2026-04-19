@@ -213,6 +213,21 @@ function initPerfilSection(user) {
         });
     });
 
+    // Background visibility selector
+    function initVisGroup(groupId, lsKey, dataAttr) {
+        const saved = localStorage.getItem(lsKey) || 'dim';
+        document.querySelectorAll(`#${groupId} [data-${dataAttr}]`).forEach(btn => {
+            btn.classList.toggle('active', btn.dataset[dataAttr] === saved);
+            btn.addEventListener('click', () => {
+                document.querySelectorAll(`#${groupId} [data-${dataAttr}]`).forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                localStorage.setItem(lsKey, btn.dataset[dataAttr]);
+            });
+        });
+    }
+    initVisGroup('cfgBgVisGroup',     'codexar_bg_vis',     'vis');
+    initVisGroup('cfgBannerVisGroup', 'codexar_banner_vis', 'banvis');
+
     // Username availability check
     let debounce;
     document.getElementById('cfgUsername').addEventListener('input', () => {

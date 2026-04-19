@@ -434,11 +434,20 @@ function renderProfile(data) {
     document.getElementById('pvContent').classList.remove('hidden');
 }
 
-// ── Apply saved box style ─────────────────────────────────────
+// ── Apply saved profile display settings ─────────────────────
 (function () {
-    const style = localStorage.getItem('codexar_box_style') || 'solid';
-    const opacity = style === 'transparent' ? 0 : style === 'semi' ? 0.8 : 1;
-    document.documentElement.style.setProperty('--pv-box-opacity', opacity);
+    const style  = localStorage.getItem('codexar_box_style') || 'solid';
+    const bgVis  = localStorage.getItem('codexar_bg_vis')    || 'dim';
+    const banVis = localStorage.getItem('codexar_banner_vis') || 'dim';
+
+    const boxOpacity = style  === 'transparent' ? 0 : style  === 'semi' ? 0.8 : 1;
+    const bgDim      = bgVis  === 'full' ? 0    : bgVis  === 'mid' ? 0.5 : 1;
+    const bannerDim  = banVis === 'full' ? 0    : banVis === 'mid' ? 0.5 : 1;
+
+    const root = document.documentElement;
+    root.style.setProperty('--pv-box-opacity', boxOpacity);
+    root.style.setProperty('--pv-bg-dim',      bgDim);
+    root.style.setProperty('--pv-banner-dim',  bannerDim);
 })();
 
 // ── Init ──────────────────────────────────────────────────────
