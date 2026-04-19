@@ -201,20 +201,16 @@ function initPerfilSection(user) {
         } catch { setStatus('cfgSaveStatus', 'Error eliminando fondo', 'err'); }
     });
 
-    // Box opacity slider
-    const opacitySlider = document.getElementById('cfgBoxOpacity');
-    const opacityVal    = document.getElementById('cfgBoxOpacityVal');
-    const savedOpacity  = localStorage.getItem('codexar_box_opacity');
-    const initOpacity   = savedOpacity !== null ? parseInt(savedOpacity, 10) : 80;
-    opacitySlider.value = initOpacity;
-    opacityVal.textContent = initOpacity + '%';
-    opacitySlider.style.setProperty('--range-pct', initOpacity + '%');
-
-    opacitySlider.addEventListener('input', () => {
-        const v = opacitySlider.value;
-        opacityVal.textContent = v + '%';
-        opacitySlider.style.setProperty('--range-pct', v + '%');
-        localStorage.setItem('codexar_box_opacity', v);
+    // Box style selector
+    const savedStyle = localStorage.getItem('codexar_box_style') || 'solid';
+    document.querySelectorAll('.cfg-box-style-btn').forEach(btn => {
+        if (btn.dataset.style === savedStyle) btn.classList.add('active');
+        else btn.classList.remove('active');
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.cfg-box-style-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            localStorage.setItem('codexar_box_style', btn.dataset.style);
+        });
     });
 
     // Username availability check

@@ -434,10 +434,10 @@ function renderProfile(data) {
     document.getElementById('pvContent').classList.remove('hidden');
 }
 
-// ── Apply saved box opacity ───────────────────────────────────
+// ── Apply saved box style ─────────────────────────────────────
 (function () {
-    const v = localStorage.getItem('codexar_box_opacity');
-    const opacity = v !== null ? parseInt(v, 10) / 100 : 0.8;
+    const style = localStorage.getItem('codexar_box_style') || 'solid';
+    const opacity = style === 'transparent' ? 0 : style === 'semi' ? 0.8 : 1;
     document.documentElement.style.setProperty('--pv-box-opacity', opacity);
 })();
 

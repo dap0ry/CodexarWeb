@@ -681,57 +681,36 @@ html[data-theme="zen"] .tema-card.active .tema-btn { border-color:#D4688A !impor
     .cfg-tema-grid { grid-template-columns: 1fr; }
 }
 
-/* ── Opacity slider ──────────────────────────────────────────────────────── */
+/* ── Box style selector ──────────────────────────────────────────────────��─ */
 
-.cfg-opacity-row {
+.cfg-box-style-group {
     display: flex;
-    align-items: center;
-    gap: 14px;
+    gap: 8px;
 }
 
-.cfg-range {
+.cfg-box-style-btn {
     flex: 1;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 4px;
-    border-radius: 4px;
-    background: linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-cyan) var(--range-pct, 80%), rgba(255,255,255,0.1) var(--range-pct, 80%));
-    outline: none;
-    cursor: pointer;
-    transition: background 0.1s;
-}
-
-.cfg-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--accent-cyan);
-    box-shadow: 0 0 10px rgba(0,255,204,0.5);
-    cursor: pointer;
-    transition: box-shadow 0.15s;
-}
-.cfg-range::-webkit-slider-thumb:hover {
-    box-shadow: 0 0 16px rgba(0,255,204,0.75);
-}
-
-.cfg-range::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--accent-cyan);
-    border: none;
-    box-shadow: 0 0 10px rgba(0,255,204,0.5);
-    cursor: pointer;
-}
-
-.cfg-opacity-badge {
+    padding: 9px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-muted);
     font-family: var(--font-heading);
-    font-size: 0.78rem;
-    font-weight: 800;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+.cfg-box-style-btn:hover {
+    border-color: rgba(0,255,204,0.3);
+    color: var(--text-light);
+    background: rgba(0,255,204,0.04);
+}
+.cfg-box-style-btn.active {
+    border-color: var(--accent-cyan);
     color: var(--accent-cyan);
-    letter-spacing: 1px;
-    min-width: 40px;
-    text-align: right;
+    background: rgba(0,255,204,0.08);
+    box-shadow: 0 0 12px rgba(0,255,204,0.1);
 }
