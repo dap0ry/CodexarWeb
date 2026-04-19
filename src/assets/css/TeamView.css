@@ -1,3 +1,305 @@
+/* TeamView.css — standalone styles for the public team profile page */
+
+/* ── Full-page background overlay ── */
+.tm-bg-overlay {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 0;
+    pointer-events: none;
+}
+.tm-bg-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(7,7,15,0.78);
+}
+
+.tm-page {
+    position: relative;
+}
+
+/* ── Content wrapper ── */
+.tm-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 28px 5% 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ── Hero block ── */
+.tm-hero {
+    background: rgba(12,12,20,0.9);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+}
+
+.tm-banner {
+    width: 100%;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.tm-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(12,12,20,0.95) 100%);
+}
+
+.tm-identity-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 20px 24px 0;
+}
+
+/* Team photo */
+.tm-photo-wrap {
+    position: relative;
+    flex-shrink: 0;
+    margin-top: -54px;
+}
+
+.tm-photo {
+    width: 100px; height: 100px;
+    border-radius: 16px;
+    background: #1a1a2e;
+    border: 3px solid rgba(7,7,15,0.9);
+    box-shadow: 0 0 0 1.5px rgba(255,196,0,0.3), 0 8px 28px rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: rgba(255,196,0,0.55);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.tm-identity-info {
+    flex: 1;
+    min-width: 0;
+    padding-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tm-club-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(255,196,0,0.45);
+    text-transform: uppercase;
+}
+
+.tm-club-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #f0f0ff;
+    letter-spacing: 1px;
+}
+
+.tm-club-desc {
+    font-size: 0.8rem;
+    color: rgba(230,230,240,0.42);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.tm-role-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tm-member-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(114,114,138,0.55);
+    letter-spacing: 0.5px;
+}
+
+.tm-hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex-shrink: 0;
+    padding-top: 6px;
+    align-items: flex-end;
+}
+
+/* Stats bar */
+.tm-stats-bar {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.tm-stat-pill {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 0;
+    min-width: 100px;
+}
+
+.tm-stat-sep {
+    width: 1px;
+    height: 34px;
+    background: rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+
+.tm-stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #e6e6f0;
+    line-height: 1;
+}
+.tm-cyan { color: #00ffcc; text-shadow: 0 0 14px rgba(0,255,204,0.25); }
+.tm-pink { color: #ff2e63; text-shadow: 0 0 14px rgba(255,46,99,0.25); }
+.tm-gold { color: #ffc400; text-shadow: 0 0 14px rgba(255,196,0,0.25); }
+
+.tm-stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(114,114,138,0.5);
+    text-align: center;
+}
+
+/* ── Section ── */
+.tm-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tm-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tm-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(0,255,204,0.4);
+    text-transform: uppercase;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    width: 100%;
+}
+
+/* ── Members grid ── */
+.tm-members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 20px 10px;
+}
+
+.tm-member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.15s, transform 0.15s;
+    cursor: pointer;
+    position: relative;
+    background: none;
+    border: none;
+    border-radius: 0;
+}
+.tm-member-card:hover { opacity: 0.8; transform: translateY(-2px); }
+
+.tm-mc-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 2px solid rgba(255,255,255,0.13);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: rgba(0,255,204,0.6);
+    flex-shrink: 0;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.tm-member-card.is-owner .tm-mc-avatar {
+    border-color: rgba(255,196,0,0.5);
+    box-shadow: 0 0 16px rgba(255,196,0,0.12);
+}
+.tm-member-card:hover .tm-mc-avatar { border-color: rgba(0,255,204,0.45); }
+
+.tm-mc-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: rgba(230,230,240,0.85);
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tm-mc-captain {
+    position: absolute;
+    top: -4px; right: -4px;
+    width: 18px; height: 18px;
+    background: rgba(255,196,0,0.15);
+    border: 1px solid rgba(255,196,0,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: #ffc400;
+}
+.tm-mc-captain::after { content: '★'; }
+
+/* Responsive */
+@media (max-width: 780px) {
+    .tm-identity-row { flex-wrap: wrap; }
+    .tm-photo-wrap { margin-top: -44px; }
+    .tm-photo { width: 80px; height: 80px; font-size: 2rem; }
+    .tm-members-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+}
+
 /* TeamView.css — public-only overrides on top of Teams.css */
 
 /* Error state */
