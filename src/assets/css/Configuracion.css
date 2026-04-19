@@ -680,3 +680,58 @@ html[data-theme="zen"] .tema-card.active .tema-btn { border-color:#D4688A !impor
     .cfg-panel   { padding: 24px 18px; max-width: 100%; }
     .cfg-tema-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Opacity slider ──────────────────────────────────────────────────────── */
+
+.cfg-opacity-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.cfg-range {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-cyan) var(--range-pct, 80%), rgba(255,255,255,0.1) var(--range-pct, 80%));
+    outline: none;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.cfg-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0,255,204,0.5);
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+}
+.cfg-range::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 16px rgba(0,255,204,0.75);
+}
+
+.cfg-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    border: none;
+    box-shadow: 0 0 10px rgba(0,255,204,0.5);
+    cursor: pointer;
+}
+
+.cfg-opacity-badge {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    letter-spacing: 1px;
+    min-width: 40px;
+    text-align: right;
+}

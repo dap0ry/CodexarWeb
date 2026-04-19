@@ -201,6 +201,22 @@ function initPerfilSection(user) {
         } catch { setStatus('cfgSaveStatus', 'Error eliminando fondo', 'err'); }
     });
 
+    // Box opacity slider
+    const opacitySlider = document.getElementById('cfgBoxOpacity');
+    const opacityVal    = document.getElementById('cfgBoxOpacityVal');
+    const savedOpacity  = localStorage.getItem('codexar_box_opacity');
+    const initOpacity   = savedOpacity !== null ? parseInt(savedOpacity, 10) : 80;
+    opacitySlider.value = initOpacity;
+    opacityVal.textContent = initOpacity + '%';
+    opacitySlider.style.setProperty('--range-pct', initOpacity + '%');
+
+    opacitySlider.addEventListener('input', () => {
+        const v = opacitySlider.value;
+        opacityVal.textContent = v + '%';
+        opacitySlider.style.setProperty('--range-pct', v + '%');
+        localStorage.setItem('codexar_box_opacity', v);
+    });
+
     // Username availability check
     let debounce;
     document.getElementById('cfgUsername').addEventListener('input', () => {

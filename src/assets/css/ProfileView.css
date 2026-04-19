@@ -2,6 +2,8 @@
    ProfileView.css — Codexar Public Profile Page
    ============================================================ */
 
+:root { --pv-box-opacity: 0.8; }
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -134,7 +136,7 @@ body {
     width: 100%;
     padding: 9px 12px;
     border-radius: 10px;
-    background: #0e0e1a;
+    background: rgba(14, 14, 26, var(--pv-box-opacity));
     border: 1px solid rgba(255, 255, 255, 0.07);
     display: flex;
     align-items: center;
@@ -185,7 +187,7 @@ body {
 /* ── Right section ─────────────────────────────────────────── */
 .pv-right {
     flex: 1;
-    background: #0c0c14;
+    background: rgba(12, 12, 20, var(--pv-box-opacity));
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 12px;
     padding: 20px 24px;
@@ -505,7 +507,7 @@ body {
 
 .pv-stat-card {
     flex: 1;
-    background: #0c0c14;
+    background: rgba(12, 12, 20, var(--pv-box-opacity));
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     padding: 16px 20px 18px;

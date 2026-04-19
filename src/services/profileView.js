@@ -434,6 +434,13 @@ function renderProfile(data) {
     document.getElementById('pvContent').classList.remove('hidden');
 }
 
+// ── Apply saved box opacity ───────────────────────────────────
+(function () {
+    const v = localStorage.getItem('codexar_box_opacity');
+    const opacity = v !== null ? parseInt(v, 10) / 100 : 0.8;
+    document.documentElement.style.setProperty('--pv-box-opacity', opacity);
+})();
+
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
