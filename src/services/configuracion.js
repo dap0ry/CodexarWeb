@@ -220,11 +220,33 @@ function initPerfilSection(user) {
 }
 
 async function savePerfilSection() {
-    const statusEl = document.getElementById('cfgUsernameStatus');
-    if (statusEl.classList.contains('err')) return;
+    const token    = localStorage.getItem('access_token');
+    const btn      = document.getElementById('cfgPerfilSaveBtn');
+    const username = document.getElementById('cfgUsername').value.trim();
 
-    const token = localStorage.getItem('access_token');
-    const btn   = document.getElementById('cfgPerfilSaveBtn');
+    // If username changed, do a live availability check before anything else
+    if (username !== userData.username) {
+        if (username.length < 3) {
+            setStatus('cfgUsernameStatus', 'Mínimo 3 caracteres', 'err');
+            return;
+        }
+        btn.disabled    = true;
+        btn.textContent = 'Verificando...';
+        try {
+            const chk  = await fetch(`${API_BASE}/user/check-username/${encodeURIComponent(username)}`);
+            const data = await chk.json();
+            if (!data.available) {
+                setStatus('cfgUsernameStatus', '✗ Ya está en uso', 'err');
+                setFeedback('cfgPerfilFeedback', 'Ese nombre de usuario ya está en uso.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
+            }
+            setStatus('cfgUsernameStatus', '✓ Disponible', 'ok');
+        } catch {
+            setFeedback('cfgPerfilFeedback', 'No se pudo verificar el nombre de usuario.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
+        }
+    }
+
     btn.disabled    = true;
     btn.textContent = 'Guardando...';
     setFeedback('cfgPerfilFeedback', '', '');
@@ -266,8 +288,7 @@ async function savePerfilSection() {
 
         // Profile update
         const form = new FormData();
-        const username = document.getElementById('cfgUsername').value.trim();
-        const desc     = document.getElementById('cfgDesc').value.trim();
+        const desc = document.getElementById('cfgDesc').value.trim();
 
         if (username !== userData.username) form.append('username', username);
         if (desc !== userData.description)  form.append('description', desc);
