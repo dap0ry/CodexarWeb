@@ -22,13 +22,13 @@
             <div class="username-display" id="navUsername">Cargando...</div>
         </div>
         <div class="user-dropdown">
-            <a href="Home.html"           class="dropdown-item">Inicio</a>
+            <a href="Home.html"          class="dropdown-item">Inicio</a>
             <a href="Configuracion.html" class="dropdown-item">Configuración</a>
-                <a href="Pricing.html" class="dropdown-item">✦ Planes</a>
-            <a href="Logros.html"         class="dropdown-item">Logros</a>
-            <a href="Friends.html"        class="dropdown-item">Amigos</a>
-            <a href="Leaderboard.html"    class="dropdown-item">Clasificación</a>
-            <a href="#"                   class="dropdown-item">Ayuda</a>
+            <a href="Pricing.html"       class="dropdown-item">✦ Planes</a>
+            <a href="Logros.html"        class="dropdown-item">Logros</a>
+            <a href="Friends.html"       class="dropdown-item">Amigos</a>
+            <a href="Leaderboard.html"   class="dropdown-item">Clasificación</a>
+            <a href="#"                  class="dropdown-item">Ayuda</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
         </div>
@@ -38,12 +38,12 @@
 <main class="cfg-page">
     <div class="cfg-content">
 
-        <!-- ══ PERFIL ══ -->
+        <!-- ══ 01 · PERFIL ══ -->
         <section class="cfg-section" id="sec-perfil">
             <div class="cfg-sec-header">
                 <div class="cfg-sec-tag">// 01 // PERFIL</div>
-                <h2 class="cfg-sec-title">Información Pública</h2>
-                <p class="cfg-sec-desc">Lo que los demás ven al visitar tu perfil.</p>
+                <h2 class="cfg-sec-title">Datos personales</h2>
+                <p class="cfg-sec-desc">Tu nombre, foto y la información que aparece en tu perfil público.</p>
             </div>
 
             <!-- Avatar -->
@@ -59,6 +59,111 @@
                     <span class="cfg-hint">Haz clic en el avatar para cambiarlo</span>
                     <span class="cfg-hint">JPG, PNG, GIF o WEBP · máx. 1 MB</span>
                 </div>
+            </div>
+
+            <!-- Username + Descripción -->
+            <div class="cfg-fields-grid">
+                <div class="cfg-field-group">
+                    <label class="cfg-label" for="cfgUsername">Nombre de usuario</label>
+                    <input type="text" class="cfg-input" id="cfgUsername" autocomplete="off" maxlength="20">
+                    <span class="cfg-field-status" id="cfgUsernameStatus"></span>
+                </div>
+                <div class="cfg-field-group">
+                    <label class="cfg-label" for="cfgDesc">
+                        Descripción
+                        <span class="cfg-label-hint">máx. 30 caracteres</span>
+                    </label>
+                    <input type="text" class="cfg-input" id="cfgDesc" maxlength="30" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="cfg-actions">
+                <span class="cfg-feedback" id="cfgPerfilFeedback"></span>
+                <button class="cfg-save-btn" id="cfgPerfilSaveBtn">▸ Guardar perfil</button>
+            </div>
+
+            <!-- ── Contraseña ── -->
+            <div class="cfg-inner-sep">
+                <div class="cfg-subsec-tag">// CONTRASEÑA</div>
+            </div>
+
+            <div class="cfg-fields-grid cfg-fields-grid--single">
+                <div class="cfg-field-group">
+                    <label class="cfg-label">Email de la cuenta</label>
+                    <input type="text" class="cfg-input cfg-input--readonly" id="cfgEmail" readonly autocomplete="off">
+                </div>
+                <div class="cfg-field-group">
+                    <label class="cfg-label">Contraseña actual</label>
+                    <div class="cfg-pwd-row">
+                        <input type="password" class="cfg-input" id="cfgOldPwd" placeholder="Escribe tu contraseña actual..." autocomplete="current-password">
+                        <button class="cfg-verify-btn" id="cfgVerifyBtn">Verificar</button>
+                    </div>
+                    <span class="cfg-field-status" id="cfgPwdStatus"></span>
+                </div>
+                <div class="cfg-field-group">
+                    <label class="cfg-label">Nueva contraseña</label>
+                    <input type="password" class="cfg-input" id="cfgNewPwd" placeholder="Bloqueado — verifica tu contraseña primero" disabled autocomplete="new-password">
+                </div>
+            </div>
+
+            <div class="cfg-actions">
+                <span class="cfg-feedback" id="cfgSecFeedback"></span>
+                <button class="cfg-save-btn" id="cfgSecSaveBtn" disabled>▸ Cambiar contraseña</button>
+            </div>
+
+            <!-- ── Stack tecnológico ── -->
+            <div class="cfg-inner-sep">
+                <div class="cfg-subsec-tag">// STACK TECNOLÓGICO</div>
+                <p class="cfg-sec-desc">Los lenguajes que aparecen en tu perfil público. Selecciona los que dominas.</p>
+            </div>
+
+            <div class="cfg-lang-grid" id="cfgLangGrid"></div>
+
+            <div class="cfg-actions">
+                <span class="cfg-feedback" id="cfgLangFeedback"></span>
+                <button class="cfg-save-btn" id="cfgLangSaveBtn">▸ Guardar selección</button>
+            </div>
+
+            <!-- ── Redes sociales ── -->
+            <div class="cfg-inner-sep">
+                <div class="cfg-subsec-tag">// REDES SOCIALES</div>
+            </div>
+
+            <div class="cfg-social-inputs">
+                <div class="cfg-social-row">
+                    <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="cfg-social-ico">
+                    <input type="url" class="cfg-input cfg-social-input" id="cfgGithub" placeholder="https://github.com/usuario" autocomplete="off">
+                </div>
+                <div class="cfg-social-row">
+                    <img src="https://cdn.simpleicons.org/linkedin" alt="LinkedIn" class="cfg-social-ico">
+                    <input type="url" class="cfg-input cfg-social-input" id="cfgLinkedin" placeholder="https://linkedin.com/in/usuario" autocomplete="off">
+                </div>
+                <div class="cfg-social-row">
+                    <img src="https://cdn.simpleicons.org/codeforces" alt="Codeforces" class="cfg-social-ico">
+                    <input type="url" class="cfg-input cfg-social-input" id="cfgCodeforces" placeholder="https://codeforces.com/profile/usuario" autocomplete="off">
+                </div>
+                <div class="cfg-social-row">
+                    <img src="https://cdn.simpleicons.org/instagram" alt="Instagram" class="cfg-social-ico">
+                    <input type="url" class="cfg-input cfg-social-input" id="cfgInstagram" placeholder="https://instagram.com/usuario" autocomplete="off">
+                </div>
+                <div class="cfg-social-row">
+                    <img src="https://cdn.simpleicons.org/tiktok" alt="TikTok" class="cfg-social-ico">
+                    <input type="url" class="cfg-input cfg-social-input" id="cfgTiktok" placeholder="https://tiktok.com/@usuario" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="cfg-actions">
+                <span class="cfg-feedback" id="cfgSocialFeedback"></span>
+                <button class="cfg-save-btn" id="cfgSocialSaveBtn">▸ Guardar redes</button>
+            </div>
+        </section>
+
+        <!-- ══ 02 · PERSONALIZACIÓN ══ -->
+        <section class="cfg-section cfg-section--sep" id="sec-personalizacion">
+            <div class="cfg-sec-header">
+                <div class="cfg-sec-tag">// 02 // PERSONALIZACIÓN</div>
+                <h2 class="cfg-sec-title">Banner y fondo de perfil</h2>
+                <p class="cfg-sec-desc">Personaliza el aspecto visual de tu perfil público.</p>
             </div>
 
             <!-- Banner superior -->
@@ -133,64 +238,12 @@
                 </div>
                 <span class="cfg-hint">Cuánto oscurece el degradado sobre el banner superior del perfil.</span>
             </div>
-
-            <!-- Username + Descripción -->
-            <div class="cfg-fields-grid">
-                <div class="cfg-field-group">
-                    <label class="cfg-label" for="cfgUsername">Nombre de usuario</label>
-                    <input type="text" class="cfg-input" id="cfgUsername" autocomplete="off" maxlength="20">
-                    <span class="cfg-field-status" id="cfgUsernameStatus"></span>
-                </div>
-                <div class="cfg-field-group">
-                    <label class="cfg-label" for="cfgDesc">
-                        Descripción
-                        <span class="cfg-label-hint">máx. 30 caracteres</span>
-                    </label>
-                    <input type="text" class="cfg-input" id="cfgDesc" maxlength="30" autocomplete="off">
-                </div>
-            </div>
-
-            <!-- Redes Sociales -->
-            <div class="cfg-socials-block">
-                <div class="cfg-subsec-tag">// REDES SOCIALES</div>
-                <div class="cfg-social-inputs">
-                    <div class="cfg-social-row">
-                        <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="cfg-social-ico">
-                        <input type="url" class="cfg-input cfg-social-input" id="cfgGithub" placeholder="https://github.com/usuario" autocomplete="off">
-                    </div>
-                    <div class="cfg-social-row">
-                        <img src="https://cdn.simpleicons.org/linkedin" alt="LinkedIn" class="cfg-social-ico">
-                        <input type="url" class="cfg-input cfg-social-input" id="cfgLinkedin" placeholder="https://linkedin.com/in/usuario" autocomplete="off">
-                    </div>
-                    <div class="cfg-social-row">
-                        <img src="https://cdn.simpleicons.org/codeforces" alt="Codeforces" class="cfg-social-ico">
-                        <input type="url" class="cfg-input cfg-social-input" id="cfgCodeforces" placeholder="https://codeforces.com/profile/usuario" autocomplete="off">
-                    </div>
-                    <div class="cfg-social-row">
-                        <img src="https://cdn.simpleicons.org/instagram" alt="Instagram" class="cfg-social-ico">
-                        <input type="url" class="cfg-input cfg-social-input" id="cfgInstagram" placeholder="https://instagram.com/usuario" autocomplete="off">
-                    </div>
-                    <div class="cfg-social-row">
-                        <img src="https://cdn.simpleicons.org/tiktok" alt="TikTok" class="cfg-social-ico">
-                        <input type="url" class="cfg-input cfg-social-input" id="cfgTiktok" placeholder="https://tiktok.com/@usuario" autocomplete="off">
-                    </div>
-                </div>
-                <div class="cfg-socials-actions">
-                    <span class="cfg-feedback" id="cfgSocialFeedback"></span>
-                    <button class="btn btn-green" id="cfgSocialSaveBtn">Guardar redes</button>
-                </div>
-            </div>
-
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgPerfilFeedback"></span>
-                <button class="btn btn-green" id="cfgPerfilSaveBtn">Guardar cambios</button>
-            </div>
         </section>
 
-        <!-- ══ APARIENCIA ══ -->
+        <!-- ══ 03 · APARIENCIA ══ -->
         <section class="cfg-section cfg-section--sep" id="sec-apariencia">
             <div class="cfg-sec-header">
-                <div class="cfg-sec-tag">// 02 // APARIENCIA</div>
+                <div class="cfg-sec-tag">// 03 // APARIENCIA</div>
                 <h2 class="cfg-sec-title">Tema Visual</h2>
                 <p class="cfg-sec-desc">Selecciona la paleta de colores de Codexar. Se aplica al instante.</p>
             </div>
@@ -293,55 +346,6 @@
                     <button class="tema-btn">SELECCIONAR</button>
                 </div>
 
-            </div>
-        </section>
-
-        <!-- ══ LENGUAJES ══ -->
-        <section class="cfg-section cfg-section--sep" id="sec-lenguajes">
-            <div class="cfg-sec-header">
-                <div class="cfg-sec-tag">// 03 // LENGUAJES</div>
-                <h2 class="cfg-sec-title">Stack Tecnológico</h2>
-                <p class="cfg-sec-desc">Los lenguajes que aparecen en tu perfil público. Selecciona los que dominas.</p>
-            </div>
-
-            <div class="cfg-lang-grid" id="cfgLangGrid"></div>
-
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgLangFeedback"></span>
-                <button class="btn btn-green" id="cfgLangSaveBtn">Guardar selección</button>
-            </div>
-        </section>
-
-        <!-- ══ SEGURIDAD ══ -->
-        <section class="cfg-section cfg-section--sep" id="sec-seguridad">
-            <div class="cfg-sec-header">
-                <div class="cfg-sec-tag">// 04 // SEGURIDAD</div>
-                <h2 class="cfg-sec-title">Contraseña</h2>
-                <p class="cfg-sec-desc">Actualiza tus credenciales de acceso a la plataforma.</p>
-            </div>
-
-            <div class="cfg-fields-grid cfg-fields-grid--single">
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Email de la cuenta</label>
-                    <input type="text" class="cfg-input cfg-input--readonly" id="cfgEmail" readonly autocomplete="off">
-                </div>
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Contraseña actual</label>
-                    <div class="cfg-pwd-row">
-                        <input type="password" class="cfg-input" id="cfgOldPwd" placeholder="Escribe tu contraseña actual..." autocomplete="current-password">
-                        <button class="cfg-verify-btn" id="cfgVerifyBtn">Verificar</button>
-                    </div>
-                    <span class="cfg-field-status" id="cfgPwdStatus"></span>
-                </div>
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Nueva contraseña</label>
-                    <input type="password" class="cfg-input" id="cfgNewPwd" placeholder="Bloqueado — verifica tu contraseña primero" disabled autocomplete="new-password">
-                </div>
-            </div>
-
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgSecFeedback"></span>
-                <button class="btn btn-green" id="cfgSecSaveBtn" disabled>Cambiar contraseña</button>
             </div>
         </section>
 
