@@ -672,6 +672,24 @@ html[data-theme="zen"] .tema-card.active { border-color:#D4688A !important; }
 html[data-theme="zen"] .tema-check { background:#D4688A !important; color:#fff !important; }
 html[data-theme="zen"] .tema-card.active .tema-btn { border-color:#D4688A !important; color:#D4688A !important; }
 
+/* ── Save all bar ────────────────────────────────────────────────────────── */
+
+.cfg-save-all {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 28px;
+    margin-top: 8px;
+    border-top: 1px solid var(--border-color);
+}
+
+.cfg-save-btn--main {
+    padding: 13px 36px;
+    font-size: 0.82rem;
+    letter-spacing: 2.5px;
+}
+
 /* ── Hide floating code decorations (keep dot-grid canvas) ──────────────── */
 
 .g-code-float { display: none !important; }
