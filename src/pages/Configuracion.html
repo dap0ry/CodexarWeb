@@ -35,43 +35,8 @@
     </div>
 </nav>
 
-<main class="cfg-layout">
-
-    <!-- ── SIDEBAR ───────────────────────────────── -->
-    <aside class="cfg-sidebar">
-
-        <div class="cfg-user-card">
-            <div class="cfg-side-avatar" id="cfgSideAvatar"></div>
-            <div class="cfg-user-meta">
-                <span class="cfg-side-name" id="cfgSideName">—</span>
-                <span class="cfg-side-rank" id="cfgSideRank">—</span>
-            </div>
-        </div>
-
-        <nav class="cfg-nav">
-            <button class="cfg-nav-btn active" data-sec="perfil">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Perfil
-            </button>
-            <button class="cfg-nav-btn" data-sec="apariencia">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Apariencia
-            </button>
-            <button class="cfg-nav-btn" data-sec="lenguajes">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                Lenguajes
-            </button>
-            <button class="cfg-nav-btn" data-sec="seguridad">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Seguridad
-            </button>
-        </nav>
-
-        <div class="cfg-sidebar-footer">// CODEXAR //</div>
-    </aside>
-
-    <!-- ── PANEL ──────────────────────────────────── -->
-    <div class="cfg-panel">
+<main class="cfg-page">
+    <div class="cfg-content">
 
         <!-- ══ PERFIL ══ -->
         <section class="cfg-section" id="sec-perfil">
@@ -223,7 +188,7 @@
         </section>
 
         <!-- ══ APARIENCIA ══ -->
-        <section class="cfg-section hidden" id="sec-apariencia">
+        <section class="cfg-section cfg-section--sep" id="sec-apariencia">
             <div class="cfg-sec-header">
                 <div class="cfg-sec-tag">// 02 // APARIENCIA</div>
                 <h2 class="cfg-sec-title">Tema Visual</h2>
@@ -332,7 +297,7 @@
         </section>
 
         <!-- ══ LENGUAJES ══ -->
-        <section class="cfg-section hidden" id="sec-lenguajes">
+        <section class="cfg-section cfg-section--sep" id="sec-lenguajes">
             <div class="cfg-sec-header">
                 <div class="cfg-sec-tag">// 03 // LENGUAJES</div>
                 <h2 class="cfg-sec-title">Stack Tecnológico</h2>
@@ -348,7 +313,7 @@
         </section>
 
         <!-- ══ SEGURIDAD ══ -->
-        <section class="cfg-section hidden" id="sec-seguridad">
+        <section class="cfg-section cfg-section--sep" id="sec-seguridad">
             <div class="cfg-sec-header">
                 <div class="cfg-sec-tag">// 04 // SEGURIDAD</div>
                 <h2 class="cfg-sec-title">Contraseña</h2>
@@ -380,7 +345,7 @@
             </div>
         </section>
 
-    </div>
+    </div><!-- cfg-content -->
 </main>
 
 <script src="../services/matchmakingGlobal.js"></script>

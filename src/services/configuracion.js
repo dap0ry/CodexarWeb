@@ -37,28 +37,6 @@ function populateNavbar(user) {
     } else {
         navAvatar.textContent = user.username.charAt(0).toUpperCase();
     }
-    // Sidebar card
-    const sideAvatar = document.getElementById('cfgSideAvatar');
-    if (user.avatar) {
-        sideAvatar.style.backgroundImage   = `url(${user.avatar})`;
-        sideAvatar.style.backgroundSize    = 'cover';
-        sideAvatar.style.backgroundPosition = 'center';
-        sideAvatar.textContent = '';
-    } else {
-        sideAvatar.textContent = user.username.charAt(0).toUpperCase();
-    }
-    document.getElementById('cfgSideName').textContent = user.username;
-    document.getElementById('cfgSideRank').textContent = user.rank_name || '';
-}
-
-// ── Tab navigation ────────────────────────────────────────────────────────
-
-function showSection(id) {
-    document.querySelectorAll('.cfg-section').forEach(s => s.classList.add('hidden'));
-    document.querySelectorAll('.cfg-nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('sec-' + id)?.classList.remove('hidden');
-    document.querySelector(`.cfg-nav-btn[data-sec="${id}"]`)?.classList.add('active');
-    location.hash = id;
 }
 
 // ── Perfil section ────────────────────────────────────────────────────────
@@ -311,8 +289,7 @@ async function savePerfilSection() {
             setFeedback('cfgPerfilFeedback', '¡Cambios guardados!', 'ok');
             userData.username    = username;
             userData.description = desc;
-            document.getElementById('cfgSideName').textContent       = username;
-            document.getElementById('navUsername').textContent        = username;
+            document.getElementById('navUsername').textContent = username;
             setTimeout(() => setFeedback('cfgPerfilFeedback', '', ''), 3000);
         } else {
             setFeedback('cfgPerfilFeedback', data.detail || 'Error al guardar.', 'err');
@@ -565,11 +542,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = 'Login.html';
     });
 
-    // Nav buttons
-    document.querySelectorAll('.cfg-nav-btn').forEach(btn => {
-        btn.addEventListener('click', () => showSection(btn.dataset.sec));
-    });
-
     try {
         const res = await fetch(`${API_BASE}/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
@@ -588,9 +560,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     initAparienciaSection();
     initLenguajesSection();
     initSeguridadSection(userData);
-
-    // Open section from URL hash or default to perfil
-    const hash = location.hash.replace('#', '');
-    const validSections = ['perfil', 'apariencia', 'lenguajes', 'seguridad'];
-    showSection(validSections.includes(hash) ? hash : 'perfil');
 });
