@@ -243,7 +243,7 @@ async function savePerfilSection() {
             if (!bannerRes.ok) {
                 const err = await bannerRes.json().catch(() => ({}));
                 setFeedback('cfgPerfilFeedback', err.detail || 'Error subiendo el banner.', 'err');
-                btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
+                btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
             }
         }
 
@@ -260,7 +260,7 @@ async function savePerfilSection() {
             if (!bgRes.ok) {
                 const err = await bgRes.json().catch(() => ({}));
                 setFeedback('cfgPerfilFeedback', err.detail || 'Error subiendo el fondo.', 'err');
-                btn.disabled = false; btn.textContent = 'Guardar cambios'; return;
+                btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
             }
         }
 
@@ -298,7 +298,7 @@ async function savePerfilSection() {
         setFeedback('cfgPerfilFeedback', 'Error de conexión.', 'err');
     }
 
-    btn.disabled = false; btn.textContent = 'Guardar cambios';
+    btn.disabled = false; btn.textContent = '▸ Guardar perfil';
 }
 
 // ── Socials section ───────────────────────────────────────────
