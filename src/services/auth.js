@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://codexarapi.onrender.com/api/auth';
+const API_BASE_URL = 'https://api.codexar.es/api/auth';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');

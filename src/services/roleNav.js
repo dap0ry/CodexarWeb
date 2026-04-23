@@ -7,7 +7,7 @@
     if (!token) return;
 
     try {
-        const res = await fetch('https://codexarapi.onrender.com/api/user/me', {
+        const res = await fetch('https://api.codexar.es/api/user/me', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) return;

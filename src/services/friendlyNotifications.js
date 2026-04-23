@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    const API_BASE = 'https://codexarapi.onrender.com/api';
+    const API_BASE = 'https://api.codexar.es/api';
     const shown = new Set();   // invite_ids ya mostrados (evita duplicados)
     const TOAST_TIMEOUT = 30000; // auto-cerrar en 30s
 

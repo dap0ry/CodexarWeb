@@ -1,5 +1,5 @@
 /* logros.js — Achievements page logic */
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
 
 let achievementsData = null;
 let pendingEquipKey = null;

@@ -1,4 +1,4 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
 
 const DIFF_META = {
     normal:    { label: 'NORMAL',    meta: '60s de inicio · +10s por ejercicio' },

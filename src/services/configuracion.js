@@ -1,4 +1,4 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
 
 const LANGUAGES_DB = [
     { id: 'C++',    label: 'C++',    icon: 'cplusplus' },
@@ -8,17 +8,16 @@ const LANGUAGES_DB = [
     { id: 'C#',     label: 'C#',     icon: 'csharp'    },
 ];
 
-let userData       = {};
-let selectedLangs  = [];
-let bgFileChanged  = false;
+let userData      = {};
+let selectedLangs = [];
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 
 function setFeedback(id, msg, type) {
     const el = document.getElementById(id);
     if (!el) return;
-    el.textContent  = msg;
-    el.className    = 'cfg-feedback' + (type ? ' ' + type : '');
+    el.textContent = msg;
+    el.className   = 'cfg-feedback' + (type ? ' ' + type : '');
 }
 
 function setStatus(id, msg, type) {
@@ -42,11 +41,9 @@ function populateNavbar(user) {
 // ── Perfil section ────────────────────────────────────────────────────────
 
 function initPerfilSection(user) {
-    // Avatar preview
     const img = document.getElementById('cfgAvatarImg');
     img.src = user.avatar || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
 
-    // Banner preview
     if (user.profile_banner) {
         const bannerStrip = document.getElementById('cfgBannerStrip');
         bannerStrip.style.backgroundImage    = `url(${user.profile_banner})`;
@@ -55,7 +52,6 @@ function initPerfilSection(user) {
         document.getElementById('cfgBannerEmpty').style.display = 'none';
     }
 
-    // Background preview
     if (user.profile_background) {
         const strip = document.getElementById('cfgBgStrip');
         document.getElementById('cfgBgEmpty').style.display = 'none';
@@ -77,7 +73,7 @@ function initPerfilSection(user) {
     document.getElementById('cfgUsername').value = user.username || '';
     document.getElementById('cfgDesc').value     = user.description || '';
 
-    // Avatar file picker
+    // Avatar preview
     document.getElementById('cfgAvatarInput').addEventListener('change', e => {
         const file = e.target.files[0];
         if (!file) return;
@@ -86,26 +82,25 @@ function initPerfilSection(user) {
         reader.readAsDataURL(file);
     });
 
-    // Banner file picker (uploads to /upload-banner)
+    // Banner preview
     document.getElementById('cfgBannerInput').addEventListener('change', e => {
         const file = e.target.files[0];
         if (!file) return;
-        const bannerStrip = document.getElementById('cfgBannerStrip');
+        const strip  = document.getElementById('cfgBannerStrip');
         const reader = new FileReader();
         reader.onload = ev => {
-            bannerStrip.style.backgroundImage    = `url(${ev.target.result})`;
-            bannerStrip.style.backgroundSize     = 'cover';
-            bannerStrip.style.backgroundPosition = 'center';
+            strip.style.backgroundImage    = `url(${ev.target.result})`;
+            strip.style.backgroundSize     = 'cover';
+            strip.style.backgroundPosition = 'center';
             document.getElementById('cfgBannerEmpty').style.display = 'none';
         };
         reader.readAsDataURL(file);
     });
 
-    // Background file picker (uploads to /upload-background)
+    // Background preview
     document.getElementById('cfgBgInput').addEventListener('change', e => {
         const file = e.target.files[0];
         if (!file) return;
-        bgFileChanged = true;
         const strip = document.getElementById('cfgBgStrip');
         document.getElementById('cfgBgEmpty').style.display = 'none';
 
@@ -141,19 +136,17 @@ function initPerfilSection(user) {
         const tk = localStorage.getItem('access_token');
         try {
             const res = await fetch(`${API_BASE}/user/delete-banner`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${tk}` }
+                method: 'DELETE', headers: { Authorization: `Bearer ${tk}` }
             });
             if (res.ok) {
-                const bannerStrip = document.getElementById('cfgBannerStrip');
-                bannerStrip.style.backgroundImage = 'none';
-                bannerStrip.style.backgroundSize = '';
-                bannerStrip.style.backgroundPosition = '';
+                const strip = document.getElementById('cfgBannerStrip');
+                strip.style.backgroundImage = 'none';
+                strip.style.backgroundSize = '';
+                strip.style.backgroundPosition = '';
                 document.getElementById('cfgBannerEmpty').style.display = '';
                 document.getElementById('cfgBannerInput').value = '';
-                setStatus('cfgSaveStatus', 'Banner eliminado', 'ok');
             }
-        } catch { setStatus('cfgSaveStatus', 'Error eliminando banner', 'err'); }
+        } catch {}
     });
 
     // Delete background
@@ -162,8 +155,7 @@ function initPerfilSection(user) {
         const tk = localStorage.getItem('access_token');
         try {
             const res = await fetch(`${API_BASE}/user/delete-background`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${tk}` }
+                method: 'DELETE', headers: { Authorization: `Bearer ${tk}` }
             });
             if (res.ok) {
                 const strip = document.getElementById('cfgBgStrip');
@@ -174,12 +166,11 @@ function initPerfilSection(user) {
                 if (vid) vid.remove();
                 document.getElementById('cfgBgEmpty').style.display = '';
                 document.getElementById('cfgBgInput').value = '';
-                setStatus('cfgSaveStatus', 'Fondo eliminado', 'ok');
             }
-        } catch { setStatus('cfgSaveStatus', 'Error eliminando fondo', 'err'); }
+        } catch {}
     });
 
-    // Generic group initializer — each group is fully independent
+    // Style groups (localStorage, instant)
     function initStyleGroup(groupId, lsKey, dataAttr, defaultVal) {
         const group = document.getElementById(groupId);
         if (!group) return;
@@ -193,12 +184,11 @@ function initPerfilSection(user) {
             });
         });
     }
-
     initStyleGroup('cfgBoxStyleGroup',  'codexar_box_style',  'style',  'solid');
     initStyleGroup('cfgBgVisGroup',     'codexar_bg_vis',     'vis',    'dim');
     initStyleGroup('cfgBannerVisGroup', 'codexar_banner_vis', 'banvis', 'dim');
 
-    // Username availability check
+    // Username availability check (debounce for live feedback while typing)
     let debounce;
     document.getElementById('cfgUsername').addEventListener('input', () => {
         const val = document.getElementById('cfgUsername').value.trim();
@@ -214,115 +204,9 @@ function initPerfilSection(user) {
             } catch { setStatus('cfgUsernameStatus', '', ''); }
         }, 450);
     });
-
-    // Save
-    document.getElementById('cfgPerfilSaveBtn').addEventListener('click', savePerfilSection);
 }
 
-async function savePerfilSection() {
-    const token    = localStorage.getItem('access_token');
-    const btn      = document.getElementById('cfgPerfilSaveBtn');
-    const username = document.getElementById('cfgUsername').value.trim();
-
-    // If username changed, do a live availability check before anything else
-    if (username !== userData.username) {
-        if (username.length < 3) {
-            setStatus('cfgUsernameStatus', 'Mínimo 3 caracteres', 'err');
-            return;
-        }
-        btn.disabled    = true;
-        btn.textContent = 'Verificando...';
-        try {
-            const chk  = await fetch(`${API_BASE}/user/check-username/${encodeURIComponent(username)}`);
-            const data = await chk.json();
-            if (!data.available) {
-                setStatus('cfgUsernameStatus', '✗ Ya está en uso', 'err');
-                setFeedback('cfgPerfilFeedback', 'Ese nombre de usuario ya está en uso.', 'err');
-                btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
-            }
-            setStatus('cfgUsernameStatus', '✓ Disponible', 'ok');
-        } catch {
-            setFeedback('cfgPerfilFeedback', 'No se pudo verificar el nombre de usuario.', 'err');
-            btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
-        }
-    }
-
-    btn.disabled    = true;
-    btn.textContent = 'Guardando...';
-    setFeedback('cfgPerfilFeedback', '', '');
-
-    try {
-        // Upload banner separately if changed
-        const bannerFile = document.getElementById('cfgBannerInput').files[0];
-        if (bannerFile) {
-            const bannerForm = new FormData();
-            bannerForm.append('banner', bannerFile);
-            const bannerRes = await fetch(`${API_BASE}/user/upload-banner`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: bannerForm,
-            });
-            if (!bannerRes.ok) {
-                const err = await bannerRes.json().catch(() => ({}));
-                setFeedback('cfgPerfilFeedback', err.detail || 'Error subiendo el banner.', 'err');
-                btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
-            }
-        }
-
-        // Upload background separately if changed
-        const bgFile = document.getElementById('cfgBgInput').files[0];
-        if (bgFile) {
-            const bgForm = new FormData();
-            bgForm.append('bg', bgFile);
-            const bgRes = await fetch(`${API_BASE}/user/upload-background`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: bgForm,
-            });
-            if (!bgRes.ok) {
-                const err = await bgRes.json().catch(() => ({}));
-                setFeedback('cfgPerfilFeedback', err.detail || 'Error subiendo el fondo.', 'err');
-                btn.disabled = false; btn.textContent = '▸ Guardar perfil'; return;
-            }
-        }
-
-        // Profile update
-        const form = new FormData();
-        const desc = document.getElementById('cfgDesc').value.trim();
-
-        if (username !== userData.username) form.append('username', username);
-        if (desc !== userData.description)  form.append('description', desc);
-
-        const avatarFile = document.getElementById('cfgAvatarInput').files[0];
-        if (avatarFile) form.append('pfp', avatarFile);
-
-        // Always send languages so they're preserved
-        selectedLangs.forEach(l => form.append('languages', l));
-
-        const res  = await fetch(`${API_BASE}/user/profile/update`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
-            body: form,
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-            setFeedback('cfgPerfilFeedback', '¡Cambios guardados!', 'ok');
-            userData.username    = username;
-            userData.description = desc;
-            document.getElementById('navUsername').textContent = username;
-            setTimeout(() => setFeedback('cfgPerfilFeedback', '', ''), 3000);
-        } else {
-            setFeedback('cfgPerfilFeedback', data.detail || 'Error al guardar.', 'err');
-        }
-    } catch {
-        setFeedback('cfgPerfilFeedback', 'Error de conexión.', 'err');
-    }
-
-    btn.disabled = false; btn.textContent = '▸ Guardar perfil';
-}
-
-// ── Socials section ───────────────────────────────────────────
+// ── Socials section ───────────────────────────────────────────────────────
 
 function initSocialsSection(user) {
     const links = user.social_links || {};
@@ -331,39 +215,85 @@ function initSocialsSection(user) {
     document.getElementById('cfgCodeforces').value = links.codeforces || '';
     document.getElementById('cfgInstagram').value  = links.instagram  || '';
     document.getElementById('cfgTiktok').value     = links.tiktok     || '';
+}
 
-    document.getElementById('cfgSocialSaveBtn').addEventListener('click', async () => {
+// ── Seguridad section (verify only — save is part of saveAll) ─────────────
+
+function initSeguridadSection(user) {
+    document.getElementById('cfgEmail').value = user.email || '';
+
+    const oldPwdInput = document.getElementById('cfgOldPwd');
+    const newPwdInput = document.getElementById('cfgNewPwd');
+    const verifyBtn   = document.getElementById('cfgVerifyBtn');
+
+    verifyBtn.addEventListener('click', async () => {
+        const val = oldPwdInput.value;
+        if (!val) { setStatus('cfgPwdStatus', 'Escribe tu contraseña primero.', 'err'); return; }
+
+        verifyBtn.disabled    = true;
+        verifyBtn.textContent = '⏳';
+        setStatus('cfgPwdStatus', '', '');
+
         const token = localStorage.getItem('access_token');
-        const btn   = document.getElementById('cfgSocialSaveBtn');
-        btn.disabled = true; btn.textContent = 'Guardando...';
-        setFeedback('cfgSocialFeedback', '', '');
-
-        const body = {
-            github:     document.getElementById('cfgGithub').value.trim()     || null,
-            linkedin:   document.getElementById('cfgLinkedin').value.trim()   || null,
-            codeforces: document.getElementById('cfgCodeforces').value.trim() || null,
-            instagram:  document.getElementById('cfgInstagram').value.trim()  || null,
-            tiktok:     document.getElementById('cfgTiktok').value.trim()     || null,
-        };
-
         try {
-            const res  = await fetch(`${API_BASE}/user/update-socials`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
+            const fd = new FormData();
+            fd.append('password', val);
+            const res  = await fetch(`${API_BASE}/user/verify-password`, {
+                method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: fd,
             });
             const data = await res.json();
-            if (res.ok) {
-                setFeedback('cfgSocialFeedback', '¡Redes guardadas!', 'ok');
-                setTimeout(() => setFeedback('cfgSocialFeedback', '', ''), 3000);
+            if (data.valid) {
+                setStatus('cfgPwdStatus', '✓ Verificada — escribe la nueva contraseña.', 'ok');
+                newPwdInput.disabled    = false;
+                newPwdInput.placeholder = 'Escribe tu nueva contraseña...';
+                verifyBtn.textContent   = '✅';
             } else {
-                setFeedback('cfgSocialFeedback', data.detail || 'Error al guardar.', 'err');
+                setStatus('cfgPwdStatus', '✗ Contraseña incorrecta.', 'err');
+                verifyBtn.disabled    = false;
+                verifyBtn.textContent = 'Verificar';
             }
         } catch {
-            setFeedback('cfgSocialFeedback', 'Error de conexión.', 'err');
+            setStatus('cfgPwdStatus', 'Error de conexión.', 'err');
+            verifyBtn.disabled    = false;
+            verifyBtn.textContent = 'Verificar';
         }
+    });
 
-        btn.disabled = false; btn.textContent = 'Guardar redes';
+    // Reset if user edits old password after verifying
+    oldPwdInput.addEventListener('input', () => {
+        if (verifyBtn.textContent === '✅') {
+            verifyBtn.disabled      = false;
+            verifyBtn.textContent   = 'Verificar';
+            newPwdInput.disabled    = true;
+            newPwdInput.placeholder = 'Verifica primero tu contraseña actual';
+            newPwdInput.value       = '';
+            setStatus('cfgPwdStatus', '', '');
+        }
+    });
+}
+
+// ── Lenguajes section ─────────────────────────────────────────────────────
+
+function initLenguajesSection() {
+    const grid = document.getElementById('cfgLangGrid');
+    grid.innerHTML = LANGUAGES_DB.map(lang => `
+        <div class="cfg-lang-card ${selectedLangs.includes(lang.id) ? 'active' : ''}" data-lang="${lang.id}">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${lang.icon}/${lang.icon}-original.svg" alt="${lang.label}">
+            <span>${lang.label}</span>
+        </div>
+    `).join('');
+
+    grid.querySelectorAll('.cfg-lang-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const id = card.dataset.lang;
+            if (selectedLangs.includes(id)) {
+                selectedLangs = selectedLangs.filter(l => l !== id);
+                card.classList.remove('active');
+            } else {
+                selectedLangs.push(id);
+                card.classList.add('active');
+            }
+        });
     });
 }
 
@@ -392,163 +322,159 @@ function applyThemeActiveState(theme) {
     });
 }
 
-// ── Lenguajes section ─────────────────────────────────────────────────────
+// ── Save all ──────────────────────────────────────────────────────────────
 
-function initLenguajesSection() {
-    const grid = document.getElementById('cfgLangGrid');
-    grid.innerHTML = LANGUAGES_DB.map(lang => `
-        <div class="cfg-lang-card ${selectedLangs.includes(lang.id) ? 'active' : ''}" data-lang="${lang.id}">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${lang.icon}/${lang.icon}-original.svg" alt="${lang.label}">
-            <span>${lang.label}</span>
-        </div>
-    `).join('');
+async function saveAll() {
+    const token    = localStorage.getItem('access_token');
+    const btn      = document.getElementById('cfgSaveAllBtn');
+    const username = document.getElementById('cfgUsername').value.trim();
+    const desc     = document.getElementById('cfgDesc').value.trim();
+    const newp     = document.getElementById('cfgNewPwd').value;
+    const oldp     = document.getElementById('cfgOldPwd').value;
 
-    grid.querySelectorAll('.cfg-lang-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const id = card.dataset.lang;
-            if (selectedLangs.includes(id)) {
-                selectedLangs = selectedLangs.filter(l => l !== id);
-                card.classList.remove('active');
-            } else {
-                selectedLangs.push(id);
-                card.classList.add('active');
-            }
-        });
-    });
+    setFeedback('cfgSaveFeedback', '', '');
 
-    document.getElementById('cfgLangSaveBtn').addEventListener('click', saveLenguajesSection);
-}
-
-async function saveLenguajesSection() {
-    const token = localStorage.getItem('access_token');
-    const btn   = document.getElementById('cfgLangSaveBtn');
-    btn.disabled = true; btn.textContent = 'Guardando...';
-    setFeedback('cfgLangFeedback', '', '');
-
-    try {
-        const form = new FormData();
-        selectedLangs.forEach(l => form.append('languages', l));
-        const res  = await fetch(`${API_BASE}/user/profile/update`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
-            body: form,
-        });
-        const data = await res.json();
-        if (res.ok) {
-            userData.languages = [...selectedLangs];
-            setFeedback('cfgLangFeedback', '¡Lenguajes actualizados!', 'ok');
-            setTimeout(() => setFeedback('cfgLangFeedback', '', ''), 3000);
-        } else {
-            setFeedback('cfgLangFeedback', data.detail || 'Error al guardar.', 'err');
-        }
-    } catch {
-        setFeedback('cfgLangFeedback', 'Error de conexión.', 'err');
+    // ── 1. Validate username ──────────────────────────────────────────────
+    if (username.length < 3) {
+        setStatus('cfgUsernameStatus', 'Mínimo 3 caracteres', 'err');
+        setFeedback('cfgSaveFeedback', 'El nombre de usuario es demasiado corto.', 'err');
+        return;
     }
 
-    btn.disabled = false; btn.textContent = 'Guardar selección';
-}
-
-// ── Seguridad section ─────────────────────────────────────────────────────
-
-function initSeguridadSection(user) {
-    document.getElementById('cfgEmail').value = user.email || '';
-
-    const oldPwdInput = document.getElementById('cfgOldPwd');
-    const newPwdInput = document.getElementById('cfgNewPwd');
-    const verifyBtn   = document.getElementById('cfgVerifyBtn');
-    const saveBtn     = document.getElementById('cfgSecSaveBtn');
-
-    verifyBtn.addEventListener('click', async () => {
-        const val = oldPwdInput.value;
-        if (!val) { setStatus('cfgPwdStatus', 'Escribe tu contraseña primero.', 'err'); return; }
-
-        verifyBtn.disabled    = true;
-        verifyBtn.textContent = '⏳';
-        setStatus('cfgPwdStatus', '', '');
-
-        const token = localStorage.getItem('access_token');
+    // ── 2. Check username availability (live, authoritative) ─────────────
+    if (username !== userData.username) {
+        btn.disabled    = true;
+        btn.textContent = 'Verificando nombre...';
         try {
-            const fd  = new FormData();
-            fd.append('password', val);
-            const res  = await fetch(`${API_BASE}/user/verify-password`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: fd,
-            });
-            const data = await res.json();
-            if (data.valid) {
-                setStatus('cfgPwdStatus', '✓ Contraseña verificada — escribe la nueva clave.', 'ok');
-                newPwdInput.disabled    = false;
-                newPwdInput.placeholder = 'Escribe tu nueva contraseña...';
-                saveBtn.disabled        = false;
-                verifyBtn.textContent   = '✅';
-            } else {
-                setStatus('cfgPwdStatus', '✗ Contraseña incorrecta.', 'err');
-                verifyBtn.disabled    = false;
-                verifyBtn.textContent = 'Verificar';
+            const chk  = await fetch(`${API_BASE}/user/check-username/${encodeURIComponent(username)}`);
+            const data = await chk.json();
+            if (!data.available) {
+                setStatus('cfgUsernameStatus', '✗ Ya está en uso', 'err');
+                setFeedback('cfgSaveFeedback', 'Ese nombre de usuario ya está en uso.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
             }
+            setStatus('cfgUsernameStatus', '✓ Disponible', 'ok');
         } catch {
-            setStatus('cfgPwdStatus', 'Error de conexión.', 'err');
-            verifyBtn.disabled    = false;
-            verifyBtn.textContent = 'Verificar';
+            setFeedback('cfgSaveFeedback', 'No se pudo verificar el nombre de usuario.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
         }
-    });
+    }
 
-    // Reset if user types again after verifying
-    oldPwdInput.addEventListener('input', () => {
-        if (verifyBtn.textContent === '✅') {
-            verifyBtn.disabled    = false;
-            verifyBtn.textContent = 'Verificar';
-            newPwdInput.disabled  = true;
-            newPwdInput.placeholder = 'Bloqueado — verifica tu contraseña primero';
-            newPwdInput.value     = '';
-            saveBtn.disabled      = true;
-            setStatus('cfgPwdStatus', '', '');
+    // ── 3. Validate password change (if requested) ────────────────────────
+    if (newp) {
+        if (newp.length < 6) {
+            setFeedback('cfgSaveFeedback', 'La nueva contraseña debe tener al menos 6 caracteres.', 'err');
+            return;
         }
-    });
+        const pwdStatus = document.getElementById('cfgPwdStatus');
+        if (!pwdStatus.classList.contains('ok')) {
+            setFeedback('cfgSaveFeedback', 'Debes verificar tu contraseña actual antes de cambiarla.', 'err');
+            return;
+        }
+    }
 
-    saveBtn.addEventListener('click', async () => {
-        const oldp = oldPwdInput.value;
-        const newp = newPwdInput.value;
-        if (!newp) { setFeedback('cfgSecFeedback', 'Escribe la nueva contraseña.', 'err'); return; }
-        if (newp.length < 6) { setFeedback('cfgSecFeedback', 'La contraseña debe tener al menos 6 caracteres.', 'err'); return; }
+    btn.disabled    = true;
+    btn.textContent = 'Guardando...';
 
-        const token = localStorage.getItem('access_token');
-        saveBtn.disabled    = true;
-        saveBtn.textContent = 'Guardando...';
-        setFeedback('cfgSecFeedback', '', '');
+    try {
+        // ── 4. Upload banner if changed ───────────────────────────────────
+        const bannerFile = document.getElementById('cfgBannerInput').files[0];
+        if (bannerFile) {
+            const bannerForm = new FormData();
+            bannerForm.append('banner', bannerFile);
+            const res = await fetch(`${API_BASE}/user/upload-banner`, {
+                method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: bannerForm,
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                setFeedback('cfgSaveFeedback', err.detail || 'Error subiendo el banner.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+            }
+        }
 
-        try {
-            const form = new FormData();
+        // ── 5. Upload background if changed ──────────────────────────────
+        const bgFile = document.getElementById('cfgBgInput').files[0];
+        if (bgFile) {
+            const bgForm = new FormData();
+            bgForm.append('bg', bgFile);
+            const res = await fetch(`${API_BASE}/user/upload-background`, {
+                method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: bgForm,
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                setFeedback('cfgSaveFeedback', err.detail || 'Error subiendo el fondo.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+            }
+        }
+
+        // ── 6. Profile update (username, desc, avatar, languages, password) ──
+        const form = new FormData();
+        if (username !== userData.username) form.append('username', username);
+        if (desc !== userData.description)  form.append('description', desc);
+
+        const avatarFile = document.getElementById('cfgAvatarInput').files[0];
+        if (avatarFile) form.append('pfp', avatarFile);
+
+        selectedLangs.forEach(l => form.append('languages', l));
+
+        if (newp && oldp) {
             form.append('old_password', oldp);
             form.append('new_password', newp);
-            const res  = await fetch(`${API_BASE}/user/profile/update`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: form,
-            });
-            const data = await res.json();
-            if (res.ok) {
-                setFeedback('cfgSecFeedback', '¡Contraseña actualizada!', 'ok');
-                oldPwdInput.value       = '';
-                newPwdInput.value       = '';
-                newPwdInput.disabled    = true;
-                newPwdInput.placeholder = 'Bloqueado — verifica tu contraseña primero';
-                verifyBtn.textContent   = 'Verificar';
-                saveBtn.disabled        = true;
-                setStatus('cfgPwdStatus', '', '');
-                setTimeout(() => setFeedback('cfgSecFeedback', '', ''), 4000);
-            } else {
-                setFeedback('cfgSecFeedback', data.detail || 'Error al cambiar contraseña.', 'err');
-                saveBtn.disabled    = false;
-                saveBtn.textContent = 'Cambiar contraseña';
-            }
-        } catch {
-            setFeedback('cfgSecFeedback', 'Error de conexión.', 'err');
-            saveBtn.disabled    = false;
-            saveBtn.textContent = 'Cambiar contraseña';
         }
-    });
+
+        const profileRes  = await fetch(`${API_BASE}/user/profile/update`, {
+            method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: form,
+        });
+        const profileData = await profileRes.json();
+        if (!profileRes.ok) {
+            setFeedback('cfgSaveFeedback', profileData.detail || 'Error al guardar el perfil.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+        }
+
+        // ── 7. Social links ───────────────────────────────────────────────
+        const socialBody = {
+            github:     document.getElementById('cfgGithub').value.trim()     || null,
+            linkedin:   document.getElementById('cfgLinkedin').value.trim()   || null,
+            codeforces: document.getElementById('cfgCodeforces').value.trim() || null,
+            instagram:  document.getElementById('cfgInstagram').value.trim()  || null,
+            tiktok:     document.getElementById('cfgTiktok').value.trim()     || null,
+        };
+        const socialRes = await fetch(`${API_BASE}/user/update-socials`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(socialBody),
+        });
+        if (!socialRes.ok) {
+            const err = await socialRes.json().catch(() => ({}));
+            setFeedback('cfgSaveFeedback', err.detail || 'Error al guardar redes sociales.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+        }
+
+        // ── 8. Success ────────────────────────────────────────────────────
+        userData.username    = username;
+        userData.description = desc;
+        userData.languages   = [...selectedLangs];
+        document.getElementById('navUsername').textContent = username;
+
+        // Reset password fields
+        if (newp) {
+            document.getElementById('cfgOldPwd').value       = '';
+            document.getElementById('cfgNewPwd').value       = '';
+            document.getElementById('cfgNewPwd').disabled    = true;
+            document.getElementById('cfgNewPwd').placeholder = 'Verifica primero tu contraseña actual';
+            document.getElementById('cfgVerifyBtn').textContent = 'Verificar';
+            setStatus('cfgPwdStatus', '', '');
+        }
+
+        setFeedback('cfgSaveFeedback', '¡Configuración guardada correctamente!', 'ok');
+        setTimeout(() => setFeedback('cfgSaveFeedback', '', ''), 4000);
+
+    } catch {
+        setFeedback('cfgSaveFeedback', 'Error de conexión.', 'err');
+    }
+
+    btn.disabled    = false;
+    btn.textContent = '▸ Guardar configuración';
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────
@@ -578,7 +504,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     populateNavbar(userData);
     initPerfilSection(userData);
     initSocialsSection(userData);
-    initAparienciaSection();
-    initLenguajesSection();
     initSeguridadSection(userData);
+    initLenguajesSection();
+    initAparienciaSection();
+
+    document.getElementById('cfgSaveAllBtn').addEventListener('click', saveAll);
 });

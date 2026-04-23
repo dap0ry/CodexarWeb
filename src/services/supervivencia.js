@@ -1,4 +1,4 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');

@@ -1,4 +1,4 @@
-const TV_API = 'https://codexarapi.onrender.com/api';
+const TV_API = 'https://api.codexar.es/api';
 
 function token() { return localStorage.getItem('access_token'); }
 

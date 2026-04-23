@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://codexarapi.onrender.com/api';
+const API_BASE_URL = 'https://api.codexar.es/api';
 
 async function fetchUserData() {
     const token = localStorage.getItem('access_token');

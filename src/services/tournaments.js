@@ -1,4 +1,4 @@
-const API = 'https://codexarapi.onrender.com/api';
+const API = 'https://api.codexar.es/api';
 
 let currentUser = null;
 let currentFilter = 'active';

@@ -1,5 +1,5 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
-const WS_BASE  = 'wss://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
+const WS_BASE  = 'wss://api.codexar.es/api';
 
 const DIFF_LABELS = {
     normal:    'NORMAL',

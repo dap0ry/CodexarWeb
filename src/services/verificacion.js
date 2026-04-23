@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://codexarapi.onrender.com/api/auth';
+const API_BASE_URL = 'https://api.codexar.es/api/auth';
 
 const VERIFY_SECONDS = 5 * 60;   // 5 min code expiry
 const RESEND_COOLDOWN = 60;       // 1 min before resend is allowed
