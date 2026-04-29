@@ -48,11 +48,11 @@ body {
     position: relative;
     flex: 1;
     display: grid;
-    grid-template-columns: 260px 1fr 300px;
-    gap: 10px;
-    padding: 36px 20px 12px;
-    height: calc(100vh - 64px);
+    grid-template-columns: 310px 230px 1fr;
+    gap: 12px;
+    padding: 48px 28px 22px;
     overflow: hidden;
+    min-height: 0;
 }
 
 /* ── Back button ── */
@@ -200,79 +200,101 @@ body {
     color: #00ffcc;
 }
 
-/* ── Boss selector icons ── */
+/* ── Boss selector (vertical pills) ── */
 .sv3-boss-icons {
     flex: 1;
     display: flex;
+    flex-direction: column;
     gap: 10px;
     justify-content: center;
-    align-items: center;
 }
 
 .sv3-boss-icon-btn {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 2px solid;
+    width: 100%;
+    height: 58px;
+    border-radius: 10px;
+    border: 1.5px solid;
     background: transparent;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 3px;
+    gap: 14px;
+    padding: 0 16px;
     cursor: pointer;
     transition: all 0.22s ease;
+    text-align: left;
+    flex-shrink: 0;
 }
+
 .sv3-boss-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.35rem;
+    font-size: 1rem;
     font-weight: 800;
     line-height: 1;
+    flex-shrink: 0;
 }
-.sv3-icon-label {
+
+.sv3-boss-btn-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.sv3-boss-btn-name {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.42rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.8px;
     text-transform: uppercase;
-    opacity: 0.65;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+.sv3-boss-btn-diff {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.3px;
+    opacity: 0.55;
 }
 
 /* boss1 */
 .sv3-boss-icon-btn[data-boss="boss1"] {
-    border-color: rgba(0,255,204,0.25);
+    border-color: rgba(0,255,204,0.2);
     color: rgba(0,255,204,0.5);
 }
 .sv3-boss-icon-btn[data-boss="boss1"]:hover,
 .sv3-boss-icon-btn[data-boss="boss1"].active {
-    border-color: #00ffcc;
+    border-color: rgba(0,255,204,0.7);
     color: #00ffcc;
-    background: rgba(0,255,204,0.07);
-    box-shadow: 0 0 22px rgba(0,255,204,0.22), inset 0 0 14px rgba(0,255,204,0.06);
+    background: rgba(0,255,204,0.06);
+    box-shadow: 0 0 20px rgba(0,255,204,0.14);
 }
 /* boss2 */
 .sv3-boss-icon-btn[data-boss="boss2"] {
-    border-color: rgba(255,153,0,0.25);
+    border-color: rgba(255,153,0,0.2);
     color: rgba(255,153,0,0.5);
 }
 .sv3-boss-icon-btn[data-boss="boss2"]:hover,
 .sv3-boss-icon-btn[data-boss="boss2"].active {
-    border-color: #ff9900;
+    border-color: rgba(255,153,0,0.7);
     color: #ff9900;
-    background: rgba(255,153,0,0.07);
-    box-shadow: 0 0 22px rgba(255,153,0,0.22), inset 0 0 14px rgba(255,153,0,0.06);
+    background: rgba(255,153,0,0.06);
+    box-shadow: 0 0 20px rgba(255,153,0,0.14);
 }
 /* boss3 */
 .sv3-boss-icon-btn[data-boss="boss3"] {
-    border-color: rgba(255,51,102,0.25);
+    border-color: rgba(255,51,102,0.2);
     color: rgba(255,51,102,0.5);
 }
 .sv3-boss-icon-btn[data-boss="boss3"]:hover,
 .sv3-boss-icon-btn[data-boss="boss3"].active {
-    border-color: #ff3366;
+    border-color: rgba(255,51,102,0.7);
     color: #ff3366;
-    background: rgba(255,51,102,0.07);
-    box-shadow: 0 0 22px rgba(255,51,102,0.22), inset 0 0 14px rgba(255,51,102,0.06);
+    background: rgba(255,51,102,0.06);
+    box-shadow: 0 0 20px rgba(255,51,102,0.14);
 }
 
 /* ════════════════════════════════════════
@@ -636,14 +658,17 @@ body {
 
 /* ── Responsive ── */
 @media (max-height: 700px) {
-    .sv3-layout { padding: 32px 16px 8px; gap: 8px; }
-    .sv3-block { padding: 12px; gap: 9px; }
-    .sv3-boss-icon-btn { width: 58px; height: 58px; }
-    .sv3-boss-num { font-size: 1.1rem !important; }
+    .sv3-layout { padding: 38px 20px 10px; gap: 8px; }
+    .sv3-block { padding: 12px; gap: 8px; }
+    .sv3-boss-icon-btn { height: 48px; }
     .sv3-boss-title-c { font-size: 1.2rem; }
     .sv3-record-val { font-size: 1.9rem; }
     .sv3-boss-placeholder-icon { font-size: 3.2rem; }
 }
-@media (max-width: 900px) {
-    .sv3-layout { grid-template-columns: 220px 1fr 260px; }
+@media (max-width: 1000px) {
+    .sv3-layout { grid-template-columns: 280px 200px 1fr; padding: 44px 18px 16px; }
+}
+@media (max-width: 780px) {
+    .sv3-layout { grid-template-columns: 1fr; padding: 40px 16px 16px; }
+    body { overflow-y: auto; }
 }

@@ -51,15 +51,24 @@
                 <div class="sv3-boss-icons">
                     <button class="sv3-boss-icon-btn active" data-boss="boss1" onclick="selectBoss('boss1')">
                         <span class="sv3-boss-num">1</span>
-                        <span class="sv3-icon-label">Normal</span>
+                        <div class="sv3-boss-btn-text">
+                            <span class="sv3-boss-btn-name">El Guardián</span>
+                            <span class="sv3-boss-btn-diff">Normal · 60s inicio</span>
+                        </div>
                     </button>
                     <button class="sv3-boss-icon-btn" data-boss="boss2" onclick="selectBoss('boss2')">
                         <span class="sv3-boss-num">2</span>
-                        <span class="sv3-icon-label">Difícil</span>
+                        <div class="sv3-boss-btn-text">
+                            <span class="sv3-boss-btn-name">La Sombra</span>
+                            <span class="sv3-boss-btn-diff">Difícil · 45s inicio</span>
+                        </div>
                     </button>
                     <button class="sv3-boss-icon-btn" data-boss="boss3" onclick="selectBoss('boss3')">
                         <span class="sv3-boss-num">3</span>
-                        <span class="sv3-icon-label">Demencial</span>
+                        <div class="sv3-boss-btn-text">
+                            <span class="sv3-boss-btn-name">El Abismo</span>
+                            <span class="sv3-boss-btn-diff">Demencial · 30s inicio</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -122,7 +131,6 @@
         </div>
     </div>
 
-    <script src="/src/services/globalBg.js"></script>
     <script src="/src/services/matchmakingGlobal.js"></script>
     <script src="/src/services/supervivencia.js"></script>
     <script src="/src/services/friendlyNotifications.js"></script>
