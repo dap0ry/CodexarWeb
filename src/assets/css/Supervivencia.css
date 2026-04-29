@@ -49,7 +49,7 @@ body {
     position: relative;
     flex: 1;
     display: grid;
-    grid-template-columns: 310px 280px 1fr;
+    grid-template-columns: 310px 330px 1fr;
     gap: 12px;
     padding: 40px 24px 20px;
     overflow: hidden;
