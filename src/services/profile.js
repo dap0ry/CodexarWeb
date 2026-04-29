@@ -15,7 +15,7 @@ const LANGUAGES_DB = [
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-        window.location.href = "Login.html";
+        window.location.href = "/login";
         return;
     }
     
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('access_token');
-            window.location.href = 'Login.html';
+            window.location.href = '/login';
         });
     }
 
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderLangsGrid();
     } catch(err) {
         console.error(err);
-        window.location.href = "index.html";
+        window.location.href = "/";
     }
 
     setupMutationListeners();

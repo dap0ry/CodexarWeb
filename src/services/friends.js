@@ -63,12 +63,12 @@ function createFriendCard(user) {
 
     return `
         <div class="fc ${isOnline ? 'fc-online' : ''}">
-            <div class="fc-av" style="cursor:pointer" onclick="window.location.href='ProfileView.html?u=${safeUsername}'">
+            <div class="fc-av" style="cursor:pointer" onclick="window.location.href='/perfil?u=${safeUsername}'">
                 ${buildAvatarInner(user.username, user.avatar)}
                 <div class="fc-status ${isOnline ? 'online' : 'offline'}"></div>
             </div>
             <div class="fc-info">
-                <div class="fc-name" style="cursor:pointer" onclick="window.location.href='ProfileView.html?u=${safeUsername}'">
+                <div class="fc-name" style="cursor:pointer" onclick="window.location.href='/perfil?u=${safeUsername}'">
                     ${safeUsername}
                     ${buildLangsHTML(user.languages)}
                 </div>
@@ -374,7 +374,7 @@ window.handleSendBattleInvite = async function (username, btn) {
                 if (status === 'accepted') {
                     clearInterval(iv);
                     cancelBtn.remove();
-                    window.location.href = `FriendlyBattle.html?match=${match_id}`;
+                    window.location.href = `/friendly/batalla?match=${match_id}`;
                 } else if (status === 'rejected') {
                     cleanup();
                     btn.textContent = 'Rechazado';
@@ -392,14 +392,14 @@ window.handleSendBattleInvite = async function (username, btn) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', e => {
             e.preventDefault();
             localStorage.removeItem('access_token');
-            window.location.href = 'Login.html';
+            window.location.href = '/login';
         });
     }
 
@@ -430,6 +430,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         console.error('Init failure:', e);
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     }
 });

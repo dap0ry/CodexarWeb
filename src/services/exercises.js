@@ -13,7 +13,7 @@ function escHtml(str) {
 async function initializeOfflineMode() {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 
@@ -48,7 +48,7 @@ async function initializeOfflineMode() {
 
     } catch (error) {
         console.error("Initialization Failed:", error);
-        if (error.message === 'Auth Fault') window.location.href = 'Login.html';
+        if (error.message === 'Auth Fault') window.location.href = '/login';
     }
 }
 
@@ -85,7 +85,7 @@ function renderExercises(data) {
         if (ex.first_solver) {
             const fs = ex.first_solver;
             firstSolverHtml = `
-                <span class="ex-badge badge-first-solver" title="Primera resolución por: ${escHtml(fs.username)}" style="cursor:pointer" onclick="window.location.href='ProfileView.html?u=${escHtml(fs.username)}'">
+                <span class="ex-badge badge-first-solver" title="Primera resolución por: ${escHtml(fs.username)}" style="cursor:pointer" onclick="window.location.href='/perfil?u=${escHtml(fs.username)}'">
                     <span class="fs-label">1°</span>
                     ${buildAvatarEl(fs, 18)}
                     <span class="fs-name">${escHtml(fs.username)}</span>
@@ -181,18 +181,18 @@ document.getElementById('filterDifficulty').addEventListener('change', applyFilt
 document.getElementById('btnRandom').addEventListener('click', () => {
     if (masterExercises.length === 0) return;
     const randomEx = masterExercises[Math.floor(Math.random() * masterExercises.length)];
-    window.location.href = `SolvePage.html?id=${randomEx.id}`;
+    window.location.href = `/resolver?id=${randomEx.id}`;
 });
 
 // Navigate to SolvePage
 window.solveExercise = function (id) {
-    window.location.href = `SolvePage.html?id=${id}`;
+    window.location.href = `/resolver?id=${id}`;
 };
 
 // Logout
 document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('access_token');
-    window.location.href = 'index.html';
+    window.location.href = '/';
 });
 
 document.addEventListener('DOMContentLoaded', initializeOfflineMode);

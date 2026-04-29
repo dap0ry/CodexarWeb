@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (data.username) localStorage.setItem('username', data.username);
 
                     if (data.is_onboarded === false) {
-                        window.location.href = 'Onboarding.html';
+                        window.location.href = '/onboarding';
                     } else {
-                        window.location.href = 'Home.html';
+                        window.location.href = '/home';
                     }
                 } else {
                     errorElement.textContent = data.detail || 'Error al iniciar sesión';
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('errorMessage').style.display = 'none';
 
                     setTimeout(() => {
-                        window.location.href = 'Verificacion.html';
+                        window.location.href = '/verificacion';
                     }, 1500);
                 } else {
                     errorElement.textContent = data.detail || 'Error en el registro';

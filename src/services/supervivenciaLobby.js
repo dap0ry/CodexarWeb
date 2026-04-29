@@ -122,7 +122,7 @@ async function pollRoom() {
         if (data.status === 'in_game') {
             // Game started (host pressed start while we were polling)
             clearInterval(pollInterval);
-            window.location.href = `SupervivenciaBattle.html?room=${roomId}&difficulty=${difficulty}`;
+            window.location.href = `/supervivencia/batalla?room=${roomId}&difficulty=${difficulty}`;
             return;
         }
 
@@ -144,7 +144,7 @@ async function startGame() {
         });
         if (res.ok) {
             clearInterval(pollInterval);
-            window.location.href = `SupervivenciaBattle.html?room=${roomId}&difficulty=${difficulty}`;
+            window.location.href = `/supervivencia/batalla?room=${roomId}&difficulty=${difficulty}`;
         } else {
             if (btn) btn.disabled = false;
         }
@@ -251,12 +251,12 @@ async function sendInvite(username, btn) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     });
 
     document.getElementById('closeModal').addEventListener('click', () => {
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const userRes = await fetch(`${API_BASE}/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        if (!userRes.ok) { window.location.href = 'Login.html'; return; }
+        if (!userRes.ok) { window.location.href = '/login'; return; }
         const user = await userRes.json();
         myEmail = user.email;
 
@@ -320,6 +320,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         pollInterval = setInterval(pollRoom, 2000);
 
     } catch {
-        window.location.href = 'Supervivencia.html';
+        window.location.href = '/supervivencia';
     }
 });

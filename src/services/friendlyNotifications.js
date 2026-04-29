@@ -169,7 +169,7 @@
                 if (res.ok) {
                     const { match_id } = await res.json();
                     closeToast(toast);
-                    window.location.href = `FriendlyBattle.html?match=${match_id}`;
+                    window.location.href = `/friendly/batalla?match=${match_id}`;
                 } else {
                     closeToast(toast);
                 }

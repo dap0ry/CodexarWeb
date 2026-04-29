@@ -41,7 +41,7 @@ async function initPricing() {
                 }
             }
             document.getElementById('logoutBtn')?.addEventListener('click', e => {
-                e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = 'index.html';
+                e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = '/';
             });
         }
     }
@@ -50,10 +50,10 @@ async function initPricing() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === '1') {
         showToast('¡Suscripción activada! Bienvenido al plan premium.');
-        window.history.replaceState({}, '', 'Pricing.html');
+        window.history.replaceState({}, '', '/precios');
     } else if (params.get('cancel') === '1') {
         showToast('Proceso de pago cancelado.', true);
-        window.history.replaceState({}, '', 'Pricing.html');
+        window.history.replaceState({}, '', '/precios');
     }
 
     if (currentUser) {
@@ -130,12 +130,12 @@ function renderBoostStatus(boostedFriend) {
 
 // ── Subscribe ─────────────────────────────────────────────────────────────────
 async function subscribe(plan) {
-    if (!token()) { window.location.href = 'Login.html'; return; }
+    if (!token()) { window.location.href = '/login'; return; }
 
     const btn = document.getElementById(plan + 'Btn');
     if (btn) { btn.disabled = true; btn.textContent = 'Redirigiendo...'; }
 
-    const base = window.location.origin + '/src/pages/Pricing.html';
+    const base = window.location.origin + '/src/pages//precios';
     try {
         const res = await fetch(`${PR_API}/subscriptions/create-checkout`, {
             method: 'POST',
@@ -161,7 +161,7 @@ async function subscribe(plan) {
 
 // ── Open customer portal ──────────────────────────────────────────────────────
 async function openPortal() {
-    const base = window.location.origin + '/src/pages/Pricing.html';
+    const base = window.location.origin + '/src/pages//precios';
     try {
         const res = await fetch(`${PR_API}/subscriptions/portal?return_url=${encodeURIComponent(base)}`, {
             method: 'POST',

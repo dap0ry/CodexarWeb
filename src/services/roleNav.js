@@ -26,7 +26,7 @@
 
         if (role === 'moderator' || role === 'admin') {
             const a = document.createElement('a');
-            a.href = 'CreateExercise.html';
+            a.href = '/crear-ejercicio';
             a.className = 'dropdown-item';
             a.textContent = 'Crear Ejercicio';
             links.push(a);
@@ -34,7 +34,7 @@
 
         if (role === 'admin') {
             const a = document.createElement('a');
-            a.href = 'AdminPanel.html';
+            a.href = '/admin';
             a.className = 'dropdown-item';
             a.textContent = 'Panel Admin';
             links.push(a);

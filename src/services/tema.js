@@ -17,7 +17,7 @@ function selectTheme(theme) {
 
 async function initTema() {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     try {
         const res = await fetch(`${API_BASE}/user/me`, {
@@ -37,7 +37,7 @@ async function initTema() {
             navAvatar.textContent = user.username.charAt(0).toUpperCase();
         }
     } catch {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 
@@ -53,7 +53,7 @@ async function initTema() {
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
-    window.location.href = 'index.html';
+    window.location.href = '/';
 });
 
 document.addEventListener('DOMContentLoaded', initTema);

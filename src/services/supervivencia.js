@@ -2,19 +2,19 @@ const API_BASE = 'https://api.codexar.es/api';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     });
 
     try {
         const res = await fetch(`${API_BASE}/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) { window.location.href = 'Login.html'; return; }
+        if (!res.ok) { window.location.href = '/login'; return; }
         const user = await res.json();
 
         document.getElementById('navUsername').textContent = user.username;
@@ -26,6 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             navAvatar.textContent = user.username.charAt(0).toUpperCase();
         }
     } catch {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     }
 });

@@ -120,11 +120,11 @@ require(['vs/editor/editor.main'], function () {
 // ─── Init ────────────────────────────────────────────────────────
 async function initSolvePage() {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     const params     = new URLSearchParams(window.location.search);
     const exerciseId = params.get('id');
-    if (!exerciseId) { window.location.href = 'Exercises.html'; return; }
+    if (!exerciseId) { window.location.href = '/ejercicios'; return; }
 
     try {
         const [userRes, exRes] = await Promise.all([
@@ -142,7 +142,7 @@ async function initSolvePage() {
         renderExercise(exerciseData, user);
     } catch (err) {
         console.error('Init error:', err);
-        if (err.message === 'Auth Fault') window.location.href = 'Login.html';
+        if (err.message === 'Auth Fault') window.location.href = '/login';
     }
 }
 
@@ -408,7 +408,7 @@ function showAlreadySolved() {
         <div style="font-size:1.8rem;">✓</div>
         <div style="font-weight:700;font-size:0.95rem;">¡Ejercicio completado!</div>
         <div style="color:var(--text-muted);font-size:0.8rem;">Este ejercicio ya está guardado en tu perfil.</div>
-        <button onclick="window.location.href='Exercises.html'"
+        <button onclick="window.location.href='/ejercicios'"
             style="margin-top:8px;padding:8px 20px;background:transparent;border:1px solid var(--accent-green);
                    color:var(--accent-green);border-radius:6px;cursor:pointer;
                    font-family:var(--font-heading);font-size:0.8rem;">
@@ -440,5 +440,5 @@ function escHtml(str) {
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
-    window.location.href = 'index.html';
+    window.location.href = '/';
 });

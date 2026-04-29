@@ -1,6 +1,6 @@
 /* Configuracion.css */
 
-/* ── Layout ──────────────────────────────────────────────────────────────── */
+/* ── Page layout ──────────────────────────────────────────────────────────── */
 
 .cfg-page {
     height: calc(100vh - 64px);
@@ -15,86 +15,123 @@
     max-width: 980px;
     margin: 0 auto;
     padding: 52px 48px 96px;
-}
-
-/* ── Sections ────────────────────────────────────────────────────────────── */
-
-.cfg-section {
     display: flex;
     flex-direction: column;
     gap: 32px;
 }
 
-.cfg-section--sep {
-    padding-top: 60px;
-    margin-top: 60px;
-    border-top: 1px solid var(--border-color);
+/* ── Box (card panel) ─────────────────────────────────────────────────────── */
+
+.cfg-box {
+    position: relative;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    overflow: hidden;
 }
 
-/* ── Section header ──────────────────────────────────────────────────────── */
+/* Top accent line */
+.cfg-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 60px; right: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.5), transparent);
+    border-radius: 1px;
+}
 
-.cfg-sec-header {
+/* ── Box header ───────────────────────────────────────────────────────────── */
+
+.cfg-box-header {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding-left: 16px;
-    border-left: 3px solid var(--accent-cyan);
 }
 
-.cfg-sec-tag {
+.cfg-box-tag {
     font-family: var(--font-heading);
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 4px;
     color: var(--accent-cyan);
-    opacity: 0.6;
+    opacity: 0.65;
 }
 
-.cfg-sec-title {
+.cfg-box-title {
     font-family: var(--font-heading);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--text-light);
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
     margin: 0;
 }
 
-.cfg-sec-desc {
+.cfg-box-desc {
     font-size: 0.82rem;
     color: var(--text-muted);
     margin: 0;
     line-height: 1.5;
 }
 
-/* ── Inner sub-section separator ─────────────────────────────────────────── */
+/* ── Box footer (save bar) ────────────────────────────────────────────────── */
 
-.cfg-inner-sep {
+.cfg-box-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Sub-sections within a box ───────────────────────────────────────────── */
+
+.cfg-subsection {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding-top: 36px;
-    margin-top: 4px;
-    border-top: 1px solid var(--border-color);
+    gap: 14px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.cfg-subsec-tag {
+.cfg-subsec-label {
     font-family: var(--font-heading);
-    font-size: 0.6rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 3px;
-    color: var(--accent-cyan);
-    opacity: 0.65;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
-.cfg-subsec-desc {
-    font-size: 0.8rem;
+.cfg-subsec-instant {
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    opacity: 0.5;
+    font-size: 0.68rem;
+}
+
+.cfg-subsec-hint {
+    font-size: 0.78rem;
     color: var(--text-muted);
     margin: 0;
+    opacity: 0.65;
     line-height: 1.4;
-    opacity: 0.8;
 }
 
-/* ── Profile header (avatar + basic fields) ──────────────────────────────── */
+/* ── Apariencia section (themes — no card, just header + grid) ────────────── */
+
+.cfg-apariencia {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 8px;
+}
+
+/* ── Profile header (avatar + fields) ────────────────────────────────────── */
 
 .cfg-profile-header {
     display: flex;
@@ -160,17 +197,11 @@
     align-items: start;
 }
 
-/* ── Password card block ─────────────────────────────────────────────────── */
-
-.cfg-card-block {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 24px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.cfg-field-group--full {
+    grid-column: span 2;
 }
+
+/* ── Password grid ────────────────────────────────────────────────────────── */
 
 .cfg-pwd-grid {
     display: grid;
@@ -178,11 +209,7 @@
     gap: 20px;
 }
 
-.cfg-field-group--full {
-    grid-column: span 2;
-}
-
-/* ── Fields ──────────────────────────────────────────────────────────────── */
+/* ── Fields ───────────────────────────────────────────────────────────────── */
 
 .cfg-field-group {
     display: flex;
@@ -247,7 +274,7 @@
 .cfg-field-status.ok  { color: var(--accent-green); }
 .cfg-field-status.err { color: #ff4455; }
 
-/* ── Password row ────────────────────────────────────────────────────────── */
+/* ── Password verify row ──────────────────────────────────────────────────── */
 
 .cfg-pwd-row {
     display: flex;
@@ -277,67 +304,7 @@
 }
 .cfg-verify-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-/* ── Actions bar ─────────────────────────────────────────────────────────── */
-
-.cfg-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 16px;
-}
-
-.cfg-feedback {
-    flex: 1;
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-.cfg-feedback.ok  { color: var(--accent-green); }
-.cfg-feedback.err { color: #ff4455; }
-
-/* ── Save button ─────────────────────────────────────────────────────────── */
-
-.cfg-save-btn {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: 11px 28px;
-    background: transparent;
-    border: 1px solid var(--accent-cyan);
-    border-radius: 8px;
-    color: var(--accent-cyan);
-    font-family: var(--font-heading);
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    overflow: hidden;
-    transition: box-shadow 0.25s ease;
-}
-.cfg-save-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent-cyan);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    pointer-events: none;
-}
-.cfg-save-btn:hover::before { opacity: 0.08; }
-.cfg-save-btn:hover {
-    box-shadow: 0 0 20px rgba(0,255,204,0.25), 0 0 48px rgba(0,255,204,0.08);
-}
-.cfg-save-btn:active { transform: translateY(1px); }
-.cfg-save-btn:disabled {
-    opacity: 0.28;
-    cursor: not-allowed;
-    box-shadow: none;
-    border-color: var(--text-muted);
-    color: var(--text-muted);
-}
-
-/* ── Language grid ───────────────────────────────────────────────────────── */
+/* ── Language grid ────────────────────────────────────────────────────────── */
 
 .cfg-lang-grid {
     display: flex;
@@ -379,7 +346,7 @@
 }
 .cfg-lang-card.active span { color: var(--accent-cyan); }
 
-/* ── Social links grid ───────────────────────────────────────────────────── */
+/* ── Social links grid ────────────────────────────────────────────────────── */
 
 .cfg-social-grid {
     display: grid;
@@ -405,7 +372,7 @@
     opacity: 0.45;
 }
 
-/* ── Media strips (banner + background) ──────────────────────────────────── */
+/* ── Media strips (banner + background) ───────────────────────────────────── */
 
 .cfg-media-grid {
     display: grid;
@@ -485,7 +452,7 @@
     color: rgba(255,68,85,1);
 }
 
-/* ── Vis/style options grid ──────────────────────────────────────────────── */
+/* ── Visual options grid ──────────────────────────────────────────────────── */
 
 .cfg-vis-grid {
     display: grid;
@@ -525,7 +492,59 @@
     box-shadow: 0 0 10px rgba(0,255,204,0.1);
 }
 
-/* ── Tema grid ───────────────────────────────────────────────────────────── */
+/* ── Save button ──────────────────────────────────────────────────────────── */
+
+.cfg-feedback {
+    flex: 1;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+.cfg-feedback.ok  { color: var(--accent-green); }
+.cfg-feedback.err { color: #ff4455; }
+
+.cfg-save-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 36px;
+    background: transparent;
+    border: 1px solid var(--accent-cyan);
+    border-radius: 8px;
+    color: var(--accent-cyan);
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+    white-space: nowrap;
+}
+.cfg-save-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent-cyan);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+.cfg-save-btn:hover::before { opacity: 0.08; }
+.cfg-save-btn:hover {
+    box-shadow: 0 0 24px rgba(0,255,204,0.3), 0 0 60px rgba(0,255,204,0.08);
+}
+.cfg-save-btn:active { transform: translateY(1px); }
+.cfg-save-btn:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+}
+
+/* ── Tema grid ────────────────────────────────────────────────────────────── */
 
 .cfg-tema-grid {
     display: grid;
@@ -672,44 +691,29 @@ html[data-theme="zen"] .tema-card.active { border-color:#D4688A !important; }
 html[data-theme="zen"] .tema-check { background:#D4688A !important; color:#fff !important; }
 html[data-theme="zen"] .tema-card.active .tema-btn { border-color:#D4688A !important; color:#D4688A !important; }
 
-/* ── Save all bar ────────────────────────────────────────────────────────── */
-
-.cfg-save-all {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 16px;
-    padding-top: 28px;
-    margin-top: 8px;
-    border-top: 1px solid var(--border-color);
-}
-
-.cfg-save-btn--main {
-    padding: 13px 36px;
-    font-size: 0.82rem;
-    letter-spacing: 2.5px;
-}
-
-/* ── Hide floating code decorations (keep dot-grid canvas) ──────────────── */
+/* ── Hide floating code decorations (keep dot-grid canvas) ────────────────── */
 
 .g-code-float { display: none !important; }
 
-/* ── Responsive ──────────────────────────────────────────────────────────── */
+/* ── Responsive ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 1040px) {
     .cfg-content { max-width: 100%; padding: 40px 32px 80px; }
     .cfg-vis-grid { grid-template-columns: 1fr 1fr; }
+    .cfg-box { padding: 32px 36px; }
 }
 
 @media (max-width: 760px) {
-    .cfg-content { padding: 28px 20px 60px; }
+    .cfg-content { padding: 24px 16px 60px; gap: 20px; }
+    .cfg-box { padding: 28px 24px; }
     .cfg-profile-header { flex-direction: column; align-items: center; }
     .cfg-profile-fields { grid-template-columns: 1fr; width: 100%; }
+    .cfg-field-group--full { grid-column: span 1; }
     .cfg-pwd-grid { grid-template-columns: 1fr; }
     .cfg-media-grid { grid-template-columns: 1fr; }
     .cfg-social-grid { grid-template-columns: 1fr; }
     .cfg-social-row--wide { grid-column: span 1; }
     .cfg-vis-grid { grid-template-columns: 1fr; }
     .cfg-tema-grid { grid-template-columns: 1fr; }
-    .cfg-section--sep { padding-top: 40px; margin-top: 40px; }
+    .cfg-box-footer { flex-wrap: wrap; }
 }

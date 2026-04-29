@@ -5,14 +5,14 @@ function token() { return localStorage.getItem('access_token'); }
 // ── Auth + role guard ────────────────────────────────────────────────────────
 async function initPage() {
     const t = token();
-    if (!t) { window.location.href = 'Login.html'; return; }
+    if (!t) { window.location.href = '/login'; return; }
 
     const res = await fetch(`${API_BASE}/user/me`, { headers: { 'Authorization': `Bearer ${t}` } });
-    if (!res.ok) { window.location.href = 'Login.html'; return; }
+    if (!res.ok) { window.location.href = '/login'; return; }
     const user = await res.json();
 
     if (!['moderator', 'admin'].includes(user.role)) {
-        window.location.href = 'Home.html';
+        window.location.href = '/home';
         return;
     }
 
@@ -31,7 +31,7 @@ async function initPage() {
     document.getElementById('logoutBtn')?.addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'index.html';
+        window.location.href = '/';
     });
 
     buildTestCases();

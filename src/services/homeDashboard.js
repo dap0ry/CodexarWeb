@@ -3,7 +3,7 @@ const API_BASE_URL = 'https://api.codexar.es/api';
 async function fetchUserData() {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return null;
     }
 
@@ -12,7 +12,7 @@ async function fetchUserData() {
     });
 
     if (!response.ok) {
-        if (response.status === 401) window.location.href = 'Login.html';
+        if (response.status === 401) window.location.href = '/login';
         throw new Error('No se pudo cargar el perfil');
     }
     return await response.json();
@@ -23,10 +23,10 @@ function parseMentions(text) {
     return text
         .replace(/#([\w\s]{1,20}?)(?=\s|$|[^a-zA-Z0-9_\s])/g, (match, name) => {
             const trimmed = name.trim();
-            return `<a class="news-mention news-team-mention" href="TeamView.html?t=${encodeURIComponent(trimmed)}">#${trimmed}</a>`;
+            return `<a class="news-mention news-team-mention" href="/equipo?t=${encodeURIComponent(trimmed)}">#${trimmed}</a>`;
         })
         .replace(/@(\w+)/g, (match, username) => {
-            return `<a class="news-mention" href="ProfileView.html?u=${encodeURIComponent(username)}">@${username}</a>`;
+            return `<a class="news-mention" href="/perfil?u=${encodeURIComponent(username)}">@${username}</a>`;
         });
 }
 
@@ -274,7 +274,7 @@ async function initDashboard() {
             logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.removeItem('access_token');
-                window.location.href = 'index.html';
+                window.location.href = '/';
             });
         }
 

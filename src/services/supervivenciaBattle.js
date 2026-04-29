@@ -24,7 +24,7 @@ let ws                = null;
 let timeLeft          = 60;
 let timerInterval     = null;
 let myUsername        = null;
-let pendingNavHref    = 'Home.html';
+let pendingNavHref    = '/home';
 
 // Shared editor sync
 let syncingFromRemote = false;
@@ -129,10 +129,10 @@ require(['vs/editor/editor.main'], function () {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function initBattle() {
-    if (!roomId) { window.location.href = 'Home.html'; return; }
+    if (!roomId) { window.location.href = '/home'; return; }
 
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     document.getElementById('survDiffLabel').textContent = DIFF_LABELS[difficulty] || 'NORMAL';
     document.title = `Codexar — Supervivencia ${DIFF_LABELS[difficulty] || ''}`;
@@ -141,7 +141,7 @@ async function initBattle() {
         const userRes = await fetch(`${API_BASE}/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        if (!userRes.ok) { window.location.href = 'Login.html'; return; }
+        if (!userRes.ok) { window.location.href = '/login'; return; }
         const user = await userRes.json();
         myUsername = user.username;
 
@@ -154,7 +154,7 @@ async function initBattle() {
             navAvatar.textContent = user.username.charAt(0).toUpperCase();
         }
     } catch {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 
@@ -180,7 +180,7 @@ async function initBattle() {
         e.preventDefault();
         localStorage.removeItem('access_token');
         battleEnded = true;
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     });
 
     // Connect WebSocket
@@ -638,10 +638,10 @@ function showGameOver(exercisesSolved, newRecord, abandonedBy) {
 // ── Leave / Abandon flow ──────────────────────────────────────────────────────
 window.confirmLeave = function (href) {
     if (battleEnded) {
-        window.location.href = href || 'Home.html';
+        window.location.href = href || '/home';
         return;
     }
-    pendingNavHref = href || 'Home.html';
+    pendingNavHref = href || '/home';
     document.getElementById('abandonOverlay').classList.remove('hidden');
 };
 
@@ -654,12 +654,12 @@ window.doLeave = function () {
         ws.send(JSON.stringify({ action: 'abandon' }));
     }
     battleEnded = true;
-    window.location.href = pendingNavHref || 'Home.html';
+    window.location.href = pendingNavHref || '/home';
 };
 
 window.replaySurvival = function () {
     battleEnded = true;
-    window.location.href = `SupervivenciaLobby.html?difficulty=${difficulty}`;
+    window.location.href = `/supervivencia/lobby?difficulty=${difficulty}`;
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Guard: if no session data, go to login
     if (!token || !savedEmail) {
-        window.location.replace('Login.html');
+        window.location.replace('/login');
         return;
     }
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!res.ok) {
             // Token expired or revoked → send to full login
             _clearSession();
-            window.location.replace('Login.html');
+            window.location.replace('/login');
             return;
         }
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch {
         _clearSession();
-        window.location.replace('Login.html');
+        window.location.replace('/login');
         return;
     }
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Refresh stored token and go home
                 localStorage.setItem('access_token', data.access_token);
                 if (data.username) localStorage.setItem('username', data.username);
-                window.location.replace('Home.html');
+                window.location.replace('/home');
             } else {
                 _showError(data.detail || 'Contraseña incorrecta.');
                 submitBtn.disabled = false;
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         } catch { /* best-effort */ }
         _clearSession();
-        window.location.replace('Login.html');
+        window.location.replace('/login');
     });
 
     passwordEl.focus();

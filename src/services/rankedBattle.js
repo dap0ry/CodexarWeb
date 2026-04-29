@@ -120,17 +120,17 @@ require(['vs/editor/editor.main'], function () {
 // --- Init ---
 async function initRankedBattle() {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     const params = new URLSearchParams(window.location.search);
     const matchId = params.get('id');
-    if (!matchId) { window.location.href = 'Ranked.html'; return; }
+    if (!matchId) { window.location.href = '/ranked'; return; }
 
     try {
         const res = await fetch(`${API_BASE}/matchmaking/match/${matchId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        if (!res.ok) { window.location.href = 'Ranked.html'; return; }
+        if (!res.ok) { window.location.href = '/ranked'; return; }
 
         matchData = await res.json();
         setupPlayers(matchData);
@@ -147,7 +147,7 @@ async function initRankedBattle() {
 
     } catch (err) {
         console.error(err);
-        window.location.href = 'Ranked.html';
+        window.location.href = '/ranked';
     }
 
     document.getElementById('btnCheck').addEventListener('click', handleCheck);
@@ -156,7 +156,7 @@ async function initRankedBattle() {
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'index.html';
+        window.location.href = '/';
     });
 }
 

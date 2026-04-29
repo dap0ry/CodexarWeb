@@ -6,7 +6,7 @@ const RESEND_COOLDOWN = 60;       // 1 min before resend is allowed
 document.addEventListener('DOMContentLoaded', () => {
     const email = sessionStorage.getItem('pending_email');
     if (!email) {
-        window.location.href = 'Register.html';
+        window.location.href = '/register';
         return;
     }
 
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sessionStorage.removeItem('pending_email');
                 showSuccess(`[✓] EMAIL VERIFICADO<br><span style="font-family:var(--font-body);font-size:0.8rem;color:var(--text-light);opacity:0.8;letter-spacing:0;">Redirigiendo al terminal de configuración...</span>`);
                 verifyBtn.style.display = 'none';
-                setTimeout(() => { window.location.href = 'Onboarding.html'; }, 1500);
+                setTimeout(() => { window.location.href = '/onboarding'; }, 1500);
             } else {
                 showError(data.detail || 'Código incorrecto.');
                 verifyBtn.disabled = false;

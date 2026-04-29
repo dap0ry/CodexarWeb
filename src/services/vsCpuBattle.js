@@ -125,7 +125,7 @@ require(['vs/editor/editor.main'], function () {
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function initBattle() {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     document.getElementById('timerDiffLabel').textContent = config.label;
     // Show loading state in countdown until exercise loads
@@ -152,7 +152,7 @@ async function initBattle() {
         startTimer(seconds);
 
     } catch (err) {
-        if (err.message === 'auth') { window.location.href = 'Login.html'; return; }
+        if (err.message === 'auth') { window.location.href = '/login'; return; }
         document.getElementById('timerCountdown').textContent = 'ERROR';
     }
 }
@@ -421,13 +421,13 @@ function showVictory() {
 }
 
 function replayBattle() {
-    window.location.href = `VsCpuBattle.html?difficulty=${difficulty}`;
+    window.location.href = `/vs-cpu/batalla?difficulty=${difficulty}`;
 }
 
 // ── Abandon modal ─────────────────────────────────────────────────────────────
 window.confirmLeave = function () {
     if (battleEnded) {
-        window.location.href = 'Home.html';
+        window.location.href = '/home';
         return;
     }
     document.getElementById('abandonOverlay').classList.remove('hidden');
@@ -438,14 +438,14 @@ window.closeAbandonModal = function () {
 };
 
 window.doLeave = function () {
-    window.location.href = 'Home.html';
+    window.location.href = '/home';
 };
 
 // ── Logout ────────────────────────────────────────────────────────────────────
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
-    window.location.href = 'index.html';
+    window.location.href = '/';
 });
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

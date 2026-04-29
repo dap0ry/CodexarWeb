@@ -19,10 +19,10 @@ function formatDate(iso) {
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function initTournaments() {
-    if (!token()) { window.location.href = 'Login.html'; return; }
+    if (!token()) { window.location.href = '/login'; return; }
 
     const res = await fetch(`${API}/user/me`, { headers: { 'Authorization': `Bearer ${token()}` } });
-    if (!res.ok) { window.location.href = 'Login.html'; return; }
+    if (!res.ok) { window.location.href = '/login'; return; }
     currentUser = await res.json();
 
     const navUser = document.getElementById('navUsername');
@@ -37,7 +37,7 @@ async function initTournaments() {
 
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) logoutBtn.addEventListener('click', e => {
-        e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = 'index.html';
+        e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = '/';
     });
 
     // Tabs

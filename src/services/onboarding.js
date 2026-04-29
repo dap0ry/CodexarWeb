@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if token exists, else boot to login
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 // Update local storage username
                 localStorage.setItem('username', data.username);
-                window.location.href = 'Home.html';
+                window.location.href = '/home';
             } else {
                 errorMsg.textContent = data.detail || 'Error al guardar la configuración';
                 errorMsg.style.display = 'block';

@@ -15,7 +15,7 @@ const RARITY_COLOR = {
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     // Navbar hydration
     try {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             navAvatar.textContent = user.username.charAt(0).toUpperCase();
         }
     } catch (e) {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('access_token');
-            window.location.href = 'Login.html';
+            window.location.href = '/login';
         });
     }
 

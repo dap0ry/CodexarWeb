@@ -96,7 +96,7 @@ function _connectWS(mode) {
             _ws = null;
             setTimeout(() => {
                 _hideBar();
-                window.location.href = `RankedBattle.html?id=${data.match_id}`;
+                window.location.href = `/ranked/batalla?id=${data.match_id}`;
             }, 1000);
         }
     };

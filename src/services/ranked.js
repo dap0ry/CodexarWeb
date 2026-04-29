@@ -6,7 +6,7 @@ let searchSeconds = 0;
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 
@@ -73,7 +73,7 @@ async function initRankedPage(token) {
     } catch (err) {
         console.error(err);
         localStorage.removeItem('access_token');
-        window.location.href = 'index.html';
+        window.location.href = '/';
         return;
     }
 

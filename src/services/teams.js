@@ -30,10 +30,10 @@ function setFeedback(id, msg, ok) {
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function initTeams() {
-    if (!token()) { window.location.href = 'Login.html'; return; }
+    if (!token()) { window.location.href = '/login'; return; }
 
     const res = await fetch(`${API}/user/me`, { headers: { 'Authorization': `Bearer ${token()}` } });
-    if (!res.ok) { window.location.href = 'Login.html'; return; }
+    if (!res.ok) { window.location.href = '/login'; return; }
     currentUser = await res.json();
 
     const navUsername = document.getElementById('navUsername');
@@ -49,7 +49,7 @@ async function initTeams() {
         }
     }
     document.getElementById('logoutBtn')?.addEventListener('click', e => {
-        e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = 'index.html';
+        e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = '/';
     });
 
     await loadTeamsPage();
@@ -144,7 +144,7 @@ function buildClubCard(t, myName) {
     const ownBadge = isOwn ? '<div class="tm-own-badge">Tu club</div>' : '';
 
     return `
-        <div class="tm-club-card${isOwn ? ' is-own' : ''}" onclick="window.location.href='TeamView.html?t=${encodeURIComponent(t.name)}'">
+        <div class="tm-club-card${isOwn ? ' is-own' : ''}" onclick="window.location.href='/equipo?t=${encodeURIComponent(t.name)}'">
             ${ownBadge}
             <div class="tm-card-banner" ${bannerAttr}></div>
             <div class="tm-card-body">

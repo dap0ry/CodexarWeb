@@ -37,7 +37,7 @@ function buildPlayerCard(player, rank) {
     };
 
     return `
-        <div class="player-card ${rankClass}" style="cursor:pointer;" onclick="window.location.href='ProfileView.html?u=${encodeURIComponent(player.username)}'">
+        <div class="player-card ${rankClass}" style="cursor:pointer;" onclick="window.location.href='/perfil?u=${encodeURIComponent(player.username)}'">
             <div class="rank-watermark">POSICIÓN ${rank + 1}</div>
             <div class="rank-number">${rank + 1}</div>
             <div class="lb-avatar" style="${avatarStyle}">${avatarText}</div>
@@ -67,7 +67,7 @@ function buildEmptyFace(rank) {
 
 async function initLeaderboard() {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     try {
         // Navbar
@@ -114,7 +114,7 @@ async function initLeaderboard() {
 
     } catch (err) {
         console.error('Leaderboard error:', err);
-        if (err.message === 'Auth Fault') window.location.href = 'Login.html';
+        if (err.message === 'Auth Fault') window.location.href = '/login';
         document.getElementById('lbLoading').textContent = 'Error cargando clasificación.';
         document.getElementById('lbLoading').style.display = 'block';
     }
@@ -124,7 +124,7 @@ async function initLeaderboard() {
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
-    window.location.href = 'index.html';
+    window.location.href = '/';
 });
 
 function escHtml(str) {
@@ -145,7 +145,7 @@ function renderPlayerRow(player, position) {
     const avatarText = player.avatar ? '' : escHtml(player.username).charAt(0).toUpperCase();
 
     return `
-        <a class="lb-row" href="ProfileView.html?u=${encodeURIComponent(player.username)}">
+        <a class="lb-row" href="/perfil?u=${encodeURIComponent(player.username)}">
             <span class="lb-row-pos ${position <= 3 ? 'lb-pos-top' : ''}">${position}</span>
             <span class="lb-row-player">
                 <span class="lb-row-avatar" style="${avatarStyle}">${avatarText}</span>

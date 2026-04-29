@@ -13,19 +13,19 @@
 <body>
 
     <nav class="navbar">
-        <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
                 <div class="username-display" id="navUsername">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="Home.html"        class="dropdown-item">Inicio</a>
-                <a href="Configuracion.html" class="dropdown-item">Configuración</a>
-                <a href="Pricing.html" class="dropdown-item">✦ Planes</a>
-                <a href="Logros.html"      class="dropdown-item">Logros</a>
-                <a href="Friends.html"     class="dropdown-item">Amigos</a>
-                <a href="Leaderboard.html" class="dropdown-item">Clasificación</a>
+                <a href="/home"        class="dropdown-item">Inicio</a>
+                <a href="/configuracion" class="dropdown-item">Configuración</a>
+                <a href="/precios" class="dropdown-item">✦ Planes</a>
+                <a href="/logros"      class="dropdown-item">Logros</a>
+                <a href="/amigos"     class="dropdown-item">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
                 <a href="#"                class="dropdown-item">Ayuda</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
@@ -47,7 +47,7 @@
         <div class="surv-diff-grid">
 
             <!-- NORMAL -->
-            <div class="diff-card diff-surv-normal" onclick="window.location.href='SupervivenciaLobby.html?difficulty=normal'">
+            <div class="diff-card diff-surv-normal" onclick="window.location.href='/supervivencia/lobby?difficulty=normal'">
                 <div class="diff-glow diff-glow-surv-normal"></div>
                 <div class="diff-card-inner">
                     <div class="diff-icon">🟢</div>
@@ -67,7 +67,7 @@
             </div>
 
             <!-- DIFÍCIL -->
-            <div class="diff-card diff-surv-hard" onclick="window.location.href='SupervivenciaLobby.html?difficulty=dificil'">
+            <div class="diff-card diff-surv-hard" onclick="window.location.href='/supervivencia/lobby?difficulty=dificil'">
                 <div class="diff-glow diff-glow-surv-hard"></div>
                 <div class="diff-card-inner">
                     <div class="diff-icon">🔴</div>
@@ -87,7 +87,7 @@
             </div>
 
             <!-- DEMENCIAL -->
-            <div class="diff-card diff-surv-demencial" onclick="window.location.href='SupervivenciaLobby.html?difficulty=demencial'">
+            <div class="diff-card diff-surv-demencial" onclick="window.location.href='/supervivencia/lobby?difficulty=demencial'">
                 <div class="diff-glow diff-glow-surv-demencial"></div>
                 <div class="diff-card-inner">
                     <div class="diff-icon">💀</div>
@@ -108,7 +108,7 @@
 
         </div>
 
-        <button class="btn-back-home" onclick="window.location.href='Home.html'">← Volver al menú</button>
+        <button class="btn-back-home" onclick="window.location.href='/home'">← Volver al menú</button>
 
     </div>
 

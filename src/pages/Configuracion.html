@@ -15,19 +15,19 @@
 <body>
 
 <nav class="navbar">
-    <div class="brand" onclick="window.location.href='Home.html'" style="cursor:pointer;">Codex<span>ar</span></div>
+    <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
     <div class="user-pill-container">
         <div class="user-pill" id="userPill">
             <div class="avatar" id="navAvatar"></div>
             <div class="username-display" id="navUsername">Cargando...</div>
         </div>
         <div class="user-dropdown">
-            <a href="Home.html"          class="dropdown-item">Inicio</a>
-            <a href="Configuracion.html" class="dropdown-item">Configuración</a>
-            <a href="Pricing.html"       class="dropdown-item">✦ Planes</a>
-            <a href="Logros.html"        class="dropdown-item">Logros</a>
-            <a href="Friends.html"       class="dropdown-item">Amigos</a>
-            <a href="Leaderboard.html"   class="dropdown-item">Clasificación</a>
+            <a href="/home"          class="dropdown-item">Inicio</a>
+            <a href="/configuracion" class="dropdown-item">Configuración</a>
+            <a href="/precios"       class="dropdown-item">✦ Planes</a>
+            <a href="/logros"        class="dropdown-item">Logros</a>
+            <a href="/amigos"       class="dropdown-item">Amigos</a>
+            <a href="/clasificacion"   class="dropdown-item">Clasificación</a>
             <a href="#"                  class="dropdown-item">Ayuda</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
@@ -38,13 +38,13 @@
 <main class="cfg-page">
     <div class="cfg-content">
 
-        <!-- ══ 01 · PERFIL ══ -->
-        <section class="cfg-section" id="sec-perfil">
+        <!-- ══ BOX 01 · DATOS PERSONALES ══════════════════════════════════ -->
+        <div class="cfg-box" id="box-personal">
 
-            <div class="cfg-sec-header">
-                <div class="cfg-sec-tag">// 01 // PERFIL</div>
-                <h2 class="cfg-sec-title">Datos personales</h2>
-                <p class="cfg-sec-desc">Tu nombre, foto y la información que aparece en tu perfil público.</p>
+            <div class="cfg-box-header">
+                <div class="cfg-box-tag">// 01</div>
+                <h2 class="cfg-box-title">Datos personales</h2>
+                <p class="cfg-box-desc">Tu nombre, foto, credenciales y la información que aparece en tu perfil público.</p>
             </div>
 
             <!-- Avatar + campos básicos -->
@@ -72,25 +72,16 @@
                         </label>
                         <input type="text" class="cfg-input" id="cfgDesc" maxlength="30" autocomplete="off">
                     </div>
+                    <div class="cfg-field-group cfg-field-group--full">
+                        <label class="cfg-label" for="cfgEmail">Email de la cuenta</label>
+                        <input type="text" class="cfg-input cfg-input--readonly" id="cfgEmail" readonly autocomplete="off">
+                    </div>
                 </div>
             </div>
 
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgPerfilFeedback"></span>
-                <button class="cfg-save-btn" id="cfgPerfilSaveBtn">▸ Guardar perfil</button>
-            </div>
-
-            <!-- ── Contraseña ── -->
-            <div class="cfg-inner-sep">
-                <div class="cfg-subsec-tag">// CONTRASEÑA</div>
-                <p class="cfg-subsec-desc">Actualiza tus credenciales de acceso.</p>
-            </div>
-
-            <div class="cfg-card-block">
-                <div class="cfg-field-group cfg-field-group--full">
-                    <label class="cfg-label">Email de la cuenta</label>
-                    <input type="text" class="cfg-input cfg-input--readonly" id="cfgEmail" readonly autocomplete="off">
-                </div>
+            <!-- Contraseña -->
+            <div class="cfg-subsection">
+                <div class="cfg-subsec-label">Cambiar contraseña</div>
                 <div class="cfg-pwd-grid">
                     <div class="cfg-field-group">
                         <label class="cfg-label">Contraseña actual</label>
@@ -107,69 +98,59 @@
                 </div>
             </div>
 
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgSecFeedback"></span>
-                <button class="cfg-save-btn" id="cfgSecSaveBtn" disabled>▸ Cambiar contraseña</button>
+            <!-- Stack tecnológico -->
+            <div class="cfg-subsection">
+                <div class="cfg-subsec-label">Stack tecnológico</div>
+                <p class="cfg-subsec-hint">Los lenguajes que aparecen en tu perfil. Selecciona los que dominas.</p>
+                <div class="cfg-lang-grid" id="cfgLangGrid"></div>
             </div>
 
-            <!-- ── Stack tecnológico ── -->
-            <div class="cfg-inner-sep">
-                <div class="cfg-subsec-tag">// STACK TECNOLÓGICO</div>
-                <p class="cfg-subsec-desc">Los lenguajes que aparecen en tu perfil. Selecciona los que dominas.</p>
-            </div>
-
-            <div class="cfg-lang-grid" id="cfgLangGrid"></div>
-
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgLangFeedback"></span>
-                <button class="cfg-save-btn" id="cfgLangSaveBtn">▸ Guardar selección</button>
-            </div>
-
-            <!-- ── Redes sociales ── -->
-            <div class="cfg-inner-sep">
-                <div class="cfg-subsec-tag">// REDES SOCIALES</div>
-                <p class="cfg-subsec-desc">Los enlaces que aparecen en tu perfil público.</p>
-            </div>
-
-            <div class="cfg-social-grid">
-                <div class="cfg-social-row">
-                    <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="cfg-social-ico">
-                    <input type="url" class="cfg-input" id="cfgGithub" placeholder="https://github.com/usuario" autocomplete="off">
-                </div>
-                <div class="cfg-social-row">
-                    <img src="https://cdn.simpleicons.org/linkedin" alt="LinkedIn" class="cfg-social-ico">
-                    <input type="url" class="cfg-input" id="cfgLinkedin" placeholder="https://linkedin.com/in/usuario" autocomplete="off">
-                </div>
-                <div class="cfg-social-row">
-                    <img src="https://cdn.simpleicons.org/codeforces" alt="Codeforces" class="cfg-social-ico">
-                    <input type="url" class="cfg-input" id="cfgCodeforces" placeholder="https://codeforces.com/profile/usuario" autocomplete="off">
-                </div>
-                <div class="cfg-social-row">
-                    <img src="https://cdn.simpleicons.org/instagram" alt="Instagram" class="cfg-social-ico">
-                    <input type="url" class="cfg-input" id="cfgInstagram" placeholder="https://instagram.com/usuario" autocomplete="off">
-                </div>
-                <div class="cfg-social-row cfg-social-row--wide">
-                    <img src="https://cdn.simpleicons.org/tiktok" alt="TikTok" class="cfg-social-ico">
-                    <input type="url" class="cfg-input" id="cfgTiktok" placeholder="https://tiktok.com/@usuario" autocomplete="off">
+            <!-- Redes sociales -->
+            <div class="cfg-subsection">
+                <div class="cfg-subsec-label">Redes sociales</div>
+                <p class="cfg-subsec-hint">Los enlaces que aparecen en tu perfil público.</p>
+                <div class="cfg-social-grid">
+                    <div class="cfg-social-row">
+                        <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="cfg-social-ico">
+                        <input type="url" class="cfg-input" id="cfgGithub" placeholder="https://github.com/usuario" autocomplete="off">
+                    </div>
+                    <div class="cfg-social-row">
+                        <img src="https://cdn.simpleicons.org/linkedin" alt="LinkedIn" class="cfg-social-ico">
+                        <input type="url" class="cfg-input" id="cfgLinkedin" placeholder="https://linkedin.com/in/usuario" autocomplete="off">
+                    </div>
+                    <div class="cfg-social-row">
+                        <img src="https://cdn.simpleicons.org/codeforces" alt="Codeforces" class="cfg-social-ico">
+                        <input type="url" class="cfg-input" id="cfgCodeforces" placeholder="https://codeforces.com/profile/usuario" autocomplete="off">
+                    </div>
+                    <div class="cfg-social-row">
+                        <img src="https://cdn.simpleicons.org/instagram" alt="Instagram" class="cfg-social-ico">
+                        <input type="url" class="cfg-input" id="cfgInstagram" placeholder="https://instagram.com/usuario" autocomplete="off">
+                    </div>
+                    <div class="cfg-social-row cfg-social-row--wide">
+                        <img src="https://cdn.simpleicons.org/tiktok" alt="TikTok" class="cfg-social-ico">
+                        <input type="url" class="cfg-input" id="cfgTiktok" placeholder="https://tiktok.com/@usuario" autocomplete="off">
+                    </div>
                 </div>
             </div>
 
-            <div class="cfg-actions">
-                <span class="cfg-feedback" id="cfgSocialFeedback"></span>
-                <button class="cfg-save-btn" id="cfgSocialSaveBtn">▸ Guardar redes</button>
+            <!-- Footer guardar -->
+            <div class="cfg-box-footer">
+                <span class="cfg-feedback" id="cfgPersonalFeedback"></span>
+                <button class="cfg-save-btn" id="cfgPersonalSaveBtn">▸ Guardar cambios</button>
             </div>
 
-        </section>
+        </div><!-- /box-personal -->
 
-        <!-- ══ 02 · PERSONALIZACIÓN ══ -->
-        <section class="cfg-section cfg-section--sep" id="sec-personalizacion">
+        <!-- ══ BOX 02 · PERSONALIZACIÓN ════════════════════════════════════ -->
+        <div class="cfg-box" id="box-personalizacion">
 
-            <div class="cfg-sec-header">
-                <div class="cfg-sec-tag">// 02 // PERSONALIZACIÓN</div>
-                <h2 class="cfg-sec-title">Banner y fondo de perfil</h2>
-                <p class="cfg-sec-desc">Personaliza el aspecto visual de tu perfil público.</p>
+            <div class="cfg-box-header">
+                <div class="cfg-box-tag">// 02</div>
+                <h2 class="cfg-box-title">Personalización de perfil</h2>
+                <p class="cfg-box-desc">Banner, fondo de perfil y preferencias visuales de tu página pública.</p>
             </div>
 
+            <!-- Banner + fondo -->
             <div class="cfg-media-grid">
                 <!-- Banner -->
                 <div class="cfg-field-group">
@@ -212,48 +193,55 @@
                 </div>
             </div>
 
-            <div class="cfg-vis-grid">
-                <!-- Estilo de tarjetas -->
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Estilo de tarjetas</label>
-                    <div class="cfg-box-style-group" id="cfgBoxStyleGroup">
-                        <button class="cfg-box-style-btn" data-style="transparent">Transparente</button>
-                        <button class="cfg-box-style-btn" data-style="semi">Semi</button>
-                        <button class="cfg-box-style-btn active" data-style="solid">Sólido</button>
+            <!-- Opciones visuales -->
+            <div class="cfg-subsection">
+                <div class="cfg-subsec-label">Opciones visuales <span class="cfg-subsec-instant">— se aplican al instante</span></div>
+                <div class="cfg-vis-grid">
+                    <div class="cfg-field-group">
+                        <label class="cfg-label">Estilo de tarjetas</label>
+                        <div class="cfg-box-style-group" id="cfgBoxStyleGroup">
+                            <button class="cfg-box-style-btn" data-style="transparent">Transparente</button>
+                            <button class="cfg-box-style-btn" data-style="semi">Semi</button>
+                            <button class="cfg-box-style-btn active" data-style="solid">Sólido</button>
+                        </div>
+                        <span class="cfg-hint">Fondo de las tarjetas en el perfil público.</span>
                     </div>
-                    <span class="cfg-hint">Fondo de las tarjetas en el perfil público.</span>
-                </div>
-                <!-- Visibilidad fondo -->
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Opacidad del fondo</label>
-                    <div class="cfg-box-style-group" id="cfgBgVisGroup">
-                        <button class="cfg-box-style-btn" data-vis="full">100%</button>
-                        <button class="cfg-box-style-btn" data-vis="mid">80%</button>
-                        <button class="cfg-box-style-btn active" data-vis="dim">50%</button>
+                    <div class="cfg-field-group">
+                        <label class="cfg-label">Opacidad del fondo</label>
+                        <div class="cfg-box-style-group" id="cfgBgVisGroup">
+                            <button class="cfg-box-style-btn" data-vis="full">100%</button>
+                            <button class="cfg-box-style-btn" data-vis="mid">80%</button>
+                            <button class="cfg-box-style-btn active" data-vis="dim">50%</button>
+                        </div>
+                        <span class="cfg-hint">Cuánto oscurece el overlay sobre el wallpaper.</span>
                     </div>
-                    <span class="cfg-hint">Cuánto oscurece el overlay sobre el wallpaper.</span>
-                </div>
-                <!-- Visibilidad banner -->
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Opacidad del banner</label>
-                    <div class="cfg-box-style-group" id="cfgBannerVisGroup">
-                        <button class="cfg-box-style-btn" data-banvis="full">100%</button>
-                        <button class="cfg-box-style-btn" data-banvis="mid">80%</button>
-                        <button class="cfg-box-style-btn active" data-banvis="dim">50%</button>
+                    <div class="cfg-field-group">
+                        <label class="cfg-label">Opacidad del banner</label>
+                        <div class="cfg-box-style-group" id="cfgBannerVisGroup">
+                            <button class="cfg-box-style-btn" data-banvis="full">100%</button>
+                            <button class="cfg-box-style-btn" data-banvis="mid">80%</button>
+                            <button class="cfg-box-style-btn active" data-banvis="dim">50%</button>
+                        </div>
+                        <span class="cfg-hint">Degradado sobre el banner superior del perfil.</span>
                     </div>
-                    <span class="cfg-hint">Degradado sobre el banner superior del perfil.</span>
                 </div>
             </div>
 
-        </section>
+            <!-- Footer guardar -->
+            <div class="cfg-box-footer">
+                <span class="cfg-feedback" id="cfgPersFeedback"></span>
+                <button class="cfg-save-btn" id="cfgPersSaveBtn">▸ Guardar cambios</button>
+            </div>
 
-        <!-- ══ 03 · APARIENCIA ══ -->
-        <section class="cfg-section cfg-section--sep" id="sec-apariencia">
+        </div><!-- /box-personalizacion -->
 
-            <div class="cfg-sec-header">
-                <div class="cfg-sec-tag">// 03 // APARIENCIA</div>
-                <h2 class="cfg-sec-title">Tema Visual</h2>
-                <p class="cfg-sec-desc">Selecciona la paleta de colores de Codexar. Se aplica al instante.</p>
+        <!-- ══ 03 · APARIENCIA (sin caja, solo grid) ════════════════════════ -->
+        <section class="cfg-apariencia" id="sec-apariencia">
+
+            <div class="cfg-box-header">
+                <div class="cfg-box-tag">// 03</div>
+                <h2 class="cfg-box-title">Tema visual</h2>
+                <p class="cfg-box-desc">Selecciona la paleta de colores de Codexar. Se aplica al instante, sin guardar.</p>
             </div>
 
             <div class="cfg-tema-grid">

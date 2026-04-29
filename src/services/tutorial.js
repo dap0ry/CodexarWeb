@@ -441,8 +441,8 @@ const LESSONS = {
     Ahora ponlos en práctica con problemas reales.
   </p>
   <div class="completion-btns">
-    <a href="Exercises.html" class="btn-completion primary">Ir a Ejercicios →</a>
-    <a href="Home.html"       class="btn-completion secondary">Volver al Inicio</a>
+    <a href="/ejercicios" class="btn-completion primary">Ir a Ejercicios →</a>
+    <a href="/home"       class="btn-completion secondary">Volver al Inicio</a>
   </div>
 </div>
 `
@@ -891,13 +891,13 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('access_token');
-            window.location.href = 'Login.html';
+            window.location.href = '/login';
         });
     }
 
     // Nav avatar
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     fetch('https://api.codexar.es/api/user/me', {
         headers: { 'Authorization': `Bearer ${token}` }
@@ -919,7 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     })
-    .catch(() => { window.location.href = 'Login.html'; });
+    .catch(() => { window.location.href = '/login'; });
 
     // Restore last lesson for this lang
     const savedLesson = parseInt(localStorage.getItem(`tut_lesson_${currentLang}`)) || 0;

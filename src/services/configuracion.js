@@ -481,23 +481,23 @@ async function saveAll() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     });
 
     try {
         const res = await fetch(`${API_BASE}/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) { window.location.href = 'Login.html'; return; }
+        if (!res.ok) { window.location.href = '/login'; return; }
         userData      = await res.json();
         selectedLangs = [...(userData.languages || [])];
     } catch {
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
         return;
     }
 

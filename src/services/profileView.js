@@ -453,12 +453,12 @@ function renderProfile(data) {
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
-    if (!token) { window.location.href = 'Login.html'; return; }
+    if (!token) { window.location.href = '/login'; return; }
 
     document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
-        window.location.href = 'Login.html';
+        window.location.href = '/login';
     });
 
     const username = new URLSearchParams(location.search).get('u');
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetch(`${API_BASE}/user/profile/${encodeURIComponent(username)}`, { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
-        if (!meRes.ok) { window.location.href = 'Login.html'; return; }
+        if (!meRes.ok) { window.location.href = '/login'; return; }
 
         const me = await meRes.json();
         populateNavbar(me);

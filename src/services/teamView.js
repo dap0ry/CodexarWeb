@@ -34,7 +34,7 @@ async function initTeamView() {
             document.getElementById('logoutBtn')?.addEventListener('click', e => {
                 e.preventDefault();
                 localStorage.removeItem('access_token');
-                window.location.href = 'index.html';
+                window.location.href = '/';
             });
         }
     }
@@ -105,7 +105,7 @@ function renderMembersGrid(members) {
         const avatarStyle = m.avatar ? `style="background-image:url(${esc(m.avatar)})"` : '';
         const captainBadge = m.is_owner ? '<div class="tm-mc-captain">CAPITÁN</div>' : '';
         return `
-            <a href="ProfileView.html?u=${encodeURIComponent(m.username)}" class="tm-member-card${m.is_owner ? ' is-owner' : ''}">
+            <a href="/perfil?u=${encodeURIComponent(m.username)}" class="tm-member-card${m.is_owner ? ' is-owner' : ''}">
                 ${captainBadge}
                 <div class="tm-mc-avatar" ${avatarStyle}>${m.avatar ? '' : initials}</div>
                 <div class="tm-mc-name">${esc(m.username)}</div>
