@@ -5,7 +5,7 @@
 
 // Redirect si hay sesión activa
 if (localStorage.getItem('access_token') && localStorage.getItem('saved_email')) {
-    window.location.replace('Quick/login');
+    window.location.replace('/quick-login');
 }
 
 /* ── 1. CANVAS ─────────────────────────────── */
