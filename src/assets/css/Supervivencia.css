@@ -51,19 +51,19 @@ body {
     display: grid;
     grid-template-columns: 310px 280px 1fr;
     gap: 12px;
-    padding: 16px 24px 20px;
+    padding: 40px 24px 20px;
     overflow: hidden;
     min-height: 0;
 }
 
-/* ── Back button ── */
+/* ── Back button — sits in the 40px gap between navbar and columns ── */
 .sv3-back {
     position: absolute;
-    top: -10px;
+    top: 10px;
     left: 24px;
     background: transparent;
     border: none;
-    color: rgba(230,230,240,0.32);
+    color: rgba(0,255,204,0.55);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.67rem;
     font-weight: 700;
@@ -73,7 +73,7 @@ body {
     z-index: 5;
     padding: 0;
 }
-.sv3-back:hover { color: rgba(230,230,240,0.72); }
+.sv3-back:hover { color: var(--accent-cyan); }
 
 /* ── Column base ── */
 .sv3-col {
