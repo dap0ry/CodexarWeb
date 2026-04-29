@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
 </head>
-<body>
+<body data-boss="boss1">
 
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
@@ -20,96 +20,106 @@
                 <div class="username-display" id="navUsername">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home"        class="dropdown-item">Inicio</a>
+                <a href="/home" class="dropdown-item">Inicio</a>
                 <a href="/configuracion" class="dropdown-item">Configuración</a>
                 <a href="/precios" class="dropdown-item">✦ Planes</a>
-                <a href="/logros"      class="dropdown-item">Logros</a>
-                <a href="/amigos"     class="dropdown-item">Amigos</a>
+                <a href="/logros" class="dropdown-item">Logros</a>
+                <a href="/amigos" class="dropdown-item">Amigos</a>
                 <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#"                class="dropdown-item">Ayuda</a>
+                <a href="#" class="dropdown-item">Ayuda</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <div class="surv-container">
+    <div class="sv3-layout">
 
-        <div class="surv-header">
-            <div class="surv-eyebrow">
-                <span class="eyebrow-dot-green"></span>
-                SUPERVIVENCIA · COOPERATIVO
+        <button class="sv3-back" onclick="window.location.href='/home'">← Volver</button>
+
+        <!-- COLUMNA IZQUIERDA -->
+        <section class="sv3-col sv3-col-left">
+
+            <div class="sv3-block sv3-team-block">
+                <span class="sv3-block-label">EQUIPO</span>
+                <div class="sv3-slots" id="sv3Slots"></div>
+                <button class="sv3-invite-btn" id="sv3InviteBtn">+ Invitar amigo</button>
             </div>
-            <h1 class="surv-title">Elige tu dificultad</h1>
-            <p class="surv-subtitle">Resuelve ejercicios en cadena. Cada solución suma tiempo. ¿Hasta cuándo aguantarás?</p>
+
+            <div class="sv3-block sv3-bosses-block">
+                <span class="sv3-block-label">SELECCIONAR BOSS</span>
+                <div class="sv3-boss-icons">
+                    <button class="sv3-boss-icon-btn active" data-boss="boss1" onclick="selectBoss('boss1')">
+                        <span class="sv3-boss-num">1</span>
+                        <span class="sv3-icon-label">Normal</span>
+                    </button>
+                    <button class="sv3-boss-icon-btn" data-boss="boss2" onclick="selectBoss('boss2')">
+                        <span class="sv3-boss-num">2</span>
+                        <span class="sv3-icon-label">Difícil</span>
+                    </button>
+                    <button class="sv3-boss-icon-btn" data-boss="boss3" onclick="selectBoss('boss3')">
+                        <span class="sv3-boss-num">3</span>
+                        <span class="sv3-icon-label">Demencial</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- COLUMNA CENTRAL -->
+        <section class="sv3-col sv3-col-center">
+
+            <div class="sv3-block sv3-desc-block">
+                <div class="sv3-boss-tier" id="sv3BossTier">BOSS 1 · NORMAL</div>
+                <div class="sv3-boss-title-c" id="sv3BossTitleC">El Guardián</div>
+                <p class="sv3-boss-desc" id="sv3BossDesc">El primero de los tres. Metódico y predecible. Domina los fundamentos y cae a tus pies.</p>
+                <div class="sv3-time-badge" id="sv3TimeBadge">⏱ 60s · +10s por ejercicio</div>
+                <div class="sv3-tags">
+                    <span class="sv3-tag">1–4 JUGADORES</span>
+                    <span class="sv3-tag">COOPERATIVO</span>
+                </div>
+            </div>
+
+            <div class="sv3-block sv3-record-block">
+                <span class="sv3-block-label">RÉCORD PERSONAL</span>
+                <div class="sv3-record-inner">
+                    <span class="sv3-record-val" id="sv3RecordVal">—</span>
+                    <span class="sv3-record-unit">EJERCICIOS</span>
+                </div>
+                <div class="sv3-record-sub">Mejor marca en este modo</div>
+                <button class="sv3-start-btn" id="sv3StartBtn" onclick="startGame()">INICIAR PARTIDA →</button>
+            </div>
+
+        </section>
+
+        <!-- COLUMNA DERECHA -->
+        <section class="sv3-col sv3-col-right">
+
+            <div class="sv3-boss-name-header">
+                <div class="sv3-boss-index-tag" id="sv3BossIndexTag">BOSS_01</div>
+                <div class="sv3-boss-name-big" id="sv3BossNameBig">El Guardián</div>
+            </div>
+
+            <div class="sv3-boss-img-wrap" id="sv3BossImgWrap">
+                <div class="sv3-boss-placeholder">
+                    <div class="sv3-boss-placeholder-icon" id="sv3BossPlaceholderIcon">◈</div>
+                    <div class="sv3-boss-placeholder-text">IMAGEN DEL BOSS</div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Modal invitar amigo -->
+    <div class="sv3-modal-overlay hidden" id="sv3InviteModal">
+        <div class="sv3-modal">
+            <div class="sv3-modal-header">
+                <span>Invitar Amigo</span>
+                <button class="sv3-modal-close" id="sv3CloseModal">✕</button>
+            </div>
+            <div class="sv3-modal-body" id="sv3FriendList"></div>
         </div>
-
-        <div class="surv-diff-grid">
-
-            <!-- NORMAL -->
-            <div class="diff-card diff-surv-normal" onclick="window.location.href='/supervivencia/lobby?difficulty=normal'">
-                <div class="diff-glow diff-glow-surv-normal"></div>
-                <div class="diff-card-inner">
-                    <div class="diff-icon">🟢</div>
-                    <div class="diff-label">NORMAL</div>
-                    <div class="diff-title">Modo Estándar</div>
-                    <p class="diff-desc">Tiempo inicial generoso. Ideal para aprender el ritmo de la supervivencia.</p>
-                    <div class="diff-time-badge diff-time-surv-normal">
-                        <span class="diff-time-icon">⏱</span>
-                        <span>60s · +10s por ejercicio</span>
-                    </div>
-                    <div class="diff-tags">
-                        <span class="diff-tag">1 – 4 JUGADORES</span>
-                        <span class="diff-tag">COOPERATIVO</span>
-                    </div>
-                    <button class="btn-diff btn-diff-surv-normal">JUGAR →</button>
-                </div>
-            </div>
-
-            <!-- DIFÍCIL -->
-            <div class="diff-card diff-surv-hard" onclick="window.location.href='/supervivencia/lobby?difficulty=dificil'">
-                <div class="diff-glow diff-glow-surv-hard"></div>
-                <div class="diff-card-inner">
-                    <div class="diff-icon">🔴</div>
-                    <div class="diff-label">DIFÍCIL</div>
-                    <div class="diff-title">Modo Presión</div>
-                    <p class="diff-desc">Menos tiempo, menos bonus. Cada segundo cuenta más que el anterior.</p>
-                    <div class="diff-time-badge diff-time-surv-hard">
-                        <span class="diff-time-icon">⚡</span>
-                        <span>45s · +7s por ejercicio</span>
-                    </div>
-                    <div class="diff-tags">
-                        <span class="diff-tag">1 – 4 JUGADORES</span>
-                        <span class="diff-tag">COOPERATIVO</span>
-                    </div>
-                    <button class="btn-diff btn-diff-surv-hard">JUGAR →</button>
-                </div>
-            </div>
-
-            <!-- DEMENCIAL -->
-            <div class="diff-card diff-surv-demencial" onclick="window.location.href='/supervivencia/lobby?difficulty=demencial'">
-                <div class="diff-glow diff-glow-surv-demencial"></div>
-                <div class="diff-card-inner">
-                    <div class="diff-icon">💀</div>
-                    <div class="diff-label">DEMENCIAL</div>
-                    <div class="diff-title">Sin Piedad</div>
-                    <p class="diff-desc">30 segundos. 5 de bonus. Solo para los mejores equipos.</p>
-                    <div class="diff-time-badge diff-time-surv-demencial">
-                        <span class="diff-time-icon">☠</span>
-                        <span>30s · +5s por ejercicio</span>
-                    </div>
-                    <div class="diff-tags">
-                        <span class="diff-tag">1 – 4 JUGADORES</span>
-                        <span class="diff-tag">COOPERATIVO</span>
-                    </div>
-                    <button class="btn-diff btn-diff-surv-demencial">JUGAR →</button>
-                </div>
-            </div>
-
-        </div>
-
-        <button class="btn-back-home" onclick="window.location.href='/home'">← Volver al menú</button>
-
     </div>
 
     <script src="/src/services/globalBg.js"></script>
