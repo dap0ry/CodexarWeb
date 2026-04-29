@@ -9,6 +9,8 @@ const BOSS_DATA = {
         desc:          'El primero de los tres. Metódico y predecible. Domina los fundamentos y cae a tus pies.',
         timeBadge:     '⏱  60s · +10s por ejercicio',
         placeholderIcon: '◈',
+        img:     'https://res.cloudinary.com/dydqye3n1/image/upload/v1777470101/boss1.png',
+        iconImg: 'https://res.cloudinary.com/dydqye3n1/image/upload/v1777470107/boss1icon.png',
     },
     boss2: {
         apiDifficulty: 'dificil',
@@ -18,6 +20,8 @@ const BOSS_DATA = {
         desc:          'Aprendió de los errores del Guardián. Más rápido, menos misericordioso. Exige precisión extrema.',
         timeBadge:     '⚡  45s · +7s por ejercicio',
         placeholderIcon: '◬',
+        img:     null,
+        iconImg: null,
     },
     boss3: {
         apiDifficulty: 'demencial',
@@ -27,6 +31,8 @@ const BOSS_DATA = {
         desc:          'Sin piedad. Sin margen de error. Solo los equipos más élite lo han visto caer.',
         timeBadge:     '☠  30s · +5s por ejercicio',
         placeholderIcon: '☠',
+        img:     null,
+        iconImg: null,
     },
 };
 
@@ -65,16 +71,38 @@ function updateBossUI() {
 
     document.body.dataset.boss = selectedBoss;
 
-    document.getElementById('sv3BossTier').textContent          = boss.tier;
-    document.getElementById('sv3BossTitleC').textContent        = boss.name;
-    document.getElementById('sv3BossDesc').textContent          = boss.desc;
-    document.getElementById('sv3TimeBadge').textContent         = boss.timeBadge;
-    document.getElementById('sv3BossIndexTag').textContent      = boss.indexTag;
-    document.getElementById('sv3BossNameBig').textContent       = boss.name;
-    document.getElementById('sv3BossPlaceholderIcon').textContent = boss.placeholderIcon;
+    document.getElementById('sv3BossTier').textContent     = boss.tier;
+    document.getElementById('sv3BossTitleC').textContent   = boss.name;
+    document.getElementById('sv3BossDesc').textContent     = boss.desc;
+    document.getElementById('sv3TimeBadge').textContent    = boss.timeBadge;
+    document.getElementById('sv3BossIndexTag').textContent = boss.indexTag;
+    document.getElementById('sv3BossNameBig').textContent  = boss.name;
 
+    // Boss image (right column)
+    const imgWrap = document.getElementById('sv3BossImgWrap');
+    if (boss.img) {
+        imgWrap.innerHTML = `<img src="${boss.img}" alt="${escHtml(boss.name)}">`;
+    } else {
+        imgWrap.innerHTML = `<div class="sv3-boss-placeholder">
+            <div class="sv3-boss-placeholder-icon">${boss.placeholderIcon}</div>
+            <div class="sv3-boss-placeholder-text">IMAGEN DEL BOSS</div>
+        </div>`;
+    }
+
+    // Active state on buttons
     document.querySelectorAll('.sv3-boss-icon-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.boss === selectedBoss);
+    });
+}
+
+function initBossIcons() {
+    document.querySelectorAll('.sv3-boss-icon-btn').forEach(btn => {
+        const data = BOSS_DATA[btn.dataset.boss];
+        const numEl = btn.querySelector('.sv3-boss-num');
+        if (data.iconImg) {
+            numEl.innerHTML = `<img src="${data.iconImg}" alt="${escHtml(data.name)}">`;
+            numEl.classList.add('has-img');
+        }
     });
 }
 
@@ -345,6 +373,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             navAv.textContent = myUser.username.charAt(0).toUpperCase();
         }
 
+        initBossIcons();
         updateBossUI();
         renderSlots([{ username: myUser.username, avatar: myUser.avatar }]);
         fetchRecord();
