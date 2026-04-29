@@ -1,33 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/",                    "destination": "/src/pages/index.html" },
-    { "source": "/login",               "destination": "/src/pages/Login.html" },
-    { "source": "/register",            "destination": "/src/pages/Register.html" },
-    { "source": "/home",                "destination": "/src/pages/Home.html" },
-    { "source": "/configuracion",       "destination": "/src/pages/Configuracion.html" },
-    { "source": "/ejercicios",          "destination": "/src/pages/Exercises.html" },
-    { "source": "/amigos",              "destination": "/src/pages/Friends.html" },
-    { "source": "/logros",              "destination": "/src/pages/Logros.html" },
-    { "source": "/clasificacion",       "destination": "/src/pages/Leaderboard.html" },
-    { "source": "/equipos",             "destination": "/src/pages/Teams.html" },
-    { "source": "/equipo",              "destination": "/src/pages/TeamView.html" },
-    { "source": "/torneos",             "destination": "/src/pages/Tournaments.html" },
-    { "source": "/precios",             "destination": "/src/pages/Pricing.html" },
-    { "source": "/tutorial",            "destination": "/src/pages/Tutorial.html" },
-    { "source": "/admin",               "destination": "/src/pages/AdminPanel.html" },
-    { "source": "/crear-ejercicio",     "destination": "/src/pages/CreateExercise.html" },
-    { "source": "/verificacion",        "destination": "/src/pages/Verificacion.html" },
-    { "source": "/onboarding",          "destination": "/src/pages/Onboarding.html" },
-    { "source": "/vs-cpu",              "destination": "/src/pages/VsCpu.html" },
-    { "source": "/vs-cpu/batalla",      "destination": "/src/pages/VsCpuBattle.html" },
-    { "source": "/ranked",              "destination": "/src/pages/Ranked.html" },
-    { "source": "/ranked/batalla",      "destination": "/src/pages/RankedBattle.html" },
-    { "source": "/friendly/batalla",    "destination": "/src/pages/FriendlyBattle.html" },
-    { "source": "/supervivencia",       "destination": "/src/pages/Supervivencia.html" },
-    { "source": "/supervivencia/batalla","destination": "/src/pages/SupervivenciaBattle.html" },
-    { "source": "/supervivencia/lobby", "destination": "/src/pages/SupervivenciaLobby.html" },
-    { "source": "/resolver",            "destination": "/src/pages/SolvePage.html" },
-    { "source": "/perfil",              "destination": "/src/pages/ProfileView.html" },
-    { "source": "/quick-login",         "destination": "/src/pages/QuickLogin.html" }
-  ]
+  "buildCommand": "node build.js",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
