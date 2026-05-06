@@ -36,93 +36,87 @@
 
     <div class="ranked-container">
 
-        <!-- ── View 1: Ready ─────────────────────────────────────────── -->
+        <!-- ── Vista 1: Listo ──────────────────────────────────────── -->
         <div id="readyView" class="view-panel active-view">
-            <div class="panel-accent-line"></div>
 
-            <div class="rk-emblem">
-                <div class="rk-emblem-glow"></div>
-                <div class="rk-emblem-ring"></div>
-                <span class="rk-emblem-icon">⚔</span>
+            <div class="rk-eyebrow">// clasificatoria ranked</div>
+
+            <div class="rk-rank-hero">
+                <span class="rk-rank-name" id="myRank">—</span>
+                <div class="rk-rank-underline"></div>
             </div>
 
-            <h1 class="view-title">¿Listo para la batalla?</h1>
-            <p class="view-desc">
-                Serás emparejado con un rival de rating similar.<br>
+            <div class="rk-elo-block">
+                <span class="rk-elo-val" id="myRating">—</span>
+                <span class="rk-elo-label">ELO</span>
+            </div>
+
+            <div class="rk-secondary-stats">
+                <div class="rk-sec-stat">
+                    <span class="rk-sec-val" id="myStreak">—</span>
+                    <span class="rk-sec-label">racha actual</span>
+                </div>
+                <div class="rk-sec-divider"></div>
+                <div class="rk-sec-stat">
+                    <span class="rk-sec-val" id="progressText" style="font-size:13px;">—</span>
+                    <span class="rk-sec-label">para subir</span>
+                </div>
+            </div>
+
+            <div class="rk-progress-bar-bg">
+                <div class="rk-progress-bar-fill" id="rankProgressBar" style="width:0%"></div>
+            </div>
+
+            <p class="rk-desc">
+                Emparejado con un rival de rating similar.<br>
                 El primero en resolver el problema gana.
             </p>
 
-            <div class="stats-row">
-                <div class="stat-box">
-                    <span class="stat-label">Rango</span>
-                    <span class="stat-value stat-value--rank" id="myRank">--</span>
-                </div>
-                <div class="stat-box stat-box--elo">
-                    <span class="stat-label">ELO</span>
-                    <span class="stat-value stat-value--elo" id="myRating">--</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-label">Racha</span>
-                    <span class="stat-value stat-value--streak" id="myStreak">-</span>
-                </div>
-            </div>
-
-            <div class="progress-wrap">
-                <div class="progress-info">
-                    <span>Progreso al siguiente rango</span>
-                    <span id="progressText">-- ELO para subir</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="rankProgressBar" style="width:0%"></div>
-                </div>
-            </div>
-
-            <button class="find-btn" id="findMatchBtn">
-                <span class="find-btn-sword">⚔</span>
+            <button class="rk-find-btn" id="findMatchBtn">
                 Buscar Partida
             </button>
-            <span class="sbmm-note">SBMM activo · máx. ±2 rangos de diferencia</span>
+
+            <span class="rk-footnote">SBMM activo · diferencia máx. ±2 rangos</span>
         </div>
 
-        <!-- ── View 2: Searching ──────────────────────────────────────── -->
+        <!-- ── Vista 2: Buscando ───────────────────────────────────── -->
         <div id="searchingView" class="view-panel hidden-view">
-            <div class="panel-accent-line panel-accent-line--search"></div>
 
-            <div class="rk-orbit">
-                <div class="rk-orbit-ring rk-orbit-ring--outer"></div>
-                <div class="rk-orbit-ring rk-orbit-ring--inner"></div>
-                <span class="rk-orbit-core">⚡</span>
+            <div class="rk-eyebrow">// buscando rival</div>
+
+            <div class="rk-search-dots">
+                <span></span><span></span><span></span>
             </div>
 
-            <h1 class="view-title">Buscando rival...</h1>
-            <p class="view-desc">Conectando con un jugador de tu nivel</p>
+            <div class="rk-timer-block">
+                <span class="rk-timer" id="searchTimer">0:00</span>
+                <span class="rk-timer-label">tiempo buscando</span>
+            </div>
 
-            <div class="rk-timer" id="searchTimer">0:00</div>
+            <div class="rk-vs-row">
+                <div class="rk-vs-player rk-vs-player--me">
+                    <div class="rk-vs-avatar rk-vs-avatar--me" id="searchMyAvatar"></div>
+                    <span class="rk-vs-name">Tú</span>
+                </div>
 
-            <div class="vs-strip">
-                <div class="vs-slot">
-                    <div class="vs-avatar vs-avatar--me" id="searchMyAvatar"></div>
-                    <span class="vs-name">Tú</span>
+                <div class="rk-vs-center">
+                    <span class="rk-vs-dash"></span>
+                    <span class="rk-vs-tag">VS</span>
+                    <span class="rk-vs-dash"></span>
                 </div>
-                <div class="vs-mid">
-                    <span class="vs-mid-dot"></span>
-                    <span class="vs-mid-label">VS</span>
-                    <span class="vs-mid-dot"></span>
-                </div>
-                <div class="vs-slot">
-                    <div class="vs-avatar vs-avatar--op">?</div>
-                    <span class="vs-name">Buscando...</span>
+
+                <div class="rk-vs-player rk-vs-player--op">
+                    <div class="rk-vs-avatar rk-vs-avatar--op">?</div>
+                    <span class="rk-vs-name">buscando...</span>
                 </div>
             </div>
 
-            <div class="range-box">
-                <span class="range-label">Rango de búsqueda</span>
-                <span class="range-value" id="searchRange">---- – ----</span>
+            <div class="rk-range-line">
+                <span class="rk-range-label">rango de búsqueda</span>
+                <span class="rk-range-val" id="searchRange">— – —</span>
             </div>
 
-            <button class="cancel-btn" id="cancelSearchBtn">
-                <span>✕</span> Cancelar búsqueda
-            </button>
+            <button class="rk-cancel-btn" id="cancelSearchBtn">cancelar búsqueda</button>
         </div>
 
     </div>
