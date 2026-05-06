@@ -324,8 +324,10 @@ function applyThemeActiveState(theme) {
 
 // ── Save all ──────────────────────────────────────────────────────────────
 
-async function saveAll(btn, feedbackId) {
+async function saveAll() {
     const token    = localStorage.getItem('access_token');
+    const btn      = document.getElementById('cfgSaveAllBtn');
+    const feedbackId = 'cfgSaveFeedback';
     const username = document.getElementById('cfgUsername').value.trim();
     const desc     = document.getElementById('cfgDesc').value.trim();
     const newp     = document.getElementById('cfgNewPwd').value;
@@ -507,8 +509,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     initLenguajesSection();
     initAparienciaSection();
 
-    const $personalBtn = document.getElementById('cfgPersonalSaveBtn');
-    const $persBtn     = document.getElementById('cfgPersSaveBtn');
-    if ($personalBtn) $personalBtn.addEventListener('click', () => saveAll($personalBtn, 'cfgPersonalFeedback'));
-    if ($persBtn)     $persBtn.addEventListener('click',     () => saveAll($persBtn,     'cfgPersFeedback'));
+    document.getElementById('cfgSaveAllBtn').addEventListener('click', saveAll);
 });
