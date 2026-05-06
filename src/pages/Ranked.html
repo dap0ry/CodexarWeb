@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="/src/assets/css/themes.css">
 </head>
 <body>
-    <!-- Navbar (same as all other pages) -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
@@ -27,7 +26,7 @@
                 <a href="/configuracion" class="dropdown-item">Configuración</a>
                 <a href="/logros" class="dropdown-item">Logros</a>
                 <a href="/amigos" class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
+                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
                 <a href="#" class="dropdown-item">Ayuda</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
@@ -35,77 +34,95 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="ranked-container">
 
-        <!-- View 1: Ready to Battle -->
+        <!-- ── View 1: Ready ─────────────────────────────────────────── -->
         <div id="readyView" class="view-panel active-view">
-            <div class="emblem-container">
-                <div class="emblem">⚔</div>
+            <div class="panel-accent-line"></div>
+
+            <div class="rk-emblem">
+                <div class="rk-emblem-glow"></div>
+                <div class="rk-emblem-ring"></div>
+                <span class="rk-emblem-icon">⚔</span>
             </div>
 
             <h1 class="view-title">¿Listo para la batalla?</h1>
             <p class="view-desc">
-                Serás emparejado con un rival de rating similar. Ambos<br>
-                recibiréis el mismo problema. ¡El primero en resolverlo gana!
+                Serás emparejado con un rival de rating similar.<br>
+                El primero en resolver el problema gana.
             </p>
 
             <div class="stats-row">
                 <div class="stat-box">
-                    <span class="stat-label">Tu Posición</span>
-                    <span class="stat-value" id="myRank">#--</span>
+                    <span class="stat-label">Rango</span>
+                    <span class="stat-value stat-value--rank" id="myRank">--</span>
                 </div>
-                <div class="stat-box highlight-box">
+                <div class="stat-box stat-box--elo">
                     <span class="stat-label">ELO</span>
-                    <span class="stat-value accent-text" id="myRating">----</span>
+                    <span class="stat-value stat-value--elo" id="myRating">--</span>
                 </div>
                 <div class="stat-box">
                     <span class="stat-label">Racha</span>
-                    <span class="stat-value orange-text" id="myStreak">-</span>
+                    <span class="stat-value stat-value--streak" id="myStreak">-</span>
                 </div>
             </div>
 
-            <!-- Progression bar to next rank -->
             <div class="progress-wrap">
                 <div class="progress-info">
                     <span>Progreso al siguiente rango</span>
-                    <span id="progressText">-- LP restantes</span>
+                    <span id="progressText">-- ELO para subir</span>
                 </div>
                 <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="rankProgressBar" style="width: 0%;"></div>
+                    <div class="progress-bar-fill" id="rankProgressBar" style="width:0%"></div>
                 </div>
             </div>
 
-            <button class="action-btn prime-btn" id="findMatchBtn">
+            <button class="find-btn" id="findMatchBtn">
+                <span class="find-btn-sword">⚔</span>
                 Buscar Partida
             </button>
+            <span class="sbmm-note">SBMM activo · máx. ±2 rangos de diferencia</span>
         </div>
 
-        <!-- View 2: Searching -->
+        <!-- ── View 2: Searching ──────────────────────────────────────── -->
         <div id="searchingView" class="view-panel hidden-view">
-            <div class="spinner-container">
-                <div class="spinner"></div>
+            <div class="panel-accent-line panel-accent-line--search"></div>
+
+            <div class="rk-orbit">
+                <div class="rk-orbit-ring rk-orbit-ring--outer"></div>
+                <div class="rk-orbit-ring rk-orbit-ring--inner"></div>
+                <span class="rk-orbit-core">⚡</span>
             </div>
 
             <h1 class="view-title">Buscando rival...</h1>
-            <p class="view-desc">Buscando un jugador con rating similar</p>
+            <p class="view-desc">Conectando con un jugador de tu nivel</p>
 
-            <div class="timer" id="searchTimer">0:00</div>
+            <div class="rk-timer" id="searchTimer">0:00</div>
 
-            <div class="match-avatars">
-                <div class="avatar-ring my-ring" id="searchMyAvatar"></div>
-                <div class="versus-dots">
-                    <span></span><span></span><span></span>
+            <div class="vs-strip">
+                <div class="vs-slot">
+                    <div class="vs-avatar vs-avatar--me" id="searchMyAvatar"></div>
+                    <span class="vs-name">Tú</span>
                 </div>
-                <div class="avatar-ring enemy-ring pulse-ring">?</div>
+                <div class="vs-mid">
+                    <span class="vs-mid-dot"></span>
+                    <span class="vs-mid-label">VS</span>
+                    <span class="vs-mid-dot"></span>
+                </div>
+                <div class="vs-slot">
+                    <div class="vs-avatar vs-avatar--op">?</div>
+                    <span class="vs-name">Buscando...</span>
+                </div>
             </div>
 
             <div class="range-box">
-                <span class="range-label">Buscando en el rango de rating:</span>
-                <span class="range-value" id="searchRange">---- - ---- LP</span>
+                <span class="range-label">Rango de búsqueda</span>
+                <span class="range-value" id="searchRange">---- – ----</span>
             </div>
 
-            <button class="action-btn cancel-btn" id="cancelSearchBtn">Cancelar búsqueda</button>
+            <button class="cancel-btn" id="cancelSearchBtn">
+                <span>✕</span> Cancelar búsqueda
+            </button>
         </div>
 
     </div>
