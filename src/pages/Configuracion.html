@@ -38,9 +38,10 @@
 <main class="cfg-page">
     <div class="cfg-content">
 
-        <!-- ══ BOX 01 · DATOS PERSONALES ══════════════════════════════════ -->
-        <div class="cfg-box" id="box-personal">
+        <!-- ══ BOX ÚNICO · PERFIL + PERSONALIZACIÓN ═══════════════════════ -->
+        <div class="cfg-box" id="box-config">
 
+            <!-- §1 Datos personales -->
             <div class="cfg-box-header">
                 <div class="cfg-box-tag">// 01</div>
                 <h2 class="cfg-box-title">Datos personales</h2>
@@ -133,95 +134,99 @@
                 </div>
             </div>
 
-        </div><!-- /box-personal -->
-
-        <!-- ══ BOX 02 · PERSONALIZACIÓN ════════════════════════════════════ -->
-        <div class="cfg-box" id="box-personalizacion">
-
-            <div class="cfg-box-header">
-                <div class="cfg-box-tag">// 02</div>
-                <h2 class="cfg-box-title">Personalización de perfil</h2>
-                <p class="cfg-box-desc">Banner, fondo de perfil y preferencias visuales de tu página pública.</p>
-            </div>
-
-            <!-- Banner + fondo -->
-            <div class="cfg-media-grid">
-                <!-- Banner -->
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Banner superior</label>
-                    <div class="cfg-bg-strip" id="cfgBannerStrip">
-                        <span class="cfg-bg-empty" id="cfgBannerEmpty">Sin banner</span>
-                    </div>
-                    <div class="cfg-upload-row">
-                        <label for="cfgBannerInput" class="cfg-upload-btn">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                            Subir banner
-                        </label>
-                        <button type="button" class="cfg-delete-btn" id="cfgBannerDeleteBtn">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-                            Eliminar
-                        </button>
-                    </div>
-                    <input type="file" id="cfgBannerInput" accept="image/png,image/jpeg,image/webp" hidden>
-                    <span class="cfg-hint">1160 × 130 px recomendado · máx. 2 MB</span>
-                </div>
-
-                <!-- Fondo -->
-                <div class="cfg-field-group">
-                    <label class="cfg-label">Fondo de perfil <span class="cfg-label-hint">wallpaper completo</span></label>
-                    <div class="cfg-bg-strip" id="cfgBgStrip">
-                        <span class="cfg-bg-empty" id="cfgBgEmpty">Sin fondo personalizado</span>
-                    </div>
-                    <div class="cfg-upload-row">
-                        <label for="cfgBgInput" class="cfg-upload-btn">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                            Subir fondo
-                        </label>
-                        <button type="button" class="cfg-delete-btn" id="cfgBgDeleteBtn">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-                            Eliminar
-                        </button>
-                    </div>
-                    <input type="file" id="cfgBgInput" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4" hidden>
-                    <span class="cfg-hint">Cubre todo el fondo · máx. 3 MB (10 MB con Plus/Max · GIF y MP4 con Plus/Max)</span>
-                </div>
-            </div>
-
-            <!-- Opciones visuales -->
+            <!-- §2 Personalización -->
             <div class="cfg-subsection">
-                <div class="cfg-subsec-label">Opciones visuales <span class="cfg-subsec-instant">— se aplican al instante</span></div>
-                <div class="cfg-vis-grid">
+                <div class="cfg-box-header" style="gap:4px;">
+                    <div class="cfg-box-tag">// 02</div>
+                    <h2 class="cfg-box-title">Personalización de perfil</h2>
+                    <p class="cfg-box-desc">Banner, fondo de perfil y preferencias visuales de tu página pública.</p>
+                </div>
+
+                <!-- Banner + fondo -->
+                <div class="cfg-media-grid">
+                    <!-- Banner -->
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Estilo de tarjetas</label>
-                        <div class="cfg-box-style-group" id="cfgBoxStyleGroup">
-                            <button class="cfg-box-style-btn" data-style="transparent">Transparente</button>
-                            <button class="cfg-box-style-btn" data-style="semi">Semi</button>
-                            <button class="cfg-box-style-btn active" data-style="solid">Sólido</button>
+                        <label class="cfg-label">Banner superior</label>
+                        <div class="cfg-bg-strip" id="cfgBannerStrip">
+                            <span class="cfg-bg-empty" id="cfgBannerEmpty">Sin banner</span>
                         </div>
-                        <span class="cfg-hint">Fondo de las tarjetas en el perfil público.</span>
+                        <div class="cfg-upload-row">
+                            <label for="cfgBannerInput" class="cfg-upload-btn">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                                Subir banner
+                            </label>
+                            <button type="button" class="cfg-delete-btn" id="cfgBannerDeleteBtn">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                                Eliminar
+                            </button>
+                        </div>
+                        <input type="file" id="cfgBannerInput" accept="image/png,image/jpeg,image/webp" hidden>
+                        <span class="cfg-hint">1160 × 130 px recomendado · máx. 2 MB</span>
                     </div>
+
+                    <!-- Fondo -->
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Opacidad del fondo</label>
-                        <div class="cfg-box-style-group" id="cfgBgVisGroup">
-                            <button class="cfg-box-style-btn" data-vis="full">100%</button>
-                            <button class="cfg-box-style-btn" data-vis="mid">80%</button>
-                            <button class="cfg-box-style-btn active" data-vis="dim">50%</button>
+                        <label class="cfg-label">Fondo de perfil <span class="cfg-label-hint">wallpaper completo</span></label>
+                        <div class="cfg-bg-strip" id="cfgBgStrip">
+                            <span class="cfg-bg-empty" id="cfgBgEmpty">Sin fondo personalizado</span>
                         </div>
-                        <span class="cfg-hint">Cuánto oscurece el overlay sobre el wallpaper.</span>
+                        <div class="cfg-upload-row">
+                            <label for="cfgBgInput" class="cfg-upload-btn">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                                Subir fondo
+                            </label>
+                            <button type="button" class="cfg-delete-btn" id="cfgBgDeleteBtn">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                                Eliminar
+                            </button>
+                        </div>
+                        <input type="file" id="cfgBgInput" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4" hidden>
+                        <span class="cfg-hint">Cubre todo el fondo · máx. 3 MB (10 MB con Plus/Max · GIF y MP4 con Plus/Max)</span>
                     </div>
-                    <div class="cfg-field-group">
-                        <label class="cfg-label">Opacidad del banner</label>
-                        <div class="cfg-box-style-group" id="cfgBannerVisGroup">
-                            <button class="cfg-box-style-btn" data-banvis="full">100%</button>
-                            <button class="cfg-box-style-btn" data-banvis="mid">80%</button>
-                            <button class="cfg-box-style-btn active" data-banvis="dim">50%</button>
+                </div>
+
+                <!-- Opciones visuales -->
+                <div class="cfg-subsection">
+                    <div class="cfg-subsec-label">Opciones visuales <span class="cfg-subsec-instant">— se aplican al instante</span></div>
+                    <div class="cfg-vis-grid">
+                        <div class="cfg-field-group">
+                            <label class="cfg-label">Estilo de tarjetas</label>
+                            <div class="cfg-box-style-group" id="cfgBoxStyleGroup">
+                                <button class="cfg-box-style-btn" data-style="transparent">Transparente</button>
+                                <button class="cfg-box-style-btn" data-style="semi">Semi</button>
+                                <button class="cfg-box-style-btn active" data-style="solid">Sólido</button>
+                            </div>
+                            <span class="cfg-hint">Fondo de las tarjetas en el perfil público.</span>
                         </div>
-                        <span class="cfg-hint">Degradado sobre el banner superior del perfil.</span>
+                        <div class="cfg-field-group">
+                            <label class="cfg-label">Opacidad del fondo</label>
+                            <div class="cfg-box-style-group" id="cfgBgVisGroup">
+                                <button class="cfg-box-style-btn" data-vis="full">100%</button>
+                                <button class="cfg-box-style-btn" data-vis="mid">80%</button>
+                                <button class="cfg-box-style-btn active" data-vis="dim">50%</button>
+                            </div>
+                            <span class="cfg-hint">Cuánto oscurece el overlay sobre el wallpaper.</span>
+                        </div>
+                        <div class="cfg-field-group">
+                            <label class="cfg-label">Opacidad del banner</label>
+                            <div class="cfg-box-style-group" id="cfgBannerVisGroup">
+                                <button class="cfg-box-style-btn" data-banvis="full">100%</button>
+                                <button class="cfg-box-style-btn" data-banvis="mid">80%</button>
+                                <button class="cfg-box-style-btn active" data-banvis="dim">50%</button>
+                            </div>
+                            <span class="cfg-hint">Degradado sobre el banner superior del perfil.</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div><!-- /box-personalizacion -->
+            <!-- Botón guardar centrado -->
+            <div class="cfg-box-footer cfg-box-footer--center">
+                <span class="cfg-feedback" id="cfgSaveFeedback"></span>
+                <button class="cfg-save-btn" id="cfgSaveAllBtn">▸ Guardar cambios</button>
+            </div>
+
+        </div><!-- /box-config -->
 
         <!-- ══ 03 · APARIENCIA (sin caja, solo grid) ════════════════════════ -->
         <section class="cfg-apariencia" id="sec-apariencia">
@@ -314,12 +319,6 @@
 
             </div>
         </section>
-
-        <!-- ══ GUARDAR TODO ═════════════════════════════════════════════════ -->
-        <div class="cfg-save-bar">
-            <span class="cfg-feedback" id="cfgSaveFeedback"></span>
-            <button class="cfg-save-btn" id="cfgSaveAllBtn">▸ Guardar cambios</button>
-        </div>
 
     </div><!-- cfg-content -->
 </main>

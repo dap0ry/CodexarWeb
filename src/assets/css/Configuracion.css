@@ -87,13 +87,10 @@
     border-top: 1px solid rgba(255,255,255,0.06);
 }
 
-.cfg-save-bar {
-    display: flex;
+.cfg-box-footer--center {
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    gap: 16px;
-    padding: 24px 0 8px;
-    border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 /* ── Sub-sections within a box ───────────────────────────────────────────── */
