@@ -324,20 +324,19 @@ function applyThemeActiveState(theme) {
 
 // ── Save all ──────────────────────────────────────────────────────────────
 
-async function saveAll() {
+async function saveAll(btn, feedbackId) {
     const token    = localStorage.getItem('access_token');
-    const btn      = document.getElementById('cfgSaveAllBtn');
     const username = document.getElementById('cfgUsername').value.trim();
     const desc     = document.getElementById('cfgDesc').value.trim();
     const newp     = document.getElementById('cfgNewPwd').value;
     const oldp     = document.getElementById('cfgOldPwd').value;
 
-    setFeedback('cfgSaveFeedback', '', '');
+    setFeedback(feedbackId, '', '');
 
     // ── 1. Validate username ──────────────────────────────────────────────
     if (username.length < 3) {
         setStatus('cfgUsernameStatus', 'Mínimo 3 caracteres', 'err');
-        setFeedback('cfgSaveFeedback', 'El nombre de usuario es demasiado corto.', 'err');
+        setFeedback(feedbackId, 'El nombre de usuario es demasiado corto.', 'err');
         return;
     }
 
@@ -350,25 +349,25 @@ async function saveAll() {
             const data = await chk.json();
             if (!data.available) {
                 setStatus('cfgUsernameStatus', '✗ Ya está en uso', 'err');
-                setFeedback('cfgSaveFeedback', 'Ese nombre de usuario ya está en uso.', 'err');
-                btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+                setFeedback(feedbackId, 'Ese nombre de usuario ya está en uso.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar cambios'; return;
             }
             setStatus('cfgUsernameStatus', '✓ Disponible', 'ok');
         } catch {
-            setFeedback('cfgSaveFeedback', 'No se pudo verificar el nombre de usuario.', 'err');
-            btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+            setFeedback(feedbackId, 'No se pudo verificar el nombre de usuario.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar cambios'; return;
         }
     }
 
     // ── 3. Validate password change (if requested) ────────────────────────
     if (newp) {
         if (newp.length < 6) {
-            setFeedback('cfgSaveFeedback', 'La nueva contraseña debe tener al menos 6 caracteres.', 'err');
+            setFeedback(feedbackId, 'La nueva contraseña debe tener al menos 6 caracteres.', 'err');
             return;
         }
         const pwdStatus = document.getElementById('cfgPwdStatus');
         if (!pwdStatus.classList.contains('ok')) {
-            setFeedback('cfgSaveFeedback', 'Debes verificar tu contraseña actual antes de cambiarla.', 'err');
+            setFeedback(feedbackId, 'Debes verificar tu contraseña actual antes de cambiarla.', 'err');
             return;
         }
     }
@@ -387,8 +386,8 @@ async function saveAll() {
             });
             if (!res.ok) {
                 const err = await res.json().catch(() => ({}));
-                setFeedback('cfgSaveFeedback', err.detail || 'Error subiendo el banner.', 'err');
-                btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+                setFeedback(feedbackId, err.detail || 'Error subiendo el banner.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar cambios'; return;
             }
         }
 
@@ -402,8 +401,8 @@ async function saveAll() {
             });
             if (!res.ok) {
                 const err = await res.json().catch(() => ({}));
-                setFeedback('cfgSaveFeedback', err.detail || 'Error subiendo el fondo.', 'err');
-                btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+                setFeedback(feedbackId, err.detail || 'Error subiendo el fondo.', 'err');
+                btn.disabled = false; btn.textContent = '▸ Guardar cambios'; return;
             }
         }
 
@@ -427,8 +426,8 @@ async function saveAll() {
         });
         const profileData = await profileRes.json();
         if (!profileRes.ok) {
-            setFeedback('cfgSaveFeedback', profileData.detail || 'Error al guardar el perfil.', 'err');
-            btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+            setFeedback(feedbackId, profileData.detail || 'Error al guardar el perfil.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar cambios'; return;
         }
 
         // ── 7. Social links ───────────────────────────────────────────────
@@ -446,8 +445,8 @@ async function saveAll() {
         });
         if (!socialRes.ok) {
             const err = await socialRes.json().catch(() => ({}));
-            setFeedback('cfgSaveFeedback', err.detail || 'Error al guardar redes sociales.', 'err');
-            btn.disabled = false; btn.textContent = '▸ Guardar configuración'; return;
+            setFeedback(feedbackId, err.detail || 'Error al guardar redes sociales.', 'err');
+            btn.disabled = false; btn.textContent = '▸ Guardar cambios'; return;
         }
 
         // ── 8. Success ────────────────────────────────────────────────────
@@ -466,15 +465,15 @@ async function saveAll() {
             setStatus('cfgPwdStatus', '', '');
         }
 
-        setFeedback('cfgSaveFeedback', '¡Configuración guardada correctamente!', 'ok');
-        setTimeout(() => setFeedback('cfgSaveFeedback', '', ''), 4000);
+        setFeedback(feedbackId, '¡Configuración guardada correctamente!', 'ok');
+        setTimeout(() => setFeedback(feedbackId, '', ''), 4000);
 
     } catch {
-        setFeedback('cfgSaveFeedback', 'Error de conexión.', 'err');
+        setFeedback(feedbackId, 'Error de conexión.', 'err');
     }
 
     btn.disabled    = false;
-    btn.textContent = '▸ Guardar configuración';
+    btn.textContent = '▸ Guardar cambios';
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────
@@ -508,5 +507,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initLenguajesSection();
     initAparienciaSection();
 
-    document.getElementById('cfgSaveAllBtn').addEventListener('click', saveAll);
+    const $personalBtn = document.getElementById('cfgPersonalSaveBtn');
+    const $persBtn     = document.getElementById('cfgPersSaveBtn');
+    if ($personalBtn) $personalBtn.addEventListener('click', () => saveAll($personalBtn, 'cfgPersonalFeedback'));
+    if ($persBtn)     $persBtn.addEventListener('click',     () => saveAll($persBtn,     'cfgPersFeedback'));
 });
