@@ -10,9 +10,6 @@ let editor = null;
 const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
-    'Java':   'java',
-    'Go':     'go',
-    'C#':     'csharp',
 };
 
 // ─── Monaco bootstrap ────────────────────────────────────────────

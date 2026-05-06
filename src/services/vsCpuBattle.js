@@ -20,9 +20,6 @@ const TIMER_MATRIX = {
 const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
-    'Java':   'java',
-    'Go':     'go',
-    'C#':     'csharp',
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -190,13 +187,16 @@ function renderExercise(ex, user) {
     renderTestCases(ex.test_cases, null);
 
     const pills = document.querySelectorAll('.lang-pill');
+    const SUPPORTED = ['Python', 'C++'];
     if (user?.languages?.length > 0) {
-        const preferred = user.languages[0];
-        const match = [...pills].find(p => p.dataset.lang === preferred);
-        if (match) {
-            pills.forEach(p => p.classList.remove('active'));
-            match.classList.add('active');
-            selectedLang = preferred;
+        const preferred = user.languages.find(l => SUPPORTED.includes(l));
+        if (preferred) {
+            const match = [...pills].find(p => p.dataset.lang === preferred);
+            if (match) {
+                pills.forEach(p => p.classList.remove('active'));
+                match.classList.add('active');
+                selectedLang = preferred;
+            }
         }
     }
     loadStub(selectedLang);
