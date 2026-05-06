@@ -10,9 +10,6 @@ let editor = null;
 const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
-    'Java':   'java',
-    'Go':     'go',
-    'C#':     'csharp',
 };
 
 // ─── Monaco bootstrap ────────────────────────────────────────────
@@ -309,30 +306,30 @@ async function handleCheck() {
 async function handleSave() {
     if (!matchActive || !codeIsCorrect) return;
     const token = localStorage.getItem('access_token');
+    const code = editor.getValue().trim();
     const btnSave = document.getElementById('btnSave');
+    const status = document.getElementById('editorStatus');
 
     btnSave.disabled = true;
-    btnSave.innerHTML = '<span class="btn-icon">⏳</span> Guardando...';
+    btnSave.innerHTML = '<span class="btn-icon">⏳</span> Verificando...';
 
     try {
-        const totalCases = matchData.exercise.test_cases.length;
-        const mockResults = Array(totalCases).fill({ passed: true });
-
         const matchId = new URLSearchParams(window.location.search).get('match');
         const submitRes = await fetch(`${API_BASE}/matchmaking/match/${matchId}/submit`, {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ results: mockResults })
+            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, language: selectedLang })
         });
         const matchUpdate = await submitRes.json();
 
         if (matchUpdate.status === 'finished') {
             endMatch(matchUpdate.is_winner);
+        } else {
+            status.textContent = '✗ ' + (matchUpdate.message || 'Error al verificar');
+            status.style.color = '#ef4444';
+            btnSave.disabled = false;
+            btnSave.innerHTML = '<span class="btn-icon">✓</span> Guardar Solución';
         }
-
     } catch (err) {
         console.error(err);
         btnSave.disabled = false;
