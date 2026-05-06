@@ -18,165 +18,197 @@ body {
 
 .view-panel {
     position: relative;
-    width: 480px;
+    width: 500px;
     max-width: 100%;
     display: none;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 48px 44px 40px;
-    border-top-color: rgba(0,255,204,0.18);
+    overflow: hidden;
+}
+
+/* línea superior degradada */
+.view-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 40px; right: 40px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.5), transparent);
 }
 
 .view-panel.active-view {
     display: flex;
-    animation: fadeUp 0.35s ease forwards;
+    animation: fadeUp 0.4s ease forwards;
 }
 
 .hidden-view { display: none !important; }
 
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Eyebrow label ───────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   VISTA 1 — LISTO
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-.rk-eyebrow {
-    font-family: var(--font-heading);
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--accent-cyan);
-    opacity: 0.55;
-    text-transform: lowercase;
-    margin-bottom: 28px;
-    align-self: flex-start;
-}
+/* ── Emblema ─────────────────────────────────────────────────────────────── */
 
-/* ── Rank hero ───────────────────────────────────────────────────────────── */
-
-.rk-rank-hero {
-    align-self: stretch;
-    margin-bottom: 20px;
-}
-
-.rk-rank-name {
-    display: block;
-    font-family: var(--font-heading);
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--text-light);
-    letter-spacing: -1px;
-    line-height: 1;
-    margin-bottom: 10px;
-}
-
-.rk-rank-underline {
-    height: 1px;
-    background: linear-gradient(90deg, rgba(0,255,204,0.35) 0%, rgba(255,255,255,0.04) 60%, transparent 100%);
-}
-
-/* ── ELO block ───────────────────────────────────────────────────────────── */
-
-.rk-elo-block {
+.rk-emblem {
+    position: relative;
+    width: 80px;
+    height: 80px;
     display: flex;
-    align-items: baseline;
-    gap: 10px;
-    align-self: flex-start;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 18px;
 }
 
-.rk-elo-val {
+.rk-emblem-pulse {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,204,0.12) 0%, transparent 70%);
+    animation: emblemPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes emblemPulse {
+    0%, 100% { transform: scale(1);    opacity: 0.7; }
+    50%       { transform: scale(1.1); opacity: 1;   }
+}
+
+.rk-emblem-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,255,204,0.25);
+    background: rgba(0,255,204,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rk-emblem-icon {
+    font-size: 30px;
+    filter: drop-shadow(0 0 8px rgba(0,255,204,0.4));
+}
+
+/* ── Título de rango ─────────────────────────────────────────────────────── */
+
+.rk-rank-name {
     font-family: var(--font-heading);
-    font-size: 56px;
+    font-size: 26px;
     font-weight: 800;
-    color: var(--accent-cyan);
-    letter-spacing: -2px;
+    color: var(--text-light);
+    letter-spacing: -0.5px;
+    margin: 0 0 5px;
+}
+
+.rk-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    opacity: 0.4;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0 0 28px;
+}
+
+/* ── Stats ───────────────────────────────────────────────────────────────── */
+
+.rk-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 28px;
+    width: 100%;
+}
+
+.rk-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.rk-stat-val {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-light);
     line-height: 1;
 }
 
-.rk-elo-label {
-    font-family: var(--font-heading);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: var(--text-muted);
-    opacity: 0.5;
-    text-transform: uppercase;
-}
+.rk-stat-val--elo    { color: var(--accent-cyan); }
+.rk-stat-val--streak { color: #f59e0b; }
 
-/* ── Secondary stats ─────────────────────────────────────────────────────── */
-
-.rk-secondary-stats {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    align-self: flex-start;
-    margin-bottom: 22px;
-}
-
-.rk-sec-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.rk-sec-val {
-    font-family: var(--font-heading);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-light);
-}
-
-.rk-sec-label {
+.rk-stat-lbl {
     font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     color: var(--text-muted);
-    opacity: 0.45;
+    opacity: 0.5;
 }
 
-.rk-sec-divider {
+.rk-stat-sep {
     width: 1px;
-    height: 28px;
-    background: rgba(255,255,255,0.08);
+    height: 32px;
+    background: rgba(255,255,255,0.07);
 }
 
-/* ── Progress bar ────────────────────────────────────────────────────────── */
+/* ── Barra de progreso ───────────────────────────────────────────────────── */
 
-.rk-progress-bar-bg {
-    align-self: stretch;
-    height: 3px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 2px;
-    overflow: hidden;
+.rk-progress {
+    width: 100%;
     margin-bottom: 28px;
 }
 
-.rk-progress-bar-fill {
-    height: 100%;
-    background: var(--accent-cyan);
-    border-radius: 2px;
-    transition: width 0.6s ease;
+.rk-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+    opacity: 0.5;
+    margin-bottom: 8px;
 }
 
-/* ── Description ─────────────────────────────────────────────────────────── */
+.rk-progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.rk-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), #00ffaa);
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,255,204,0.45);
+    transition: width 0.7s ease;
+}
+
+/* ── Descripción ─────────────────────────────────────────────────────────── */
 
 .rk-desc {
     font-size: 13px;
     color: var(--text-muted);
-    opacity: 0.55;
-    line-height: 1.7;
-    text-align: center;
+    opacity: 0.5;
+    line-height: 1.75;
     margin-bottom: 28px;
 }
 
-/* ── Find button ─────────────────────────────────────────────────────────── */
+/* ── Botón buscar ────────────────────────────────────────────────────────── */
 
 .rk-find-btn {
-    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
     padding: 15px;
     border-radius: 10px;
     background: var(--accent-cyan);
@@ -185,209 +217,238 @@ body {
     font-family: var(--font-heading);
     font-size: 13px;
     font-weight: 800;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     margin-bottom: 14px;
+    box-shadow: 0 4px 20px rgba(0,255,204,0.2);
 }
 
 .rk-find-btn:hover {
-    box-shadow: 0 0 32px rgba(0,255,204,0.3);
-    transform: translateY(-1px);
+    box-shadow: 0 0 36px rgba(0,255,204,0.38);
+    transform: translateY(-2px);
 }
 
 .rk-footnote {
     font-size: 10.5px;
     color: var(--text-muted);
-    opacity: 0.3;
+    opacity: 0.28;
     letter-spacing: 0.3px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Vista buscando
+   VISTA 2 — BUSCANDO
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Dots animation ──────────────────────────────────────────────────────── */
-
-.rk-search-dots {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 28px;
-    align-self: flex-start;
-}
-
-.rk-search-dots span {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-cyan);
-    opacity: 0.25;
-    animation: dotBlink 1.4s ease-in-out infinite;
-}
-
-.rk-search-dots span:nth-child(2) { animation-delay: 0.2s; }
-.rk-search-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes dotBlink {
-    0%, 80%, 100% { opacity: 0.2;  transform: scale(1);   }
-    40%           { opacity: 1;    transform: scale(1.3); }
-}
-
-/* ── Timer ───────────────────────────────────────────────────────────────── */
-
-.rk-timer-block {
-    align-self: flex-start;
-    margin-bottom: 32px;
-}
-
-.rk-timer {
-    display: block;
+.rk-searching-label {
     font-family: var(--font-heading);
-    font-size: 64px;
-    font-weight: 800;
-    color: var(--text-light);
-    letter-spacing: -3px;
-    line-height: 1;
-    margin-bottom: 6px;
-}
-
-.rk-timer-label {
-    font-size: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    letter-spacing: 2px;
     color: var(--text-muted);
-    opacity: 0.35;
+    opacity: 0.45;
+    margin-bottom: 36px;
 }
 
-/* ── VS row ──────────────────────────────────────────────────────────────── */
+/* ── Duelo de avatares ───────────────────────────────────────────────────── */
 
-.rk-vs-row {
+.rk-duel {
     display: flex;
     align-items: center;
-    align-self: stretch;
+    justify-content: center;
     gap: 0;
-    margin-bottom: 24px;
-    padding: 20px 0;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    width: 100%;
+    margin-bottom: 36px;
 }
 
-.rk-vs-player {
+.rk-duel-slot {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    position: relative;
 }
 
-.rk-vs-avatar {
-    width: 56px;
-    height: 56px;
+/* Aura animada alrededor del avatar */
+.rk-duel-aura {
+    position: absolute;
+    top: -8px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.rk-duel-aura--me {
+    background: radial-gradient(circle, rgba(0,255,204,0.14) 0%, transparent 70%);
+    animation: auraPulse 2.4s ease-in-out infinite;
+}
+
+.rk-duel-aura--op {
+    background: radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%);
+    animation: auraPulse 2.4s ease-in-out infinite 0.8s;
+}
+
+@keyframes auraPulse {
+    0%, 100% { transform: scale(1);    opacity: 0.6; }
+    50%       { transform: scale(1.15); opacity: 1;  }
+}
+
+.rk-duel-avatar {
+    position: relative;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 26px;
     font-weight: 700;
     background: rgba(255,255,255,0.04);
     background-size: cover;
     background-position: center;
+    z-index: 1;
 }
 
-.rk-vs-avatar--me {
-    border: 2px solid var(--accent-cyan);
+.rk-duel-avatar--me {
+    border: 2.5px solid var(--accent-cyan);
+    box-shadow: 0 0 20px rgba(0,255,204,0.25), 0 0 0 4px rgba(0,255,204,0.06);
 }
 
-.rk-vs-avatar--op {
-    border: 2px solid rgba(255,255,255,0.1);
+.rk-duel-avatar--op {
+    border: 2.5px solid rgba(239,68,68,0.5);
     color: var(--text-muted);
-    animation: opFade 2s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(239,68,68,0.15), 0 0 0 4px rgba(239,68,68,0.04);
+    animation: opSearch 2s ease-in-out infinite;
 }
 
-@keyframes opFade {
-    0%, 100% { opacity: 0.5; }
-    50%       { opacity: 1;   }
+@keyframes opSearch {
+    0%, 100% { border-color: rgba(239,68,68,0.3); box-shadow: 0 0 20px rgba(239,68,68,0.1),  0 0 0 4px rgba(239,68,68,0.03); }
+    50%       { border-color: rgba(239,68,68,0.7); box-shadow: 0 0 28px rgba(239,68,68,0.25), 0 0 0 4px rgba(239,68,68,0.07); }
 }
 
-.rk-vs-name {
+.rk-duel-name {
     font-size: 11px;
+    font-weight: 600;
     color: var(--text-muted);
-    opacity: 0.55;
+    opacity: 0.5;
     letter-spacing: 0.5px;
 }
 
-.rk-vs-center {
+/* VS central con líneas animadas */
+.rk-duel-mid {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     flex-shrink: 0;
-    padding: 0 12px;
+    padding: 0 8px;
+    padding-bottom: 22px;
 }
 
-.rk-vs-dash {
-    display: block;
-    width: 16px;
-    height: 1px;
-    background: rgba(255,255,255,0.1);
-}
-
-.rk-vs-tag {
+.rk-duel-vs {
     font-family: var(--font-heading);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
     letter-spacing: 3px;
-    color: var(--text-muted);
-    opacity: 0.3;
-}
-
-/* ── Range line ──────────────────────────────────────────────────────────── */
-
-.rk-range-line {
-    align-self: flex-start;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 28px;
-}
-
-.rk-range-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     color: var(--text-muted);
     opacity: 0.35;
 }
 
-.rk-range-val {
-    font-family: var(--font-heading);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent-cyan);
-    opacity: 0.8;
+.rk-duel-line {
+    width: 2px;
+    height: 14px;
+    border-radius: 2px;
 }
 
-/* ── Cancel ──────────────────────────────────────────────────────────────── */
+.rk-duel-line--left {
+    background: linear-gradient(to bottom, rgba(0,255,204,0.4), transparent);
+}
+
+.rk-duel-line--right {
+    background: linear-gradient(to top, rgba(239,68,68,0.4), transparent);
+}
+
+/* ── Timer ───────────────────────────────────────────────────────────────── */
+
+.rk-timer-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 28px;
+}
+
+.rk-timer {
+    font-family: var(--font-heading);
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    letter-spacing: -1px;
+    line-height: 1;
+    text-shadow: 0 0 28px rgba(0,255,204,0.3);
+}
+
+.rk-timer-sub {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    opacity: 0.3;
+}
+
+/* ── Rango de búsqueda ───────────────────────────────────────────────────── */
+
+.rk-range {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px 32px;
+    margin-bottom: 28px;
+    width: 75%;
+}
+
+.rk-range-lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    opacity: 0.4;
+}
+
+.rk-range-val {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+/* ── Cancelar ────────────────────────────────────────────────────────────── */
 
 .rk-cancel-btn {
-    align-self: stretch;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 10px;
+    padding: 12px 32px;
     color: var(--text-muted);
-    font-family: var(--font-heading);
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: lowercase;
-    padding: 13px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-    opacity: 0.6;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    opacity: 0.65;
 }
 
 .rk-cancel-btn:hover {
-    border-color: rgba(239,68,68,0.35);
+    border-color: rgba(239,68,68,0.4);
     color: #ef4444;
+    background: rgba(239,68,68,0.05);
     opacity: 1;
 }
