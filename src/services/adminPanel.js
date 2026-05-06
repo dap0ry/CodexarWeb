@@ -47,6 +47,7 @@ async function initPage() {
     await loadUsers();
     await loadExercises();
     initNewsForm();
+    initTournamentsForm();
 
     document.getElementById('userSearch').addEventListener('input', filterUsers);
     document.getElementById('exSearch').addEventListener('input', filterExercises);
@@ -61,6 +62,7 @@ function bindTabs() {
             tab.classList.add('active');
             document.getElementById(`section-${tab.dataset.section}`)?.classList.remove('hidden');
             if (tab.dataset.section === 'news' && !allNews.length) loadNews();
+            if (tab.dataset.section === 'tournaments') loadTournaments();
         });
     });
 }
@@ -310,6 +312,131 @@ async function deleteNews(id) {
     });
     const data = await res.json();
     if (res.ok) { showToast(data.message); await loadNews(); }
+    else showToast(data.detail || 'Error', true);
+}
+
+// ── Tournaments ───────────────────────────────────────────────────────────────
+
+let allTournaments = [];
+
+function initTournamentsForm() {
+    document.getElementById('tCreateBtn').addEventListener('click', createTournament);
+}
+
+async function loadTournaments() {
+    const res = await fetch(`${API_BASE}/tournaments`, {
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    if (!res.ok) { showToast('Error al cargar torneos', true); return; }
+    allTournaments = await res.json();
+    renderTournaments(allTournaments);
+}
+
+function renderTournaments(list) {
+    document.getElementById('tCount').textContent = `${list.length} torneo${list.length !== 1 ? 's' : ''}`;
+    const tbody = document.getElementById('tTableBody');
+    if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="ap-loading">No hay torneos creados</td></tr>';
+        return;
+    }
+
+    const statusLabel = { upcoming: 'Próximo', active: 'En Curso', finished: 'Finalizado' };
+    const statusColor = { upcoming: '#f59e0b', active: 'var(--accent-cyan)', finished: 'rgba(114,114,138,0.6)' };
+
+    tbody.innerHTML = list.map(t => {
+        const date = t.start_time
+            ? new Date(t.start_time).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            : '—';
+        const count = (t.participants || []).length;
+        const color = statusColor[t.status] || 'inherit';
+        const label = statusLabel[t.status] || t.status;
+
+        return `
+            <tr>
+                <td><strong>${esc(t.name)}</strong>${t.banner_url ? ' <span style="opacity:0.4;font-size:0.6rem">🖼</span>' : ''}</td>
+                <td><span style="color:${color};font-family:var(--font-mono);font-size:0.7rem;font-weight:700">${label}</span></td>
+                <td style="color:var(--accent-cyan)">${count}</td>
+                <td style="color:rgba(114,114,138,0.6);font-size:0.72rem">${date}</td>
+                <td>
+                    <div class="ap-actions-cell">
+                        ${t.status === 'upcoming' && count >= 2
+                            ? `<button class="ap-btn" style="background:rgba(0,255,204,0.1);border-color:rgba(0,255,204,0.3);color:var(--accent-cyan)" onclick="startTournament('${esc(t.id)}', this)">▶ Iniciar</button>`
+                            : ''}
+                        <button class="ap-btn" style="background:transparent;border-color:rgba(255,255,255,0.1);color:var(--text-muted)" onclick="window.open('/torneos','_blank')">Ver bracket</button>
+                        <button class="ap-btn ap-btn-delete" onclick="deleteTournament('${esc(t.id)}', '${esc(t.name)}')">Eliminar</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+async function createTournament() {
+    const name  = document.getElementById('tName').value.trim();
+    const desc  = document.getElementById('tDesc').value.trim();
+    const start = document.getElementById('tStart').value;
+    const banner = document.getElementById('tBanner').files[0];
+
+    if (!name)  { showToast('El nombre es obligatorio.', true); return; }
+    if (!start) { showToast('La fecha de inicio es obligatoria.', true); return; }
+
+    const btn = document.getElementById('tCreateBtn');
+    btn.disabled = true;
+    btn.textContent = 'Creando...';
+
+    const form = new FormData();
+    form.append('name', name);
+    form.append('description', desc);
+    form.append('start_time', new Date(start).toISOString());
+    if (banner) form.append('banner', banner);
+
+    try {
+        const res  = await fetch(`${API_BASE}/tournaments`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token()}` },
+            body: form,
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+            showToast(`Torneo "${name}" creado.`);
+            document.getElementById('tName').value  = '';
+            document.getElementById('tDesc').value  = '';
+            document.getElementById('tStart').value = '';
+            document.getElementById('tBanner').value = '';
+            await loadTournaments();
+        } else {
+            showToast(data.detail || 'Error al crear el torneo.', true);
+        }
+    } catch {
+        showToast('Error de conexión.', true);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Crear torneo';
+}
+
+async function startTournament(id, btn) {
+    if (!confirm('¿Iniciar el torneo ahora? Se generará el bracket y comenzará la primera ronda.')) return;
+    btn.disabled = true;
+    btn.textContent = '...';
+    const res  = await fetch(`${API_BASE}/tournaments/${id}/start`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); await loadTournaments(); }
+    else { showToast(data.detail || 'Error', true); btn.disabled = false; btn.textContent = '▶ Iniciar'; }
+}
+
+async function deleteTournament(id, name) {
+    if (!confirm(`¿Eliminar el torneo "${name}"? No se puede deshacer.`)) return;
+    const res  = await fetch(`${API_BASE}/tournaments/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); await loadTournaments(); }
     else showToast(data.detail || 'Error', true);
 }
 

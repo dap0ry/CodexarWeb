@@ -15,47 +15,113 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
-        <div class="user-pill-container">
-            <div class="user-pill" id="userPill">
-                <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
-            </div>
-            <div class="user-dropdown">
-                <a href="/home"        class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/logros"      class="dropdown-item">Logros</a>
-                <a href="/amigos"     class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#"                class="dropdown-item">Ayuda</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
-            </div>
+<nav class="navbar">
+    <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
+    <div class="user-pill-container">
+        <div class="user-pill" id="userPill">
+            <div class="avatar" id="navAvatar"></div>
+            <div class="username-display" id="navUsername">Cargando...</div>
         </div>
-    </nav>
-
-    <div class="tourn-layout">
-
-        <div class="tourn-header">
-            <div class="tourn-title-row">
-                <div class="tourn-title">TOR<span>NEOS</span></div>
-                <div class="tourn-subtitle">Compite en equipo · El primero en resolver todos los ejercicios gana</div>
-            </div>
-            <div class="tourn-tabs">
-                <button class="tourn-tab active" data-filter="active" id="tabActive">Activos</button>
-                <button class="tourn-tab" data-filter="all" id="tabAll">Todos</button>
-            </div>
+        <div class="user-dropdown">
+            <a href="/home"            class="dropdown-item">Inicio</a>
+            <a href="/configuracion"   class="dropdown-item">Configuración</a>
+            <a href="/logros"          class="dropdown-item">Logros</a>
+            <a href="/amigos"          class="dropdown-item">Amigos</a>
+            <a href="/clasificacion"   class="dropdown-item">Clasificación</a>
+            <a href="#"                class="dropdown-item">Ayuda</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
         </div>
+    </div>
+</nav>
 
-        <div class="tourn-content" id="tournContent">
-            <div class="tourn-loading">Cargando torneos...</div>
+<!-- ══ PANEL LISTA ══════════════════════════════════════════════════════════ -->
+<div class="t-page" id="listPanel">
+
+    <div class="t-header">
+        <div class="t-header-left">
+            <div class="t-title">TOR<span>NEOS</span></div>
+            <div class="t-subtitle">Brackets 1v1 · El mejor llega a la cima</div>
         </div>
-
+        <div class="t-header-right">
+            <div class="t-tabs">
+                <button class="t-tab active" data-filter="all">Todos</button>
+                <button class="t-tab" data-filter="upcoming">Próximos</button>
+                <button class="t-tab" data-filter="active">Activos</button>
+                <button class="t-tab" data-filter="finished">Finalizados</button>
+            </div>
+            <button class="t-create-btn" id="createTournBtn" style="display:none">+ Crear Torneo</button>
+        </div>
     </div>
 
-    <script src="/src/services/tournaments.js"></script>
-    <script src="/src/services/globalBg.js"></script>
-    <script src="/src/services/roleNav.js"></script>
+    <div class="t-grid" id="tournGrid">
+        <div class="t-loading">Cargando torneos...</div>
+    </div>
+
+</div>
+
+<!-- ══ PANEL BRACKET ════════════════════════════════════════════════════════ -->
+<div class="t-page t-page--hidden" id="bracketPanel">
+
+    <div class="t-bracket-header">
+        <button class="t-back-btn" id="backBtn">← Volver</button>
+        <div class="t-bracket-info">
+            <div class="t-bracket-name" id="bracketName">—</div>
+            <div class="t-bracket-meta" id="bracketMeta">—</div>
+        </div>
+        <div class="t-bracket-actions" id="bracketActions"></div>
+    </div>
+
+    <div class="t-bracket-wrap" id="bracketWrap">
+        <div class="t-bracket-scroll">
+            <div class="t-bracket-stage" id="bracketStage"></div>
+        </div>
+    </div>
+
+    <!-- Panel de partida activa (aparece cuando es el turno del usuario) -->
+    <div class="t-match-alert" id="matchAlert" style="display:none">
+        <div class="t-match-alert-icon">⚔</div>
+        <div class="t-match-alert-text">
+            <strong>¡Es tu turno!</strong>
+            <span id="matchAlertSub">Tu partida está lista.</span>
+        </div>
+        <div class="t-match-alert-timer" id="matchAlertTimer">2:00</div>
+        <button class="t-match-join-btn" id="matchJoinBtn">Unirse a la partida</button>
+    </div>
+
+</div>
+
+<!-- ══ MODAL CREAR TORNEO ══════════════════════════════════════════════════ -->
+<div class="t-modal-overlay" id="createModal" style="display:none">
+    <div class="t-modal">
+        <div class="t-modal-header">
+            <span class="t-modal-title">Crear Torneo</span>
+            <button class="t-modal-close" id="createModalClose">✕</button>
+        </div>
+        <form id="createForm" class="t-modal-body">
+            <label class="t-label">Nombre del torneo
+                <input class="t-input" type="text" id="cName" placeholder="Gran Premio de Algoritmos" required maxlength="80">
+            </label>
+            <label class="t-label">Descripción
+                <textarea class="t-input t-textarea" id="cDesc" placeholder="Descripción breve del torneo..." rows="3" maxlength="300"></textarea>
+            </label>
+            <label class="t-label">Fecha y hora de inicio
+                <input class="t-input" type="datetime-local" id="cStart" required>
+            </label>
+            <label class="t-label">Banner (imagen, máx. 5 MB)
+                <input class="t-input-file" type="file" id="cBanner" accept="image/*">
+                <div class="t-banner-preview" id="bannerPreview"></div>
+            </label>
+            <div class="t-modal-footer">
+                <span class="t-modal-feedback" id="createFeedback"></span>
+                <button class="t-modal-submit" type="submit">Crear torneo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/src/services/tournaments.js"></script>
+<script src="/src/services/globalBg.js"></script>
+<script src="/src/services/roleNav.js"></script>
 </body>
 </html>

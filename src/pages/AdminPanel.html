@@ -49,6 +49,7 @@
                 <button class="ap-tab active" data-section="users">Usuarios</button>
                 <button class="ap-tab" data-section="exercises">Ejercicios</button>
                 <button class="ap-tab" data-section="news">Noticias</button>
+                <button class="ap-tab" data-section="tournaments">Torneos</button>
             </div>
 
             <!-- ── Usuarios ── -->
@@ -150,6 +151,65 @@
                         </thead>
                         <tbody id="newsTableBody">
                             <tr><td colspan="6" class="ap-loading">Cargando noticias...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- ── Torneos ── -->
+            <div class="ap-section hidden" id="section-tournaments">
+
+                <!-- Formulario crear torneo -->
+                <div class="ap-news-form">
+                    <div class="ap-news-form-header">
+                        <div class="ap-news-form-tag">// NUEVO TORNEO</div>
+                    </div>
+                    <div class="ap-news-fields">
+                        <div class="ap-news-field">
+                            <label class="ap-news-label">Nombre <span class="ap-news-req">*</span></label>
+                            <input type="text" id="tName" class="ap-news-input" placeholder="Gran Premio de Algoritmos..." maxlength="80" autocomplete="off">
+                        </div>
+                        <div class="ap-news-field">
+                            <label class="ap-news-label">Descripción <span class="ap-news-opt">(opcional)</span></label>
+                            <textarea id="tDesc" class="ap-news-textarea" placeholder="Descripción breve del torneo..." maxlength="300" rows="3"></textarea>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Fecha y hora de inicio <span class="ap-news-req">*</span></label>
+                                <input type="datetime-local" id="tStart" class="ap-news-input">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Banner <span class="ap-news-opt">(imagen, máx. 5 MB)</span></label>
+                                <input type="file" id="tBanner" class="ap-news-input" accept="image/*" style="padding:6px;cursor:pointer">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ap-news-form-footer">
+                        <button class="ap-news-submit" id="tCreateBtn">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            Crear torneo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lista de torneos -->
+                <div class="ap-news-list-header">
+                    <div class="ap-count" id="tCount">— torneos</div>
+                </div>
+                <div class="ap-table-wrap">
+                    <table class="ap-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                                <th>Participantes</th>
+                                <th>Inicio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tTableBody">
+                            <tr><td colspan="5" class="ap-loading">Cargando torneos...</td></tr>
                         </tbody>
                     </table>
                 </div>
