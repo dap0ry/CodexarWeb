@@ -342,6 +342,11 @@
     background: rgba(0,168,132,0.1);
     box-shadow: 0 0 14px rgba(0,168,132,0.18);
 }
+.cfg-lang-grid--small { gap: 8px; }
+.cfg-lang-grid--small .cfg-lang-card { width: 52px; height: 52px; border-radius: 8px; gap: 3px; }
+.cfg-lang-grid--small .cfg-lang-card img { width: 20px; height: 20px; }
+.cfg-lang-grid--small .cfg-lang-card span { font-size: 0.5rem; }
+
 .cfg-lang-card img { width: 30px; height: 30px; }
 .cfg-lang-card span {
     font-family: var(--font-heading);
