@@ -67,53 +67,5 @@
     }
     draw();
 
-    // ─── Floating code snippets ───
-    const SNIPPETS = [
-        { top:'12%', right:'2%', code:`<span class="kw">def</span> <span class="fn">quicksort</span>(a):
-  <span class="kw">if</span> len(a) &lt;= <span class="num">1</span>: <span class="kw">return</span> a
-  pivot = a[len(a)//<span class="num">2</span>]
-  L=[x <span class="kw">for</span> x <span class="kw">in</span> a <span class="kw">if</span> x&lt;pivot]
-  M=[x <span class="kw">for</span> x <span class="kw">in</span> a <span class="kw">if</span> x==pivot]
-  R=[x <span class="kw">for</span> x <span class="kw">in</span> a <span class="kw">if</span> x&gt;pivot]
-  <span class="kw">return</span> quicksort(L)+M+quicksort(R)`, anim:'a' },
-        { bottom:'22%', left:'1%', code:`<span class="kw">int</span> <span class="fn">fib</span>(<span class="kw">int</span> n, map&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt;&amp; m) {
-  <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;
-  <span class="kw">if</span> (m.count(n)) <span class="kw">return</span> m[n];
-  <span class="kw">return</span> m[n] = <span class="fn">fib</span>(n-<span class="num">1</span>,m)+<span class="fn">fib</span>(n-<span class="num">2</span>,m);
-}`, anim:'b' },
-        { top:'55%', right:'2%', code:`<span class="kw">const</span> dfs = (node, visited) => {
-  <span class="kw">if</span> (!node || visited.has(node.id)) <span class="kw">return</span>;
-  visited.add(node.id);
-  result.push(node.val);
-  node.children.forEach(c => dfs(c, visited));
-}`, anim:'c' },
-    ];
-
-    const ANIMS = {
-        a: '@keyframes gf-a{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-16px) rotate(1deg)}}',
-        b: '@keyframes gf-b{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-14px) rotate(-1.5deg)}}',
-        c: '@keyframes gf-c{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-20px) rotate(1deg)}}',
-    };
-
-    // Inject keyframes
-    const style = document.createElement('style');
-    style.textContent = Object.values(ANIMS).join('');
-    document.head.appendChild(style);
-
-    SNIPPETS.forEach(s => {
-        const el = document.createElement('div');
-        el.className = 'g-code-float';
-        el.innerHTML = `<pre>${s.code}</pre>`;
-        Object.assign(el.style, {
-            position: 'fixed',
-            zIndex: '2',
-            animation: `gf-${s.anim} ${9 + Math.random() * 5}s ease-in-out infinite`,
-        });
-        if (s.top)    el.style.top    = s.top;
-        if (s.bottom) el.style.bottom = s.bottom;
-        if (s.left)   el.style.left   = s.left;
-        if (s.right)  el.style.right  = s.right;
-        document.body.appendChild(el);
-    });
 
 })();

@@ -347,8 +347,11 @@ body { overflow: hidden; }
 .t-bracket-wrap {
     flex: 1;
     overflow: auto;
-    padding: 32px 5% 120px;
+    padding: 44px 5% 140px;
     position: relative;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
 }
 .t-bracket-wrap::-webkit-scrollbar { width: 5px; height: 5px; }
 .t-bracket-wrap::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.1); border-radius: 4px; }
@@ -366,6 +369,7 @@ body { overflow: hidden; }
     border-radius: 10px;
     overflow: hidden;
     transition: border-color 0.2s;
+    min-height: 106px; /* 2 slots + badge minimum */
 }
 .tm-match--mine {
     border-color: rgba(0,255,204,0.22);

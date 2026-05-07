@@ -76,6 +76,9 @@ async function initTournaments() {
     // Back button
     document.getElementById('backBtn')?.addEventListener('click', showList);
 
+    // Drag-to-pan on bracket
+    initBracketPan();
+
     // Create modal
     document.getElementById('createTournBtn')?.addEventListener('click', () => {
         document.getElementById('createModal').style.display = 'flex';
@@ -343,15 +346,15 @@ function renderBracket(bracket, slotStates, tournId) {
     const stage = document.getElementById('bracketStage');
     stage.innerHTML = '';
 
-    const MATCH_W  = 220;
-    const MATCH_H  = 94;   // approximate; real height depends on content
-    const COL_GAP  = 56;
-    const ROW_GAP  = 12;
+    const MATCH_W  = 230;
+    const MATCH_H  = 150;  // tall enough for 2 slots + badge + action button
+    const COL_GAP  = 64;
+    const ROW_GAP  = 28;   // visible gap between match boxes
 
     const numRounds = bracket.length;
     if (!numRounds) return;
 
-    // Compute absolute positions
+    // Compute absolute positions (each round doubles the stride)
     const positions = [];
     for (let r = 0; r < numRounds; r++) {
         positions[r] = [];
@@ -364,9 +367,9 @@ function renderBracket(bracket, slotStates, tournId) {
     }
 
     const lastR   = numRounds - 1;
-    const totalW  = lastR * (MATCH_W + COL_GAP) + MATCH_W + 24;
-    const lastPos = positions[0][positions[0].length - 1];
-    const totalH  = lastPos.y + MATCH_H + 24;
+    const totalW  = lastR * (MATCH_W + COL_GAP) + MATCH_W + 40;
+    const lastPos0 = positions[0][positions[0].length - 1];
+    const totalH  = lastPos0.y + MATCH_H + 40;
 
     stage.style.width  = totalW + 'px';
     stage.style.height = totalH + 'px';
@@ -392,7 +395,7 @@ function renderBracket(bracket, slotStates, tournId) {
 
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
-            path.setAttribute('stroke', 'rgba(0,255,204,0.1)');
+            path.setAttribute('stroke', 'rgba(0,255,204,0.12)');
             path.setAttribute('stroke-width', '1.5');
             path.setAttribute('fill', 'none');
             svg.appendChild(path);
@@ -400,12 +403,10 @@ function renderBracket(bracket, slotStates, tournId) {
     }
 
     // Round header labels
-    const headersRow = document.createElement('div');
-    headersRow.className = 't-round-headers';
     for (let r = 0; r < numRounds; r++) {
         const label = document.createElement('div');
         label.className = 't-round-header-item';
-        label.style.cssText = `position:absolute;left:${positions[r][0].x}px;top:-20px;width:${MATCH_W}px;`;
+        label.style.cssText = `position:absolute;left:${positions[r][0].x}px;top:-24px;width:${MATCH_W}px;`;
         label.textContent = r === numRounds - 1 ? 'FINAL' : r === numRounds - 2 ? 'SEMIFINAL' : `RONDA ${r + 1}`;
         stage.appendChild(label);
     }
@@ -429,6 +430,48 @@ function renderBracket(bracket, slotStates, tournId) {
             stage.appendChild(el);
         }
     }
+}
+
+// ── Drag-to-pan bracket ────────────────────────────────────────────────────────
+
+function initBracketPan() {
+    const wrap = document.getElementById('bracketWrap');
+    let isPanning = false, startX = 0, startY = 0, scrollL = 0, scrollT = 0, moved = false;
+
+    wrap.addEventListener('pointerdown', e => {
+        if (e.button !== 0) return;
+        isPanning = true;
+        moved = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        scrollL = wrap.scrollLeft;
+        scrollT = wrap.scrollTop;
+        wrap.setPointerCapture(e.pointerId);
+    });
+
+    wrap.addEventListener('pointermove', e => {
+        if (!isPanning) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+        if (moved) {
+            wrap.scrollLeft = scrollL - dx;
+            wrap.scrollTop  = scrollT - dy;
+            wrap.style.cursor = 'grabbing';
+        }
+    });
+
+    const endPan = () => {
+        isPanning = false;
+        wrap.style.cursor = 'grab';
+    };
+    wrap.addEventListener('pointerup',     endPan);
+    wrap.addEventListener('pointercancel', endPan);
+
+    // Prevent clicks on the wrap itself from firing when user was dragging
+    wrap.addEventListener('click', e => {
+        if (moved) e.stopPropagation();
+    }, true);
 }
 
 function buildMatchBox(match, isMyMatch, isFinal, tournId, slotState) {
