@@ -450,15 +450,17 @@ function initBracketPan() {
         startY = e.clientY;
         scrollL = wrap.scrollLeft;
         scrollT = wrap.scrollTop;
-        wrap.setPointerCapture(e.pointerId);
+        // No setPointerCapture: without it, click events fire on the actual
+        // child element (not redirected to wrap), so onclick on slots works.
+        // We use document-level listeners to track the pointer outside the wrap.
     });
 
-    wrap.addEventListener('pointermove', e => {
+    document.addEventListener('pointermove', e => {
         if (!isPanning) return;
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
-        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
-        if (moved) {
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+            moved = true;
             wrap.scrollLeft = scrollL - dx;
             wrap.scrollTop  = scrollT - dy;
             wrap.style.cursor = 'grabbing';
@@ -466,15 +468,19 @@ function initBracketPan() {
     });
 
     const endPan = () => {
+        if (!isPanning) return;
         isPanning = false;
         wrap.style.cursor = 'grab';
     };
-    wrap.addEventListener('pointerup',     endPan);
-    wrap.addEventListener('pointercancel', endPan);
+    document.addEventListener('pointerup',     endPan);
+    document.addEventListener('pointercancel', endPan);
 
-    // Prevent clicks on the wrap itself from firing when user was dragging
+    // Block clicks that followed a drag (capture phase so it runs before onclick)
     wrap.addEventListener('click', e => {
-        if (moved) e.stopPropagation();
+        if (moved) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
     }, true);
 }
 
