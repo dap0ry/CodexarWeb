@@ -8,7 +8,6 @@ let activeTournId = null;   // bracket view
 let activeTournData = null;
 let matchAlertInterval = null;
 let bracketPollInterval = null;
-let myActiveSlot = null;    // { slot_id, ready_at, match_id }
 
 function token()       { return localStorage.getItem('access_token'); }
 function authH()       { return { 'Authorization': `Bearer ${token()}`, 'Content-Type': 'application/json' }; }
@@ -516,25 +515,28 @@ function buildMatchBox(match, isMyMatch, isFinal, tournId, slotState) {
     let actionHtml = '';
     if (isMyMatch) {
         if (match.status === 'ready') {
-            const myReady = slotState
-                ? (p1?.email === currentUser.email ? slotState.p1_ready : slotState.p2_ready)
-                : false;
             if (slotState?.match_id) {
+                // Match already created — go straight to battle
                 actionHtml = `<button class="tm-action-btn tm-action-btn--play"
                     onclick="window.location.href='/ranked/batalla?match=${esc(slotState.match_id)}'">
                     ▶ Jugar
                 </button>`;
-            } else if (myReady) {
-                actionHtml = `<button class="tm-action-btn" disabled>Esperando rival...</button>`;
             } else {
-                actionHtml = `<button class="tm-action-btn" data-tid="${esc(tournId)}" data-slot="${esc(match.id)}" onclick="joinMatchSlot(this)">
-                    ⚔ Unirse a la partida
+                actionHtml = `<button class="tm-action-btn"
+                    onclick="window.location.href='/torneos/sala?t=${esc(tournId)}&s=${esc(match.id)}'">
+                    ⚔ Entrar al lobby
                 </button>`;
             }
         } else if (match.status === 'ongoing' && match.match_id) {
             actionHtml = `<button class="tm-action-btn tm-action-btn--play"
                 onclick="window.location.href='/ranked/batalla?match=${esc(match.match_id)}'">
                 ▶ Jugar
+            </button>`;
+        } else if (match.status === 'pending') {
+            // Player already assigned to this slot (won previous round), opponent still playing
+            actionHtml = `<button class="tm-action-btn tm-action-btn--pending"
+                onclick="window.location.href='/torneos/sala?t=${esc(tournId)}&s=${esc(match.id)}'">
+                ⌛ Sala de espera
             </button>`;
         }
     }
@@ -551,55 +553,6 @@ function buildMatchBox(match, isMyMatch, isFinal, tournId, slotState) {
     return div;
 }
 
-// ── Join match slot ────────────────────────────────────────────────────────────
-
-async function joinMatchSlot(btn) {
-    const tid    = btn.dataset.tid;
-    const slotId = btn.dataset.slot;
-    btn.disabled = true;
-    btn.textContent = '...';
-
-    try {
-        const res = await fetch(`${API}/tournaments/${tid}/match/${slotId}/join`, {
-            method: 'POST',
-            headers: authH(),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-            alert(data.detail || 'Error al unirse');
-            btn.disabled = false;
-            btn.textContent = '⚔ Unirse a la partida';
-            return;
-        }
-        if (data.status === 'started' && data.match_id) {
-            window.location.href = `/ranked/batalla?match=${data.match_id}`;
-        } else {
-            btn.textContent = 'Esperando rival...';
-            myActiveSlot = { tid, slotId, match_id: null };
-            startMatchAlertPolling(tid, slotId);
-        }
-    } catch {
-        btn.disabled = false;
-        btn.textContent = '⚔ Unirse a la partida';
-    }
-}
-
-async function startMatchAlertPolling(tid, slotId) {
-    // Long-poll until opponent joins
-    while (true) {
-        try {
-            const res = await fetch(`${API}/tournaments/${tid}/match/${slotId}/poll`, {
-                headers: { 'Authorization': `Bearer ${token()}` },
-            });
-            if (!res.ok) break;
-            const data = await res.json();
-            if (data.status === 'started' && data.match_id) {
-                window.location.href = `/ranked/batalla?match=${data.match_id}`;
-                return;
-            }
-        } catch { break; }
-    }
-}
 
 // ── Match alert (shown when it's your turn) ───────────────────────────────────
 
@@ -616,25 +569,21 @@ function checkMyMatch(t) {
 
             if (match.status === 'ready') {
                 const state = slotStates[match.id];
-                if (!state) continue;
-
-                if (state.match_id) {
-                    showMatchAlert(t.id, match.id, state.match_id, state.ready_at);
-                    return;
+                if (state?.match_id) {
+                    showMatchAlertPlay(state.match_id);
+                } else {
+                    showMatchAlertLobby(t.id, match.id, state?.ready_at);
                 }
-
-                const myReady = match.p1?.email === currentUser.email ? state.p1_ready : state.p2_ready;
-                if (!myReady) {
-                    showMatchAlert(t.id, match.id, null, state.ready_at);
-                    return;
-                }
-                // If I'm ready but no match yet, just wait
-                showMatchAlertWaiting(state.ready_at);
                 return;
             }
 
             if (match.status === 'ongoing' && match.match_id) {
                 showMatchAlertPlay(match.match_id);
+                return;
+            }
+
+            if (match.status === 'pending') {
+                showMatchAlertPending(t.id, match.id);
                 return;
             }
         }
@@ -643,50 +592,27 @@ function checkMyMatch(t) {
     hideMatchAlert();
 }
 
-function showMatchAlert(tid, slotId, matchId, readyAt) {
+function showMatchAlertLobby(tid, slotId, readyAt) {
     const alertEl = document.getElementById('matchAlert');
     alertEl.style.display = 'flex';
-
-    const sub = document.getElementById('matchAlertSub');
+    document.getElementById('matchAlertSub').textContent = '¡Es tu turno! Entra al lobby antes de que expire el tiempo.';
     const joinBtn = document.getElementById('matchJoinBtn');
-
-    if (matchId) {
-        sub.textContent = 'La partida está en marcha.';
-        joinBtn.textContent = '▶ Ir a la partida';
-        joinBtn.onclick = () => { window.location.href = `/ranked/batalla?match=${matchId}`; };
-    } else {
-        sub.textContent = 'Tu rival también debe unirse. ¡Date prisa!';
-        joinBtn.textContent = '⚔ Unirse';
-        joinBtn.onclick = async () => {
-            joinBtn.disabled = true;
-            joinBtn.textContent = '...';
-            const res = await fetch(`${API}/tournaments/${tid}/match/${slotId}/join`, {
-                method: 'POST', headers: authH()
-            });
-            const d = await res.json();
-            if (res.ok && d.match_id) {
-                window.location.href = `/ranked/batalla?match=${d.match_id}`;
-            } else if (d.status === 'waiting') {
-                joinBtn.textContent = 'Esperando rival...';
-                startMatchAlertPolling(tid, slotId);
-            } else {
-                joinBtn.disabled = false;
-                joinBtn.textContent = '⚔ Unirse';
-            }
-        };
-    }
-
+    joinBtn.disabled = false;
+    joinBtn.textContent = '⚔ Entrar al lobby';
+    joinBtn.onclick = () => { window.location.href = `/torneos/sala?t=${tid}&s=${slotId}`; };
     startAlertCountdown(readyAt);
 }
 
-function showMatchAlertWaiting(readyAt) {
+function showMatchAlertPending(tid, slotId) {
     const alertEl = document.getElementById('matchAlert');
     alertEl.style.display = 'flex';
-    document.getElementById('matchAlertSub').textContent = 'Esperando a que tu rival se una...';
+    clearInterval(matchAlertInterval);
+    document.getElementById('matchAlertTimer').textContent = '⌛';
+    document.getElementById('matchAlertSub').textContent = 'Tu rival aún está en su partida anterior.';
     const joinBtn = document.getElementById('matchJoinBtn');
-    joinBtn.disabled = true;
-    joinBtn.textContent = 'Esperando...';
-    startAlertCountdown(readyAt);
+    joinBtn.disabled = false;
+    joinBtn.textContent = 'Sala de espera';
+    joinBtn.onclick = () => { window.location.href = `/torneos/sala?t=${tid}&s=${slotId}`; };
 }
 
 function showMatchAlertPlay(matchId) {

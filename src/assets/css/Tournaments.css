@@ -505,6 +505,13 @@ body { overflow: hidden; }
 }
 .tm-action-btn--play:hover { background: rgba(245,158,11,0.25); }
 
+.tm-action-btn--pending {
+    background: rgba(245,158,11,0.08);
+    border-top: 1px solid rgba(245,158,11,0.15);
+    color: rgba(245,158,11,0.7);
+}
+.tm-action-btn--pending:hover { background: rgba(245,158,11,0.15); }
+
 /* ── Match alert bar ──────────────────────────────────────────────────────── */
 
 .t-match-alert {

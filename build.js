@@ -18,6 +18,7 @@ const PAGE_MAP = {
   'Teams.html':               'equipos.html',
   'TeamView.html':            'equipo.html',
   'Tournaments.html':         'torneos.html',
+  'TournamentLobby.html':    'torneos/sala.html',
   'Pricing.html':             'precios.html',
   'Tutorial.html':            'tutorial.html',
   'AdminPanel.html':          'admin.html',

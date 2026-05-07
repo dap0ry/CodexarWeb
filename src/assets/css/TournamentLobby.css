@@ -1,0 +1,256 @@
+/* TournamentLobby.css */
+
+body { overflow: hidden; }
+
+.tl-page {
+    margin-top: 64px;
+    height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* ── Main box ─────────────────────────────────────────────────────────────── */
+
+.tl-box {
+    width: 100%;
+    max-width: 520px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.4s;
+}
+
+.tl-box--found {
+    border-color: rgba(0,255,204,0.35);
+    box-shadow: 0 0 40px rgba(0,255,204,0.1);
+}
+
+/* ── Tournament header ────────────────────────────────────────────────────── */
+
+.tl-tourn-header {
+    padding: 22px 28px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
+
+.tl-tourn-tag {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent-cyan);
+    opacity: 0.65;
+    margin-bottom: 6px;
+}
+
+.tl-tourn-name {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 0.3px;
+}
+
+.tl-tourn-desc {
+    margin-top: 4px;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    font-family: var(--font-mono);
+    line-height: 1.5;
+}
+
+/* ── VS area ──────────────────────────────────────────────────────────────── */
+
+.tl-vs-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 36px 24px 28px;
+}
+
+.tl-player {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+}
+
+/* Avatars */
+.tl-avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,255,204,0.3);
+    background: rgba(0,255,204,0.07);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    box-shadow: 0 0 24px rgba(0,255,204,0.12);
+    flex-shrink: 0;
+    transition: all 0.4s;
+}
+
+.tl-avatar--ghost {
+    border-color: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    color: rgba(255,255,255,0.15);
+    box-shadow: none;
+    animation: ghostPulse 2.2s ease-in-out infinite;
+}
+
+.tl-avatar--present {
+    border-color: rgba(0,255,204,0.45);
+    background: rgba(0,255,204,0.08);
+    box-shadow: 0 0 32px rgba(0,255,204,0.22);
+    animation: none;
+}
+
+@keyframes ghostPulse {
+    0%, 100% { opacity: 0.35; }
+    50%       { opacity: 0.65; }
+}
+
+.tl-player-name {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.tl-player-badge {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border-radius: 4px;
+}
+
+.tl-badge--ready {
+    color: var(--accent-cyan);
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.2);
+}
+
+.tl-badge--waiting {
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    opacity: 0.55;
+}
+
+.tl-badge--present {
+    color: var(--accent-cyan);
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.2);
+}
+
+.tl-badge--pending {
+    color: #f59e0b;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+}
+
+/* VS center */
+.tl-vs-mid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.tl-vs-label {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.1);
+    letter-spacing: 4px;
+}
+
+.tl-timer {
+    font-family: var(--font-mono);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    letter-spacing: -2px;
+    text-shadow: 0 0 20px rgba(0,255,204,0.4);
+    min-width: 72px;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+.tl-timer.urgent {
+    color: #ef4444;
+    text-shadow: 0 0 20px rgba(239,68,68,0.4);
+    animation: urgentPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.55; }
+}
+
+/* ── Status message ───────────────────────────────────────────────────────── */
+
+.tl-status {
+    text-align: center;
+    padding: 0 28px 22px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0.55;
+    line-height: 1.65;
+}
+
+.tl-status--found {
+    color: var(--accent-cyan);
+    opacity: 1;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+/* ── Back button ──────────────────────────────────────────────────────────── */
+
+.tl-back {
+    margin: 0 28px 24px;
+    padding: 10px 0;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.tl-back:hover {
+    border-color: rgba(255,255,255,0.14);
+    color: var(--text-light);
+}
