@@ -405,6 +405,8 @@ body { overflow: hidden; }
 
 .tm-slot--winner { background: rgba(0,255,204,0.06); }
 .tm-slot--loser  { opacity: 0.4; }
+.tm-slot--link   { cursor: pointer; }
+.tm-slot--link:hover { background: rgba(255,255,255,0.04); }
 .tm-slot--empty  {
     color: var(--text-muted);
     opacity: 0.3;
@@ -745,6 +747,11 @@ body { overflow: hidden; }
     font-family: var(--font-mono);
     font-size: 0.6rem;
     color: var(--text-muted);
+    transition: border-color 0.15s, color 0.15s;
+}
+.t-participant-pill:hover {
+    border-color: rgba(0,255,204,0.2);
+    color: var(--text-light);
 }
 .t-participant-pill img, .t-participant-pill .t-pill-av {
     width: 18px;

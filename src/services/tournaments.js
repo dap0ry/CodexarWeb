@@ -312,6 +312,11 @@ function renderBracketPanel(t) {
         (t.participants_info || []).forEach(p => {
             const pill = document.createElement('div');
             pill.className = 't-participant-pill';
+            pill.style.cursor = 'pointer';
+            pill.title = `Ver perfil de ${p.username}`;
+            pill.addEventListener('click', () => {
+                window.location.href = `/perfil?u=${encodeURIComponent(p.username)}`;
+            });
             if (p.avatar) {
                 pill.innerHTML = `<img src="${esc(p.avatar)}" alt="${esc(p.username)}"><span>${esc(p.username)}</span>`;
             } else {
@@ -493,7 +498,8 @@ function buildMatchBox(match, isMyMatch, isFinal, tournId, slotState) {
             ? `<div class="tm-avatar" style="background-image:url('${esc(player.avatar)}')" title="${esc(player.username)}"></div>`
             : `<div class="tm-avatar tm-avatar--initial">${esc((player.username || '?').charAt(0).toUpperCase())}</div>`;
         return `
-            <div class="tm-slot${isW ? ' tm-slot--winner' : isL ? ' tm-slot--loser' : ''}">
+            <div class="tm-slot${isW ? ' tm-slot--winner' : isL ? ' tm-slot--loser' : ''} tm-slot--link"
+                 onclick="window.location.href='/perfil?u=${encodeURIComponent(player.username)}'">
                 ${avatarHtml}
                 <span class="tm-name">${esc(player.username)}</span>
                 ${isW ? '<span class="tm-win-icon">▶</span>' : ''}
