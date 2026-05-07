@@ -106,6 +106,10 @@ async function initTournaments() {
     document.getElementById('createForm')?.addEventListener('submit', submitCreateTournament);
 
     await loadList();
+
+    // Auto-open bracket if URL has ?t=
+    const tParam = new URLSearchParams(window.location.search).get('t');
+    if (tParam) openBracket(tParam);
 }
 
 // ── List ──────────────────────────────────────────────────────────────────────
@@ -167,6 +171,7 @@ function buildCard(t) {
                 <span data-icon="📅">${fmtDate(t.start_time)}</span>
                 <span data-icon="👤">${count} jugador${count !== 1 ? 'es' : ''}</span>
             </div>
+            ${t.winner ? `<div class="t-card-winner" style="margin-top:6px;font-size:0.75rem;color:var(--accent-cyan);cursor:pointer;" data-winner="${esc(t.winner.username)}">🏆 ${esc(t.winner.username)}</div>` : ''}
         </div>
         <div class="t-card-footer">
             <span class="t-card-count">${isJoined ? '✓ Inscrito' : ''}</span>
@@ -183,6 +188,11 @@ function buildCard(t) {
             if (action === 'leave') handleLeaveTournament(id, btn);
             if (action === 'view')  openBracket(id);
         });
+    });
+
+    card.querySelector('[data-winner]')?.addEventListener('click', e => {
+        e.stopPropagation();
+        window.location.href = `/perfil?u=${encodeURIComponent(e.currentTarget.dataset.winner)}`;
     });
 
     card.addEventListener('click', () => openBracket(t.id));
@@ -255,9 +265,13 @@ function renderBracketPanel(t) {
     document.getElementById('bracketName').textContent = t.name;
     const statusLabel = { upcoming: 'Próximo', active: 'En Curso', finished: 'Finalizado' }[t.status] || t.status;
     const count = (t.participants || []).length;
-    document.getElementById('bracketMeta').textContent =
-        `${statusLabel} · ${count} jugador${count !== 1 ? 'es' : ''}` +
-        (t.winner ? ` · 🏆 ${t.winner.username}` : '');
+    const metaBase = `${statusLabel} · ${count} jugador${count !== 1 ? 'es' : ''}`;
+    const metaEl = document.getElementById('bracketMeta');
+    if (t.winner) {
+        metaEl.innerHTML = `${esc(metaBase)} · <span class="t-winner-link" style="cursor:pointer;color:var(--accent-cyan);" onclick="window.location.href='/perfil?u=${encodeURIComponent(t.winner.username)}'">🏆 ${esc(t.winner.username)}</span>`;
+    } else {
+        metaEl.textContent = metaBase;
+    }
 
     // Actions
     const actionsEl = document.getElementById('bracketActions');

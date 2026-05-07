@@ -377,19 +377,25 @@ function endMatch(isWinner) {
     overlay.classList.remove('hidden');
 
     const isTournament = matchData?.match_type === 'tournament';
+    const tournamentId = matchData?.tournament_id;
     if (isWinner) {
         title.textContent = "VICTORIA";
         title.className = "win";
         desc.textContent = isTournament
-            ? "¡Ganaste el combate! Avanzas en el bracket."
+            ? "¡Has avanzado de ronda!"
             : "Ganaste +25 ELO y aumentaste tu racha.";
     } else {
         title.textContent = "DERROTA";
         title.className = "lose";
         document.getElementById('opProgressBar').style.width = '100%';
         desc.textContent = isTournament
-            ? "Tu rival llegó primero. Has sido eliminado del torneo."
+            ? "Has sido eliminado del torneo."
             : "Tu rival llegó primero. Perdiste -15 ELO.";
+    }
+    if (isTournament && tournamentId) {
+        setTimeout(() => {
+            window.location.href = `/torneos?t=${encodeURIComponent(tournamentId)}`;
+        }, 3000);
     }
 }
 
