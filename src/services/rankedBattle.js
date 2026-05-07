@@ -376,15 +376,20 @@ function endMatch(isWinner) {
     const desc = document.getElementById('resultDesc');
     overlay.classList.remove('hidden');
 
+    const isTournament = matchData?.match_type === 'tournament';
     if (isWinner) {
         title.textContent = "VICTORIA";
         title.className = "win";
-        desc.textContent = "Ganaste +25 ELO y aumentaste tu racha.";
+        desc.textContent = isTournament
+            ? "¡Ganaste el combate! Avanzas en el bracket."
+            : "Ganaste +25 ELO y aumentaste tu racha.";
     } else {
         title.textContent = "DERROTA";
         title.className = "lose";
         document.getElementById('opProgressBar').style.width = '100%';
-        desc.textContent = "Tu rival llegó primero. Perdiste -15 ELO.";
+        desc.textContent = isTournament
+            ? "Tu rival llegó primero. Has sido eliminado del torneo."
+            : "Tu rival llegó primero. Perdiste -15 ELO.";
     }
 }
 

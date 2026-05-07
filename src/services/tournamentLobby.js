@@ -147,7 +147,7 @@ function handleMessage(msg) {
             document.getElementById('lobbyTimer').textContent = '';
             // Redirect after brief delay so the user sees the "found" state
             setTimeout(() => {
-                window.location.href = `/ranked/batalla?match=${encodeURIComponent(msg.match_id)}`;
+                window.location.href = `/ranked/batalla?id=${encodeURIComponent(msg.match_id)}`;
             }, 1000);
             break;
         }
