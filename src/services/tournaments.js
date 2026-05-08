@@ -171,7 +171,15 @@ function buildCard(t) {
                 <span data-icon="📅">${fmtDate(t.start_time)}</span>
                 <span data-icon="👤">${count} jugador${count !== 1 ? 'es' : ''}</span>
             </div>
-            ${t.winner ? `<div class="t-card-winner" style="margin-top:6px;font-size:0.75rem;color:var(--accent-cyan);cursor:pointer;" data-winner="${esc(t.winner.username)}">🏆 ${esc(t.winner.username)}</div>` : ''}
+            ${t.winner ? `
+            <div class="t-card-winner" data-winner="${esc(t.winner.username)}">
+                <span class="t-card-winner-label">🏆 Ganador</span>
+                ${t.winner.avatar
+                    ? `<img class="t-card-winner-av" src="${esc(t.winner.avatar)}" alt="${esc(t.winner.username)}">`
+                    : `<div class="t-card-winner-av t-card-winner-av--initial">${esc((t.winner.username||'?').charAt(0).toUpperCase())}</div>`
+                }
+                <span class="t-card-winner-name">${esc(t.winner.username)}</span>
+            </div>` : ''}
         </div>
         <div class="t-card-footer">
             <span class="t-card-count">${isJoined ? '✓ Inscrito' : ''}</span>

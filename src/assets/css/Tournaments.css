@@ -185,6 +185,58 @@ body { overflow: hidden; }
 }
 .t-card-meta span::before { content: attr(data-icon) ' '; }
 
+.t-card-winner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(0,255,204,0.04);
+    border: 1px solid rgba(0,255,204,0.12);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+}
+.t-card-winner:hover { background: rgba(0,255,204,0.09); }
+.t-card-winner-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.65;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.t-card-winner-av {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0,255,204,0.3);
+    flex-shrink: 0;
+}
+.t-card-winner-av--initial {
+    background: rgba(0,255,204,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+}
+.t-card-winner-name {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .t-card-footer {
     padding: 10px 16px 14px;
     display: flex;
