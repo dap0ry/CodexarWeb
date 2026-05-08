@@ -29,6 +29,7 @@ const PAGE_MAP = {
   'VsCpuBattle.html':         'vs-cpu/batalla.html',
   'Ranked.html':              'ranked.html',
   'RankedBattle.html':        'ranked/batalla.html',
+  'TournamentBattle.html':    'torneos/batalla.html',
   'FriendlyBattle.html':      'friendly/batalla.html',
   'Supervivencia.html':       'supervivencia.html',
   'SupervivenciaBattle.html': 'supervivencia/batalla.html',
