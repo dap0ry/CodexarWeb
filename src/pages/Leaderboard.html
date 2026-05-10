@@ -34,24 +34,11 @@
         </div>
     </nav>
 
-    <!-- Podium Scene — title + podium in one flex column -->
     <main class="lb-scene">
         <div class="lb-header">
-            <div class="lb-title">TOP <span>5</span> CLASIFICACIÓN</div>
-            <div class="lb-subtitle">Los mejores programadores de Codexar por ejercicios resueltos</div>
+            <div class="lb-title">CLASIFICACIÓN</div>
+            <div class="lb-subtitle">Los mejores programadores de Codexar por ELO</div>
         </div>
-
-        <div class="podium-container" id="podiumContainer" style="opacity: 0;">
-            <!-- The Javascript will determine the podium order (e.g. 4, 2, 1, 3, 5) -->
-            <div class="podium-spot spot-4" id="spot-4"></div>
-            <div class="podium-spot spot-2" id="spot-2"></div>
-            <div class="podium-spot spot-1" id="spot-1"></div>
-            <div class="podium-spot spot-3" id="spot-3"></div>
-            <div class="podium-spot spot-5" id="spot-5"></div>
-        </div>
-
-        <!-- Loading / Empty state -->
-        <div id="lbLoading" class="lb-loading">Cargando clasificación...</div>
 
         <!-- Full player list -->
         <div class="lb-list-section">
@@ -62,6 +49,7 @@
                 <span class="lb-list-col lb-col-elo">ELO</span>
                 <span class="lb-list-col lb-col-solved">Resueltos</span>
             </div>
+            <div id="lbLoading" class="lb-loading">Cargando clasificación...</div>
             <div id="lbPlayerList"></div>
             <button class="lb-load-more hidden" id="lbLoadMore">Cargar más jugadores</button>
         </div>
