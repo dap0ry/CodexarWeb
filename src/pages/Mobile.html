@@ -58,8 +58,7 @@
 
         /* ─── HERO ─── */
         .hero {
-            min-height: 100dvh;
-            padding: 72px 20px 60px;
+            padding: 100px 20px 60px;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             gap: 0;
@@ -103,7 +102,6 @@
             position: relative; z-index: 1;
         }
         .hero-heading .accent { color: var(--cyan); }
-        .hero-heading .dim    { color: rgba(255,255,255,0.2); font-weight: 400; font-size: 0.55em; letter-spacing: 0; display: block; margin-top: 6px; }
 
         .hero-desc {
             font-size: 0.92rem; color: var(--muted);
@@ -389,58 +387,9 @@
 <!-- Hero -->
 <section class="hero">
 
-    <div class="hero-eyebrow">// PROGRAMACIÓN COMPETITIVA</div>
-
     <h1 class="hero-heading">
         Codex<span class="accent">ar</span>
-        <span class="dim">en tu bolsillo</span>
     </h1>
-
-    <p class="hero-desc">
-        Compite, practica y sube de rango<br>
-        <b>desde cualquier lugar</b> con la app oficial.
-    </p>
-
-    <!-- Battle animation -->
-    <div class="battle-wrap">
-        <div class="battle-scorebar">
-            <div class="bs-player left">
-                <span>Tú</span>
-                <span class="bs-score" id="scoreLeft">0</span>
-            </div>
-            <div class="bs-vs">VS</div>
-            <div class="bs-player right">
-                <span class="bs-score" id="scoreRight">0</span>
-                <span>Rival</span>
-            </div>
-        </div>
-
-        <div class="battle-arena" style="position:relative">
-            <!-- Left terminal (cyan) -->
-            <div class="terminal left-term" id="termLeft">
-                <div class="t-header">
-                    <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
-                    <span class="t-filename">solution.cpp</span>
-                </div>
-                <div class="t-progress"><div class="t-progress-fill" id="barLeft"></div></div>
-                <div class="t-body" id="bodyLeft"></div>
-                <div class="t-accept" id="acLeft">ACCEPTED ✓</div>
-            </div>
-
-            <div class="battle-vs-badge">VS</div>
-
-            <!-- Right terminal (orange) -->
-            <div class="terminal right-term" id="termRight">
-                <div class="t-header">
-                    <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
-                    <span class="t-filename">solution.py</span>
-                </div>
-                <div class="t-progress"><div class="t-progress-fill" id="barRight"></div></div>
-                <div class="t-body" id="bodyRight"></div>
-                <div class="t-accept" id="acRight">ACCEPTED ✓</div>
-            </div>
-        </div>
-    </div>
 
     <!-- Download buttons -->
     <div class="dl-buttons" id="descargar">
@@ -523,80 +472,6 @@
 
 <script>
 (function () {
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    const LEFT_LINES = [
-        { t: '#include <bits/stdc++.h>',   c: 'cmt' },
-        { t: 'int solve(int n) {',          c: 'fn'  },
-        { t: '  if (!n) return 1;',         c: ''    },
-        { t: '  int res = 0;',              c: ''    },
-        { t: '  for(int i=1;i<=n;i++)',     c: 'kw'  },
-        { t: '    res += solve(i-1);',      c: 'fn'  },
-        { t: '  return res;',               c: 'kw'  },
-        { t: '}',                           c: ''    },
-    ];
-    const RIGHT_LINES = [
-        { t: 'def solve(n):',              c: 'fn'  },
-        { t: '  if n == 0:',              c: 'kw'  },
-        { t: '    return 1',              c: ''    },
-        { t: '  res = 0',                c: ''    },
-        { t: '  for i in range(n+1):', c: 'kw'  },
-        { t: '    res += solve(i)',    c: 'fn'  },
-        { t: '  return res',          c: ''    },
-    ];
-
-    async function runTerminal(opts) {
-        const { body, bar, ac, scoreEl, lines, delay, speed } = opts;
-        let score = 0;
-        await sleep(delay);
-
-        while (true) {
-            body.innerHTML = '';
-            bar.style.width = '0%';
-            bar.style.opacity = '1';
-            ac.style.display = 'none';
-
-            for (let i = 0; i < lines.length; i++) {
-                const div = document.createElement('div');
-                div.className = 't-line ' + (lines[i].c || '');
-                div.textContent = lines[i].t;
-                body.appendChild(div);
-                bar.style.width = ((i + 1) / lines.length * 100) + '%';
-                await sleep(speed + Math.random() * (speed * 0.6));
-            }
-
-            await sleep(260);
-            body.innerHTML = '';
-            ac.style.display = 'block';
-            score++;
-            scoreEl.textContent = score;
-            await sleep(1100);
-            ac.style.display = 'none';
-            await sleep(300);
-        }
-    }
-
-    runTerminal({
-        body:    document.getElementById('bodyLeft'),
-        bar:     document.getElementById('barLeft'),
-        ac:      document.getElementById('acLeft'),
-        scoreEl: document.getElementById('scoreLeft'),
-        lines:   LEFT_LINES,
-        delay:   400,
-        speed:   210,
-    });
-
-    runTerminal({
-        body:    document.getElementById('bodyRight'),
-        bar:     document.getElementById('barRight'),
-        ac:      document.getElementById('acRight'),
-        scoreEl: document.getElementById('scoreRight'),
-        lines:   RIGHT_LINES,
-        delay:   0,
-        speed:   270,
-    });
-
-    // Scroll-in feature items
     const items = document.querySelectorAll('.feat-item');
     const io = new IntersectionObserver(entries => {
         entries.forEach((e, i) => {
