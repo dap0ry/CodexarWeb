@@ -11,6 +11,7 @@ let tournamentId = null;
 const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
+    'Java':   'java',
 };
 
 // ─── Monaco bootstrap ────────────────────────────────────────────

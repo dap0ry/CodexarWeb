@@ -7,6 +7,7 @@ let editor        = null;   // Monaco instance
 const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
+    'Java':   'java',
 };
 
 // ─── Monaco bootstrap ────────────────────────────────────────────
@@ -180,7 +181,7 @@ function renderExercise(ex, user) {
     // Language pills
     const pills = document.querySelectorAll('.lang-pill');
 
-    const SUPPORTED = ['Python', 'C++'];
+    const SUPPORTED = ['Python', 'C++', 'Java'];
     if (user?.languages?.length > 0) {
         const preferred = user.languages.find(l => SUPPORTED.includes(l));
         if (preferred) {

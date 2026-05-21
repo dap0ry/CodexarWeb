@@ -20,6 +20,7 @@ const TIMER_MATRIX = {
 const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
+    'Java':   'java',
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
