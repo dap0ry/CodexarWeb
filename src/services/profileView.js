@@ -272,25 +272,60 @@ function renderSurvivalStats(data) {
 function renderTournamentStats(data) {
     const el = document.getElementById('pvTournamentStats');
     if (!el) return;
-    const played  = data.tournaments_joined  || 0;
-    const wins    = data.tournament_wins     || 0;
-    const winrate = data.tournament_winrate  || 0;
-    const wrClass = played > 0 ? 'accent-blue' : 'accent-muted';
+
+    const played  = data.tournaments_joined      || 0;
+    const wins    = data.tournament_wins         || 0;
+    const winrate = data.tournament_winrate      || 0;
+    const mWins   = data.tournament_match_wins   || 0;
+    const mLosses = data.tournament_match_losses || 0;
+    const mTotal  = mWins + mLosses;
+    const mWR     = mTotal > 0 ? Math.round(mWins / mTotal * 100) : 0;
+
+    const trClass = played > 0 ? 'accent-blue' : 'accent-muted';
+    const mrClass = mTotal > 0 ? 'accent-blue' : 'accent-muted';
 
     el.innerHTML = `
-        <div class="pvb-body">
-            <div class="pvb-top-stats">
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Jugados</span>
-                    <span class="pv-stat-val">${escHtml(String(played))}</span>
+        <div class="pvt-body">
+            <div>
+                <div class="pvt-section-label">Torneos</div>
+                <div class="pvt-stats-row">
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Jugados</span>
+                        <span class="pv-stat-val">${escHtml(String(played))}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Ganados</span>
+                        <span class="pv-stat-val accent-blue">${escHtml(String(wins))}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Win Rate</span>
+                        <span class="pv-stat-val ${trClass}">${played > 0 ? winrate + '%' : '--%'}</span>
+                    </div>
                 </div>
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Victorias</span>
-                    <span class="pv-stat-val accent-blue">${escHtml(String(wins))}</span>
+            </div>
+            <div class="pvt-divider"></div>
+            <div>
+                <div class="pvt-section-label">Partidas</div>
+                <div class="pvt-stats-row">
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Total</span>
+                        <span class="pv-stat-val">${escHtml(String(mTotal))}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Victorias</span>
+                        <span class="pv-stat-val accent-blue">${escHtml(String(mWins))}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Derrotas</span>
+                        <span class="pv-stat-val accent-muted">${escHtml(String(mLosses))}</span>
+                    </div>
                 </div>
+            </div>
+            <div class="pvt-divider"></div>
+            <div class="pvt-stats-row">
                 <div class="pvb-stat">
-                    <span class="pv-stat-key">Win Rate</span>
-                    <span class="pv-stat-val ${wrClass}">${played > 0 ? winrate + '%' : '--%'}</span>
+                    <span class="pv-stat-key">WR partidas</span>
+                    <span class="pv-stat-val ${mrClass}">${mTotal > 0 ? mWR + '%' : '--%'}</span>
                 </div>
             </div>
         </div>

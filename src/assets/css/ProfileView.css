@@ -534,22 +534,20 @@ body {
 .pv-survival-card   .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 .pv-tournament-card .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 
-/* ── VS CPU card inner layout ──────────────────────────────── */
+/* ── VS CPU / Survival card inner layout (vertical split) ──── */
 .pvb-body {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    gap: 10px;
     flex: 1;
 }
 
 .pvb-top-stats {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    gap: 10px;
-    flex: 1;
+    gap: 6px;
 }
 
 .pvb-stat {
@@ -560,9 +558,8 @@ body {
 }
 
 .pvb-divider {
-    width: 1px;
-    height: 100%;
-    min-height: 60px;
+    width: 100%;
+    height: 1px;
     background: rgba(255,255,255,0.05);
     flex-shrink: 0;
 }
@@ -572,7 +569,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    flex: 1;
 }
 
 .pvb-diff-row {
@@ -648,12 +644,46 @@ body {
     justify-items: center;
 }
 
-/* Bot card uses its own inner layout via JS */
-.pv-bot-card .pv-stat-rows {
+/* Bot / Survival / Tournament cards use their own inner layout via JS */
+.pv-bot-card .pv-stat-rows,
+.pv-survival-card .pv-stat-rows,
+.pv-tournament-card .pv-stat-rows {
     display: flex;
     flex-direction: column;
     gap: 0;
     flex: 1;
+}
+
+/* ── Tournament card inner layout ─────────────────────────── */
+.pvt-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.pvt-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(60, 130, 255, 0.45);
+    margin-bottom: 6px;
+}
+
+.pvt-stats-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.pvt-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    flex-shrink: 0;
 }
 
 .pv-stat-row {
