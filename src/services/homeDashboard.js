@@ -278,6 +278,34 @@ async function initDashboard() {
             });
         }
 
+        // View profile link
+        const viewProfileBtn = document.getElementById('viewProfileBtn');
+        if (viewProfileBtn) viewProfileBtn.href = `/perfil?u=${encodeURIComponent(user.username)}`;
+
+        // Hero language button
+        const heroLangBtn = document.getElementById('heroLangBtn');
+        const heroLangMenu = document.getElementById('heroLangMenu');
+        const LANG_FLAGS = { es: '🇪🇸', en: '🇬🇧', zh: '🇨🇳' };
+        function updateHeroLangFlag() {
+            const lang = localStorage.getItem('codexar_lang') || 'es';
+            if (heroLangBtn) heroLangBtn.textContent = LANG_FLAGS[lang] || '🇪🇸';
+        }
+        updateHeroLangFlag();
+        if (heroLangBtn && heroLangMenu) {
+            heroLangBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                heroLangMenu.classList.toggle('open');
+            });
+            heroLangMenu.querySelectorAll('.hero-lang-opt').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    await window.setLang(btn.dataset.lang);
+                    updateHeroLangFlag();
+                    heroLangMenu.classList.remove('open');
+                });
+            });
+            document.addEventListener('click', () => heroLangMenu.classList.remove('open'));
+        }
+
         // Share profile
         const shareBtn = document.getElementById('shareProfileBtn');
         if (shareBtn) {

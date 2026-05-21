@@ -53,9 +53,10 @@ function copyDir(src, dest) {
 if (fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true });
 fs.mkdirSync(OUT);
 
-// Copy assets and services (needed by absolute /src/assets/ and /src/services/ paths in HTML)
+// Copy assets, services and locales (needed by absolute /src/... paths in HTML)
 copyDir(path.join(SRC, 'assets'), path.join(OUT, 'src', 'assets'));
 copyDir(path.join(SRC, 'services'), path.join(OUT, 'src', 'services'));
+copyDir(path.join(SRC, 'locales'), path.join(OUT, 'src', 'locales'));
 
 // Copy pages with clean names
 for (const [srcFile, outFile] of Object.entries(PAGE_MAP)) {

@@ -265,6 +265,34 @@ h1, h2, h3, h4, h5, h6, .brand {
     color: var(--accent-cyan);
     background: rgba(0,255,204,0.04);
 }
+.btn-hero-lang { font-size: 1.1rem; }
+
+/* Lang dropdown in hero */
+.hero-lang-wrap {
+    position: relative; flex-shrink: 0;
+}
+.hero-lang-menu {
+    display: none;
+    position: absolute; bottom: calc(100% + 6px); right: 0;
+    background: var(--card-bg, #1a1a22);
+    border: 1px solid rgba(0,255,204,0.15);
+    border-radius: 8px; overflow: hidden;
+    min-width: 130px; z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.hero-lang-menu.open { display: block; }
+.hero-lang-opt {
+    display: block; width: 100%;
+    padding: 8px 14px; text-align: left;
+    background: transparent; border: none;
+    color: var(--text-muted); cursor: pointer;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    transition: background 0.12s, color 0.12s;
+}
+.hero-lang-opt:hover {
+    background: rgba(0,255,204,0.07);
+    color: var(--accent-cyan);
+}
 
 /* ════════════════════════════════
    HOME NAV LIST

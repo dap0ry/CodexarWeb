@@ -74,7 +74,7 @@
 
     async function loadLang(lang) {
         try {
-            const res = await fetch('/src/locales/' + lang + '.json?v=' + Date.now());
+            const res = await fetch('/src/locales/' + lang + '.json');
             if (!res.ok) throw new Error('fetch failed');
             translations = await res.json();
         } catch (e) {
