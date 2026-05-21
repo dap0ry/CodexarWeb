@@ -38,9 +38,9 @@
     <!-- Back Button -->
     <div class="solve-breadcrumb">
         <button class="btn-back" onclick="window.location.href='/ejercicios'">
-            <span>←</span> Volver a Ejercicios
+            ← <span data-i18n="exercises.backToExercises">Volver a Ejercicios</span>
         </button>
-        <div class="breadcrumb-title" id="breadcrumbTitle">Cargando...</div>
+        <div class="breadcrumb-title" id="breadcrumbTitle"></div>
     </div>
 
     <!-- Main Solve Layout -->
@@ -51,7 +51,7 @@
             <div class="solve-statement">
                 <div class="statement-header">
                     <div class="statement-title-row">
-                        <div class="statement-title" id="exTitle">Cargando ejercicio...</div>
+                        <div class="statement-title" id="exTitle"></div>
                         <div class="ex-lang-switcher hidden" id="exLangSwitcher">
                             <button class="ex-lang-btn" data-lang="es"><img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES"></button>
                             <button class="ex-lang-btn" data-lang="en"><img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN"></button>
@@ -60,12 +60,12 @@
                     </div>
                     <div class="statement-badges" id="exBadges"></div>
                 </div>
-                <div class="statement-body" id="exDescription">Cargando enunciado...</div>
+                <div class="statement-body" id="exDescription"></div>
             </div>
 
             <!-- Test Cases -->
             <div class="solve-testcases">
-                <div class="testcases-label">Casos de Prueba</div>
+                <div class="testcases-label" data-i18n="exercises.testCases">Casos de Prueba</div>
                 <div id="testCasesList" class="testcases-list">
                     <!-- injected by JS -->
                 </div>
@@ -106,10 +106,10 @@
             <!-- Action Buttons -->
             <div class="editor-actions">
                 <button id="btnCheck" class="btn-check">
-                    <span class="btn-icon">▶</span> Comprobar Código
+                    <span class="btn-icon">▶</span> <span id="btnCheckLabel" data-i18n="exercises.check">Comprobar Código</span>
                 </button>
                 <button id="btnSave" class="btn-save" style="display:none;">
-                    <span class="btn-icon">✓</span> Guardar Solución
+                    <span class="btn-icon">✓</span> <span id="btnSaveLabel" data-i18n="exercises.saveSolution">Guardar Solución</span>
                 </button>
             </div>
         </div>

@@ -190,7 +190,7 @@ function renderExercise(ex, user) {
     document.getElementById('exBadges').innerHTML = `
         <span class="ex-badge ${diffClass}">${ex.difficulty}</span>
         <span class="ex-badge badge-category">${ex.category}</span>
-        ${ex.solved ? '<span class="ex-badge badge-solved-ex">✓ Resuelto</span>' : ''}
+        ${ex.solved ? `<span class="ex-badge badge-solved-ex">✓ ${window.i18nT('exercises.solved')}</span>` : ''}
     `;
 
     renderTestCases(ex.test_cases, null);
@@ -258,8 +258,9 @@ function loadStub(lang) {
 // ─── Test Cases ──────────────────────────────────────────────────
 function renderTestCases(testCases, result) {
     const list = document.getElementById('testCasesList');
+    const T = window.i18nT || (k => k);
     if (!testCases?.length) {
-        list.innerHTML = '<div style="color:var(--text-muted);font-size:0.82rem;">No hay casos de prueba disponibles.</div>';
+        list.innerHTML = `<div style="color:var(--text-muted);font-size:0.82rem;">${T('exercises.noCases')}</div>`;
         return;
     }
 
@@ -276,26 +277,26 @@ function renderTestCases(testCases, result) {
         }
 
         const stateText = result?.correct
-            ? '✓ Superado'
+            ? `✓ ${T('exercises.casePassed')}`
             : result?.failed_case === i + 1
-                ? '✗ Fallido'
+                ? `✗ ${T('exercises.caseFailed')}`
                 : '';
 
         const gotHtml = (result?.failed_case === i + 1 && result.got !== undefined)
-            ? `<div class="tc-row"><span class="tc-label">Obtenido</span><span class="tc-value got-wrong">${escHtml(result.got)}</span></div>`
+            ? `<div class="tc-row"><span class="tc-label">${T('exercises.got')}</span><span class="tc-value got-wrong">${escHtml(result.got)}</span></div>`
             : '';
 
         card.innerHTML = `
             <div class="tc-row">
-                <span class="tc-label">Caso ${i + 1}</span>
+                <span class="tc-label">${T('exercises.case')} ${i + 1}</span>
                 <span class="tc-value" style="color:var(--text-muted);font-size:0.72rem;padding-top:2px;">${stateText}</span>
             </div>
             <div class="tc-row">
-                <span class="tc-label">Entrada</span>
+                <span class="tc-label">${T('exercises.input')}</span>
                 <span class="tc-value">${escHtml(tc.input)}</span>
             </div>
             <div class="tc-row">
-                <span class="tc-label">Esperado</span>
+                <span class="tc-label">${T('exercises.expected')}</span>
                 <span class="tc-value expected">${escHtml(tc.expected_output)}</span>
             </div>
             ${gotHtml}
@@ -312,14 +313,14 @@ async function handleCheck() {
     const statusEl = document.getElementById('editorStatus');
 
     if (!code) {
-        showOutput('error', { message: 'Escribe tu solución antes de comprobar.' });
+        showOutput('error', { message: window.i18nT('exercises.noCode') });
         return;
     }
 
     btnCheck.disabled = true;
     btnCheck.classList.add('loading');
-    btnCheck.innerHTML = '<span class="btn-icon">⏳</span> Comprobando...';
-    statusEl.textContent = 'Ejecutando casos de prueba...';
+    btnCheck.innerHTML = `<span class="btn-icon">⏳</span> ${window.i18nT('exercises.checking')}`;
+    statusEl.textContent = window.i18nT('exercises.running');
     statusEl.style.color = 'var(--text-muted)';
     document.getElementById('editorOutput').style.display = 'none';
     resetCheck(false); // don't re-render test cases yet
@@ -337,7 +338,7 @@ async function handleCheck() {
 
         if (data.correct) {
             checkPassed = true;
-            statusEl.textContent = '✓ Todos los casos superados';
+            statusEl.textContent = `✓ ${window.i18nT('exercises.allPassed')}`;
             statusEl.style.color = 'var(--accent-green)';
             showOutput('success', data);
             renderTestCases(exerciseData.test_cases, { correct: true });
@@ -351,13 +352,13 @@ async function handleCheck() {
             document.getElementById('btnSave').style.display = 'none';
         }
     } catch {
-        statusEl.textContent = 'Error de conexión con la API';
+        statusEl.textContent = window.i18nT('exercises.connectionError');
         statusEl.style.color = 'var(--accent-red)';
-        showOutput('error', { message: 'No se pudo conectar con el servidor.' });
+        showOutput('error', { message: window.i18nT('exercises.serverError') });
     } finally {
         btnCheck.disabled = false;
         btnCheck.classList.remove('loading');
-        btnCheck.innerHTML = '<span class="btn-icon">▶</span> Comprobar Código';
+        btnCheck.innerHTML = `<span class="btn-icon">▶</span> ${window.i18nT('exercises.check')}`;
     }
 }
 
@@ -369,7 +370,7 @@ async function handleSave() {
     const btnSave = document.getElementById('btnSave');
 
     btnSave.disabled = true;
-    btnSave.innerHTML = '<span class="btn-icon">⏳</span> Guardando...';
+    btnSave.innerHTML = `<span class="btn-icon">⏳</span> ${window.i18nT('exercises.saving')}`;
 
     try {
         const res = await fetch(`${API_BASE}/exercises/${exerciseData.id}/solve`, {
@@ -386,17 +387,17 @@ async function handleSave() {
             showAlreadySolved();
             btnSave.style.display = 'none';
             const statusEl = document.getElementById('editorStatus');
-            statusEl.textContent = '✓ Ejercicio guardado';
+            statusEl.textContent = `✓ ${window.i18nT('exercises.saved')}`;
             statusEl.style.color = 'var(--accent-green)';
             const badges = document.getElementById('exBadges');
             if (!badges.querySelector('.badge-solved-ex')) {
-                badges.innerHTML += '<span class="ex-badge badge-solved-ex">✓ Resuelto</span>';
+                badges.innerHTML += `<span class="ex-badge badge-solved-ex">✓ ${window.i18nT('exercises.solved')}</span>`;
             }
         }
     } catch (err) {
         console.error('Save error:', err);
         btnSave.disabled = false;
-        btnSave.innerHTML = '<span class="btn-icon">✓</span> Guardar Solución';
+        btnSave.innerHTML = `<span class="btn-icon">✓</span> ${window.i18nT('exercises.saveSolution')}`;
     }
 }
 
@@ -413,11 +414,12 @@ function showOutput(type, data) {
                 <span>${escHtml(data.message)}</span>
             </div>`;
     } else {
+        const T = window.i18nT || (k => k);
         const detailHtml = data.input !== undefined ? `
             <div class="output-error-detail">
-                <span><span class="val-label">Entrada:</span> <span>${escHtml(data.input)}</span></span>
-                <span><span class="val-label">Esperado:</span> <span class="val-expected">${escHtml(data.expected)}</span></span>
-                ${data.got !== undefined ? `<span><span class="val-label">Obtenido:</span> <span class="val-got">${escHtml(data.got)}</span></span>` : ''}
+                <span><span class="val-label">${T('exercises.input')}:</span> <span>${escHtml(data.input)}</span></span>
+                <span><span class="val-label">${T('exercises.expected')}:</span> <span class="val-expected">${escHtml(data.expected)}</span></span>
+                ${data.got !== undefined ? `<span><span class="val-label">${T('exercises.got')}:</span> <span class="val-got">${escHtml(data.got)}</span></span>` : ''}
             </div>` : '';
 
         content.innerHTML = `
@@ -436,13 +438,13 @@ function showAlreadySolved() {
     overlay.className = 'solved-overlay';
     overlay.innerHTML = `
         <div style="font-size:1.8rem;">✓</div>
-        <div style="font-weight:700;font-size:0.95rem;">¡Ejercicio completado!</div>
-        <div style="color:var(--text-muted);font-size:0.8rem;">Este ejercicio ya está guardado en tu perfil.</div>
+        <div style="font-weight:700;font-size:0.95rem;">${window.i18nT('exercises.completed')}</div>
+        <div style="color:var(--text-muted);font-size:0.8rem;">${window.i18nT('exercises.completedSub')}</div>
         <button onclick="window.location.href='/ejercicios'"
             style="margin-top:8px;padding:8px 20px;background:transparent;border:1px solid var(--accent-green);
                    color:var(--accent-green);border-radius:6px;cursor:pointer;
                    font-family:var(--font-heading);font-size:0.8rem;">
-            Volver a Ejercicios
+            ${window.i18nT('exercises.backToExercises')}
         </button>`;
     right.insertBefore(overlay, right.querySelector('.editor-actions'));
 }

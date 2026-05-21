@@ -61,12 +61,18 @@ function buildAvatarEl(user, size = 22) {
     return `<div class="mini-avatar-letter" style="width:${size}px;height:${size}px;font-size:${Math.floor(size * 0.45)}px;" title="${safeName}">${(user.username || '?').charAt(0).toUpperCase()}</div>`;
 }
 
+function getExTitle(ex) {
+    const lang = localStorage.getItem('codexar_lang') || 'es';
+    return (ex.title_i18n && ex.title_i18n[lang]) || ex.title;
+}
+
 function renderExercises(data) {
+    const T = window.i18nT || (k => k);
     const list = document.getElementById('exercisesList');
     list.innerHTML = '';
 
     if (data.length === 0) {
-        list.innerHTML = `<div style="text-align:center; color:#ffffff; margin-top:30px; font-family:var(--font-heading);">No se encontraron desafíos...</div>`;
+        list.innerHTML = `<div style="text-align:center; color:#ffffff; margin-top:30px; font-family:var(--font-heading);">${T('exercises.noExercises')}</div>`;
         return;
     }
 
@@ -116,7 +122,7 @@ function renderExercises(data) {
                         ${extra > 0 ? `<span class="extra-friends">+${extra}</span>` : ''}
                     </div>
                     <div class="friends-tooltip" id="ft-${ex.id}">
-                        <div class="tooltip-title">Amigos que lo resolvieron</div>
+                        <div class="tooltip-title">${T('exercises.friendsSolved')}</div>
                         <div class="tooltip-list">${tooltipHtml}</div>
                     </div>
                 </span>
@@ -129,19 +135,19 @@ function renderExercises(data) {
         card.innerHTML = `
             <div class="ex-content">
                 <div class="ex-title">
-                    ${ex.solved ? '<span class="solved-check">✓</span> ' : ''}${escHtml(ex.title)}
+                    ${ex.solved ? '<span class="solved-check">✓</span> ' : ''}${escHtml(getExTitle(ex))}
                 </div>
                 <div class="ex-meta-row">
                     <span class="ex-badge ${diffColorClass}">${typeof ex.difficulty === 'number' ? ex.difficulty : escHtml(ex.difficulty)}</span>
                     <span class="ex-badge badge-category">${escHtml(ex.category)}</span>
-                    <span class="ex-badge badge-solvers">${parseInt(ex.total_solvers) || 0} Resueltos</span>
+                    <span class="ex-badge badge-solvers">${parseInt(ex.total_solvers) || 0} ${T('exercises.solvers')}</span>
                     ${firstSolverHtml}
                     ${friendsSolvedHtml}
                 </div>
             </div>
             <div class="ex-action">
                 <button class="btn-resolve${ex.solved ? ' btn-resolved' : ''}" data-exid="${escHtml(ex.id)}">
-                    ${ex.solved ? '✓ Ver' : 'Resolver'}
+                    ${ex.solved ? `✓ ${T('exercises.view')}` : T('exercises.solve')}
                 </button>
             </div>
         `;
@@ -159,7 +165,8 @@ function applyFilters() {
     const diff = document.getElementById('filterDifficulty').value;
 
     const filtered = masterExercises.filter(ex => {
-        const matchesTerm = ex.title.toLowerCase().includes(term);
+        const displayTitle = getExTitle(ex).toLowerCase();
+        const matchesTerm = displayTitle.includes(term) || ex.title.toLowerCase().includes(term);
         const matchesCat = cat === 'All' || ex.category === cat;
         const d = typeof ex.difficulty === 'number' ? ex.difficulty : 1200;
         const matchesDiff = diff === 'All'

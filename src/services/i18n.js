@@ -96,6 +96,7 @@
     };
 
     window.i18nApply = applyTranslations;
+    window.i18nT = t;
 
     document.addEventListener('DOMContentLoaded', async () => {
         injectSwitcher();
