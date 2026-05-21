@@ -56,13 +56,7 @@
     }
 
     function injectSwitcher() {
-        const navbar = document.querySelector('.navbar');
-        if (navbar && !navbar.querySelector('.lang-switcher')) {
-            const pill = navbar.querySelector('.user-pill-container');
-            if (pill) navbar.insertBefore(buildSwitcher(), pill);
-            else navbar.appendChild(buildSwitcher());
-        }
-        // Auth pages have no navbar
+        // Auth pages only — the rest use the hero lang buttons on Home
         const authCard = document.querySelector('.auth-card');
         if (authCard && !document.querySelector('.lang-switcher')) {
             const topLine = authCard.querySelector('.auth-card-top-line');

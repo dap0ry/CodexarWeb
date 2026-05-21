@@ -231,13 +231,16 @@ h1, h2, h3, h4, h5, h6, .brand {
     margin-left: auto;
 }
 
-/* ── Actions Row ── */
+/* ── Actions ── */
 .hero-actions {
     position: relative; z-index: 1;
     display: flex; flex-direction: column; gap: 8px;
 }
+.hero-action-row {
+    display: flex; gap: 8px; align-items: center;
+}
 .btn-hero-action {
-    width: 100%; padding: 8px 14px; text-align: center;
+    flex: 1; padding: 8px 14px; text-align: center;
     background: rgba(0,255,204,0.06);
     border: 1px solid rgba(0,255,204,0.2);
     border-radius: 7px;
@@ -245,15 +248,12 @@ h1, h2, h3, h4, h5, h6, .brand {
     letter-spacing: 1.5px; text-transform: uppercase;
     color: rgba(0,255,204,0.85);
     text-decoration: none;
-    transition: all 0.15s ease; cursor: pointer; box-sizing: border-box;
+    transition: all 0.15s ease; cursor: pointer;
 }
 .btn-hero-action:hover {
     background: rgba(0,255,204,0.1);
     border-color: rgba(0,255,204,0.4);
     color: #fff;
-}
-.hero-actions-row {
-    display: flex; gap: 8px; align-items: center;
 }
 .btn-hero-share {
     width: 34px; height: 34px;
@@ -268,26 +268,30 @@ h1, h2, h3, h4, h5, h6, .brand {
     color: var(--accent-cyan);
     background: rgba(0,255,204,0.04);
 }
+.btn-hero-lang { font-size: 1.15rem; }
 
-/* Lang flag buttons */
-.hero-lang-flags {
-    display: flex; gap: 4px; flex: 1;
+/* Lang dropdown */
+.hero-lang-wrap { position: relative; flex-shrink: 0; }
+.hero-lang-menu {
+    display: none;
+    position: absolute; bottom: calc(100% + 6px); right: 0;
+    background: var(--card-bg, #1a1a22);
+    border: 1px solid rgba(0,255,204,0.15);
+    border-radius: 8px; z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    display: none; flex-direction: row; gap: 2px; padding: 5px;
 }
-.btn-lang-flag {
-    flex: 1; height: 34px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 7px; font-size: 1.15rem;
-    cursor: pointer; transition: all 0.15s ease;
+.hero-lang-menu.open { display: flex; }
+.hero-lang-opt {
+    width: 34px; height: 34px;
+    background: transparent; border: 1px solid transparent;
+    border-radius: 6px; font-size: 1.15rem;
+    cursor: pointer; transition: all 0.12s;
     display: flex; align-items: center; justify-content: center;
 }
-.btn-lang-flag:hover {
-    border-color: rgba(0,255,204,0.3);
-    background: rgba(0,255,204,0.05);
-}
-.btn-lang-flag.active {
-    border-color: rgba(0,255,204,0.45);
-    background: rgba(0,255,204,0.08);
+.hero-lang-opt:hover {
+    background: rgba(0,255,204,0.07);
+    border-color: rgba(0,255,204,0.2);
 }
 
 /* ════════════════════════════════

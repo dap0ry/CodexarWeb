@@ -282,18 +282,24 @@ async function initDashboard() {
         const viewProfileBtn = document.getElementById('viewProfileBtn');
         if (viewProfileBtn) viewProfileBtn.href = `/perfil?u=${encodeURIComponent(user.username)}`;
 
-        // Hero language flag buttons
-        const heroLangFlags = document.getElementById('heroLangFlags');
-        if (heroLangFlags) {
-            const savedLang = localStorage.getItem('codexar_lang') || 'es';
-            heroLangFlags.querySelectorAll('.btn-lang-flag').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === savedLang);
+        // Hero language button + dropdown
+        const heroLangBtn = document.getElementById('heroLangBtn');
+        const heroLangMenu = document.getElementById('heroLangMenu');
+        const LANG_FLAGS = { es: '🇪🇸', en: '🇬🇧', zh: '🇨🇳' };
+        if (heroLangBtn) heroLangBtn.textContent = LANG_FLAGS[localStorage.getItem('codexar_lang') || 'es'];
+        if (heroLangBtn && heroLangMenu) {
+            heroLangBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                heroLangMenu.classList.toggle('open');
+            });
+            heroLangMenu.querySelectorAll('.hero-lang-opt').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     await window.setLang(btn.dataset.lang);
-                    heroLangFlags.querySelectorAll('.btn-lang-flag').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+                    heroLangBtn.textContent = LANG_FLAGS[btn.dataset.lang];
+                    heroLangMenu.classList.remove('open');
                 });
             });
+            document.addEventListener('click', () => heroLangMenu.classList.remove('open'));
         }
 
         // Share profile
