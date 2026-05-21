@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar - Logros</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,45 +16,42 @@
 </head>
 <body class="logros-body">
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home" class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/logros" class="dropdown-item">Logros</a>
-                <a href="/amigos" class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#" class="dropdown-item">Ayuda</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="logros-container">
         <div class="logros-header">
-            <h1>Logros</h1>
-            <p>Completa desafíos para desbloquear logros y equiparlos en tu perfil</p>
+            <h1 data-i18n="logros.title">Logros</h1>
+            <p data-i18n="logros.subtitle">Completa desafíos para desbloquear logros y equiparlos en tu perfil</p>
         </div>
         <div id="achievementsContainer" class="achievements-container">
-            <div class="ach-loading">Cargando logros...</div>
+            <div class="ach-loading" data-i18n="logros.loading">Cargando logros...</div>
         </div>
     </main>
 
-    <!-- Replace Modal -->
     <div class="replace-overlay hidden" id="replaceOverlay">
         <div class="replace-modal">
-            <h2 class="replace-title">Reemplazar Logro</h2>
-            <p class="replace-desc">Ya tienes 3 logros equipados. Elige cuál quieres reemplazar:</p>
+            <h2 class="replace-title" data-i18n="logros.replaceTitle">Reemplazar Logro</h2>
+            <p class="replace-desc" data-i18n="logros.replaceDesc">Ya tienes 3 logros equipados. Elige cuál quieres reemplazar:</p>
             <div class="replace-slots" id="replaceSlots"></div>
-            <button class="replace-cancel" onclick="closeReplaceModal()">Cancelar</button>
+            <button class="replace-cancel" onclick="closeReplaceModal()" data-i18n="logros.cancel">Cancelar</button>
         </div>
     </div>
 

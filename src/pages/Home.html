@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Inicio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,18 +20,18 @@
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home"        class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/precios" class="dropdown-item">✦ Planes</a>
-                <a href="/logros"      class="dropdown-item">Logros</a>
-                <a href="/amigos"     class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#"                class="dropdown-item">Ayuda</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/precios"       class="dropdown-item" data-i18n="nav.plans">✦ Planes</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
@@ -59,28 +60,28 @@
                     <div class="hero-stats">
                         <div class="hero-stat">
                             <div class="hero-stat-val accent-cyan" id="homeRankText">—</div>
-                            <div class="hero-stat-label">Rango</div>
+                            <div class="hero-stat-label" data-i18n="home.rank">Rango</div>
                         </div>
                         <div class="hero-stat-divider"></div>
                         <div class="hero-stat">
                             <div class="hero-stat-val" id="statsTotal">0</div>
-                            <div class="hero-stat-label">Ejercicios</div>
+                            <div class="hero-stat-label" data-i18n="home.exercises">Ejercicios</div>
                         </div>
                         <div class="hero-stat-divider"></div>
                         <div class="hero-stat">
                             <div class="hero-stat-val accent-green" id="statsWins">0</div>
-                            <div class="hero-stat-label">Victorias</div>
+                            <div class="hero-stat-label" data-i18n="home.wins">Victorias</div>
                         </div>
                     </div>
 
                     <div class="hero-elo-row">
                         <span class="hero-elo-label">ELO</span>
                         <span class="hero-elo-val" id="heroElo">—</span>
-                        <span class="hero-global-rank" id="homeGlobalRank">#— Global</span>
+                        <span class="hero-global-rank" id="homeGlobalRank">#— <span data-i18n="home.global">Global</span></span>
                     </div>
 
                     <div class="hero-actions">
-                        <a href="/configuracion" class="btn-hero-action">Configuración</a>
+                        <a href="/configuracion" class="btn-hero-action" data-i18n="home.settings">Configuración</a>
                         <button class="btn-hero-share" id="shareProfileBtn" title="Compartir perfil">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
@@ -97,8 +98,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Clasificatoria</div>
-                            <div class="hnl-sub">Compite por ELO</div>
+                            <div class="hnl-title" data-i18n="home.nav.ranked">Clasificatoria</div>
+                            <div class="hnl-sub" data-i18n="home.nav.rankedSub">Compite por ELO</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -107,8 +108,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Ejercicios</div>
-                            <div class="hnl-sub">Práctica libre</div>
+                            <div class="hnl-title" data-i18n="home.nav.exercises">Ejercicios</div>
+                            <div class="hnl-sub" data-i18n="home.nav.exercisesSub">Práctica libre</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -117,8 +118,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">VS CPU</div>
-                            <div class="hnl-sub">Contra el bot</div>
+                            <div class="hnl-title" data-i18n="home.nav.vscpu">VS CPU</div>
+                            <div class="hnl-sub" data-i18n="home.nav.vscpuSub">Contra el bot</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -127,8 +128,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Supervivencia</div>
-                            <div class="hnl-sub">Co-op contra el tiempo</div>
+                            <div class="hnl-title" data-i18n="home.nav.survival">Supervivencia</div>
+                            <div class="hnl-sub" data-i18n="home.nav.survivalSub">Co-op contra el tiempo</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -137,8 +138,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Tutorial</div>
-                            <div class="hnl-sub">Aprende a programar</div>
+                            <div class="hnl-title" data-i18n="home.nav.tutorial">Tutorial</div>
+                            <div class="hnl-sub" data-i18n="home.nav.tutorialSub">Aprende a programar</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -147,8 +148,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Amigos</div>
-                            <div class="hnl-sub">Tu red</div>
+                            <div class="hnl-title" data-i18n="home.nav.friends">Amigos</div>
+                            <div class="hnl-sub" data-i18n="home.nav.friendsSub">Tu red</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -157,8 +158,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Clasificación</div>
-                            <div class="hnl-sub">Top jugadores</div>
+                            <div class="hnl-title" data-i18n="home.nav.leaderboard">Clasificación</div>
+                            <div class="hnl-sub" data-i18n="home.nav.leaderboardSub">Top jugadores</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -167,8 +168,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Equipos</div>
-                            <div class="hnl-sub">Crea o únete</div>
+                            <div class="hnl-title" data-i18n="home.nav.teams">Equipos</div>
+                            <div class="hnl-sub" data-i18n="home.nav.teamsSub">Crea o únete</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -177,8 +178,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">Torneos</div>
-                            <div class="hnl-sub">Compite en equipo</div>
+                            <div class="hnl-title" data-i18n="home.nav.tournaments">Torneos</div>
+                            <div class="hnl-sub" data-i18n="home.nav.tournamentsSub">Compite en equipo</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -187,8 +188,8 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         </span>
                         <div class="hnl-text">
-                            <div class="hnl-title">✦ Planes</div>
-                            <div class="hnl-sub">Plus & Max</div>
+                            <div class="hnl-title" data-i18n="home.nav.plans">✦ Planes</div>
+                            <div class="hnl-sub" data-i18n="home.nav.plansSub">Plus & Max</div>
                         </div>
                         <span class="hnl-arrow">›</span>
                     </a>
@@ -199,11 +200,11 @@
             <!-- ── Right: News Feed ── -->
             <div class="home-right">
                 <div class="news-header">
-                    <span class="news-header-title">// NOTICIAS //</span>
-                    <span class="news-header-sub">Novedades de la plataforma</span>
+                    <span class="news-header-title" data-i18n="home.newsTitle">// NOTICIAS //</span>
+                    <span class="news-header-sub" data-i18n="home.newsSub">Novedades de la plataforma</span>
                 </div>
                 <div class="news-feed" id="newsFeed">
-                    <div class="news-skeleton">Cargando noticias...</div>
+                    <div class="news-skeleton" data-i18n="home.newsLoading">Cargando noticias...</div>
                 </div>
             </div>
 
@@ -214,7 +215,7 @@
     <div class="rangos-overlay hidden" id="rangosOverlay" onclick="if(event.target===this)this.classList.add('hidden')">
         <div class="rangos-modal">
             <div class="rangos-header">
-                <span class="rangos-title">// SISTEMA DE RANGOS //</span>
+                <span class="rangos-title" data-i18n="home.ranks.title">// SISTEMA DE RANGOS //</span>
                 <button class="rangos-close" onclick="document.getElementById('rangosOverlay').classList.add('hidden')">✕</button>
             </div>
             <div class="rangos-grid">
@@ -222,55 +223,55 @@
                     <div class="rank-tier-row" data-rarity="bronce">
                         <span class="rank-icon rank-dot rank-dot-bronce"></span>
                         <div class="rank-info">
-                            <span class="rank-name">Bronce</span>
-                            <span class="rank-subs">I · II · III</span>
+                            <span class="rank-name" data-i18n="home.ranks.bronze">Bronce</span>
+                            <span class="rank-subs" data-i18n="home.ranks.tiers">I · II · III</span>
                         </div>
                         <span class="rank-elo">0 – 75 ELO</span>
                     </div>
                     <div class="rank-tier-row" data-rarity="plata">
                         <span class="rank-icon rank-dot rank-dot-plata"></span>
                         <div class="rank-info">
-                            <span class="rank-name">Plata</span>
-                            <span class="rank-subs">I · II · III</span>
+                            <span class="rank-name" data-i18n="home.ranks.silver">Plata</span>
+                            <span class="rank-subs" data-i18n="home.ranks.tiers">I · II · III</span>
                         </div>
                         <span class="rank-elo">76 – 300 ELO</span>
                     </div>
                     <div class="rank-tier-row" data-rarity="oro">
                         <span class="rank-icon rank-dot rank-dot-oro"></span>
                         <div class="rank-info">
-                            <span class="rank-name">Oro</span>
-                            <span class="rank-subs">I · II · III</span>
+                            <span class="rank-name" data-i18n="home.ranks.gold">Oro</span>
+                            <span class="rank-subs" data-i18n="home.ranks.tiers">I · II · III</span>
                         </div>
                         <span class="rank-elo">301 – 800 ELO</span>
                     </div>
                     <div class="rank-tier-row" data-rarity="platino">
                         <span class="rank-icon rank-dot rank-dot-platino"></span>
                         <div class="rank-info">
-                            <span class="rank-name">Platino</span>
-                            <span class="rank-subs">I · II · III</span>
+                            <span class="rank-name" data-i18n="home.ranks.platinum">Platino</span>
+                            <span class="rank-subs" data-i18n="home.ranks.tiers">I · II · III</span>
                         </div>
                         <span class="rank-elo">801 – 1300 ELO</span>
                     </div>
                     <div class="rank-tier-row" data-rarity="diamante">
                         <span class="rank-icon rank-dot rank-dot-diamante"></span>
                         <div class="rank-info">
-                            <span class="rank-name">Diamante</span>
-                            <span class="rank-subs">I · II · III</span>
+                            <span class="rank-name" data-i18n="home.ranks.diamond">Diamante</span>
+                            <span class="rank-subs" data-i18n="home.ranks.tiers">I · II · III</span>
                         </div>
                         <span class="rank-elo">1301 – 2000 ELO</span>
                     </div>
                     <div class="rank-tier-row rank-tier-champion" data-rarity="campeon">
                         <span class="rank-icon rank-dot rank-dot-campeon"></span>
                         <div class="rank-info">
-                            <span class="rank-name">Campeón</span>
-                            <span class="rank-subs">Cima absoluta</span>
+                            <span class="rank-name" data-i18n="home.ranks.champion">Campeón</span>
+                            <span class="rank-subs" data-i18n="home.ranks.apex">Cima absoluta</span>
                         </div>
                         <span class="rank-elo">2001+ ELO</span>
                     </div>
                 </div>
             </div>
             <div class="rangos-footer">
-                <span>Cada victoria: <strong>+25 ELO</strong> &nbsp;·&nbsp; Cada derrota: <strong>−15 ELO</strong></span>
+                <span data-i18n="home.ranks.footer">Cada victoria: <strong>+25 ELO</strong> &nbsp;·&nbsp; Cada derrota: <strong>−15 ELO</strong></span>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Torneos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,51 +21,49 @@
     <div class="user-pill-container">
         <div class="user-pill" id="userPill">
             <div class="avatar" id="navAvatar"></div>
-            <div class="username-display" id="navUsername">Cargando...</div>
+            <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
         </div>
         <div class="user-dropdown">
-            <a href="/home"            class="dropdown-item">Inicio</a>
-            <a href="/configuracion"   class="dropdown-item">Configuración</a>
-            <a href="/logros"          class="dropdown-item">Logros</a>
-            <a href="/amigos"          class="dropdown-item">Amigos</a>
-            <a href="/clasificacion"   class="dropdown-item">Clasificación</a>
-            <a href="#"                class="dropdown-item">Ayuda</a>
+            <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+            <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+            <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+            <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+            <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+            <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
 
-<!-- ══ PANEL LISTA ══════════════════════════════════════════════════════════ -->
 <div class="t-page" id="listPanel">
 
     <div class="t-header">
         <div class="t-header-left">
             <div class="t-title">TOR<span>NEOS</span></div>
-            <div class="t-subtitle">Brackets 1v1 · El mejor llega a la cima</div>
+            <div class="t-subtitle" data-i18n="tournaments.subtitle">Brackets 1v1 · El mejor llega a la cima</div>
         </div>
         <div class="t-header-right">
             <div class="t-tabs">
-                <button class="t-tab active" data-filter="all">Todos</button>
-                <button class="t-tab" data-filter="upcoming">Próximos</button>
-                <button class="t-tab" data-filter="active">Activos</button>
-                <button class="t-tab" data-filter="finished">Finalizados</button>
+                <button class="t-tab active" data-filter="all" data-i18n="tournaments.all">Todos</button>
+                <button class="t-tab" data-filter="upcoming" data-i18n="tournaments.upcoming">Próximos</button>
+                <button class="t-tab" data-filter="active" data-i18n="tournaments.active">Activos</button>
+                <button class="t-tab" data-filter="finished" data-i18n="tournaments.finished">Finalizados</button>
             </div>
-            <button class="t-create-btn" id="createTournBtn" style="display:none">+ Crear Torneo</button>
+            <button class="t-create-btn" id="createTournBtn" style="display:none" data-i18n="tournaments.create">+ Crear Torneo</button>
         </div>
     </div>
 
     <div class="t-grid" id="tournGrid">
-        <div class="t-loading">Cargando torneos...</div>
+        <div class="t-loading" data-i18n="tournaments.loading">Cargando torneos...</div>
     </div>
 
 </div>
 
-<!-- ══ PANEL BRACKET ════════════════════════════════════════════════════════ -->
 <div class="t-page t-page--hidden" id="bracketPanel">
 
     <div class="t-bracket-header">
-        <button class="t-back-btn" id="backBtn">← Volver</button>
+        <button class="t-back-btn" id="backBtn" data-i18n="tournaments.back">← Volver</button>
         <div class="t-bracket-info">
             <div class="t-bracket-name" id="bracketName">—</div>
             <div class="t-bracket-meta" id="bracketMeta">—</div>
@@ -78,43 +77,45 @@
         </div>
     </div>
 
-    <!-- Panel de partida activa (aparece cuando es el turno del usuario) -->
     <div class="t-match-alert" id="matchAlert" style="display:none">
         <div class="t-match-alert-icon">⚔</div>
         <div class="t-match-alert-text">
-            <strong>¡Es tu turno!</strong>
-            <span id="matchAlertSub">Tu partida está lista.</span>
+            <strong data-i18n="tournaments.yourTurn">¡Es tu turno!</strong>
+            <span id="matchAlertSub" data-i18n="tournaments.matchReady">Tu partida está lista.</span>
         </div>
         <div class="t-match-alert-timer" id="matchAlertTimer">2:00</div>
-        <button class="t-match-join-btn" id="matchJoinBtn">Unirse a la partida</button>
+        <button class="t-match-join-btn" id="matchJoinBtn" data-i18n="tournaments.join">Unirse a la partida</button>
     </div>
 
 </div>
 
-<!-- ══ MODAL CREAR TORNEO ══════════════════════════════════════════════════ -->
 <div class="t-modal-overlay" id="createModal" style="display:none">
     <div class="t-modal">
         <div class="t-modal-header">
-            <span class="t-modal-title">Crear Torneo</span>
+            <span class="t-modal-title" data-i18n="tournaments.modalTitle">Crear Torneo</span>
             <button class="t-modal-close" id="createModalClose">✕</button>
         </div>
         <form id="createForm" class="t-modal-body">
-            <label class="t-label">Nombre del torneo
-                <input class="t-input" type="text" id="cName" placeholder="Gran Premio de Algoritmos" required maxlength="80">
+            <label class="t-label">
+                <span data-i18n="tournaments.nameLabel">Nombre del torneo</span>
+                <input class="t-input" type="text" id="cName" placeholder="Gran Premio de Algoritmos" data-i18n-placeholder="tournaments.namePlaceholder" required maxlength="80">
             </label>
-            <label class="t-label">Descripción
-                <textarea class="t-input t-textarea" id="cDesc" placeholder="Descripción breve del torneo..." rows="3" maxlength="300"></textarea>
+            <label class="t-label">
+                <span data-i18n="tournaments.descLabel">Descripción</span>
+                <textarea class="t-input t-textarea" id="cDesc" placeholder="Descripción breve del torneo..." data-i18n-placeholder="tournaments.descPlaceholder" rows="3" maxlength="300"></textarea>
             </label>
-            <label class="t-label">Fecha y hora de inicio
+            <label class="t-label">
+                <span data-i18n="tournaments.startLabel">Fecha y hora de inicio</span>
                 <input class="t-input" type="datetime-local" id="cStart" required>
             </label>
-            <label class="t-label">Banner (imagen, máx. 5 MB)
+            <label class="t-label">
+                <span data-i18n="tournaments.bannerLabel">Banner (imagen, máx. 5 MB)</span>
                 <input class="t-input-file" type="file" id="cBanner" accept="image/*">
                 <div class="t-banner-preview" id="bannerPreview"></div>
             </label>
             <div class="t-modal-footer">
                 <span class="t-modal-feedback" id="createFeedback"></span>
-                <button class="t-modal-submit" type="submit">Crear torneo</button>
+                <button class="t-modal-submit" type="submit" data-i18n="tournaments.submit">Crear torneo</button>
             </div>
         </form>
     </div>

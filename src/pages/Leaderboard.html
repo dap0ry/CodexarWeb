@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar - Clasificación</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/assets/css/Home.css">
@@ -12,46 +13,44 @@
     <link rel="stylesheet" href="/src/assets/css/themes.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home" class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/precios" class="dropdown-item">✦ Planes</a>
-                <a href="/logros" class="dropdown-item">Logros</a>
-                <a href="/amigos" class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#" class="dropdown-item">Ayuda</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/precios"       class="dropdown-item" data-i18n="nav.plans">✦ Planes</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
     <main class="lb-scene">
         <div class="lb-header">
-            <div class="lb-title">CLASIFICACIÓN</div>
-            <div class="lb-subtitle">Los mejores programadores de Codexar por ELO</div>
+            <div class="lb-title" data-i18n="leaderboard.title">CLASIFICACIÓN</div>
+            <div class="lb-subtitle" data-i18n="leaderboard.subtitle">Los mejores programadores de Codexar por ELO</div>
         </div>
 
-        <!-- Full player list -->
         <div class="lb-list-section">
             <div class="lb-list-header">
-                <span class="lb-list-col lb-col-pos">#</span>
-                <span class="lb-list-col lb-col-player">Jugador</span>
-                <span class="lb-list-col lb-col-rank">Rango</span>
-                <span class="lb-list-col lb-col-elo">ELO</span>
-                <span class="lb-list-col lb-col-solved">Resueltos</span>
+                <span class="lb-list-col lb-col-pos" data-i18n="leaderboard.pos">#</span>
+                <span class="lb-list-col lb-col-player" data-i18n="leaderboard.player">Jugador</span>
+                <span class="lb-list-col lb-col-rank" data-i18n="leaderboard.rank">Rango</span>
+                <span class="lb-list-col lb-col-elo" data-i18n="leaderboard.elo">ELO</span>
+                <span class="lb-list-col lb-col-solved" data-i18n="leaderboard.solved">Resueltos</span>
             </div>
-            <div id="lbLoading" class="lb-loading">Cargando clasificación...</div>
+            <div id="lbLoading" class="lb-loading" data-i18n="leaderboard.loading">Cargando clasificación...</div>
             <div id="lbPlayerList"></div>
-            <button class="lb-load-more hidden" id="lbLoadMore">Cargar más jugadores</button>
+            <button class="lb-load-more hidden" id="lbLoadMore" data-i18n="leaderboard.loadMore">Cargar más jugadores</button>
         </div>
     </main>
 

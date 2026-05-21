@@ -4,93 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar - Modo Offline</title>
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Base Styles -->
     <link rel="stylesheet" href="/src/assets/css/Home.css">
     <link rel="stylesheet" href="/src/assets/css/Exercises.css">
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
 </head>
 <body>
-    <!-- Reusable System Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
             </div>
-            
             <div class="user-dropdown">
-                <a href="/home" class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/logros" class="dropdown-item">Logros</a>
-                <a href="/amigos" class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#" class="dropdown-item">Ayuda</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Exercises Architecture -->
     <main class="offline-body">
         <div class="offline-container">
-            
-            <!-- Filters Header Box -->
+
             <div class="filters-panel">
                 <div class="filter-group">
-                    <label>Categoría</label>
+                    <label data-i18n="exercises.category">Categoría</label>
                     <select id="filterCategory" class="cyber-select">
-                        <option value="All">Todas</option>
+                        <option value="All" data-i18n="exercises.allCategories">Todas</option>
                         <option value="Arrays">Arrays</option>
                         <option value="Strings">Strings</option>
                         <option value="Math">Math</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
-                    <label>Dificultad</label>
+                    <label data-i18n="exercises.difficulty">Dificultad</label>
                     <select id="filterDifficulty" class="cyber-select">
-                        <option value="All">Todas</option>
-                        <option value="easy">≤ 1000 (Básico)</option>
-                        <option value="medium">1200 – 1600 (Medio)</option>
-                        <option value="hard">1800 – 2200 (Difícil)</option>
-                        <option value="expert">≥ 2400 (Experto)</option>
+                        <option value="All" data-i18n="exercises.allDifficulties">Todas</option>
+                        <option value="easy" data-i18n="exercises.easy">≤ 1000 (Básico)</option>
+                        <option value="medium" data-i18n="exercises.medium">1200 – 1600 (Medio)</option>
+                        <option value="hard" data-i18n="exercises.hard">1800 – 2200 (Difícil)</option>
+                        <option value="expert" data-i18n="exercises.expert">≥ 2400 (Experto)</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group search-box">
-                    <input type="text" id="searchExercise" class="cyber-input" placeholder="Buscar título...">
+                    <input type="text" id="searchExercise" class="cyber-input" placeholder="Buscar título..." data-i18n-placeholder="exercises.searchPlaceholder">
                 </div>
             </div>
 
-            <!-- Scrollable Execution Frame -->
             <div class="exercises-list-wrapper">
                 <div id="exercisesList" class="exercises-list">
-                    <!-- Javascript Mapped Cards Go Here -->
-                    <div class="skeleton-loader">Cargando Desafíos...</div>
+                    <div class="skeleton-loader" data-i18n="exercises.loading">Cargando Desafíos...</div>
                 </div>
             </div>
 
-            <!-- Bottom Floating Action -->
             <div class="randomizer-panel">
-                <button type="button" id="btnRandom" class="btn-random">Misión Aleatoria</button>
+                <button type="button" id="btnRandom" class="btn-random" data-i18n="exercises.random">Misión Aleatoria</button>
             </div>
 
         </div>
     </main>
 
-    <!-- ── Floating Tutorial Hint ── -->
     <div class="tutorial-hint-card">
         <div class="tutorial-hint-text">
-            <span class="tutorial-hint-title">¿No sabes dónde comenzar?</span>
-            <span class="tutorial-hint-sub">O simplemente quieres aprender desde cero</span>
+            <span class="tutorial-hint-title" data-i18n="exercises.tutorialTitle">¿No sabes dónde comenzar?</span>
+            <span class="tutorial-hint-sub" data-i18n="exercises.tutorialSub">O simplemente quieres aprender desde cero</span>
         </div>
-        <button class="tutorial-hint-btn" onclick="window.location.href='/tutorial'">IR AL TUTORIAL →</button>
+        <button class="tutorial-hint-btn" onclick="window.location.href='/tutorial'" data-i18n="exercises.tutorialBtn">IR AL TUTORIAL →</button>
     </div>
 
     <script src="/src/services/matchmakingGlobal.js"></script>

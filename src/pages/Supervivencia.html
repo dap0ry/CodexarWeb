@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Supervivencia</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/assets/css/Supervivencia.css">
@@ -17,57 +18,56 @@
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home" class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/precios" class="dropdown-item">✦ Planes</a>
-                <a href="/logros" class="dropdown-item">Logros</a>
-                <a href="/amigos" class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#" class="dropdown-item">Ayuda</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/precios"       class="dropdown-item" data-i18n="nav.plans">✦ Planes</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
     <div class="sv3-layout">
 
-        <button class="sv3-back" onclick="window.location.href='/home'">← Volver</button>
+        <button class="sv3-back" onclick="window.location.href='/home'" data-i18n="survival.back">← Volver</button>
 
-        <!-- COLUMNA IZQUIERDA -->
         <section class="sv3-col sv3-col-left">
 
             <div class="sv3-block sv3-team-block">
-                <span class="sv3-block-label">EQUIPO</span>
+                <span class="sv3-block-label" data-i18n="survival.team">EQUIPO</span>
                 <div class="sv3-slots" id="sv3Slots"></div>
-                <button class="sv3-invite-btn" id="sv3InviteBtn">+ Invitar amigo</button>
+                <button class="sv3-invite-btn" id="sv3InviteBtn" data-i18n="survival.invite">+ Invitar amigo</button>
             </div>
 
             <div class="sv3-block sv3-bosses-block">
-                <span class="sv3-block-label">SELECCIONAR BOSS</span>
+                <span class="sv3-block-label" data-i18n="survival.selectBoss">SELECCIONAR BOSS</span>
                 <div class="sv3-boss-icons">
                     <button class="sv3-boss-icon-btn active" data-boss="boss1" onclick="selectBoss('boss1')">
                         <span class="sv3-boss-num">1</span>
                         <div class="sv3-boss-btn-text">
-                            <span class="sv3-boss-btn-name">El Guardián</span>
-                            <span class="sv3-boss-btn-diff">Normal · 60s inicio</span>
+                            <span class="sv3-boss-btn-name" data-i18n="survival.boss1Name">El Guardián</span>
+                            <span class="sv3-boss-btn-diff" data-i18n="survival.boss1Diff">Normal · 60s inicio</span>
                         </div>
                     </button>
                     <button class="sv3-boss-icon-btn" data-boss="boss2" onclick="selectBoss('boss2')">
                         <span class="sv3-boss-num">2</span>
                         <div class="sv3-boss-btn-text">
-                            <span class="sv3-boss-btn-name">La Sombra</span>
-                            <span class="sv3-boss-btn-diff">Difícil · 45s inicio</span>
+                            <span class="sv3-boss-btn-name" data-i18n="survival.boss2Name">La Sombra</span>
+                            <span class="sv3-boss-btn-diff" data-i18n="survival.boss2Diff">Difícil · 45s inicio</span>
                         </div>
                     </button>
                     <button class="sv3-boss-icon-btn" data-boss="boss3" onclick="selectBoss('boss3')">
                         <span class="sv3-boss-num">3</span>
                         <div class="sv3-boss-btn-text">
-                            <span class="sv3-boss-btn-name">El Abismo</span>
-                            <span class="sv3-boss-btn-diff">Demencial · 30s inicio</span>
+                            <span class="sv3-boss-btn-name" data-i18n="survival.boss3Name">El Abismo</span>
+                            <span class="sv3-boss-btn-diff" data-i18n="survival.boss3Diff">Demencial · 30s inicio</span>
                         </div>
                     </button>
                 </div>
@@ -75,7 +75,6 @@
 
         </section>
 
-        <!-- COLUMNA CENTRAL -->
         <section class="sv3-col sv3-col-center">
 
             <div class="sv3-block sv3-desc-block">
@@ -84,24 +83,23 @@
                 <p class="sv3-boss-desc" id="sv3BossDesc">El primero de los tres. Metódico y predecible. Domina los fundamentos y cae a tus pies.</p>
                 <div class="sv3-time-badge" id="sv3TimeBadge">⏱ 60s · +10s por ejercicio</div>
                 <div class="sv3-tags">
-                    <span class="sv3-tag">1–4 JUGADORES</span>
-                    <span class="sv3-tag">COOPERATIVO</span>
+                    <span class="sv3-tag" data-i18n="survival.tags1">1–4 JUGADORES</span>
+                    <span class="sv3-tag" data-i18n="survival.tags2">COOPERATIVO</span>
                 </div>
             </div>
 
             <div class="sv3-block sv3-record-block">
-                <span class="sv3-block-label">RÉCORD PERSONAL</span>
+                <span class="sv3-block-label" data-i18n="survival.record">RÉCORD PERSONAL</span>
                 <div class="sv3-record-inner">
                     <span class="sv3-record-val" id="sv3RecordVal">—</span>
-                    <span class="sv3-record-unit">EJERCICIOS</span>
+                    <span class="sv3-record-unit" data-i18n="survival.exercises">EJERCICIOS</span>
                 </div>
-                <div class="sv3-record-sub">Mejor marca en este modo</div>
-                <button class="sv3-start-btn" id="sv3StartBtn" onclick="startGame()">INICIAR PARTIDA →</button>
+                <div class="sv3-record-sub" data-i18n="survival.recordSub">Mejor marca en este modo</div>
+                <button class="sv3-start-btn" id="sv3StartBtn" onclick="startGame()" data-i18n="survival.start">INICIAR PARTIDA →</button>
             </div>
 
         </section>
 
-        <!-- COLUMNA DERECHA -->
         <section class="sv3-col sv3-col-right">
 
             <div class="sv3-boss-name-header">
@@ -112,7 +110,7 @@
             <div class="sv3-boss-img-wrap" id="sv3BossImgWrap">
                 <div class="sv3-boss-placeholder">
                     <div class="sv3-boss-placeholder-icon" id="sv3BossPlaceholderIcon">◈</div>
-                    <div class="sv3-boss-placeholder-text">IMAGEN DEL BOSS</div>
+                    <div class="sv3-boss-placeholder-text" data-i18n="survival.bossImg">IMAGEN DEL BOSS</div>
                 </div>
             </div>
 
@@ -120,11 +118,10 @@
 
     </div>
 
-    <!-- Modal invitar amigo -->
     <div class="sv3-modal-overlay hidden" id="sv3InviteModal">
         <div class="sv3-modal">
             <div class="sv3-modal-header">
-                <span>Invitar Amigo</span>
+                <span data-i18n="survival.inviteTitle">Invitar Amigo</span>
                 <button class="sv3-modal-close" id="sv3CloseModal">✕</button>
             </div>
             <div class="sv3-modal-body" id="sv3FriendList"></div>

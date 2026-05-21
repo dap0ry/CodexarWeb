@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Equipos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,55 +20,50 @@
     <div class="user-pill-container">
         <div class="user-pill" id="userPill">
             <div class="avatar" id="navAvatar"></div>
-            <div class="username-display" id="navUsername">Cargando...</div>
+            <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
         </div>
         <div class="user-dropdown">
-            <a href="/home"          class="dropdown-item">Inicio</a>
-            <a href="/configuracion" class="dropdown-item">Configuración</a>
-            <a href="/precios"       class="dropdown-item">✦ Planes</a>
-            <a href="/logros"        class="dropdown-item">Logros</a>
-            <a href="/amigos"       class="dropdown-item">Amigos</a>
-            <a href="/clasificacion"   class="dropdown-item">Clasificación</a>
+            <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+            <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+            <a href="/precios"       class="dropdown-item" data-i18n="nav.plans">✦ Planes</a>
+            <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+            <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+            <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
 
 <main class="tm-main">
 
-    <!-- Loading -->
     <div id="tmLoading" class="tm-loading">
         <div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div>
     </div>
 
-    <!-- Page (hidden until loaded) -->
     <div id="tmPage" class="tm-page-wrap hidden">
 
-        <!-- Top bar: invites + create (only when no team) -->
         <div id="tmTopBar" class="tm-top-bar hidden">
             <div id="tmPendingStrip" class="tm-pending-strip hidden"></div>
             <div class="tm-top-bar-inner">
-                <div class="tm-top-eyebrow">// CLUBES · CODEXAR</div>
-                <h1 class="tm-top-title">Encuentra tu equipo</h1>
-                <p  class="tm-top-sub">Únete a un club o funda el tuyo propio.</p>
-                <button class="tm-btn-open-create" id="tmOpenCreateBtn">+ Fundar club</button>
+                <div class="tm-top-eyebrow" data-i18n="teams.eyebrow">// CLUBES · CODEXAR</div>
+                <h1 class="tm-top-title" data-i18n="teams.title">Encuentra tu equipo</h1>
+                <p class="tm-top-sub" data-i18n="teams.sub">Únete a un club o funda el tuyo propio.</p>
+                <button class="tm-btn-open-create" id="tmOpenCreateBtn" data-i18n="teams.found">+ Fundar club</button>
             </div>
         </div>
 
-        <!-- Has-team bar -->
         <div id="tmMyTeamBar" class="tm-my-team-bar hidden">
             <div class="tm-my-team-bar-inner">
-                <div class="tm-top-eyebrow">// CLUBES · CODEXAR</div>
-                <h1 class="tm-top-title">Todos los clubes</h1>
-                <p  class="tm-top-sub">Tu club aparece primero. Haz clic en cualquier tarjeta para ver su perfil.</p>
+                <div class="tm-top-eyebrow" data-i18n="teams.eyebrow">// CLUBES · CODEXAR</div>
+                <h1 class="tm-top-title" data-i18n="teams.allClubs">Todos los clubes</h1>
+                <p class="tm-top-sub" data-i18n="teams.allClubsSub">Tu club aparece primero. Haz clic en cualquier tarjeta para ver su perfil.</p>
             </div>
         </div>
 
-        <!-- Clubs grid -->
         <div class="tm-clubs-section">
             <div class="tm-clubs-grid" id="tmClubsGrid">
-                <div class="tm-empty">Cargando clubes...</div>
+                <div class="tm-empty" data-i18n="teams.loading">Cargando clubes...</div>
             </div>
         </div>
 
@@ -75,15 +71,14 @@
 
 </main>
 
-<!-- Create club modal -->
 <div class="tm-modal-backdrop hidden" id="tmCreateModal">
     <div class="tm-modal">
-        <div class="tm-modal-title">// FUNDAR CLUB</div>
-        <input  type="text" id="createName" class="tm-input" placeholder="Nombre del club (máx. 20 car.)" maxlength="20" autocomplete="off">
-        <textarea id="createDesc" class="tm-input tm-textarea" placeholder="Descripción (opcional)"></textarea>
+        <div class="tm-modal-title" data-i18n="teams.modalTitle">// FUNDAR CLUB</div>
+        <input type="text" id="createName" class="tm-input" placeholder="Nombre del club (máx. 20 car.)" data-i18n-placeholder="teams.namePlaceholder" maxlength="20" autocomplete="off">
+        <textarea id="createDesc" class="tm-input tm-textarea" placeholder="Descripción (opcional)" data-i18n-placeholder="teams.descPlaceholder"></textarea>
         <div class="tm-modal-actions">
-            <button class="tm-btn-cancel" id="tmCreateCancel">Cancelar</button>
-            <button class="tm-btn-save"   id="tmCreateSave">Fundar</button>
+            <button class="tm-btn-cancel" id="tmCreateCancel" data-i18n="teams.cancel">Cancelar</button>
+            <button class="tm-btn-save"   id="tmCreateSave" data-i18n="teams.create">Fundar</button>
         </div>
         <p id="createFeedback" class="tm-feedback"></p>
     </div>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Amigos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,35 +21,34 @@
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
-                <div class="username-display" id="navUsername">Cargando...</div>
+                <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home" class="dropdown-item">Inicio</a>
-                <a href="/configuracion" class="dropdown-item">Configuración</a>
-                <a href="/logros" class="dropdown-item">Logros</a>
-                <a href="/amigos" class="dropdown-item">Amigos</a>
-                <a href="/clasificacion" class="dropdown-item">Clasificación</a>
-                <a href="#" class="dropdown-item">Ayuda</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
     <main class="friends-layout">
 
-        <!-- Panel izquierdo: lista de amigos -->
         <section class="fl-left">
             <div class="fl-panel-header">
                 <div class="fl-panel-title">
-                    <h2>Amigos</h2>
+                    <h2 data-i18n="friends.title">Amigos</h2>
                     <span class="friend-count" id="friendCount">0</span>
                 </div>
                 <div class="fl-tabs">
-                    <button class="fl-tab active" data-filter="all">Todos</button>
+                    <button class="fl-tab active" data-filter="all" data-i18n="friends.all">Todos</button>
                     <button class="fl-tab" data-filter="online">
                         <span class="online-dot-tab"></span>
-                        En línea
+                        <span data-i18n="friends.online">En línea</span>
                         <span class="online-count-tab" id="onlineCount">0</span>
                     </button>
                 </div>
@@ -62,7 +62,6 @@
             </div>
         </section>
 
-        <!-- Panel derecho: añadir + solicitudes -->
         <aside class="fl-right">
 
             <div class="fl-add-card">
@@ -76,8 +75,8 @@
                         </svg>
                     </div>
                     <div class="fl-add-text">
-                        <h3>Añadir Amigo</h3>
-                        <p>Nombre de usuario exacto</p>
+                        <h3 data-i18n="friends.addFriend">Añadir Amigo</h3>
+                        <p data-i18n="friends.addFriendSub">Nombre de usuario exacto</p>
                     </div>
                 </div>
                 <div class="fl-add-row">
@@ -86,10 +85,11 @@
                         id="friendSearchInput"
                         class="fl-input"
                         placeholder="ej. xX_Codexar_Xx"
+                        data-i18n-placeholder="friends.searchPlaceholder"
                         autocomplete="off"
                         spellcheck="false"
                     >
-                    <button id="addFriendBtn" class="btn-add-friend">Enviar</button>
+                    <button id="addFriendBtn" class="btn-add-friend" data-i18n="friends.send">Enviar</button>
                 </div>
                 <p id="searchFeedback" class="search-feedback"></p>
             </div>
@@ -97,14 +97,14 @@
             <div class="fl-requests">
                 <div class="fl-req-panel">
                     <div class="fl-req-title">
-                        <span>Enviadas</span>
+                        <span data-i18n="friends.sent">Enviadas</span>
                         <span class="req-badge" id="sentBadge">0</span>
                     </div>
                     <div class="fl-req-list" id="sentRequestsList"></div>
                 </div>
                 <div class="fl-req-panel">
                     <div class="fl-req-title incoming-title">
-                        <span>Recibidas</span>
+                        <span data-i18n="friends.received">Recibidas</span>
                         <span class="req-badge incoming" id="receivedBadge">0</span>
                     </div>
                     <div class="fl-req-list" id="receivedRequestsList"></div>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Supervivencia</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/assets/css/SolvePage.css">
@@ -26,10 +27,10 @@
                 <a href="#" class="dropdown-item" onclick="confirmLeave('/configuracion'); return false;">Perfil</a>
                 <a href="#" class="dropdown-item" onclick="confirmLeave('/logros'); return false;">Logros</a>
                 <a href="#" class="dropdown-item" onclick="confirmLeave('/amigos'); return false;">Amigos</a>
-                <a href="#" class="dropdown-item" onclick="confirmLeave('/clasificacion'); return false;">Clasificación</a>
-                <a href="#" class="dropdown-item">Ayuda</a>
+                <a href="#" class="dropdown-item" onclick="confirmLeave('/clasificacion'); return false;">Clasificación</a>
+                <a href="#" class="dropdown-item" data-i18n="nav.help">Ayuda</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>

@@ -750,3 +750,37 @@ html[data-theme="focus"] select:focus {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04) !important;
 }
 
+/* ── Language switcher ── */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(0, 255, 204, 0.1);
+    border-radius: 8px;
+    padding: 3px 4px;
+}
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1;
+}
+.lang-btn:hover { color: var(--accent-cyan); background: rgba(0, 255, 204, 0.06); }
+.lang-btn.active { color: var(--accent-cyan); background: rgba(0, 255, 204, 0.1); }
+
+/* Auth pages: switcher floats top-right of card */
+.lang-switcher--auth {
+    margin: 0 0 14px auto;
+    display: flex;
+    width: fit-content;
+}
+

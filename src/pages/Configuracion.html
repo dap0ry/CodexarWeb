@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
     <title>Codexar — Configuración</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,18 +20,18 @@
     <div class="user-pill-container">
         <div class="user-pill" id="userPill">
             <div class="avatar" id="navAvatar"></div>
-            <div class="username-display" id="navUsername">Cargando...</div>
+            <div class="username-display" id="navUsername" data-i18n="nav.loading">Cargando...</div>
         </div>
         <div class="user-dropdown">
-            <a href="/home"          class="dropdown-item">Inicio</a>
-            <a href="/configuracion" class="dropdown-item">Configuración</a>
-            <a href="/precios"       class="dropdown-item">✦ Planes</a>
-            <a href="/logros"        class="dropdown-item">Logros</a>
-            <a href="/amigos"       class="dropdown-item">Amigos</a>
-            <a href="/clasificacion"   class="dropdown-item">Clasificación</a>
-            <a href="#"                  class="dropdown-item">Ayuda</a>
+            <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+            <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+            <a href="/precios"       class="dropdown-item" data-i18n="nav.plans">✦ Planes</a>
+            <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+            <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+            <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+            <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
@@ -38,17 +39,14 @@
 <main class="cfg-page">
     <div class="cfg-content">
 
-        <!-- ══ BOX ÚNICO · PERFIL + PERSONALIZACIÓN ═══════════════════════ -->
         <div class="cfg-box" id="box-config">
 
-            <!-- §1 Datos personales -->
             <div class="cfg-box-header">
-                <div class="cfg-box-tag">// 01</div>
-                <h2 class="cfg-box-title">Datos personales</h2>
-                <p class="cfg-box-desc">Tu nombre, foto, credenciales y la información que aparece en tu perfil público.</p>
+                <div class="cfg-box-tag" data-i18n="settings.tag01">// 01</div>
+                <h2 class="cfg-box-title" data-i18n="settings.personalData">Datos personales</h2>
+                <p class="cfg-box-desc" data-i18n="settings.personalDataDesc">Tu nombre, foto, credenciales y la información que aparece en tu perfil público.</p>
             </div>
 
-            <!-- Avatar + campos básicos -->
             <div class="cfg-profile-header">
                 <div class="cfg-avatar-col">
                     <div class="cfg-avatar-wrap" id="cfgAvatarWrap">
@@ -58,55 +56,53 @@
                         </label>
                         <input type="file" id="cfgAvatarInput" accept="image/png,image/jpeg,image/gif,image/webp" hidden>
                     </div>
-                    <span class="cfg-avatar-hint">Editar foto</span>
+                    <span class="cfg-avatar-hint" data-i18n="settings.editPhoto">Editar foto</span>
                 </div>
                 <div class="cfg-profile-fields">
                     <div class="cfg-field-group">
-                        <label class="cfg-label" for="cfgUsername">Nombre de usuario</label>
+                        <label class="cfg-label" for="cfgUsername" data-i18n="settings.usernameLabel">Nombre de usuario</label>
                         <input type="text" class="cfg-input" id="cfgUsername" autocomplete="off" maxlength="20">
                         <span class="cfg-field-status" id="cfgUsernameStatus"></span>
                     </div>
                     <div class="cfg-field-group">
                         <label class="cfg-label" for="cfgDesc">
-                            Descripción
-                            <span class="cfg-label-hint">máx. 30 caracteres</span>
+                            <span data-i18n="settings.descriptionLabel">Descripción</span>
+                            <span class="cfg-label-hint" data-i18n="settings.descHint">máx. 30 caracteres</span>
                         </label>
                         <input type="text" class="cfg-input" id="cfgDesc" maxlength="30" autocomplete="off">
                     </div>
                     <div class="cfg-field-group">
-                        <label class="cfg-label" for="cfgEmail">Email de la cuenta</label>
+                        <label class="cfg-label" for="cfgEmail" data-i18n="settings.emailLabel">Email de la cuenta</label>
                         <input type="text" class="cfg-input cfg-input--readonly" id="cfgEmail" readonly autocomplete="off">
                     </div>
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Stack tecnológico</label>
+                        <label class="cfg-label" data-i18n="settings.stack">Stack tecnológico</label>
                         <div class="cfg-lang-grid cfg-lang-grid--small" id="cfgLangGrid"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Contraseña -->
             <div class="cfg-subsection">
-                <div class="cfg-subsec-label">Cambiar contraseña</div>
+                <div class="cfg-subsec-label" data-i18n="settings.changePassword">Cambiar contraseña</div>
                 <div class="cfg-pwd-grid">
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Contraseña actual</label>
+                        <label class="cfg-label" data-i18n="settings.currentPassword">Contraseña actual</label>
                         <div class="cfg-pwd-row">
-                            <input type="password" class="cfg-input" id="cfgOldPwd" placeholder="Tu contraseña actual..." autocomplete="current-password">
-                            <button class="cfg-verify-btn" id="cfgVerifyBtn">Verificar</button>
+                            <input type="password" class="cfg-input" id="cfgOldPwd" placeholder="Tu contraseña actual..." data-i18n-placeholder="settings.currentPasswordPlaceholder" autocomplete="current-password">
+                            <button class="cfg-verify-btn" id="cfgVerifyBtn" data-i18n="settings.verify">Verificar</button>
                         </div>
                         <span class="cfg-field-status" id="cfgPwdStatus"></span>
                     </div>
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Nueva contraseña</label>
-                        <input type="password" class="cfg-input" id="cfgNewPwd" placeholder="Verifica primero tu contraseña actual" disabled autocomplete="new-password">
+                        <label class="cfg-label" data-i18n="settings.newPassword">Nueva contraseña</label>
+                        <input type="password" class="cfg-input" id="cfgNewPwd" placeholder="Verifica primero tu contraseña actual" data-i18n-placeholder="settings.newPasswordPlaceholder" disabled autocomplete="new-password">
                     </div>
                 </div>
             </div>
 
-            <!-- Redes sociales -->
             <div class="cfg-subsection">
-                <div class="cfg-subsec-label">Redes sociales</div>
-                <p class="cfg-subsec-hint">Los enlaces que aparecen en tu perfil público.</p>
+                <div class="cfg-subsec-label" data-i18n="settings.socials">Redes sociales</div>
+                <p class="cfg-subsec-hint" data-i18n="settings.socialsDesc">Los enlaces que aparecen en tu perfil público.</p>
                 <div class="cfg-social-grid">
                     <div class="cfg-social-row">
                         <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="cfg-social-ico">
@@ -131,107 +127,106 @@
                 </div>
             </div>
 
-            <!-- §2 Personalización -->
             <div class="cfg-subsection">
                 <div class="cfg-box-header" style="gap:4px;">
-                    <div class="cfg-box-tag">// 02</div>
-                    <h2 class="cfg-box-title">Personalización de perfil</h2>
-                    <p class="cfg-box-desc">Banner, fondo de perfil y preferencias visuales de tu página pública.</p>
+                    <div class="cfg-box-tag" data-i18n="settings.tag02">// 02</div>
+                    <h2 class="cfg-box-title" data-i18n="settings.customization">Personalización de perfil</h2>
+                    <p class="cfg-box-desc" data-i18n="settings.customizationDesc">Banner, fondo de perfil y preferencias visuales de tu página pública.</p>
                 </div>
 
-                <!-- Banner + fondo -->
                 <div class="cfg-media-grid">
-                    <!-- Banner -->
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Banner superior</label>
+                        <label class="cfg-label" data-i18n="settings.bannerLabel">Banner superior</label>
                         <div class="cfg-bg-strip" id="cfgBannerStrip">
-                            <span class="cfg-bg-empty" id="cfgBannerEmpty">Sin banner</span>
+                            <span class="cfg-bg-empty" id="cfgBannerEmpty" data-i18n="settings.noBanner">Sin banner</span>
                         </div>
                         <div class="cfg-upload-row">
                             <label for="cfgBannerInput" class="cfg-upload-btn">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                                Subir banner
+                                <span data-i18n="settings.uploadBanner">Subir banner</span>
                             </label>
                             <button type="button" class="cfg-delete-btn" id="cfgBannerDeleteBtn">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-                                Eliminar
+                                <span data-i18n="settings.delete">Eliminar</span>
                             </button>
                         </div>
                         <input type="file" id="cfgBannerInput" accept="image/png,image/jpeg,image/webp" hidden>
-                        <span class="cfg-hint">1160 × 130 px recomendado · máx. 2 MB</span>
+                        <span class="cfg-hint" data-i18n="settings.bannerHint">1160 × 130 px recomendado · máx. 2 MB</span>
                     </div>
 
-                    <!-- Fondo -->
                     <div class="cfg-field-group">
-                        <label class="cfg-label">Fondo de perfil <span class="cfg-label-hint">wallpaper completo</span></label>
+                        <label class="cfg-label">
+                            <span data-i18n="settings.bgLabel">Fondo de perfil</span>
+                            <span class="cfg-label-hint" data-i18n="settings.bgLabelHint">wallpaper completo</span>
+                        </label>
                         <div class="cfg-bg-strip" id="cfgBgStrip">
-                            <span class="cfg-bg-empty" id="cfgBgEmpty">Sin fondo personalizado</span>
+                            <span class="cfg-bg-empty" id="cfgBgEmpty" data-i18n="settings.noBg">Sin fondo personalizado</span>
                         </div>
                         <div class="cfg-upload-row">
                             <label for="cfgBgInput" class="cfg-upload-btn">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                                Subir fondo
+                                <span data-i18n="settings.uploadBg">Subir fondo</span>
                             </label>
                             <button type="button" class="cfg-delete-btn" id="cfgBgDeleteBtn">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-                                Eliminar
+                                <span data-i18n="settings.delete">Eliminar</span>
                             </button>
                         </div>
                         <input type="file" id="cfgBgInput" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4" hidden>
-                        <span class="cfg-hint">Cubre todo el fondo · máx. 3 MB (10 MB con Plus/Max · GIF y MP4 con Plus/Max)</span>
+                        <span class="cfg-hint" data-i18n="settings.bgHint">Cubre todo el fondo · máx. 3 MB (10 MB con Plus/Max · GIF y MP4 con Plus/Max)</span>
                     </div>
                 </div>
 
-                <!-- Opciones visuales -->
                 <div class="cfg-subsection">
-                    <div class="cfg-subsec-label">Opciones visuales <span class="cfg-subsec-instant">— se aplican al instante</span></div>
+                    <div class="cfg-subsec-label">
+                        <span data-i18n="settings.visualOptions">Opciones visuales</span>
+                        <span class="cfg-subsec-instant" data-i18n="settings.instantApply">— se aplican al instante</span>
+                    </div>
                     <div class="cfg-vis-grid">
                         <div class="cfg-field-group">
-                            <label class="cfg-label">Estilo de tarjetas</label>
+                            <label class="cfg-label" data-i18n="settings.cardStyle">Estilo de tarjetas</label>
                             <div class="cfg-box-style-group" id="cfgBoxStyleGroup">
-                                <button class="cfg-box-style-btn" data-style="transparent">Transparente</button>
-                                <button class="cfg-box-style-btn" data-style="semi">Semi</button>
-                                <button class="cfg-box-style-btn active" data-style="solid">Sólido</button>
+                                <button class="cfg-box-style-btn" data-style="transparent" data-i18n="settings.transparent">Transparente</button>
+                                <button class="cfg-box-style-btn" data-style="semi" data-i18n="settings.semi">Semi</button>
+                                <button class="cfg-box-style-btn active" data-style="solid" data-i18n="settings.solid">Sólido</button>
                             </div>
-                            <span class="cfg-hint">Fondo de las tarjetas en el perfil público.</span>
+                            <span class="cfg-hint" data-i18n="settings.cardStyleHint">Fondo de las tarjetas en el perfil público.</span>
                         </div>
                         <div class="cfg-field-group">
-                            <label class="cfg-label">Opacidad del fondo</label>
+                            <label class="cfg-label" data-i18n="settings.bgOpacity">Opacidad del fondo</label>
                             <div class="cfg-box-style-group" id="cfgBgVisGroup">
                                 <button class="cfg-box-style-btn" data-vis="full">100%</button>
                                 <button class="cfg-box-style-btn" data-vis="mid">80%</button>
                                 <button class="cfg-box-style-btn active" data-vis="dim">50%</button>
                             </div>
-                            <span class="cfg-hint">Cuánto oscurece el overlay sobre el wallpaper.</span>
+                            <span class="cfg-hint" data-i18n="settings.bgOpacityHint">Cuánto oscurece el overlay sobre el wallpaper.</span>
                         </div>
                         <div class="cfg-field-group">
-                            <label class="cfg-label">Opacidad del banner</label>
+                            <label class="cfg-label" data-i18n="settings.bannerOpacity">Opacidad del banner</label>
                             <div class="cfg-box-style-group" id="cfgBannerVisGroup">
                                 <button class="cfg-box-style-btn" data-banvis="full">100%</button>
                                 <button class="cfg-box-style-btn" data-banvis="mid">80%</button>
                                 <button class="cfg-box-style-btn active" data-banvis="dim">50%</button>
                             </div>
-                            <span class="cfg-hint">Degradado sobre el banner superior del perfil.</span>
+                            <span class="cfg-hint" data-i18n="settings.bannerOpacityHint">Degradado sobre el banner superior del perfil.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Botón guardar centrado -->
             <div class="cfg-box-footer cfg-box-footer--center">
                 <span class="cfg-feedback" id="cfgSaveFeedback"></span>
-                <button class="cfg-save-btn" id="cfgSaveAllBtn">▸ Guardar cambios</button>
+                <button class="cfg-save-btn" id="cfgSaveAllBtn" data-i18n="settings.save">▸ Guardar cambios</button>
             </div>
 
-        </div><!-- /box-config -->
+        </div>
 
-        <!-- ══ 03 · APARIENCIA (sin caja, solo grid) ════════════════════════ -->
         <section class="cfg-apariencia" id="sec-apariencia">
 
             <div class="cfg-box-header">
-                <div class="cfg-box-tag">// 03</div>
-                <h2 class="cfg-box-title">Tema visual</h2>
-                <p class="cfg-box-desc">Selecciona la paleta de colores de Codexar. Se aplica al instante, sin guardar.</p>
+                <div class="cfg-box-tag" data-i18n="settings.tag03">// 03</div>
+                <h2 class="cfg-box-title" data-i18n="settings.theme">Tema visual</h2>
+                <p class="cfg-box-desc" data-i18n="settings.themeDesc">Selecciona la paleta de colores de Codexar. Se aplica al instante, sin guardar.</p>
             </div>
 
             <div class="cfg-tema-grid">
@@ -243,10 +238,10 @@
                         <div class="mock-body"><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div></div>
                     </div>
                     <div class="tema-card-info">
-                        <div class="tema-card-name">Oscuro Moderno</div>
-                        <div class="tema-card-desc">Paleta cyberpunk oscura con acentos en cyan neón.</div>
+                        <div class="tema-card-name" data-i18n="settings.darkThemeName">Oscuro Moderno</div>
+                        <div class="tema-card-desc" data-i18n="settings.darkThemeDesc">Paleta cyberpunk oscura con acentos en cyan neón.</div>
                     </div>
-                    <button class="tema-btn">SELECCIONAR</button>
+                    <button class="tema-btn" data-i18n="settings.selectTheme">SELECCIONAR</button>
                 </div>
 
                 <div class="tema-card" data-theme="dracula">
@@ -257,9 +252,9 @@
                     </div>
                     <div class="tema-card-info">
                         <div class="tema-card-name">Dracula</div>
-                        <div class="tema-card-desc">Fondo profundo con acentos en morado y rosa.</div>
+                        <div class="tema-card-desc" data-i18n="settings.draculaThemeDesc">Fondo profundo con acentos en morado y rosa.</div>
                     </div>
-                    <button class="tema-btn">SELECCIONAR</button>
+                    <button class="tema-btn" data-i18n="settings.selectTheme">SELECCIONAR</button>
                 </div>
 
                 <div class="tema-card" data-theme="nord">
@@ -270,9 +265,9 @@
                     </div>
                     <div class="tema-card-info">
                         <div class="tema-card-name">Nord</div>
-                        <div class="tema-card-desc">Azules árticos y grises fríos del norte.</div>
+                        <div class="tema-card-desc" data-i18n="settings.nordThemeDesc">Azules árticos y grises fríos del norte.</div>
                     </div>
-                    <button class="tema-btn">SELECCIONAR</button>
+                    <button class="tema-btn" data-i18n="settings.selectTheme">SELECCIONAR</button>
                 </div>
 
                 <div class="tema-card" data-theme="matrix">
@@ -283,9 +278,9 @@
                     </div>
                     <div class="tema-card-info">
                         <div class="tema-card-name">Matrix</div>
-                        <div class="tema-card-desc">Negro absoluto con verde neón. Dentro del sistema.</div>
+                        <div class="tema-card-desc" data-i18n="settings.matrixThemeDesc">Negro absoluto con verde neón. Dentro del sistema.</div>
                     </div>
-                    <button class="tema-btn">SELECCIONAR</button>
+                    <button class="tema-btn" data-i18n="settings.selectTheme">SELECCIONAR</button>
                 </div>
 
                 <div class="tema-card" data-theme="focus">
@@ -296,9 +291,9 @@
                     </div>
                     <div class="tema-card-info">
                         <div class="tema-card-name">Focus</div>
-                        <div class="tema-card-desc">Minimal absoluto. Negro, blanco, silencio.</div>
+                        <div class="tema-card-desc" data-i18n="settings.focusThemeDesc">Minimal absoluto. Negro, blanco, silencio.</div>
                     </div>
-                    <button class="tema-btn">SELECCIONAR</button>
+                    <button class="tema-btn" data-i18n="settings.selectTheme">SELECCIONAR</button>
                 </div>
 
                 <div class="tema-card" data-theme="zen">
@@ -309,15 +304,15 @@
                     </div>
                     <div class="tema-card-info">
                         <div class="tema-card-name">Zen Sakura</div>
-                        <div class="tema-card-desc">Papel washi, rosa sakura y tinta. Serenidad japonesa.</div>
+                        <div class="tema-card-desc" data-i18n="settings.zenThemeDesc">Papel washi, rosa sakura y tinta. Serenidad japonesa.</div>
                     </div>
-                    <button class="tema-btn">SELECCIONAR</button>
+                    <button class="tema-btn" data-i18n="settings.selectTheme">SELECCIONAR</button>
                 </div>
 
             </div>
         </section>
 
-    </div><!-- cfg-content -->
+    </div>
 </main>
 
 <script src="/src/services/matchmakingGlobal.js"></script>
