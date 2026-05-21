@@ -200,7 +200,10 @@ function renderExercise(ex, user) {
     if (ex.title_i18n || ex.description_i18n) {
         switcher.classList.remove('hidden');
         switcher.querySelectorAll('.ex-lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => applyExLang(ex, btn.dataset.lang));
+            btn.addEventListener('click', async () => {
+                await window.setLang(btn.dataset.lang);
+                applyExLang(ex, btn.dataset.lang);
+            });
         });
     }
 

@@ -37,54 +37,65 @@ function formatDate(isoStr) {
     return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
+// ── News i18n helper ──────────────────────────────────────────────────────────
+function newsField(news, field) {
+    const lang = localStorage.getItem('codexar_lang') || 'es';
+    const i18n = news[field + '_i18n'];
+    return (i18n && i18n[lang]) || news[field] || '';
+}
+
 // ── Render a single news card ─────────────────────────────────────────────────
 function buildNewsCard(news) {
     const card = document.createElement('div');
     card.className = 'news-card';
     card.dataset.id = news.id;
 
-    const bodyHtml = parseMentions(news.body || '');
-    const likedClass = news.liked_by_me ? ' liked' : '';
+    function refreshCard() {
+        const title    = newsField(news, 'title');
+        const subtitle = newsField(news, 'subtitle');
+        const body     = newsField(news, 'body');
+        const bodyHtml = parseMentions(body);
+        const likedClass = news.liked_by_me ? ' liked' : '';
+        card.innerHTML = `
+            <div class="news-card-header">
+                <div class="news-card-title">${escapeHtml(title)}</div>
+                <div class="news-card-subtitle">${escapeHtml(subtitle)}</div>
+            </div>
+            <div class="news-card-meta">
+                <span class="news-card-creator">@${escapeHtml(news.creator)}</span>
+                <span class="news-card-dot">·</span>
+                <span>${formatDate(news.created_at)}</span>
+            </div>
+            <div class="news-card-body">${bodyHtml}</div>
+            <div class="news-card-footer">
+                <button class="news-like-btn${likedClass}" data-id="${news.id}">
+                    <span class="news-like-icon">${news.liked_by_me ? '♥' : '♡'}</span>
+                    <span class="news-like-count">${news.like_count}</span>
+                </button>
+            </div>
+        `;
+        card.querySelector('.news-like-btn').addEventListener('click', handleLike);
+    }
 
-    card.innerHTML = `
-        <div class="news-card-header">
-            <div class="news-card-title">${escapeHtml(news.title)}</div>
-            <div class="news-card-subtitle">${escapeHtml(news.subtitle)}</div>
-        </div>
-        <div class="news-card-meta">
-            <span class="news-card-creator">@${escapeHtml(news.creator)}</span>
-            <span class="news-card-dot">·</span>
-            <span>${formatDate(news.created_at)}</span>
-        </div>
-        <div class="news-card-body">${bodyHtml}</div>
-        <div class="news-card-footer">
-            <button class="news-like-btn${likedClass}" data-id="${news.id}">
-                <span class="news-like-icon">${news.liked_by_me ? '♥' : '♡'}</span>
-                <span class="news-like-count">${news.like_count}</span>
-            </button>
-        </div>
-    `;
-
-    // Like toggle handler
-    card.querySelector('.news-like-btn').addEventListener('click', async (e) => {
+    function handleLike(e) {
         e.stopPropagation();
         const btn = e.currentTarget;
         const token = localStorage.getItem('access_token');
-        try {
-            const res = await fetch(`${API_BASE_URL}/news/${news.id}/like`, {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                btn.classList.toggle('liked', data.liked);
-                btn.querySelector('.news-like-icon').textContent = data.liked ? '♥' : '♡';
-                btn.querySelector('.news-like-count').textContent = data.like_count;
-            }
-        } catch (err) {
-            console.warn('Error al dar like:', err);
-        }
-    });
+        fetch(`${API_BASE_URL}/news/${news.id}/like`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        }).then(r => r.ok ? r.json() : null).then(data => {
+            if (!data) return;
+            news.liked_by_me = data.liked;
+            news.like_count  = data.like_count;
+            btn.classList.toggle('liked', data.liked);
+            btn.querySelector('.news-like-icon').textContent = data.liked ? '♥' : '♡';
+            btn.querySelector('.news-like-count').textContent = data.like_count;
+        }).catch(() => {});
+    }
+
+    refreshCard();
+    card._refreshNewsLang = refreshCard;
 
     return card;
 }
@@ -98,6 +109,12 @@ function escapeHtml(str) {
 }
 
 // ── Load news feed ────────────────────────────────────────────────────────────
+let _newsCards = [];
+
+function refreshNewsFeed() {
+    _newsCards.forEach(c => c._refreshNewsLang && c._refreshNewsLang());
+}
+
 async function loadNews(token) {
     const feed = document.getElementById('newsFeed');
     if (!feed) return;
@@ -108,11 +125,16 @@ async function loadNews(token) {
         if (!res.ok) throw new Error('Error cargando noticias');
         const newsList = await res.json();
         feed.innerHTML = '';
+        _newsCards = [];
         if (newsList.length === 0) {
             feed.innerHTML = '<div class="news-skeleton">No hay noticias aún.</div>';
             return;
         }
-        newsList.forEach(n => feed.appendChild(buildNewsCard(n)));
+        newsList.forEach(n => {
+            const card = buildNewsCard(n);
+            _newsCards.push(card);
+            feed.appendChild(card);
+        });
     } catch (err) {
         console.warn('No se pudieron cargar las noticias:', err);
         if (feed) feed.innerHTML = '<div class="news-skeleton">No se pudieron cargar las noticias.</div>';
@@ -301,6 +323,7 @@ async function initDashboard() {
                     await window.setLang(btn.dataset.lang);
                     heroLangBtn.innerHTML = LANG_FLAGS[btn.dataset.lang];
                     heroLangMenu.classList.remove('open');
+                    refreshNewsFeed();
                 });
             });
             document.addEventListener('click', () => heroLangMenu.classList.remove('open'));
