@@ -41,6 +41,12 @@
         });
     }
 
+    const FLAG_SRCS = {
+        es: 'https://flagcdn.com/es.svg',
+        en: 'https://flagcdn.com/gb.svg',
+        zh: 'https://flagcdn.com/cn.svg',
+    };
+
     function buildSwitcher(extraClass) {
         const switcher = document.createElement('div');
         switcher.className = 'lang-switcher' + (extraClass ? ' ' + extraClass : '');
@@ -48,7 +54,11 @@
             const btn = document.createElement('button');
             btn.className = 'lang-btn' + (lang === currentLang ? ' active' : '');
             btn.dataset.lang = lang;
-            btn.textContent = lang === 'zh' ? '中' : lang.toUpperCase();
+            const img = document.createElement('img');
+            img.src = FLAG_SRCS[lang];
+            img.alt = lang.toUpperCase();
+            img.className = 'flag-icon';
+            btn.appendChild(img);
             btn.onclick = () => window.setLang(lang);
             switcher.appendChild(btn);
         });

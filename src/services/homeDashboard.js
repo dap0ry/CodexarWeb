@@ -285,8 +285,12 @@ async function initDashboard() {
         // Hero language button + dropdown
         const heroLangBtn = document.getElementById('heroLangBtn');
         const heroLangMenu = document.getElementById('heroLangMenu');
-        const LANG_FLAGS = { es: '🇪🇸', en: '🇬🇧', zh: '🇨🇳' };
-        if (heroLangBtn) heroLangBtn.textContent = LANG_FLAGS[localStorage.getItem('codexar_lang') || 'es'];
+        const LANG_FLAGS = {
+            es: '<img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES">',
+            en: '<img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN">',
+            zh: '<img src="https://flagcdn.com/cn.svg" class="flag-icon" alt="ZH">',
+        };
+        if (heroLangBtn) heroLangBtn.innerHTML = LANG_FLAGS[localStorage.getItem('codexar_lang') || 'es'];
         if (heroLangBtn && heroLangMenu) {
             heroLangBtn.addEventListener('click', e => {
                 e.stopPropagation();
@@ -295,7 +299,7 @@ async function initDashboard() {
             heroLangMenu.querySelectorAll('.hero-lang-opt').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     await window.setLang(btn.dataset.lang);
-                    heroLangBtn.textContent = LANG_FLAGS[btn.dataset.lang];
+                    heroLangBtn.innerHTML = LANG_FLAGS[btn.dataset.lang];
                     heroLangMenu.classList.remove('open');
                 });
             });

@@ -156,11 +156,29 @@ function populateNavbar(user) {
     }
 }
 
+// ─── Exercise i18n helpers ────────────────────────────────────────
+function getExTitle(ex, lang) {
+    return (ex.title_i18n && ex.title_i18n[lang]) || ex.title;
+}
+function getExDesc(ex, lang) {
+    return (ex.description_i18n && ex.description_i18n[lang]) || ex.description;
+}
+
+function applyExLang(ex, lang) {
+    const title = getExTitle(ex, lang);
+    document.getElementById('exTitle').textContent        = title;
+    document.getElementById('breadcrumbTitle').textContent = title;
+    document.title = `Codexar - ${title}`;
+    document.getElementById('exDescription').textContent  = getExDesc(ex, lang);
+    document.querySelectorAll('.ex-lang-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.lang === lang)
+    );
+}
+
 // ─── Render Exercise ─────────────────────────────────────────────
 function renderExercise(ex, user) {
-    document.getElementById('breadcrumbTitle').textContent = ex.title;
-    document.title = `Codexar - ${ex.title}`;
-    document.getElementById('exTitle').textContent = ex.title;
+    const currentLang = localStorage.getItem('codexar_lang') || 'es';
+    applyExLang(ex, currentLang);
 
     let diffClass = 'badge-normal';
     if (ex.difficulty === 'Fácil')   diffClass = 'badge-facil';
@@ -175,8 +193,16 @@ function renderExercise(ex, user) {
         ${ex.solved ? '<span class="ex-badge badge-solved-ex">✓ Resuelto</span>' : ''}
     `;
 
-    document.getElementById('exDescription').textContent = ex.description;
     renderTestCases(ex.test_cases, null);
+
+    // Show lang switcher only if exercise has multilingual content
+    const switcher = document.getElementById('exLangSwitcher');
+    if (ex.title_i18n || ex.description_i18n) {
+        switcher.classList.remove('hidden');
+        switcher.querySelectorAll('.ex-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => applyExLang(ex, btn.dataset.lang));
+        });
+    }
 
     // Language pills
     const pills = document.querySelectorAll('.lang-pill');

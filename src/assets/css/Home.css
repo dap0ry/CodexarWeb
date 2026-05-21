@@ -268,7 +268,9 @@ h1, h2, h3, h4, h5, h6, .brand {
     color: var(--accent-cyan);
     background: rgba(0,255,204,0.04);
 }
-.btn-hero-lang { font-size: 1.15rem; }
+.btn-hero-lang { display: flex; align-items: center; justify-content: center; padding: 0 8px; }
+.flag-icon { width: 24px; height: 17px; object-fit: cover; border-radius: 2px; display: block; }
+.hero-lang-opt .flag-icon { width: 26px; height: 19px; }
 
 /* Lang dropdown */
 .hero-lang-wrap { position: relative; flex-shrink: 0; }
