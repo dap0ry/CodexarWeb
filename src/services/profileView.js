@@ -236,7 +236,8 @@ const SURVIVAL_DIFF_CONFIG = [
 function renderSurvivalStats(data) {
     const el = document.getElementById('pvSurvivalStats');
     if (!el) return;
-    const stats = data.survival_stats || {};
+    const stats  = data.survival_stats || {};
+    const games  = data.survival_games || 0;
     const maxVal = Math.max(...SURVIVAL_DIFF_CONFIG.map(d => (stats[d.key]?.max_exercises || 0)), 1);
 
     const diffBars = SURVIVAL_DIFF_CONFIG.map(({ key, label, color }) => {
@@ -253,7 +254,47 @@ function renderSurvivalStats(data) {
         `;
     }).join('');
 
-    el.innerHTML = `<div class="pvb-body"><div class="pvb-diff-bars">${diffBars}</div></div>`;
+    el.innerHTML = `
+        <div class="pvb-body">
+            <div class="pvb-top-stats">
+                <div class="pvb-stat">
+                    <span class="pv-stat-key">Partidas</span>
+                    <span class="pv-stat-val">${escHtml(String(games))}</span>
+                </div>
+            </div>
+            <div class="pvb-divider"></div>
+            <div class="pvb-diff-bars">${diffBars}</div>
+        </div>
+    `;
+}
+
+// ── Tournament stats ──────────────────────────────────────────
+function renderTournamentStats(data) {
+    const el = document.getElementById('pvTournamentStats');
+    if (!el) return;
+    const played  = data.tournaments_joined  || 0;
+    const wins    = data.tournament_wins     || 0;
+    const winrate = data.tournament_winrate  || 0;
+    const wrClass = played > 0 ? 'accent-blue' : 'accent-muted';
+
+    el.innerHTML = `
+        <div class="pvb-body">
+            <div class="pvb-top-stats">
+                <div class="pvb-stat">
+                    <span class="pv-stat-key">Jugados</span>
+                    <span class="pv-stat-val">${escHtml(String(played))}</span>
+                </div>
+                <div class="pvb-stat">
+                    <span class="pv-stat-key">Victorias</span>
+                    <span class="pv-stat-val accent-blue">${escHtml(String(wins))}</span>
+                </div>
+                <div class="pvb-stat">
+                    <span class="pv-stat-key">Win Rate</span>
+                    <span class="pv-stat-val ${wrClass}">${played > 0 ? winrate + '%' : '--%'}</span>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 // ── Social links ──────────────────────────────────────────────
@@ -428,6 +469,7 @@ function renderProfile(data) {
     renderRankedStats(data);
     renderBotStats(data);
     renderSurvivalStats(data);
+    renderTournamentStats(data);
 
     // Show content
     document.getElementById('pvLoading').classList.add('hidden');
