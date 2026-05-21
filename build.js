@@ -37,6 +37,7 @@ const PAGE_MAP = {
   'SolvePage.html':           'resolver.html',
   'ProfileView.html':         'perfil.html',
   'QuickLogin.html':          'quick-login.html',
+  'Mobile.html':              'mobile.html',
 };
 
 function copyDir(src, dest) {
