@@ -4,497 +4,611 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Codexar — App Móvil</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
             --cyan: #00ffcc;
-            --cyan-dim: rgba(0,255,204,0.15);
-            --cyan-glow: rgba(0,255,204,0.35);
-            --bg: #0a0a0f;
-            --card: #111118;
-            --card2: #16161f;
-            --border: rgba(255,255,255,0.07);
-            --text: #e8e8f0;
-            --muted: rgba(255,255,255,0.45);
-            --android: #3ddc84;
-            --ios: #c8c8d8;
+            --orange: #ff6b3d;
+            --bg: #080810;
+            --surface: #0f0f18;
+            --card: #13131e;
+            --border: rgba(255,255,255,0.06);
+            --text: #e4e4f0;
+            --muted: rgba(255,255,255,0.38);
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Inter', sans-serif;
         }
 
         html { scroll-behavior: smooth; }
-
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             min-height: 100dvh;
             overflow-x: hidden;
         }
 
-        /* ── HERO ── */
+        /* ─── TOP BAR ─── */
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            height: 52px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(8,8,16,0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .topbar-logo {
+            font-family: var(--mono);
+            font-size: 1rem; font-weight: 800; letter-spacing: -0.5px;
+        }
+        .topbar-logo span { color: var(--cyan); }
+        .topbar-cta {
+            font-family: var(--mono);
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--cyan);
+            background: rgba(0,255,204,0.07);
+            border: 1px solid rgba(0,255,204,0.22);
+            border-radius: 6px; padding: 6px 14px;
+            cursor: pointer; text-decoration: none;
+        }
+
+        /* ─── HERO ─── */
         .hero {
-            position: relative;
             min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 48px 24px 80px;
-            overflow: hidden;
-            text-align: center;
+            padding: 72px 20px 60px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 0;
+            position: relative; overflow: hidden;
         }
 
-        /* animated blobs */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.18;
-            animation: float 8s ease-in-out infinite;
-            pointer-events: none;
-        }
-        .blob-1 { width: 320px; height: 320px; background: var(--cyan); top: -80px; left: -80px; animation-delay: 0s; }
-        .blob-2 { width: 220px; height: 220px; background: #7c3aed; bottom: 60px; right: -60px; animation-delay: -3s; }
-        .blob-3 { width: 180px; height: 180px; background: var(--cyan); bottom: 180px; left: 20px; opacity: 0.1; animation-delay: -5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-24px) scale(1.04); }
-        }
-
-        /* grid overlay */
+        /* subtle grid */
         .hero::before {
             content: '';
             position: absolute; inset: 0;
             background-image:
-                linear-gradient(rgba(0,255,204,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,255,204,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(0,255,204,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,204,0.025) 1px, transparent 1px);
+            background-size: 36px 36px;
             pointer-events: none;
         }
-
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 7px;
-            background: rgba(0,255,204,0.06);
-            border: 1px solid rgba(0,255,204,0.2);
-            border-radius: 999px;
-            padding: 5px 14px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem; font-weight: 700;
-            letter-spacing: 2px; color: var(--cyan);
-            text-transform: uppercase; margin-bottom: 28px;
-        }
-        .hero-badge-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--cyan);
-            box-shadow: 0 0 8px var(--cyan);
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-            0%,100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.7); }
-        }
-
-        .hero-logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2.8rem, 14vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 18px;
-            position: relative;
-        }
-        .hero-logo span { color: var(--cyan); }
-        .hero-logo-glow {
-            position: absolute; inset: -4px;
-            background: radial-gradient(ellipse at center, rgba(0,255,204,0.12) 0%, transparent 70%);
-            border-radius: 12px;
-            pointer-events: none;
-        }
-
-        .hero-tagline {
-            font-size: 1.05rem;
-            color: var(--muted);
-            line-height: 1.6;
-            max-width: 300px;
-            margin: 0 auto 14px;
-        }
-        .hero-tagline strong { color: var(--text); font-weight: 600; }
-
-        .hero-sub {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: rgba(0,255,204,0.5);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
-
-        .hero-btns {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 280px;
-        }
-
-        .btn-download {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px 24px;
-            border-radius: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.82rem; font-weight: 700;
-            letter-spacing: 1px;
-            text-decoration: none;
-            cursor: pointer; border: none;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            position: relative; overflow: hidden;
-        }
-        .btn-download:active { transform: scale(0.97); }
-
-        .btn-android {
-            background: linear-gradient(135deg, #1a3a2a, #0f2a1a);
-            border: 1px solid rgba(61,220,132,0.35);
-            color: var(--android);
-            box-shadow: 0 4px 20px rgba(61,220,132,0.12);
-        }
-        .btn-android:hover { box-shadow: 0 6px 28px rgba(61,220,132,0.22); }
-
-        .btn-ios {
-            background: linear-gradient(135deg, #1e1e2e, #16162a);
-            border: 1px solid rgba(200,200,216,0.2);
-            color: var(--ios);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .btn-ios:hover { box-shadow: 0 6px 28px rgba(200,200,216,0.1); }
-
-        .btn-icon { font-size: 1.3rem; line-height: 1; }
-        .btn-text { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
-        .btn-text-top { font-size: 0.6rem; opacity: 0.7; letter-spacing: 1.5px; font-weight: 400; }
-        .btn-text-main { font-size: 0.88rem; font-weight: 700; }
-
-        .scroll-hint {
-            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-            color: var(--muted); font-size: 0.65rem; letter-spacing: 2px;
-            text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
-            animation: bounce 2.5s ease-in-out infinite;
-        }
-        .scroll-arrow { font-size: 1rem; }
-        @keyframes bounce {
-            0%,100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(7px); }
-        }
-
-        /* ── FEATURES ── */
-        .features {
-            padding: 64px 20px 40px;
-            position: relative;
-        }
-
-        .features-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .features-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem; font-weight: 700;
-            letter-spacing: 3px; text-transform: uppercase;
-            color: var(--cyan); margin-bottom: 12px;
-        }
-        .features-title {
-            font-size: 1.7rem; font-weight: 700;
-            line-height: 1.25;
-        }
-        .features-title span { color: var(--cyan); }
-
-        .features-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .feat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 22px 20px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-        .feat-card:active { transform: scale(0.985); }
-        .feat-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .feat-card-top {
-            display: flex; align-items: flex-start; gap: 14px;
-            margin-bottom: 12px;
-        }
-        .feat-icon-wrap {
-            width: 44px; height: 44px; flex-shrink: 0;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem;
-        }
-        .feat-icon-news   { background: rgba(0,255,204,0.08);  border: 1px solid rgba(0,255,204,0.2); }
-        .feat-icon-amigos { background: rgba(124,58,237,0.1);  border: 1px solid rgba(124,58,237,0.25); }
-        .feat-icon-torneo { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); }
-        .feat-icon-stats  { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); }
-
-        .feat-card-title {
-            font-size: 1rem; font-weight: 700;
-            margin-bottom: 3px;
-        }
-        .feat-card-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase;
-        }
-        .tag-news   { color: var(--cyan); }
-        .tag-amigos { color: #a78bfa; }
-        .tag-torneo { color: #fbbf24; }
-        .tag-stats  { color: #60a5fa; }
-
-        .feat-card-desc {
-            font-size: 0.88rem;
-            color: var(--muted);
-            line-height: 1.65;
-        }
-        .feat-card-desc strong { color: var(--text); font-weight: 600; }
-
-        .feat-accent-bar {
-            position: absolute; top: 0; left: 0;
-            width: 3px; height: 100%;
-            border-radius: 16px 0 0 16px;
-        }
-        .bar-news   { background: linear-gradient(to bottom, var(--cyan), transparent); }
-        .bar-amigos { background: linear-gradient(to bottom, #a78bfa, transparent); }
-        .bar-torneo { background: linear-gradient(to bottom, #fbbf24, transparent); }
-        .bar-stats  { background: linear-gradient(to bottom, #60a5fa, transparent); }
-
-        /* ── PRONTO ── */
-        .soon-section {
-            margin: 16px 20px 0;
-            padding: 28px 24px;
-            background: var(--card2);
-            border: 1px solid rgba(0,255,204,0.1);
-            border-radius: 20px;
-            text-align: center;
-            position: relative; overflow: hidden;
-        }
-        .soon-section::after {
+        /* fade grid at edges */
+        .hero::after {
             content: '';
             position: absolute; inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(0,255,204,0.06), transparent 60%);
+            background: radial-gradient(ellipse at 50% 50%, transparent 30%, var(--bg) 80%);
             pointer-events: none;
         }
-        .soon-label {
-            font-family: 'JetBrains Mono', monospace;
+
+        .hero-eyebrow {
+            font-family: var(--mono);
             font-size: 0.6rem; font-weight: 700;
             letter-spacing: 3px; text-transform: uppercase;
-            color: var(--cyan); margin-bottom: 10px;
-        }
-        .soon-title {
-            font-size: 1.2rem; font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .soon-desc {
-            font-size: 0.83rem; color: var(--muted); line-height: 1.6;
+            color: rgba(0,255,204,0.5);
+            margin-bottom: 16px;
+            position: relative; z-index: 1;
         }
 
-        /* ── FOOTER ── */
-        .mob-footer {
-            padding: 36px 20px 48px;
+        .hero-heading {
+            font-family: var(--mono);
+            font-size: clamp(2.6rem, 13vw, 4rem);
+            font-weight: 800; letter-spacing: -2.5px;
+            line-height: 0.95;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative; z-index: 1;
+        }
+        .hero-heading .accent { color: var(--cyan); }
+        .hero-heading .dim    { color: rgba(255,255,255,0.2); font-weight: 400; font-size: 0.55em; letter-spacing: 0; display: block; margin-top: 6px; }
+
+        .hero-desc {
+            font-size: 0.92rem; color: var(--muted);
+            line-height: 1.65; text-align: center;
+            max-width: 290px;
+            margin-bottom: 36px;
+            position: relative; z-index: 1;
+        }
+        .hero-desc b { color: var(--text); font-weight: 600; }
+
+        /* ─── BATTLE ANIMATION ─── */
+        .battle-wrap {
+            width: 100%; max-width: 360px;
+            margin-bottom: 36px;
+            position: relative; z-index: 1;
+        }
+
+        .battle-scorebar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 8px; padding: 0 2px;
+        }
+        .bs-player {
+            font-family: var(--mono);
+            font-size: 0.58rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .bs-player.left  { color: var(--cyan); }
+        .bs-player.right { color: var(--orange); }
+        .bs-score {
+            font-size: 0.75rem; font-weight: 800;
+            min-width: 16px; text-align: center;
+        }
+        .bs-vs {
+            font-family: var(--mono);
+            font-size: 0.55rem; font-weight: 800;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        .battle-arena {
+            display: flex; gap: 6px;
+            align-items: stretch;
+        }
+
+        .terminal {
+            flex: 1; min-width: 0;
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .terminal.left-term  { border-color: rgba(0,255,204,0.12); }
+        .terminal.right-term { border-color: rgba(255,107,61,0.12); }
+
+        .t-header {
+            display: flex; align-items: center; gap: 5px;
+            padding: 7px 9px 5px;
+            border-bottom: 1px solid var(--border);
+        }
+        .t-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+        }
+        .t-filename {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            color: var(--muted);
+            margin-left: 2px; flex: 1;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        .t-progress {
+            height: 2px;
+            background: rgba(255,255,255,0.05);
+        }
+        .t-progress-fill {
+            height: 100%; width: 0%;
+            transition: width 0.15s linear;
+            border-radius: 0 2px 2px 0;
+        }
+        .left-term  .t-progress-fill { background: var(--cyan); }
+        .right-term .t-progress-fill { background: var(--orange); }
+
+        .t-body {
+            padding: 8px 9px;
+            min-height: 110px;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            line-height: 1.7;
+            overflow: hidden;
+        }
+        .t-line { white-space: pre; overflow: hidden; }
+        .t-line.kw  { color: #79c0ff; }
+        .t-line.fn  { color: #d2a8ff; }
+        .t-line.num { color: #ffa657; }
+        .t-line.cmt { color: rgba(255,255,255,0.25); }
+        .t-cursor {
+            display: inline-block;
+            width: 5px; height: 0.7em;
+            background: currentColor;
+            vertical-align: middle; margin-left: 1px;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .t-accept {
+            display: none;
+            font-family: var(--mono);
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 4px 9px 6px;
             text-align: center;
         }
-        .mob-footer-brand {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem; font-weight: 800;
-            letter-spacing: -1px; margin-bottom: 8px;
+        .left-term  .t-accept { color: var(--cyan); }
+        .right-term .t-accept { color: var(--orange); }
+
+        .battle-vs-badge {
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--mono);
+            font-size: 0.5rem; font-weight: 800;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.15);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 3px 5px;
+            pointer-events: none;
         }
-        .mob-footer-brand span { color: var(--cyan); }
-        .mob-footer-text {
+
+        /* ─── DOWNLOAD BUTTONS ─── */
+        .dl-buttons {
+            display: flex; flex-direction: column;
+            gap: 11px; width: 100%; max-width: 300px;
+            position: relative; z-index: 1;
+        }
+
+        .btn-dl {
+            display: flex; align-items: center;
+            gap: 13px; padding: 14px 20px;
+            border-radius: 12px;
+            text-decoration: none; cursor: pointer; border: none;
+            transition: transform 0.14s ease, filter 0.14s ease;
+            position: relative; overflow: hidden;
+        }
+        .btn-dl:active { transform: scale(0.97); }
+
+        .btn-dl-android {
+            background: #161c14;
+            border: 1px solid rgba(61,220,132,0.28);
+        }
+        .btn-dl-android::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(61,220,132,0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .btn-dl-ios {
+            background: #14141e;
+            border: 1px solid rgba(180,180,200,0.18);
+        }
+        .btn-dl-ios::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(180,180,200,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .btn-dl-icon {
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            border-radius: 9px;
+        }
+        .btn-dl-android .btn-dl-icon {
+            background: rgba(61,220,132,0.1);
+            border: 1px solid rgba(61,220,132,0.2);
+            color: #3ddc84;
+        }
+        .btn-dl-ios .btn-dl-icon {
+            background: rgba(200,200,220,0.06);
+            border: 1px solid rgba(200,200,220,0.15);
+            color: #c8c8d8;
+        }
+
+        .btn-dl-text { display: flex; flex-direction: column; gap: 1px; }
+        .btn-dl-top {
+            font-size: 0.58rem; font-weight: 500;
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        .btn-dl-android .btn-dl-top { color: rgba(61,220,132,0.6); }
+        .btn-dl-ios     .btn-dl-top { color: rgba(200,200,220,0.5); }
+
+        .btn-dl-name {
+            font-family: var(--mono);
+            font-size: 0.88rem; font-weight: 700; letter-spacing: -0.3px;
+        }
+        .btn-dl-android .btn-dl-name { color: #3ddc84; }
+        .btn-dl-ios     .btn-dl-name { color: #c8c8d8; }
+
+        /* ─── FEATURES ─── */
+        .features {
+            padding: 72px 24px 24px;
+        }
+        .feat-label {
+            font-family: var(--mono);
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(0,255,204,0.45);
+            margin-bottom: 28px;
+        }
+
+        .feat-list { display: flex; flex-direction: column; }
+
+        .feat-item {
+            display: flex; gap: 18px; align-items: flex-start;
+            padding: 22px 0;
+            border-bottom: 1px solid var(--border);
+            opacity: 0; transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .feat-item:first-child { border-top: 1px solid var(--border); }
+        .feat-item.visible { opacity: 1; transform: translateY(0); }
+
+        .feat-num {
+            font-family: var(--mono);
+            font-size: 0.65rem; font-weight: 700;
+            color: rgba(255,255,255,0.15);
+            letter-spacing: 1px;
+            min-width: 26px; padding-top: 3px;
+            user-select: none;
+        }
+
+        .feat-body { flex: 1; }
+        .feat-tag {
+            font-family: var(--mono);
+            font-size: 0.58rem; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .feat-tag-news    { color: var(--cyan); }
+        .feat-tag-friends { color: #a78bfa; }
+        .feat-tag-torneos { color: #f59e0b; }
+        .feat-tag-stats   { color: #60a5fa; }
+
+        .feat-title {
+            font-size: 1rem; font-weight: 700;
+            margin-bottom: 7px; line-height: 1.2;
+        }
+        .feat-desc {
+            font-size: 0.84rem; color: var(--muted); line-height: 1.7;
+        }
+        .feat-desc b { color: rgba(255,255,255,0.7); font-weight: 600; }
+
+        /* ─── FOOTER ─── */
+        .mob-footer {
+            padding: 40px 24px 52px;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 10px;
+            border-top: 1px solid var(--border);
+        }
+        .mob-footer-logo {
+            font-family: var(--mono);
+            font-size: 0.95rem; font-weight: 800; letter-spacing: -0.5px;
+        }
+        .mob-footer-logo span { color: var(--cyan); }
+        .mob-footer-hint {
             font-size: 0.75rem; color: var(--muted);
         }
-        .mob-footer-text a {
-            color: rgba(0,255,204,0.6);
-            text-decoration: none;
-        }
-
-        /* ── floating top bar ── */
-        .top-bar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            padding: 14px 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(10,10,15,0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .top-bar-brand {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem; font-weight: 800; letter-spacing: -0.5px;
-        }
-        .top-bar-brand span { color: var(--cyan); }
-        .top-bar-btn {
-            background: var(--cyan-dim);
-            border: 1px solid rgba(0,255,204,0.25);
-            border-radius: 8px; padding: 7px 14px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--cyan); cursor: pointer;
-            transition: background 0.15s;
-        }
-        .top-bar-btn:active { background: rgba(0,255,204,0.22); }
-
-        /* give hero some top padding for the top bar */
-        .hero { padding-top: 80px; }
+        .mob-footer-hint a { color: rgba(0,255,204,0.55); text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <!-- Top bar -->
-    <div class="top-bar">
-        <div class="top-bar-brand">Codex<span>ar</span></div>
-        <button class="top-bar-btn" onclick="window.location.href='#descargar'">Descargar</button>
+<!-- Top bar -->
+<header class="topbar">
+    <div class="topbar-logo">Codex<span>ar</span></div>
+    <a href="#descargar" class="topbar-cta">Descargar</a>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+
+    <div class="hero-eyebrow">// PROGRAMACIÓN COMPETITIVA</div>
+
+    <h1 class="hero-heading">
+        Codex<span class="accent">ar</span>
+        <span class="dim">en tu bolsillo</span>
+    </h1>
+
+    <p class="hero-desc">
+        Compite, practica y sube de rango<br>
+        <b>desde cualquier lugar</b> con la app oficial.
+    </p>
+
+    <!-- Battle animation -->
+    <div class="battle-wrap">
+        <div class="battle-scorebar">
+            <div class="bs-player left">
+                <span>Tú</span>
+                <span class="bs-score" id="scoreLeft">0</span>
+            </div>
+            <div class="bs-vs">VS</div>
+            <div class="bs-player right">
+                <span class="bs-score" id="scoreRight">0</span>
+                <span>Rival</span>
+            </div>
+        </div>
+
+        <div class="battle-arena" style="position:relative">
+            <!-- Left terminal (cyan) -->
+            <div class="terminal left-term" id="termLeft">
+                <div class="t-header">
+                    <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+                    <span class="t-filename">solution.cpp</span>
+                </div>
+                <div class="t-progress"><div class="t-progress-fill" id="barLeft"></div></div>
+                <div class="t-body" id="bodyLeft"></div>
+                <div class="t-accept" id="acLeft">ACCEPTED ✓</div>
+            </div>
+
+            <div class="battle-vs-badge">VS</div>
+
+            <!-- Right terminal (orange) -->
+            <div class="terminal right-term" id="termRight">
+                <div class="t-header">
+                    <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+                    <span class="t-filename">solution.py</span>
+                </div>
+                <div class="t-progress"><div class="t-progress-fill" id="barRight"></div></div>
+                <div class="t-body" id="bodyRight"></div>
+                <div class="t-accept" id="acRight">ACCEPTED ✓</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-
-        <div class="hero-badge">
-            <span class="hero-badge-dot"></span>
-            App móvil · Próximamente
-        </div>
-
-        <div class="hero-logo" style="position:relative;">
-            <div class="hero-logo-glow"></div>
-            Codex<span>ar</span>
-        </div>
-
-        <p class="hero-tagline">
-            La plataforma de <strong>programación competitiva</strong> ahora en tu bolsillo.
-        </p>
-        <div class="hero-sub">// COMPITE · APRENDE · DOMINA</div>
-
-        <div class="hero-btns" id="descargar">
-            <button class="btn-download btn-android">
-                <span class="btn-icon">🤖</span>
-                <span class="btn-text">
-                    <span class="btn-text-top">DESCARGAR PARA</span>
-                    <span class="btn-text-main">Android APK</span>
-                </span>
-            </button>
-            <button class="btn-download btn-ios">
-                <span class="btn-icon"></span>
-                <span class="btn-text">
-                    <span class="btn-text-top">DESCARGAR PARA</span>
-                    <span class="btn-text-main">iOS — App Store</span>
-                </span>
-            </button>
-        </div>
-
-        <div class="scroll-hint">
-            <span>Descubre más</span>
-            <span class="scroll-arrow">↓</span>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section class="features">
-        <div class="features-header">
-            <div class="features-eyebrow">// TODO EN TU BOLSILLO</div>
-            <div class="features-title">Lleva Codexar<br><span>a donde vayas</span></div>
-        </div>
-
-        <div class="features-grid">
-
-            <div class="feat-card">
-                <div class="feat-accent-bar bar-news"></div>
-                <div class="feat-card-top">
-                    <div class="feat-icon-wrap feat-icon-news">📰</div>
-                    <div>
-                        <div class="feat-card-tag tag-news">NOTICIAS</div>
-                        <div class="feat-card-title">Mantente al día</div>
-                    </div>
-                </div>
-                <p class="feat-card-desc">
-                    Consulta las <strong>últimas noticias</strong> de la plataforma al instante. Nuevas funciones, torneos y actualizaciones directamente en tu móvil.
-                </p>
+    <!-- Download buttons -->
+    <div class="dl-buttons" id="descargar">
+        <button class="btn-dl btn-dl-android">
+            <div class="btn-dl-icon">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
+                </svg>
             </div>
-
-            <div class="feat-card">
-                <div class="feat-accent-bar bar-amigos"></div>
-                <div class="feat-card-top">
-                    <div class="feat-icon-wrap feat-icon-amigos">👥</div>
-                    <div>
-                        <div class="feat-card-tag tag-amigos">AMIGOS</div>
-                        <div class="feat-card-title">Agrega rivales</div>
-                    </div>
-                </div>
-                <p class="feat-card-desc">
-                    <strong>Agrega amigos</strong>, acepta solicitudes y consulta quién está en línea ahora mismo. Tu red de programadores, siempre contigo.
-                </p>
+            <div class="btn-dl-text">
+                <span class="btn-dl-top">Descargar para</span>
+                <span class="btn-dl-name">Android APK</span>
             </div>
+        </button>
 
-            <div class="feat-card">
-                <div class="feat-accent-bar bar-torneo"></div>
-                <div class="feat-card-top">
-                    <div class="feat-icon-wrap feat-icon-torneo">🏆</div>
-                    <div>
-                        <div class="feat-card-tag tag-torneo">TORNEOS</div>
-                        <div class="feat-card-title">Compite en equipo</div>
-                    </div>
-                </div>
-                <p class="feat-card-desc">
-                    <strong>Inscríbete en torneos</strong> y registra tus soluciones aunque estés fuera de casa. No te pierdas ningún evento por estar lejos del PC.
-                </p>
+        <button class="btn-dl btn-dl-ios">
+            <div class="btn-dl-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
             </div>
-
-            <div class="feat-card">
-                <div class="feat-accent-bar bar-stats"></div>
-                <div class="feat-card-top">
-                    <div class="feat-icon-wrap feat-icon-stats">📊</div>
-                    <div>
-                        <div class="feat-card-tag tag-stats">ESTADÍSTICAS</div>
-                        <div class="feat-card-title">Tu progreso</div>
-                    </div>
-                </div>
-                <p class="feat-card-desc">
-                    Consulta tu <strong>ELO, ranking global</strong> y el historial de partidas. Analiza tu evolución y prepárate para la próxima batalla.
-                </p>
+            <div class="btn-dl-text">
+                <span class="btn-dl-top">Descargar en</span>
+                <span class="btn-dl-name">App Store · iOS</span>
             </div>
+        </button>
+    </div>
 
+</section>
+
+<!-- Features -->
+<section class="features">
+    <div class="feat-label">// QUÉ PUEDES HACER</div>
+    <div class="feat-list">
+
+        <div class="feat-item">
+            <div class="feat-num">01</div>
+            <div class="feat-body">
+                <div class="feat-tag feat-tag-news">Noticias</div>
+                <div class="feat-title">Mantente al día</div>
+                <p class="feat-desc">Consulta las <b>últimas noticias</b> de la plataforma al momento. Nuevas funciones, torneos anunciados y actualizaciones directamente en tu bolsillo.</p>
+            </div>
         </div>
 
-        <div class="soon-section">
-            <div class="soon-label">// EN DESARROLLO</div>
-            <div class="soon-title">Beta disponible pronto</div>
-            <p class="soon-desc">Estamos construyendo algo increíble. La app móvil de Codexar llega pronto para iOS y Android.</p>
+        <div class="feat-item">
+            <div class="feat-num">02</div>
+            <div class="feat-body">
+                <div class="feat-tag feat-tag-friends">Amigos</div>
+                <div class="feat-title">Agrega rivales</div>
+                <p class="feat-desc">Envía y acepta solicitudes, consulta <b>quién está en línea</b> ahora mismo y ve el historial de tus rivales más frecuentes.</p>
+            </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="mob-footer">
-        <div class="mob-footer-brand">Codex<span>ar</span></div>
-        <p class="mob-footer-text">
-            ¿Tienes PC? Entra en <a href="https://codexar.es">codexar.es</a>
-        </p>
-    </footer>
+        <div class="feat-item">
+            <div class="feat-num">03</div>
+            <div class="feat-body">
+                <div class="feat-tag feat-tag-torneos">Torneos</div>
+                <div class="feat-title">Compite desde fuera</div>
+                <p class="feat-desc"><b>Inscríbete en torneos</b> y registra soluciones aunque estés lejos del PC. No te pierdas ningún evento por estar en la calle.</p>
+            </div>
+        </div>
+
+        <div class="feat-item">
+            <div class="feat-num">04</div>
+            <div class="feat-body">
+                <div class="feat-tag feat-tag-stats">Estadísticas</div>
+                <div class="feat-title">Tu progreso, siempre visible</div>
+                <p class="feat-desc">Consulta tu <b>ELO y ranking global</b> en cualquier momento. Analiza tu historial de partidas y prepara tu siguiente movida.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="mob-footer">
+    <div class="mob-footer-logo">Codex<span>ar</span></div>
+    <p class="mob-footer-hint">¿Tienes PC? Entra en <a href="https://codexar.es">codexar.es</a></p>
+</footer>
+
+<script>
+(function () {
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    const LEFT_LINES = [
+        { t: '#include <bits/stdc++.h>',   c: 'cmt' },
+        { t: 'int solve(int n) {',          c: 'fn'  },
+        { t: '  if (!n) return 1;',         c: ''    },
+        { t: '  int res = 0;',              c: ''    },
+        { t: '  for(int i=1;i<=n;i++)',     c: 'kw'  },
+        { t: '    res += solve(i-1);',      c: 'fn'  },
+        { t: '  return res;',               c: 'kw'  },
+        { t: '}',                           c: ''    },
+    ];
+    const RIGHT_LINES = [
+        { t: 'def solve(n):',              c: 'fn'  },
+        { t: '  if n == 0:',              c: 'kw'  },
+        { t: '    return 1',              c: ''    },
+        { t: '  res = 0',                c: ''    },
+        { t: '  for i in range(n+1):', c: 'kw'  },
+        { t: '    res += solve(i)',    c: 'fn'  },
+        { t: '  return res',          c: ''    },
+    ];
+
+    async function runTerminal(opts) {
+        const { body, bar, ac, scoreEl, lines, delay, speed } = opts;
+        let score = 0;
+        await sleep(delay);
+
+        while (true) {
+            body.innerHTML = '';
+            bar.style.width = '0%';
+            bar.style.opacity = '1';
+            ac.style.display = 'none';
+
+            for (let i = 0; i < lines.length; i++) {
+                const div = document.createElement('div');
+                div.className = 't-line ' + (lines[i].c || '');
+                div.textContent = lines[i].t;
+                body.appendChild(div);
+                bar.style.width = ((i + 1) / lines.length * 100) + '%';
+                await sleep(speed + Math.random() * (speed * 0.6));
+            }
+
+            await sleep(260);
+            body.innerHTML = '';
+            ac.style.display = 'block';
+            score++;
+            scoreEl.textContent = score;
+            await sleep(1100);
+            ac.style.display = 'none';
+            await sleep(300);
+        }
+    }
+
+    runTerminal({
+        body:    document.getElementById('bodyLeft'),
+        bar:     document.getElementById('barLeft'),
+        ac:      document.getElementById('acLeft'),
+        scoreEl: document.getElementById('scoreLeft'),
+        lines:   LEFT_LINES,
+        delay:   400,
+        speed:   210,
+    });
+
+    runTerminal({
+        body:    document.getElementById('bodyRight'),
+        bar:     document.getElementById('barRight'),
+        ac:      document.getElementById('acRight'),
+        scoreEl: document.getElementById('scoreRight'),
+        lines:   RIGHT_LINES,
+        delay:   0,
+        speed:   270,
+    });
+
+    // Scroll-in feature items
+    const items = document.querySelectorAll('.feat-item');
+    const io = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                setTimeout(() => e.target.classList.add('visible'), i * 80);
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    items.forEach(el => io.observe(el));
+})();
+</script>
 
 </body>
 </html>
