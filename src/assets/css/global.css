@@ -763,24 +763,34 @@ html[data-theme="focus"] select:focus {
 .lang-btn {
     background: transparent;
     border: none;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    padding: 3px 7px;
+    padding: 3px 6px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    line-height: 1;
-}
-.lang-btn:hover { color: var(--accent-cyan); background: rgba(0, 255, 204, 0.06); }
-.lang-btn.active { color: var(--accent-cyan); background: rgba(0, 255, 204, 0.1); }
-
-/* Auth pages: switcher floats top-right of card */
-.lang-switcher--auth {
-    margin: 0 0 14px auto;
+    transition: background 0.15s, opacity 0.15s;
     display: flex;
-    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.55;
+}
+.lang-btn:hover { background: rgba(0, 255, 204, 0.06); opacity: 0.85; }
+.lang-btn.active { background: rgba(0, 255, 204, 0.10); opacity: 1; }
+
+.flag-icon {
+    width: 22px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
+}
+
+/* Auth pages: switcher fixed top-right corner */
+.lang-switcher--fixed {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    z-index: 9999;
+    background: rgba(10, 10, 14, 0.75);
+    backdrop-filter: blur(10px);
+    border-color: rgba(0, 255, 204, 0.14);
 }
 

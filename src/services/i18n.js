@@ -66,13 +66,11 @@
     }
 
     function injectSwitcher() {
-        // Auth pages only — the rest use the hero lang buttons on Home
+        // Auth pages only — fixed top-right corner, outside the card
         const authCard = document.querySelector('.auth-card');
         if (authCard && !document.querySelector('.lang-switcher')) {
-            const topLine = authCard.querySelector('.auth-card-top-line');
-            const switcher = buildSwitcher('lang-switcher--auth');
-            if (topLine) topLine.after(switcher);
-            else authCard.prepend(switcher);
+            const switcher = buildSwitcher('lang-switcher--fixed');
+            document.body.appendChild(switcher);
         }
     }
 
