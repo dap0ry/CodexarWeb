@@ -84,11 +84,6 @@
     "usernamePlaceholder": "Ej: CodeMaster",
     "avatarHint": "Elige tu foto de perfil (opcional)",
     "languagesLabel": "Elige tu lenguaje",
-    "levelLabel": "Elige tu nivel",
-    "levelNew": "NUEVO",
-    "levelBeginner": "PRINCIPIANTE",
-    "levelIntermediate": "INTERMEDIO",
-    "levelAdvanced": "AVANZADO",
     "descLabel": "Escribe una breve descripción sobre ti",
     "descPlaceholder": "(máx 30 caracteres)",
     "submit": "ENVIAR"

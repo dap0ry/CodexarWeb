@@ -84,11 +84,6 @@
     "usernamePlaceholder": "例如：CodeMaster",
     "avatarHint": "选择头像（可选）",
     "languagesLabel": "选择语言",
-    "levelLabel": "选择级别",
-    "levelNew": "新手",
-    "levelBeginner": "初学者",
-    "levelIntermediate": "中级",
-    "levelAdvanced": "高级",
     "descLabel": "写一段关于自己的简介",
     "descPlaceholder": "（最多30个字符）",
     "submit": "提交"
