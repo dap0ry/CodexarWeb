@@ -79,6 +79,20 @@
     "hasAccount": "¿Ya tienes cuenta?",
     "loginLink": "Inicia sesión"
   },
+  "onboarding": {
+    "usernameLabel": "Nombre de usuario",
+    "usernamePlaceholder": "Ej: CodeMaster",
+    "avatarHint": "Elige tu foto de perfil (opcional)",
+    "languagesLabel": "Elige tu lenguaje",
+    "levelLabel": "Elige tu nivel",
+    "levelNew": "NUEVO",
+    "levelBeginner": "PRINCIPIANTE",
+    "levelIntermediate": "INTERMEDIO",
+    "levelAdvanced": "AVANZADO",
+    "descLabel": "Escribe una breve descripción sobre ti",
+    "descPlaceholder": "(máx 120 caracteres)",
+    "submit": "ENVIAR"
+  },
   "exercises": {
     "category": "Categoría",
     "allCategories": "Todas",

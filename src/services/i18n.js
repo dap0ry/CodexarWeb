@@ -66,9 +66,9 @@
     }
 
     function injectSwitcher() {
-        // Auth pages only — fixed top-right corner, outside the card
-        const authCard = document.querySelector('.auth-card');
-        if (authCard && !document.querySelector('.lang-switcher')) {
+        // Auth + onboarding pages — fixed top-right corner, outside the card
+        const isAuthPage = document.querySelector('.auth-card') || document.querySelector('.onboarding-container');
+        if (isAuthPage && !document.querySelector('.lang-switcher')) {
             const switcher = buildSwitcher('lang-switcher--fixed');
             document.body.appendChild(switcher);
         }

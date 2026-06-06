@@ -79,6 +79,20 @@
     "hasAccount": "已有账号？",
     "loginLink": "立即登录"
   },
+  "onboarding": {
+    "usernameLabel": "用户名",
+    "usernamePlaceholder": "例如：CodeMaster",
+    "avatarHint": "选择头像（可选）",
+    "languagesLabel": "选择语言",
+    "levelLabel": "选择级别",
+    "levelNew": "新手",
+    "levelBeginner": "初学者",
+    "levelIntermediate": "中级",
+    "levelAdvanced": "高级",
+    "descLabel": "写一段关于自己的简介",
+    "descPlaceholder": "（最多120个字符）",
+    "submit": "提交"
+  },
   "exercises": {
     "category": "分类",
     "allCategories": "全部",
