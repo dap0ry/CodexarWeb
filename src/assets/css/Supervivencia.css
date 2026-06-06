@@ -442,90 +442,86 @@ body {
 }
 
 /* ════════════════════════════════════════
-   RIGHT COLUMN
+   RIGHT COLUMN — Boss panel
    ════════════════════════════════════════ */
 
-.sv3-boss-name-header {
-    background: rgba(11,11,20,0.88);
-    border: 1px solid rgba(255,255,255,0.055);
-    border-radius: 12px;
-    padding: 14px 16px;
-    flex-shrink: 0;
+.sv3-boss-panel {
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 16px 20px;
+    position: relative;
+    overflow: hidden;
 }
-.sv3-boss-index-tag {
+
+/* Ambient glow behind the icon */
+.sv3-boss-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 48%, var(--sv3-boss-glow-hi) 0%, transparent 68%);
+    transition: background 0.4s;
+    pointer-events: none;
+}
+
+.sv3-boss-panel-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem;
+    font-size: 0.48rem;
     font-weight: 700;
     letter-spacing: 3px;
     color: rgba(230,230,240,0.2);
     text-transform: uppercase;
-    margin-bottom: 5px;
-}
-.sv3-boss-name-big {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.45rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #e6e6f0;
-    line-height: 1;
+    align-self: flex-start;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
 }
 
-.sv3-boss-img-wrap {
+.sv3-boss-panel-body {
     flex: 1;
-    background: rgba(11,11,20,0.88);
-    border: 1px solid rgba(255,255,255,0.055);
-    border-radius: 12px;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    width: 100%;
     min-height: 0;
-}
-.sv3-boss-img-wrap::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 25%, var(--sv3-boss-glow) 0%, transparent 65%);
-    transition: background 0.4s;
-    pointer-events: none;
-    z-index: 0;
-}
-.sv3-boss-img-wrap img {
-    width: 100%; height: 100%;
-    object-fit: contain;
     position: relative;
     z-index: 1;
 }
 
 .sv3-boss-placeholder {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 18px;
-    position: relative;
-    z-index: 1;
 }
+
 .sv3-boss-placeholder-icon {
-    font-size: 4.5rem;
+    font-size: 6.5rem;
     line-height: 1;
     color: var(--sv3-boss-color);
-    filter: drop-shadow(0 0 24px var(--sv3-boss-glow-hi));
+    filter:
+        drop-shadow(0 0 18px var(--sv3-boss-glow-hi))
+        drop-shadow(0 0 40px var(--sv3-boss-glow));
     transition: color 0.3s, filter 0.3s;
-    animation: boss-float 3.5s ease-in-out infinite;
+    animation: boss-float 3.8s ease-in-out infinite;
+    user-select: none;
 }
+
 @keyframes boss-float {
-    0%,100% { transform: translateY(0); }
-    50%      { transform: translateY(-10px); }
+    0%,100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-12px) scale(1.03); }
 }
-.sv3-boss-placeholder-text {
+
+.sv3-boss-panel-name {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.48rem;
+    font-size: 0.72rem;
+    font-weight: 800;
     letter-spacing: 2.5px;
-    color: rgba(230,230,240,0.15);
     text-transform: uppercase;
+    color: rgba(230,230,240,0.4);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: color 0.3s;
 }
 
 /* ════════════════════════════════════════

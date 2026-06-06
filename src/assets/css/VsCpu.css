@@ -8,16 +8,10 @@ body {
     background-color: #07070f;
     color: #e6e6f0;
     font-family: 'Inter', sans-serif;
-    overflow: hidden;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image:
-        radial-gradient(ellipse at 0% 100%, rgba(0,255,204,0.045) 0%, transparent 55%),
-        radial-gradient(ellipse at 100% 0%,  rgba(0,255,204,0.025) 0%, transparent 50%),
-        linear-gradient(rgba(0,255,204,0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,204,0.018) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px;
+    overflow: hidden;
 }
 
 /* ── Container ────────────────────────────────────────────── */
@@ -28,7 +22,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 80px 24px 24px;
-    gap: 32px;
+    gap: 36px;
 }
 
 /* ── Header ───────────────────────────────────────────────── */
@@ -46,25 +40,25 @@ body {
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(0, 255, 204, 0.7);
+    color: rgba(0, 255, 204, 0.6);
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .eyebrow-dot-red {
-    width: 6px; height: 6px;
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: #00ffcc;
-    box-shadow: 0 0 10px rgba(0, 255, 204, 0.9);
-    animation: blink-cyan 2s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.9);
+    animation: blink-dot 2s ease-in-out infinite;
     flex-shrink: 0;
 }
-@keyframes blink-cyan { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
 .vscpu-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -73,30 +67,50 @@ body {
 }
 
 .vscpu-subtitle {
-    font-size: 0.85rem;
-    color: rgba(230, 230, 240, 0.45);
-    max-width: 420px;
+    font-size: 0.83rem;
+    color: rgba(230, 230, 240, 0.4);
+    max-width: 380px;
 }
 
 /* ── Difficulty Grid ──────────────────────────────────────── */
 .diff-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     width: 100%;
-    max-width: 960px;
+    max-width: 900px;
 }
 
-/* ── Diff Card ────────────────────────────────────────────── */
+/* ── Color tokens per difficulty ──────────────────────────── */
+.diff-normal    { --c: #00ffcc; --c-dim: rgba(0,255,204,0.07); --c-border: rgba(0,255,204,0.18); }
+.diff-hard      { --c: #ff9900; --c-dim: rgba(255,153,0,0.07); --c-border: rgba(255,153,0,0.18); }
+.diff-demencial { --c: #ff3366; --c-dim: rgba(255,51,102,0.07); --c-border: rgba(255,51,102,0.18); }
+
+/* ── Card base ────────────────────────────────────────────── */
 .diff-card {
+    background: rgba(11, 11, 20, 0.9);
+    border: 1px solid var(--c-border);
     border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.06);
     position: relative;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
+.diff-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 24px var(--c-dim);
+}
 
+/* Top accent line */
+.diff-card-top-line {
+    position: absolute;
+    top: 0; left: 12%; right: 12%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--c), transparent);
+    opacity: 0.55;
+}
+
+/* ── Card inner ───────────────────────────────────────────── */
 .diff-card-inner {
     position: relative;
     z-index: 1;
@@ -105,86 +119,43 @@ body {
     align-items: center;
     text-align: center;
     gap: 10px;
-    padding: 28px 24px;
+    padding: 28px 22px 22px;
 }
 
-/* Normal — cyan base */
-.diff-normal {
-    background:
-        radial-gradient(ellipse at 50% -10%, rgba(0,255,204,0.14) 0%, transparent 65%),
-        linear-gradient(160deg, #060d10 0%, #07090d 100%);
-    border-top: 1px solid rgba(0,255,204,0.45);
-    border-color: rgba(0,255,204,0.1);
+/* ── Difficulty symbol (CSS ring) ────────────────────────── */
+.diff-sym {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    border: 1.5px solid var(--c);
+    box-shadow: 0 0 18px var(--c-dim), inset 0 0 12px var(--c-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--c);
+    letter-spacing: 0;
+    flex-shrink: 0;
 }
-.diff-normal:hover {
-    border-color: rgba(0,255,204,0.38);
-    box-shadow: 0 0 40px rgba(0,255,204,0.1), 0 12px 40px rgba(0,0,0,0.5);
-    transform: translateY(-4px);
-}
-
-/* Hard — cyan brighter */
-.diff-hard {
-    background:
-        radial-gradient(ellipse at 50% -10%, rgba(0,255,204,0.2) 0%, transparent 65%),
-        linear-gradient(160deg, #060e10 0%, #07090d 100%);
-    border-top: 1px solid rgba(0,255,204,0.55);
-    border-color: rgba(0,255,204,0.14);
-}
-.diff-hard:hover {
-    border-color: rgba(0,255,204,0.45);
-    box-shadow: 0 0 50px rgba(0,255,204,0.14), 0 12px 40px rgba(0,0,0,0.5);
-    transform: translateY(-4px);
+.diff-card:hover .diff-sym {
+    box-shadow: 0 0 28px var(--c-dim), inset 0 0 20px var(--c-dim);
 }
 
-/* Demencial — cyan intense */
-.diff-demencial {
-    background:
-        radial-gradient(ellipse at 50% -10%, rgba(0,255,204,0.28) 0%, transparent 60%),
-        linear-gradient(160deg, #041010 0%, #060b0d 100%);
-    border-top: 1px solid rgba(0,255,204,0.7);
-    border-color: rgba(0,255,204,0.2);
-}
-.diff-demencial:hover {
-    border-color: rgba(0,255,204,0.6);
-    box-shadow: 0 0 60px rgba(0,255,204,0.2), 0 12px 40px rgba(0,0,0,0.5);
-    transform: translateY(-4px);
-}
-
-/* Top glow line */
-.diff-glow {
-    position: absolute;
-    top: 0; left: 10%; right: 10%; height: 1px;
-    z-index: 2;
-    animation: glow-breathe 3s ease-in-out infinite;
-}
-.diff-glow-normal {
-    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.6) 50%, transparent);
-    box-shadow: 0 0 12px rgba(0,255,204,0.5);
-}
-.diff-glow-hard {
-    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.75) 50%, transparent);
-    box-shadow: 0 0 16px rgba(0,255,204,0.65);
-}
-.diff-glow-demencial {
-    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.95) 50%, transparent);
-    box-shadow: 0 0 22px rgba(0,255,204,0.85);
-}
-@keyframes glow-breathe { 0%,100%{opacity:0.5} 50%{opacity:1} }
-
-.diff-icon { font-size: 2rem; line-height: 1; }
-
+/* ── Labels & text ────────────────────────────────────────── */
 .diff-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    opacity: 0.5;
+    color: var(--c);
+    opacity: 0.65;
 }
 
 .diff-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -193,38 +164,28 @@ body {
 }
 
 .diff-desc {
-    font-size: 0.78rem;
-    color: rgba(230,230,240,0.5);
-    line-height: 1.5;
-    max-width: 220px;
+    font-size: 0.77rem;
+    color: rgba(230,230,240,0.45);
+    line-height: 1.55;
+    max-width: 210px;
 }
 
+/* ── Time badge ───────────────────────────────────────────── */
 .diff-time-badge {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 5px 14px;
     border-radius: 20px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
-}
-.diff-time-normal {
-    background: rgba(0,255,204,0.06);
-    border: 1px solid rgba(0,255,204,0.2);
-    color: rgba(0,255,204,0.75);
-}
-.diff-time-hard {
-    background: rgba(0,255,204,0.08);
-    border: 1px solid rgba(0,255,204,0.28);
-    color: rgba(0,255,204,0.88);
-}
-.diff-time-demencial {
-    background: rgba(0,255,204,0.11);
-    border: 1px solid rgba(0,255,204,0.4);
-    color: rgba(0,255,204,1);
+    background: var(--c-dim);
+    border: 1px solid var(--c-border);
+    color: var(--c);
 }
 
+/* ── Tags ─────────────────────────────────────────────────── */
 .diff-tags {
     display: flex;
     gap: 6px;
@@ -233,93 +194,71 @@ body {
 }
 .diff-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem;
+    font-size: 0.48rem;
     font-weight: 700;
     letter-spacing: 1.5px;
-    padding: 2px 7px;
+    padding: 2px 8px;
     border-radius: 4px;
     text-transform: uppercase;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: rgba(230,230,240,0.4);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: rgba(230,230,240,0.35);
 }
 
-/* Buttons */
+/* ── Play button — solid, matches site style ─────────────── */
 .btn-diff {
     width: 100%;
-    padding: 10px 14px;
-    border-radius: 7px;
+    padding: 12px 16px;
+    border-radius: 9px;
+    border: none;
+    background: var(--c);
+    color: #070710;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
-    letter-spacing: 2.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.22s ease;
+    transition: opacity 0.18s, transform 0.18s, box-shadow 0.18s;
+    margin-top: 4px;
     position: relative;
     overflow: hidden;
-    margin-top: 4px;
 }
-.btn-diff-normal {
-    background: rgba(0,255,204,0.07);
-    border: 1px solid rgba(0,255,204,0.25);
-    color: rgba(0,255,204,0.85);
+.btn-diff::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
 }
-.btn-diff-normal:hover {
-    background: rgba(0,255,204,0.14);
-    border-color: rgba(0,255,204,0.55);
-    box-shadow: 0 0 22px rgba(0,255,204,0.18);
-    color: #fff;
-    transform: translateY(-1px);
-}
-.btn-diff-hard {
-    background: rgba(0,255,204,0.09);
-    border: 1px solid rgba(0,255,204,0.32);
-    color: rgba(0,255,204,0.9);
-}
-.btn-diff-hard:hover {
-    background: rgba(0,255,204,0.17);
-    border-color: rgba(0,255,204,0.6);
-    box-shadow: 0 0 26px rgba(0,255,204,0.22);
-    color: #fff;
-    transform: translateY(-1px);
-}
-.btn-diff-demencial {
-    background: rgba(0,255,204,0.12);
-    border: 1px solid rgba(0,255,204,0.42);
-    color: #00ffcc;
-}
-.btn-diff-demencial:hover {
-    background: rgba(0,255,204,0.22);
-    border-color: rgba(0,255,204,0.75);
-    box-shadow: 0 0 30px rgba(0,255,204,0.28);
-    color: #fff;
-    transform: translateY(-1px);
-}
+.btn-diff:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-diff:hover::before { transform: translateX(100%); }
+.btn-diff:active { transform: translateY(0); }
 
 /* ── Back button ──────────────────────────────────────────── */
 .btn-back-home {
     background: transparent;
     border: none;
-    color: rgba(230,230,240,0.35);
+    color: rgba(230,230,240,0.3);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 1px;
     cursor: pointer;
     transition: color 0.2s;
     padding: 4px 0;
 }
-.btn-back-home:hover { color: rgba(230,230,240,0.75); }
+.btn-back-home:hover { color: rgba(230,230,240,0.7); }
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-height: 700px) {
-    .vscpu-container { gap: 20px; padding-top: 72px; }
-    .vscpu-title { font-size: 1.7rem; }
-    .diff-card-inner { padding: 20px 18px; gap: 8px; }
-    .diff-icon { font-size: 1.5rem; }
+    .vscpu-container { gap: 22px; padding-top: 72px; }
+    .vscpu-title { font-size: 1.6rem; }
+    .diff-card-inner { padding: 20px 18px 18px; gap: 8px; }
+    .diff-sym { width: 44px; height: 44px; font-size: 0.85rem; }
 }
 
 @media (max-width: 800px) {
     .diff-grid { grid-template-columns: 1fr; max-width: 360px; }
+    body { overflow-y: auto; height: auto; min-height: 100vh; }
 }
