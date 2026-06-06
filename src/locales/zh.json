@@ -90,7 +90,7 @@
     "levelIntermediate": "中级",
     "levelAdvanced": "高级",
     "descLabel": "写一段关于自己的简介",
-    "descPlaceholder": "（最多120个字符）",
+    "descPlaceholder": "（最多30个字符）",
     "submit": "提交"
   },
   "exercises": {

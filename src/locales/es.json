@@ -90,7 +90,7 @@
     "levelIntermediate": "INTERMEDIO",
     "levelAdvanced": "AVANZADO",
     "descLabel": "Escribe una breve descripción sobre ti",
-    "descPlaceholder": "(máx 120 caracteres)",
+    "descPlaceholder": "(máx 30 caracteres)",
     "submit": "ENVIAR"
   },
   "exercises": {

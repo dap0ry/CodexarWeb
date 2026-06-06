@@ -90,7 +90,7 @@
     "levelIntermediate": "INTERMEDIATE",
     "levelAdvanced": "ADVANCED",
     "descLabel": "Write a brief description about yourself",
-    "descPlaceholder": "(max 120 characters)",
+    "descPlaceholder": "(max 30 characters)",
     "submit": "SUBMIT"
   },
   "exercises": {
