@@ -24,7 +24,7 @@
 
         const links = [];
 
-        if (role === 'moderator' || role === 'admin') {
+        if (role === 'moderator') {
             const a = document.createElement('a');
             a.href = '/crear-ejercicio';
             a.className = 'dropdown-item';

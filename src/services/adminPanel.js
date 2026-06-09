@@ -48,6 +48,7 @@ async function initPage() {
     await loadExercises();
     initNewsForm();
     initTournamentsForm();
+    initCreateExerciseForm();
 
     document.getElementById('userSearch').addEventListener('input', filterUsers);
     document.getElementById('exSearch').addEventListener('input', filterExercises);
@@ -483,6 +484,123 @@ function esc(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+
+// ── Crear Ejercicio ───────────────────────────────────────────────────────────
+function initCreateExerciseForm() {
+    buildExerciseTCs();
+
+    // Tabs de lenguaje de código (Python, C++, etc.)
+    document.querySelectorAll('#stubTabs .ce-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#stubTabs .ce-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ce-code').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`stub-${tab.dataset.lang}`)?.classList.add('active');
+        });
+    });
+
+    // Tabs de idioma (ES/EN/ZH)
+    document.querySelectorAll('#ceLangTabs .ce-lang-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#ceLangTabs .ce-lang-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ce-lang-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`.ce-lang-panel[data-lang="${tab.dataset.lang}"]`)?.classList.add('active');
+        });
+    });
+
+    document.getElementById('ceForm').addEventListener('submit', submitExercise);
+}
+
+function buildExerciseTCs() {
+    const list = document.getElementById('tcList');
+    list.innerHTML = '';
+    for (let i = 1; i <= 3; i++) {
+        list.insertAdjacentHTML('beforeend', `
+            <div class="ce-tc-card">
+                <div class="ce-tc-header">Caso de prueba ${i}</div>
+                <div class="ce-tc-fields">
+                    <div class="ce-field">
+                        <label class="ce-label">Entrada (input)</label>
+                        <input type="text" class="ce-input" id="tcIn${i}" placeholder='Ej: 3, [1,2,3] o "hola"'>
+                    </div>
+                    <div class="ce-field">
+                        <label class="ce-label">Salida esperada</label>
+                        <input type="text" class="ce-input" id="tcOut${i}" placeholder='Ej: 6 o "HOLA"'>
+                    </div>
+                </div>
+            </div>
+        `);
+    }
+}
+
+async function submitExercise(e) {
+    e.preventDefault();
+    const errEl = document.getElementById('ceError');
+    const okEl  = document.getElementById('ceSuccess');
+    const btn   = document.getElementById('ceSubmitBtn');
+    errEl.classList.add('hidden');
+    okEl.classList.add('hidden');
+
+    const title       = document.getElementById('ceTitle').value.trim();
+    const description = document.getElementById('ceDesc').value.trim();
+    if (!title)       { errEl.textContent = 'El título es obligatorio.'; errEl.classList.remove('hidden'); return; }
+    if (!description) { errEl.textContent = 'La descripción es obligatoria.'; errEl.classList.remove('hidden'); return; }
+
+    const test_cases = [];
+    for (let i = 1; i <= 3; i++) {
+        const inp = document.getElementById(`tcIn${i}`)?.value.trim();
+        const out = document.getElementById(`tcOut${i}`)?.value.trim();
+        if (inp && out) test_cases.push({ input: inp, expected_output: out });
+    }
+    if (!test_cases.length) {
+        errEl.textContent = 'Debes rellenar al menos un caso de prueba completo.';
+        errEl.classList.remove('hidden');
+        return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Publicando...';
+
+    try {
+        const res = await fetch(`${API_BASE}/exercises/create`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token()}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title,
+                description,
+                difficulty:  parseInt(document.getElementById('ceDiff').value, 10),
+                category:    document.getElementById('ceCat').value,
+                test_cases,
+                stub_python: document.getElementById('stub-python').value,
+                stub_cpp:    document.getElementById('stub-cpp').value,
+                stub_java:   document.getElementById('stub-java').value,
+                stub_go:     document.getElementById('stub-go').value,
+                stub_csharp: document.getElementById('stub-csharp').value,
+                title_i18n:       { es: title,       en: document.getElementById('ceTitle-en').value.trim(), zh: document.getElementById('ceTitle-zh').value.trim() },
+                description_i18n: { es: description, en: document.getElementById('ceDesc-en').value.trim(),  zh: document.getElementById('ceDesc-zh').value.trim()  },
+            }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+            okEl.textContent = `Ejercicio "${title}" publicado correctamente.`;
+            okEl.classList.remove('hidden');
+            document.getElementById('ceForm').reset();
+            buildExerciseTCs();
+            document.querySelectorAll('.ce-code').forEach(c => c.value = '');
+            await loadExercises();
+        } else {
+            errEl.textContent = data.detail || 'Error al crear el ejercicio.';
+            errEl.classList.remove('hidden');
+        }
+    } catch {
+        errEl.textContent = 'Error de conexión.';
+        errEl.classList.remove('hidden');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Publicar Ejercicio';
 }
 
 window.addEventListener('DOMContentLoaded', initPage);

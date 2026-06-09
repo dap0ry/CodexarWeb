@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
     <link rel="stylesheet" href="/src/assets/css/AdminPanel.css">
+    <link rel="stylesheet" href="/src/assets/css/CreateExercise.css">
 </head>
 <body>
 
@@ -50,6 +51,7 @@
             <div class="ap-tabs">
                 <button class="ap-tab active" data-section="users">Usuarios</button>
                 <button class="ap-tab" data-section="exercises">Ejercicios</button>
+                <button class="ap-tab" data-section="create-exercise">Crear Ejercicio</button>
                 <button class="ap-tab" data-section="news">Noticias</button>
                 <button class="ap-tab" data-section="tournaments">Torneos</button>
             </div>
@@ -211,6 +213,120 @@
                     </table>
                 </div>
 
+            </div>
+
+            <!-- ── Crear Ejercicio ── -->
+            <div class="ap-section hidden" id="section-create-exercise">
+                <form class="ce-form" id="ceForm">
+
+                    <!-- Datos básicos con tabs de idioma -->
+                    <div class="ce-section">
+                        <div class="ce-section-title">Información General</div>
+                        <div class="ce-lang-tabs" id="ceLangTabs">
+                            <button type="button" class="ce-lang-tab active" data-lang="es"><img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES"> ES</button>
+                            <button type="button" class="ce-lang-tab" data-lang="en"><img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN"> EN</button>
+                            <button type="button" class="ce-lang-tab" data-lang="zh"><img src="https://flagcdn.com/cn.svg" class="flag-icon" alt="ZH"> ZH</button>
+                        </div>
+                        <div class="ce-lang-panel active" data-lang="es">
+                            <div class="ce-row"><div class="ce-field ce-field-grow">
+                                <label class="ce-label">Título <span class="ce-req">*</span></label>
+                                <input type="text" id="ceTitle" class="ce-input" placeholder="Ej: Suma de dos números" maxlength="120">
+                            </div></div>
+                            <div class="ce-row"><div class="ce-field ce-field-grow">
+                                <label class="ce-label">Descripción <span class="ce-req">*</span></label>
+                                <textarea id="ceDesc" class="ce-textarea" rows="4" placeholder="Describe el problema con claridad."></textarea>
+                            </div></div>
+                        </div>
+                        <div class="ce-lang-panel" data-lang="en">
+                            <div class="ce-row"><div class="ce-field ce-field-grow">
+                                <label class="ce-label">Title <span class="ce-lang-opt">(optional)</span></label>
+                                <input type="text" id="ceTitle-en" class="ce-input" placeholder="E.g: Sum of two numbers" maxlength="120">
+                            </div></div>
+                            <div class="ce-row"><div class="ce-field ce-field-grow">
+                                <label class="ce-label">Description <span class="ce-lang-opt">(optional)</span></label>
+                                <textarea id="ceDesc-en" class="ce-textarea" rows="4" placeholder="Describe the problem clearly."></textarea>
+                            </div></div>
+                        </div>
+                        <div class="ce-lang-panel" data-lang="zh">
+                            <div class="ce-row"><div class="ce-field ce-field-grow">
+                                <label class="ce-label">标题 <span class="ce-lang-opt">(可选)</span></label>
+                                <input type="text" id="ceTitle-zh" class="ce-input" placeholder="例: 两数之和" maxlength="120">
+                            </div></div>
+                            <div class="ce-row"><div class="ce-field ce-field-grow">
+                                <label class="ce-label">描述 <span class="ce-lang-opt">(可选)</span></label>
+                                <textarea id="ceDesc-zh" class="ce-textarea" rows="4" placeholder="清晰地描述问题。"></textarea>
+                            </div></div>
+                        </div>
+                        <div class="ce-row ce-row-cols">
+                            <div class="ce-field">
+                                <label class="ce-label">Dificultad</label>
+                                <select id="ceDiff" class="ce-select">
+                                    <option value="800">800 — Principiante</option>
+                                    <option value="1000">1000 — Básico</option>
+                                    <option value="1200" selected>1200 — Fácil</option>
+                                    <option value="1400">1400 — Intermedio</option>
+                                    <option value="1600">1600 — Medio</option>
+                                    <option value="1800">1800 — Medio-Alto</option>
+                                    <option value="2000">2000 — Difícil</option>
+                                    <option value="2200">2200 — Muy Difícil</option>
+                                    <option value="2400">2400 — Experto</option>
+                                    <option value="2600">2600 — Maestro</option>
+                                    <option value="3000">3000 — Insane</option>
+                                    <option value="3500">3500 — Abyssal</option>
+                                </select>
+                            </div>
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">Categoría</label>
+                                <select id="ceCat" class="ce-select">
+                                    <option value="Arrays">Arrays</option>
+                                    <option value="Strings">Strings</option>
+                                    <option value="Math">Math</option>
+                                    <option value="Recursión">Recursión</option>
+                                    <option value="Ordenamiento">Ordenamiento</option>
+                                    <option value="Búsqueda">Búsqueda</option>
+                                    <option value="Grafos">Grafos</option>
+                                    <option value="Programación Dinámica">Programación Dinámica</option>
+                                    <option value="Otros">Otros</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Casos de prueba -->
+                    <div class="ce-section">
+                        <div class="ce-section-title">Casos de Prueba</div>
+                        <div class="ce-hint">Los inputs deben ser valores Python válidos (ej: <code>3, [1,2,3], "texto"</code>). La salida esperada debe ser lo que devuelve tu función.</div>
+                        <div class="ce-tc-list" id="tcList"></div>
+                    </div>
+
+                    <!-- Código base (stubs) -->
+                    <div class="ce-section">
+                        <div class="ce-section-title">Código Base por Lenguaje</div>
+                        <div class="ce-hint">El código base es la plantilla que verá el usuario al abrir el ejercicio.</div>
+                        <div class="ce-tabs" id="stubTabs">
+                            <button type="button" class="ce-tab active" data-lang="python">Python</button>
+                            <button type="button" class="ce-tab" data-lang="cpp">C++</button>
+                            <button type="button" class="ce-tab" data-lang="java">Java</button>
+                            <button type="button" class="ce-tab" data-lang="go">Go</button>
+                            <button type="button" class="ce-tab" data-lang="csharp">C#</button>
+                        </div>
+                        <div class="ce-stub-panels">
+                            <textarea class="ce-code active" id="stub-python" rows="8" placeholder="def solve(...):\n    pass"></textarea>
+                            <textarea class="ce-code" id="stub-cpp"    rows="8" placeholder="// C++ stub"></textarea>
+                            <textarea class="ce-code" id="stub-java"   rows="8" placeholder="// Java stub"></textarea>
+                            <textarea class="ce-code" id="stub-go"     rows="8" placeholder="// Go stub"></textarea>
+                            <textarea class="ce-code" id="stub-csharp" rows="8" placeholder="// C# stub"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="ceError" class="ce-error hidden"></div>
+                    <div id="ceSuccess" class="ce-success hidden"></div>
+
+                    <div class="ce-actions">
+                        <button type="submit" class="ce-btn-primary" id="ceSubmitBtn">Publicar Ejercicio</button>
+                    </div>
+
+                </form>
             </div>
 
             <!-- ── Torneos ── -->
