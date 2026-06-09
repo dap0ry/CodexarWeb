@@ -334,11 +334,11 @@ function renderTournamentStats(data) {
 
 // ── Social links ──────────────────────────────────────────────
 const SOCIAL_CONFIG = [
-    { key: 'github',     icon: 'https://cdn.simpleicons.org/github',     label: 'GitHub'     },
-    { key: 'linkedin',   icon: 'https://cdn.simpleicons.org/linkedin',   label: 'LinkedIn'   },
-    { key: 'codeforces', icon: 'https://cdn.simpleicons.org/codeforces', label: 'Codeforces' },
-    { key: 'instagram',  icon: 'https://cdn.simpleicons.org/instagram',  label: 'Instagram'  },
-    { key: 'tiktok',     icon: 'https://cdn.simpleicons.org/tiktok',     label: 'TikTok'     },
+    { key: 'github',     icon: 'https://cdn.simpleicons.org/github/ffffff',     label: 'GitHub'     },
+    { key: 'linkedin',   icon: 'https://cdn.simpleicons.org/linkedin/ffffff',   label: 'LinkedIn'   },
+    { key: 'codeforces', icon: 'https://cdn.simpleicons.org/codeforces/ffffff', label: 'Codeforces' },
+    { key: 'instagram',  icon: 'https://cdn.simpleicons.org/instagram/ffffff',  label: 'Instagram'  },
+    { key: 'tiktok',     icon: 'https://cdn.simpleicons.org/tiktok/ffffff',     label: 'TikTok'     },
 ];
 
 function renderSocials(socialLinks) {
