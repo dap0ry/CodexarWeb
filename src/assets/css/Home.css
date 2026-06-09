@@ -322,7 +322,6 @@ h1, h2, h3, h4, h5, h6, .brand {
 .hnl-item:hover {
     border-color: rgba(255,255,255,0.08);
     background: rgba(255,255,255,0.03);
-    transform: translateX(2px);
 }
 .hnl-icon {
     width: 28px; height: 28px; flex-shrink: 0;
