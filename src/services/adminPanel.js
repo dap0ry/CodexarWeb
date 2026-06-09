@@ -212,13 +212,23 @@ function initNewsForm() {
     const mentionsPre = document.getElementById('newsMentionsPreview');
     const charCount   = document.getElementById('newsBodyCount');
 
-    // Live mention detection + char counter
+    // Live mention detection + char counter (ES panel only)
     bodyInput.addEventListener('input', () => {
         charCount.textContent = bodyInput.value.length;
         const mentions = [...new Set((bodyInput.value.match(/@(\w+)/g) || []))];
         mentionsPre.textContent = mentions.length
             ? 'Menciones: ' + mentions.join('  ')
             : '';
+    });
+
+    // Lang tab switching
+    document.querySelectorAll('#newsLangTabs .ap-lang-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#newsLangTabs .ap-lang-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#section-news .ap-lang-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`#section-news .ap-lang-panel[data-lang="${tab.dataset.lang}"]`)?.classList.add('active');
+        });
     });
 
     document.getElementById('newsSubmitBtn').addEventListener('click', submitNews);
@@ -232,6 +242,13 @@ async function submitNews() {
     if (!title)  { showToast('El título es obligatorio.', true); return; }
     if (!body)   { showToast('El contenido es obligatorio.', true); return; }
 
+    const titleEn    = document.getElementById('newsTitle-en').value.trim();
+    const subtitleEn = document.getElementById('newsSubtitle-en').value.trim();
+    const bodyEn     = document.getElementById('newsBody-en').value.trim();
+    const titleZh    = document.getElementById('newsTitle-zh').value.trim();
+    const subtitleZh = document.getElementById('newsSubtitle-zh').value.trim();
+    const bodyZh     = document.getElementById('newsBody-zh').value.trim();
+
     const btn = document.getElementById('newsSubmitBtn');
     btn.disabled    = true;
     btn.textContent = 'Publicando...';
@@ -243,15 +260,24 @@ async function submitNews() {
                 'Authorization': `Bearer ${token()}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ title, subtitle: subtitle || title, body }),
+            body: JSON.stringify({
+                title,
+                subtitle: subtitle || title,
+                body,
+                title_i18n:    { es: title,    en: titleEn,    zh: titleZh    },
+                subtitle_i18n: { es: subtitle, en: subtitleEn, zh: subtitleZh },
+                body_i18n:     { es: body,     en: bodyEn,     zh: bodyZh     },
+            }),
         });
         const data = await res.json();
 
         if (res.ok) {
             showToast('¡Noticia publicada!');
-            document.getElementById('newsTitle').value    = '';
-            document.getElementById('newsSubtitle').value = '';
-            document.getElementById('newsBody').value     = '';
+            ['newsTitle','newsSubtitle','newsBody','newsTitle-en','newsSubtitle-en',
+             'newsBody-en','newsTitle-zh','newsSubtitle-zh','newsBody-zh'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
             document.getElementById('newsMentionsPreview').textContent = '';
             document.getElementById('newsBodyCount').textContent = '0';
             await loadNews();

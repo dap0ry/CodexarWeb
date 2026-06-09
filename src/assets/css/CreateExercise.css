@@ -243,3 +243,33 @@ body {
     cursor: not-allowed;
     transform: none;
 }
+
+/* ── Lang tabs (título / descripción) ── */
+.ce-lang-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 14px;
+}
+.ce-lang-tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    color: #888;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.ce-lang-tab:hover { color: #fff; border-color: rgba(255,255,255,0.18); }
+.ce-lang-tab.active { color: #fff; border-color: rgba(0,255,204,0.5); background: rgba(0,255,204,0.06); }
+.ce-lang-tab .flag-icon { width: 14px; height: 10px; border-radius: 2px; object-fit: cover; }
+.ce-lang-panel { display: none; }
+.ce-lang-panel.active { display: block; }
+.ce-req { color: #ff5566; font-size: 0.7rem; margin-left: 3px; }
+.ce-lang-opt { font-size: 0.65rem; color: #888; font-weight: 400; margin-left: 3px; }

@@ -111,22 +111,76 @@
                     <div class="ap-news-form-header">
                         <div class="ap-news-form-tag">// NUEVA NOTICIA</div>
                     </div>
-                    <div class="ap-news-fields">
-                        <div class="ap-news-field">
-                            <label class="ap-news-label">Título <span class="ap-news-req">*</span></label>
-                            <input type="text" id="newsTitle" class="ap-news-input" placeholder="Título de la noticia..." maxlength="120" autocomplete="off">
-                        </div>
-                        <div class="ap-news-field">
-                            <label class="ap-news-label">Subtítulo <span class="ap-news-opt">(opcional)</span></label>
-                            <input type="text" id="newsSubtitle" class="ap-news-input" placeholder="Un resumen breve..." maxlength="160" autocomplete="off">
-                        </div>
-                        <div class="ap-news-field">
-                            <label class="ap-news-label">Contenido <span class="ap-news-req">*</span></label>
-                            <textarea id="newsBody" class="ap-news-textarea" placeholder="Escribe el contenido... Usa @usuario para etiquetar personas." maxlength="2000" rows="6"></textarea>
-                            <div class="ap-news-mentions" id="newsMentionsPreview"></div>
-                            <div class="ap-news-charcount"><span id="newsBodyCount">0</span> / 2000</div>
+
+                    <!-- Tabs de idioma -->
+                    <div class="ap-lang-tabs" id="newsLangTabs">
+                        <button type="button" class="ap-lang-tab active" data-lang="es">
+                            <img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES"> ES
+                        </button>
+                        <button type="button" class="ap-lang-tab" data-lang="en">
+                            <img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN"> EN
+                        </button>
+                        <button type="button" class="ap-lang-tab" data-lang="zh">
+                            <img src="https://flagcdn.com/cn.svg" class="flag-icon" alt="ZH"> ZH
+                        </button>
+                    </div>
+
+                    <!-- Panel ES (obligatorio) -->
+                    <div class="ap-lang-panel active" data-lang="es">
+                        <div class="ap-news-fields">
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Título <span class="ap-news-req">*</span></label>
+                                <input type="text" id="newsTitle" class="ap-news-input" placeholder="Título de la noticia..." maxlength="120" autocomplete="off">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Subtítulo <span class="ap-news-opt">(opcional)</span></label>
+                                <input type="text" id="newsSubtitle" class="ap-news-input" placeholder="Un resumen breve..." maxlength="160" autocomplete="off">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Contenido <span class="ap-news-req">*</span></label>
+                                <textarea id="newsBody" class="ap-news-textarea" placeholder="Escribe el contenido... Usa @usuario para etiquetar personas." maxlength="2000" rows="6"></textarea>
+                                <div class="ap-news-mentions" id="newsMentionsPreview"></div>
+                                <div class="ap-news-charcount"><span id="newsBodyCount">0</span> / 2000</div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Panel EN (opcional) -->
+                    <div class="ap-lang-panel" data-lang="en">
+                        <div class="ap-news-fields">
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Title <span class="ap-lang-opt">(optional)</span></label>
+                                <input type="text" id="newsTitle-en" class="ap-news-input" placeholder="News title in English..." maxlength="120" autocomplete="off">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Subtitle <span class="ap-lang-opt">(optional)</span></label>
+                                <input type="text" id="newsSubtitle-en" class="ap-news-input" placeholder="Brief summary in English..." maxlength="160" autocomplete="off">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">Content <span class="ap-lang-opt">(optional)</span></label>
+                                <textarea id="newsBody-en" class="ap-news-textarea" placeholder="Write content in English..." maxlength="2000" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel ZH (opcional) -->
+                    <div class="ap-lang-panel" data-lang="zh">
+                        <div class="ap-news-fields">
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">标题 <span class="ap-lang-opt">(可选)</span></label>
+                                <input type="text" id="newsTitle-zh" class="ap-news-input" placeholder="新闻标题..." maxlength="120" autocomplete="off">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">副标题 <span class="ap-lang-opt">(可选)</span></label>
+                                <input type="text" id="newsSubtitle-zh" class="ap-news-input" placeholder="简短摘要..." maxlength="160" autocomplete="off">
+                            </div>
+                            <div class="ap-news-field">
+                                <label class="ap-news-label">内容 <span class="ap-lang-opt">(可选)</span></label>
+                                <textarea id="newsBody-zh" class="ap-news-textarea" placeholder="用中文写内容..." maxlength="2000" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="ap-news-form-footer">
                         <button class="ap-news-submit" id="newsSubmitBtn">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>

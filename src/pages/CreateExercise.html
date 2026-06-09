@@ -50,16 +50,65 @@
                 <!-- ── Datos básicos ── -->
                 <div class="ce-section">
                     <div class="ce-section-title">Información General</div>
-                    <div class="ce-row">
-                        <div class="ce-field ce-field-grow">
-                            <label class="ce-label">Título</label>
-                            <input type="text" id="ceTitle" class="ce-input" placeholder="Ej: Suma de dos números" required maxlength="120">
+
+                    <!-- Tabs de idioma -->
+                    <div class="ce-lang-tabs" id="ceLangTabs">
+                        <button type="button" class="ce-lang-tab active" data-lang="es">
+                            <img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES"> ES
+                        </button>
+                        <button type="button" class="ce-lang-tab" data-lang="en">
+                            <img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN"> EN
+                        </button>
+                        <button type="button" class="ce-lang-tab" data-lang="zh">
+                            <img src="https://flagcdn.com/cn.svg" class="flag-icon" alt="ZH"> ZH
+                        </button>
+                    </div>
+
+                    <!-- Panel ES (obligatorio) -->
+                    <div class="ce-lang-panel active" data-lang="es">
+                        <div class="ce-row">
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">Título <span class="ce-req">*</span></label>
+                                <input type="text" id="ceTitle" class="ce-input" placeholder="Ej: Suma de dos números" required maxlength="120">
+                            </div>
+                        </div>
+                        <div class="ce-row">
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">Descripción <span class="ce-req">*</span></label>
+                                <textarea id="ceDesc" class="ce-textarea" rows="4" placeholder="Describe el problema con claridad. Puedes incluir ejemplos en texto." required></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="ce-row">
-                        <div class="ce-field ce-field-grow">
-                            <label class="ce-label">Descripción</label>
-                            <textarea id="ceDesc" class="ce-textarea" rows="4" placeholder="Describe el problema con claridad. Puedes incluir ejemplos en texto." required></textarea>
+
+                    <!-- Panel EN (opcional) -->
+                    <div class="ce-lang-panel" data-lang="en">
+                        <div class="ce-row">
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">Title <span class="ce-lang-opt">(optional)</span></label>
+                                <input type="text" id="ceTitle-en" class="ce-input" placeholder="E.g: Sum of two numbers" maxlength="120">
+                            </div>
+                        </div>
+                        <div class="ce-row">
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">Description <span class="ce-lang-opt">(optional)</span></label>
+                                <textarea id="ceDesc-en" class="ce-textarea" rows="4" placeholder="Describe the problem clearly."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel ZH (opcional) -->
+                    <div class="ce-lang-panel" data-lang="zh">
+                        <div class="ce-row">
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">标题 <span class="ce-lang-opt">(可选)</span></label>
+                                <input type="text" id="ceTitle-zh" class="ce-input" placeholder="例: 两数之和" maxlength="120">
+                            </div>
+                        </div>
+                        <div class="ce-row">
+                            <div class="ce-field ce-field-grow">
+                                <label class="ce-label">描述 <span class="ce-lang-opt">(可选)</span></label>
+                                <textarea id="ceDesc-zh" class="ce-textarea" rows="4" placeholder="清晰地描述问题。"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="ce-row ce-row-cols">

@@ -74,6 +74,15 @@ function bindTabs() {
             document.getElementById(`stub-${tab.dataset.lang}`)?.classList.add('active');
         });
     });
+
+    document.querySelectorAll('#ceLangTabs .ce-lang-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#ceLangTabs .ce-lang-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ce-lang-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelector(`.ce-lang-panel[data-lang="${tab.dataset.lang}"]`)?.classList.add('active');
+        });
+    });
 }
 
 // ── Submit ────────────────────────────────────────────────────────────────────
@@ -96,9 +105,16 @@ async function handleSubmit(e) {
         return;
     }
 
+    const title       = document.getElementById('ceTitle').value.trim();
+    const description = document.getElementById('ceDesc').value.trim();
+    const titleEn     = document.getElementById('ceTitle-en').value.trim();
+    const descEn      = document.getElementById('ceDesc-en').value.trim();
+    const titleZh     = document.getElementById('ceTitle-zh').value.trim();
+    const descZh      = document.getElementById('ceDesc-zh').value.trim();
+
     const body = {
-        title:       document.getElementById('ceTitle').value.trim(),
-        description: document.getElementById('ceDesc').value.trim(),
+        title,
+        description,
         difficulty:  parseInt(document.getElementById('ceDiff').value, 10),
         category:    document.getElementById('ceCat').value,
         test_cases,
@@ -107,6 +123,8 @@ async function handleSubmit(e) {
         stub_java:   document.getElementById('stub-java').value,
         stub_go:     document.getElementById('stub-go').value,
         stub_csharp: document.getElementById('stub-csharp').value,
+        title_i18n:       { es: title,       en: titleEn, zh: titleZh },
+        description_i18n: { es: description, en: descEn,  zh: descZh  },
     };
 
     btn.disabled = true;

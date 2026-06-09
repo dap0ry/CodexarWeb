@@ -321,3 +321,32 @@ body {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Lang tabs (formularios) ── */
+.ap-lang-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 16px;
+}
+.ap-lang-tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    color: #888;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.ap-lang-tab:hover { color: #fff; border-color: rgba(255,255,255,0.18); }
+.ap-lang-tab.active { color: #fff; border-color: rgba(0,255,204,0.5); background: rgba(0,255,204,0.06); }
+.ap-lang-tab .flag-icon { width: 14px; height: 10px; border-radius: 2px; object-fit: cover; }
+.ap-lang-panel { display: none; }
+.ap-lang-panel.active { display: block; }
+.ap-lang-opt { font-size: 0.65rem; color: #888; font-weight: 400; margin-left: 3px; }
