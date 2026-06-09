@@ -169,7 +169,6 @@ function renderRankedStats(data) {
         statRow('ELO máximo',      data.max_elo,     ''),
         statRow('Victorias',       data.wins,        'accent-green'),
         statRow('Win Rate',        wr,               data.matches_played > 0 ? 'accent-green' : 'accent-muted'),
-        statRow('Ej. más difícil', hardest,          'accent-muted', true),
     ].join('');
 }
 

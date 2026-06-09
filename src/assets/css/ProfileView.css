@@ -533,6 +533,7 @@ body {
 .pv-survival-card   .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 .pv-survival-card   .pvb-body      { justify-content: center; align-items: center; }
 .pv-survival-card   .pvb-top-stats { flex-direction: column; align-items: center; gap: 14px; }
+.pv-bot-card        .pvb-body      { justify-content: center; align-items: center; }
 .pv-tournament-card .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 
 /* ── VS CPU / Survival card inner layout (vertical split) ──── */
@@ -643,6 +644,9 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 12px 10px;
     justify-items: center;
+    justify-content: center;
+    align-content: center;
+    flex: 1;
 }
 
 /* Bot / Survival / Tournament cards use their own inner layout via JS */
