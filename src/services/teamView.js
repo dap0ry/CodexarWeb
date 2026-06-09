@@ -13,12 +13,14 @@ async function initTeamView() {
     const teamName = params.get('t');
     if (!teamName) { showError(); return; }
 
-    // Navbar (optional)
+    let currentUsername = null;
+
     const t = token();
     if (t) {
         const res = await fetch(`${TV_API}/user/me`, { headers: { 'Authorization': `Bearer ${t}` } });
         if (res.ok) {
             const user = await res.json();
+            currentUsername = user.username;
             const navUsername = document.getElementById('navUsername');
             const navAvatar   = document.getElementById('navAvatar');
             if (navUsername) navUsername.textContent = user.username;
@@ -43,7 +45,7 @@ async function initTeamView() {
         const res = await fetch(`${TV_API}/teams/public/${encodeURIComponent(teamName)}`);
         if (!res.ok) { showError(); return; }
         const team = await res.json();
-        renderTeam(team);
+        renderTeam(team, currentUsername);
     } catch {
         showError();
     }
@@ -54,30 +56,33 @@ function showError() {
     document.getElementById('tvError').classList.remove('hidden');
 }
 
-function renderTeam(team) {
+function renderTeam(team, currentUsername) {
     document.getElementById('tvLoading').classList.add('hidden');
     document.getElementById('tvContent').classList.remove('hidden');
 
     document.title = `Codexar — ${team.name}`;
 
-    // Full-page background overlay (same as teams.html)
+    // Full-page background overlay
     if (team.background_url) {
         const overlay = document.getElementById('tvBgOverlay');
         overlay.style.backgroundImage = `url(${team.background_url})`;
     }
 
-    // Banner strip (background_url if available, else photo)
-    const bannerSrc = team.background_url || team.photo_url;
+    // Banner strip — always visible to fix the photo cut-off bug when no image exists
+    const banner = document.getElementById('tvBanner');
+    const bannerSrc = team.banner_url || team.background_url || team.photo_url;
     if (bannerSrc) {
-        const banner = document.getElementById('tvBanner');
         banner.style.backgroundImage = `url(${bannerSrc})`;
-        banner.classList.remove('hidden');
     }
+    banner.classList.remove('hidden');
 
     // Team photo
     const photo = document.getElementById('tvPhoto');
     if (team.photo_url) {
         photo.style.backgroundImage = `url(${team.photo_url})`;
+        photo.style.backgroundSize = 'cover';
+        photo.style.backgroundPosition = 'center';
+        photo.style.color = 'transparent';
     } else {
         photo.textContent = (team.name || '?').charAt(0).toUpperCase();
     }
@@ -86,10 +91,21 @@ function renderTeam(team) {
     document.getElementById('tvDesc').textContent        = team.description || '';
     document.getElementById('tvMemberCount').textContent = `${team.member_count ?? 0} miembro${(team.member_count ?? 0) !== 1 ? 's' : ''}`;
 
-    document.getElementById('tvStatMembers').textContent    = team.member_count ?? 0;
+    document.getElementById('tvStatMembers').textContent     = team.member_count ?? 0;
     document.getElementById('tvStatTotalSolved').textContent = team.total_solved ?? 0;
-    document.getElementById('tvStatHighestElo').textContent = team.highest_elo ?? 0;
-    document.getElementById('tvStatAvgElo').textContent     = team.avg_elo ?? 0;
+    document.getElementById('tvStatHighestElo').textContent  = team.highest_elo ?? 0;
+    document.getElementById('tvStatAvgElo').textContent      = team.avg_elo ?? 0;
+
+    // Show edit button only to the owner
+    if (currentUsername && team.owner === currentUsername) {
+        const editBtn = document.getElementById('tvEditBtn');
+        if (editBtn) {
+            editBtn.classList.remove('hidden');
+            editBtn.addEventListener('click', () => {
+                window.location.href = `/editar-club?t=${encodeURIComponent(team.name)}`;
+            });
+        }
+    }
 
     renderMembersGrid(team.members_info || []);
 }
@@ -101,8 +117,8 @@ function renderMembersGrid(members) {
         return;
     }
     grid.innerHTML = members.map(m => {
-        const initials    = m.username.charAt(0).toUpperCase();
-        const avatarStyle = m.avatar ? `style="background-image:url(${esc(m.avatar)})"` : '';
+        const initials     = m.username.charAt(0).toUpperCase();
+        const avatarStyle  = m.avatar ? `style="background-image:url(${esc(m.avatar)})"` : '';
         const captainBadge = m.is_owner ? '<div class="tm-mc-captain">CAPITÁN</div>' : '';
         return `
             <a href="/perfil?u=${encodeURIComponent(m.username)}" class="tm-member-card${m.is_owner ? ' is-owner' : ''}">

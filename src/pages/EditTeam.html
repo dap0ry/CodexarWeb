@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/src/services/mobileRedirect.js"></script>
+    <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
+    <title>Codexar — Editar Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/css/global.css">
+    <link rel="stylesheet" href="/src/assets/css/themes.css">
+    <link rel="stylesheet" href="/src/assets/css/Teams.css">
+    <link rel="stylesheet" href="/src/assets/css/TeamView.css">
+    <link rel="stylesheet" href="/src/assets/css/EditTeam.css">
+</head>
+<body>
+
+    <div class="tm-bg-overlay" id="etBgOverlay"></div>
+
+    <nav class="navbar" style="position:relative;z-index:10;">
+        <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="user-pill-container">
+            <div class="user-pill" id="userPill">
+                <div class="avatar" id="navAvatar"></div>
+                <div class="username-display" id="navUsername">...</div>
+            </div>
+            <div class="user-dropdown">
+                <a href="/home"           class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion"  class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/logros"         class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+                <a href="/clasificacion"    class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="tm-main" style="position:relative;z-index:1;">
+
+        <!-- Loading -->
+        <div id="etLoading" class="tm-loading">
+            <div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div>
+        </div>
+
+        <!-- Error -->
+        <div id="etError" class="tv-error hidden">
+            <div class="tv-error-code">403</div>
+            <div class="tv-error-msg">No tienes permiso para editar este club</div>
+            <button class="tm-btn-cancel" onclick="history.back()">← Volver</button>
+        </div>
+
+        <!-- Content -->
+        <div id="etContent" class="tm-page hidden" style="position:relative;z-index:1;">
+            <div class="et-content">
+
+                <!-- Header -->
+                <div class="et-header">
+                    <div class="et-header-eyebrow">// EDITAR CLUB</div>
+                    <h1 class="et-header-title" id="etTitle">—</h1>
+                    <div class="et-header-actions">
+                        <button class="tm-btn-cancel" id="etBackBtn">← Volver al Club</button>
+                    </div>
+                </div>
+
+                <!-- Photo upload -->
+                <div class="et-section">
+                    <div class="et-section-label">// FOTO DEL CLUB</div>
+                    <div class="et-section-body">
+                        <div class="et-preview-row">
+                            <div class="et-photo-preview" id="etPhotoPreview"></div>
+                            <div class="et-upload-info">
+                                <p class="et-upload-hint">Imagen cuadrada recomendada. Máx 2 MB. JPG, PNG, WEBP o GIF.</p>
+                                <label class="et-file-label">
+                                    Elegir foto
+                                    <input type="file" id="etPhotoInput" accept="image/*" class="et-file-input">
+                                </label>
+                                <button class="tm-btn-save et-upload-btn" id="etPhotoUploadBtn">Subir foto</button>
+                                <div class="tm-feedback" id="etPhotoFeedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner upload -->
+                <div class="et-section">
+                    <div class="et-section-label">// BANNER DEL CLUB</div>
+                    <div class="et-section-body">
+                        <div class="et-banner-preview" id="etBannerPreview"></div>
+                        <div class="et-upload-info">
+                            <p class="et-upload-hint">Imagen horizontal recomendada (1200×300 px aprox). Máx 3 MB.</p>
+                            <label class="et-file-label">
+                                Elegir banner
+                                <input type="file" id="etBannerInput" accept="image/*" class="et-file-input">
+                            </label>
+                            <button class="tm-btn-save et-upload-btn" id="etBannerUploadBtn">Subir banner</button>
+                            <div class="tm-feedback" id="etBannerFeedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Background upload -->
+                <div class="et-section">
+                    <div class="et-section-label">// FONDO DE PÁGINA</div>
+                    <div class="et-section-body">
+                        <div class="et-bg-preview" id="etBgPreview"></div>
+                        <div class="et-upload-info">
+                            <p class="et-upload-hint">Se usa como fondo de la página del club. Máx 3 MB.</p>
+                            <label class="et-file-label">
+                                Elegir fondo
+                                <input type="file" id="etBgInput" accept="image/*" class="et-file-input">
+                            </label>
+                            <button class="tm-btn-save et-upload-btn" id="etBgUploadBtn">Subir fondo</button>
+                            <div class="tm-feedback" id="etBgFeedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Members -->
+                <div class="et-section">
+                    <div class="et-section-label">// MIEMBROS</div>
+                    <div class="et-section-body">
+                        <div class="et-members-list" id="etMembersList"></div>
+                    </div>
+                </div>
+
+                <!-- Danger zone -->
+                <div class="et-section et-danger-section">
+                    <div class="et-section-label et-danger-label">// ZONA PELIGROSA</div>
+                    <div class="et-section-body">
+                        <div class="et-danger-row">
+                            <div>
+                                <div class="et-danger-title">Disolver el club</div>
+                                <div class="et-danger-desc">El club se eliminará permanentemente y todos los miembros serán expulsados. Esta acción no se puede deshacer.</div>
+                            </div>
+                            <button class="et-btn-danger" id="etDeleteBtn">Disolver Club</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Confirm modal -->
+    <div class="tm-modal-backdrop hidden" id="etConfirmModal">
+        <div class="tm-modal">
+            <div class="tm-modal-title">CONFIRMAR EXPULSIÓN</div>
+            <p class="et-confirm-text" id="etConfirmText">¿Expulsar a este miembro?</p>
+            <div class="tm-modal-actions">
+                <button class="tm-btn-cancel" id="etConfirmCancel">Cancelar</button>
+                <button class="et-btn-danger-sm" id="etConfirmOk">Expulsar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/src/services/editTeam.js"></script>
+    <script src="/src/services/globalBg.js"></script>
+</body>
+</html>

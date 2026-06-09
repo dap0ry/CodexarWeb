@@ -129,23 +129,41 @@ function renderClubsGrid(teams, myTeam) {
             });
         });
     }
+
+    if (currentUser && currentUser.role === 'admin') {
+        grid.querySelectorAll('.tm-card-admin-delete').forEach(btn => {
+            btn.addEventListener('click', async e => {
+                e.stopPropagation();
+                const name = btn.dataset.name;
+                if (!confirm(`¿Disolver el club "${name}"?\nEsta acción no se puede deshacer.`)) return;
+                const r = await fetch(`${API}/teams/${btn.dataset.id}`, { method: 'DELETE', headers: authHeaders() });
+                const d = await r.json();
+                if (r.ok) { showToast(d.message || 'Club disuelto'); setTimeout(() => location.reload(), 700); }
+                else showToast(d.detail || 'Error al disolver', true);
+            });
+        });
+    }
 }
 
 function buildClubCard(t, myName) {
     const isOwn = myName && t.name === myName;
-    const bannerAttr = t.background_url
-        ? `style="background-image:url(${esc(t.background_url)})"` : '';
+    const bannerSrc = t.banner_url || t.background_url;
+    const bannerAttr = bannerSrc ? `style="background-image:url(${esc(bannerSrc)})"` : '';
     const photoStyle = t.photo_url
-        ? `background-image:url(${esc(t.photo_url)});color:transparent` : '';
+        ? `background-image:url(${esc(t.photo_url)});background-size:cover;background-position:center;color:transparent` : '';
     const initial = (t.name || '?').charAt(0).toUpperCase();
     const memberCount = Array.isArray(t.members) ? t.members.length : (t.member_count ?? 0);
     const joinBtn = (!hasTeam && !isOwn)
         ? `<button class="tm-card-join-btn" data-id="${esc(t.id)}">Unirse</button>` : '';
     const ownBadge = isOwn ? '<div class="tm-own-badge">Tu club</div>' : '';
+    const isAdmin = currentUser && currentUser.role === 'admin';
+    const adminBtn = isAdmin
+        ? `<button class="tm-card-admin-delete" data-id="${esc(t.id)}" data-name="${esc(t.name)}" title="Disolver club (admin)">✕</button>` : '';
 
     return `
         <div class="tm-club-card${isOwn ? ' is-own' : ''}" onclick="window.location.href='/equipo?t=${encodeURIComponent(t.name)}'">
             ${ownBadge}
+            ${adminBtn}
             <div class="tm-card-banner" ${bannerAttr}></div>
             <div class="tm-card-body">
                 <div class="tm-card-photo-wrap">

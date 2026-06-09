@@ -329,6 +329,27 @@ body {
 }
 .tm-card-join-btn:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.5); color: #fff; }
 
+/* ── Admin delete button on card ── */
+.tm-card-admin-delete {
+    position: absolute;
+    top: 8px; left: 8px;
+    width: 24px; height: 24px;
+    background: rgba(255,46,99,0.15);
+    border: 1px solid rgba(255,46,99,0.4);
+    border-radius: 6px;
+    color: #ff2e63;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    line-height: 1;
+}
+.tm-card-admin-delete:hover { background: rgba(255,46,99,0.35); border-color: rgba(255,46,99,0.8); }
+
 /* ── Create modal ── */
 .tm-modal-backdrop {
     position: fixed;

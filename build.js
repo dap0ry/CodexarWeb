@@ -38,6 +38,7 @@ const PAGE_MAP = {
   'ProfileView.html':         'perfil.html',
   'QuickLogin.html':          'quick-login.html',
   'Mobile.html':              'mobile.html',
+  'EditTeam.html':            'editar-club.html',
 };
 
 function copyDir(src, dest) {
