@@ -1,11 +1,6 @@
 const API_BASE = 'https://api.codexar.es/api';
 const WS_BASE  = 'wss://api.codexar.es/api';
 
-const DIFF_LABELS = {
-    normal:    'NORMAL',
-    dificil:   'DIFÍCIL',
-    demencial: 'DEMENCIAL',
-};
 
 const MONACO_LANG = {
     'Python': 'python',
@@ -21,7 +16,7 @@ let selectedLang      = 'Python';
 let editor            = null;
 let battleEnded       = false;
 let ws                = null;
-let timeLeft          = 60;
+let timeLeft          = 1800;
 let timerInterval     = null;
 let myUsername        = null;
 let pendingNavHref    = '/home';
@@ -134,8 +129,7 @@ async function initBattle() {
     const token = localStorage.getItem('access_token');
     if (!token) { window.location.href = '/login'; return; }
 
-    document.getElementById('survDiffLabel').textContent = DIFF_LABELS[difficulty] || 'NORMAL';
-    document.title = `Codexar — Supervivencia ${DIFF_LABELS[difficulty] || ''}`;
+    document.title = 'Codexar — Supervivencia';
 
     try {
         const userRes = await fetch(`${API_BASE}/user/me`, {
@@ -297,7 +291,7 @@ function handleWsMessage(msg) {
             break;
 
         case 'game_over':
-            showGameOver(msg.exercises_solved, msg.new_record, msg.abandoned_by);
+            showGameOver(msg.exercises_solved, msg.time_survived, msg.new_record, msg.abandoned_by);
             break;
     }
 }
@@ -384,8 +378,8 @@ function renderTimer() {
     el.textContent = `${String(mins).padStart(2, '0')}:${secs}`;
 
     el.classList.remove('warning', 'danger');
-    if (timeLeft <= 10)      el.classList.add('danger');
-    else if (timeLeft <= 15) el.classList.add('warning');
+    if (timeLeft <= 30)       el.classList.add('danger');
+    else if (timeLeft <= 120) el.classList.add('warning');
 }
 
 function startClientTimer() {
@@ -601,8 +595,15 @@ function showWrongAnswerToast(details) {
     setTimeout(() => toast.remove(), 3000);
 }
 
+function fmtTime(seconds) {
+    if (!seconds) return '00:00';
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
 // ── Game Over ─────────────────────────────────────────────────────────────────
-function showGameOver(exercisesSolved, newRecord, abandonedBy) {
+function showGameOver(exercisesSolved, timeSurvived, newRecord, abandonedBy) {
     battleEnded = true;
     clearInterval(timerInterval);
     clearTimeout(syncTimer);
@@ -612,6 +613,7 @@ function showGameOver(exercisesSolved, newRecord, abandonedBy) {
     document.getElementById('btnSave').disabled  = true;
 
     document.getElementById('goExercisesNum').textContent = exercisesSolved;
+    document.getElementById('goTimeSurvived').textContent  = `⏱ ${fmtTime(timeSurvived || 0)}`;
 
     const iconEl   = document.getElementById('goIcon');
     const titleEl  = document.getElementById('goTitle');
@@ -659,7 +661,7 @@ window.doLeave = function () {
 
 window.replaySurvival = function () {
     battleEnded = true;
-    window.location.href = `/supervivencia/lobby?difficulty=${difficulty}`;
+    window.location.href = '/supervivencia';
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

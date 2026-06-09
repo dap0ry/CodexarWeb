@@ -4,11 +4,6 @@
     const shown = new Set();      // invite_ids ya mostrados (evita duplicados)
     const TOAST_TIMEOUT = 30000;  // auto-cerrar en 30s
 
-    const DIFF_LABELS = {
-        normal:    'Normal',
-        dificil:   'Difícil',
-        demencial: 'Demencial',
-    };
 
     // ── Inject global styles once (reuses fn-* classes from friendlyNotifications) ──
     if (!document.getElementById('sn-styles')) {
@@ -137,14 +132,13 @@
         toast.dataset.inviteId = invite.invite_id;
 
         const safeUser = String(invite.from_username).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        const diffLabel = DIFF_LABELS[invite.difficulty] || invite.difficulty || '';
 
         toast.innerHTML = `
             <div class="sn-toast-header">
                 <span class="sn-toast-icon">⚡</span>
                 <div class="sn-toast-body">
                     <span class="sn-toast-title">${safeUser} te invita a Supervivencia</span>
-                    <span class="sn-toast-sub">Dificultad: ${diffLabel}</span>
+                    <span class="sn-toast-sub">30 min · +5 min por ejercicio</span>
                 </div>
             </div>
             <div class="sn-toast-actions">
@@ -171,7 +165,7 @@
                 if (res.ok) {
                     const data = await res.json();
                     closeToast(toast);
-                    window.location.href = `/supervivencia/lobby?room=${data.room_id}&difficulty=${data.difficulty}&guest=1`;
+                    window.location.href = `/supervivencia/lobby?room=${data.room_id}&guest=1`;
                 } else {
                     closeToast(toast);
                 }

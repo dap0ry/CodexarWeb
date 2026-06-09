@@ -1,9 +1,10 @@
 const API_BASE = 'https://api.codexar.es/api';
 
 const DIFF_META = {
-    normal:    { label: 'NORMAL',    meta: '60s de inicio · +10s por ejercicio' },
-    dificil:   { label: 'DIFÍCIL',   meta: '45s de inicio · +7s por ejercicio'  },
-    demencial: { label: 'DEMENCIAL', meta: '30s de inicio · +5s por ejercicio'  },
+    survival:  { label: 'SUPERVIVENCIA', meta: '30 min de inicio · +5 min por ejercicio' },
+    normal:    { label: 'SUPERVIVENCIA', meta: '30 min de inicio · +5 min por ejercicio' },
+    dificil:   { label: 'SUPERVIVENCIA', meta: '30 min de inicio · +5 min por ejercicio' },
+    demencial: { label: 'SUPERVIVENCIA', meta: '30 min de inicio · +5 min por ejercicio' },
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -120,9 +121,8 @@ async function pollRoom() {
         const data = await res.json();
 
         if (data.status === 'in_game') {
-            // Game started (host pressed start while we were polling)
             clearInterval(pollInterval);
-            window.location.href = `/supervivencia/batalla?room=${roomId}&difficulty=${difficulty}`;
+            window.location.href = `/supervivencia/batalla?room=${roomId}`;
             return;
         }
 
@@ -144,7 +144,7 @@ async function startGame() {
         });
         if (res.ok) {
             clearInterval(pollInterval);
-            window.location.href = `/supervivencia/batalla?room=${roomId}&difficulty=${difficulty}`;
+            window.location.href = `/supervivencia/batalla?room=${roomId}`;
         } else {
             if (btn) btn.disabled = false;
         }
@@ -268,15 +268,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    difficulty = (params.get('difficulty') || 'normal').toLowerCase();
     const roomFromUrl = params.get('room');
     const isGuest     = params.get('guest') === '1';
 
-    // Set header labels
-    const diffMeta = DIFF_META[difficulty] || DIFF_META.normal;
-    document.getElementById('lobbyTitle').textContent = `SUPERVIVENCIA · ${diffMeta.label}`;
+    const diffMeta = DIFF_META.survival;
+    document.getElementById('lobbyTitle').textContent = `SUPERVIVENCIA`;
     document.getElementById('lobbyMeta').textContent  = diffMeta.meta;
-    document.title = `Codexar — Supervivencia ${diffMeta.label}`;
+    document.title = 'Codexar — Supervivencia';
 
     try {
         const userRes = await fetch(`${API_BASE}/user/me`, {
@@ -300,15 +298,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             roomId = roomFromUrl;
             isHost = false;
         } else {
-            // Creating new room as host
-            isHost = true;
-            const createRes = await fetch(`${API_BASE}/survival/room?difficulty=${difficulty}`, {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            if (!createRes.ok) throw new Error('create failed');
-            const { room_id } = await createRes.json();
-            roomId = room_id;
+            // Creating new room as host — redirect to main lobby page
+            window.location.href = '/supervivencia';
+            return;
         }
 
         renderActions();

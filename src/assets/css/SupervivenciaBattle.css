@@ -355,6 +355,14 @@
     color: rgba(230, 230, 240, 0.4);
 }
 
+.surv-gameover-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(0,255,204,0.6);
+    letter-spacing: 1px;
+}
+
 .surv-gameover-record {
     display: flex;
     align-items: center;

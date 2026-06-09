@@ -1,37 +1,6 @@
 const API_BASE = 'https://api.codexar.es/api';
 
-const BOSS_DATA = {
-    boss1: {
-        apiDifficulty: 'normal',
-        tier:          'BOSS 1 · NORMAL',
-        name:          'El Guardián',
-        indexTag:      'BOSS_01',
-        desc:          'El primero de los tres. Metódico y predecible. Domina los fundamentos y cae a tus pies.',
-        timeBadge:     '⏱  60s · +10s por ejercicio',
-        placeholderIcon: '◈',
-    },
-    boss2: {
-        apiDifficulty: 'dificil',
-        tier:          'BOSS 2 · DIFÍCIL',
-        name:          'La Sombra',
-        indexTag:      'BOSS_02',
-        desc:          'Aprendió de los errores del Guardián. Más rápido, menos misericordioso. Exige precisión extrema.',
-        timeBadge:     '⚡  45s · +7s por ejercicio',
-        placeholderIcon: '◬',
-    },
-    boss3: {
-        apiDifficulty: 'demencial',
-        tier:          'BOSS 3 · DEMENCIAL',
-        name:          'El Abismo',
-        indexTag:      'BOSS_03',
-        desc:          'Sin piedad. Sin margen de error. Solo los equipos más élite lo han visto caer.',
-        timeBadge:     '☠  30s · +5s por ejercicio',
-        placeholderIcon: '☠',
-    },
-};
-
-/* ── State ── */
-let selectedBoss   = 'boss1';
+// ── State ─────────────────────────────────────────────────────────────────────
 let roomId         = null;
 let isRoomCreated  = false;
 let creatingRoom   = false;
@@ -40,71 +9,34 @@ let pollInterval   = null;
 let myUser         = null;
 
 function escHtml(str) {
-    return String(str ?? '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/* ── Boss selection ── */
-
-function selectBoss(bossKey) {
-    if (selectedBoss === bossKey) return;
-    if (isRoomCreated && pendingInvites.size === 0 && !creatingRoom) {
-        clearInterval(pollInterval);
-        roomId        = null;
-        isRoomCreated = false;
-    }
-    selectedBoss = bossKey;
-    updateBossUI();
-    fetchRecord();
-    if (!isRoomCreated && !creatingRoom) ensureRoom();
+function formatTime(seconds) {
+    if (!seconds) return '--:--';
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
-function updateBossUI() {
-    const boss = BOSS_DATA[selectedBoss];
-
-    document.body.dataset.boss = selectedBoss;
-
-    document.getElementById('sv3BossTier').textContent     = boss.tier;
-    document.getElementById('sv3BossTitleC').textContent   = boss.name;
-    document.getElementById('sv3BossDesc').textContent     = boss.desc;
-    document.getElementById('sv3TimeBadge').textContent    = boss.timeBadge;
-    document.getElementById('sv3BossIndexTag').textContent = boss.indexTag;
-    document.getElementById('sv3BossNameBig').textContent  = boss.name;
-
-    // Boss visual (right column)
-    const imgWrap = document.getElementById('sv3BossImgWrap');
-    imgWrap.innerHTML = `<div class="sv3-boss-placeholder"><div class="sv3-boss-placeholder-icon">${boss.placeholderIcon}</div></div>`;
-
-    // Active state on buttons
-    document.querySelectorAll('.sv3-boss-icon-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.boss === selectedBoss);
-    });
-}
-
-function initBossIcons() {
-    // Boss selector buttons use their number badge — no external images needed
-}
-
-/* ── Record ── */
+// ── Record ────────────────────────────────────────────────────────────────────
 
 async function fetchRecord() {
     const token = localStorage.getItem('access_token');
-    const el    = document.getElementById('sv3RecordVal');
-    el.textContent = '—';
     try {
-        const boss = BOSS_DATA[selectedBoss];
-        const res  = await fetch(
-            `${API_BASE}/survival/my-record?difficulty=${boss.apiDifficulty}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const res = await fetch(`${API_BASE}/survival/my-record`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
         if (!res.ok) return;
         const data = await res.json();
-        el.textContent = data.exercises_survived ?? '—';
-    } catch { /* muestra — */ }
+        document.getElementById('survRecordTime').textContent =
+            data.max_time_survived ? formatTime(data.max_time_survived) : '--:--';
+        document.getElementById('survRecordEx').textContent =
+            `${data.max_exercises || 0} ej.`;
+    } catch { /* silent */ }
 }
 
-/* ── Room ── */
+// ── Room ──────────────────────────────────────────────────────────────────────
 
 async function ensureRoom() {
     if (isRoomCreated && roomId) return;
@@ -112,11 +44,10 @@ async function ensureRoom() {
     creatingRoom = true;
     try {
         const token = localStorage.getItem('access_token');
-        const boss  = BOSS_DATA[selectedBoss];
-        const res   = await fetch(
-            `${API_BASE}/survival/room?difficulty=${boss.apiDifficulty}`,
-            { method: 'POST', headers: { Authorization: `Bearer ${token}` } }
-        );
+        const res = await fetch(`${API_BASE}/survival/room`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+        });
         if (!res.ok) throw new Error('create room failed');
         const data    = await res.json();
         roomId        = data.room_id;
@@ -138,37 +69,33 @@ async function pollRoom() {
         const data = await res.json();
         if (data.status === 'in_game') {
             clearInterval(pollInterval);
-            const boss = BOSS_DATA[selectedBoss];
-            window.location.href = `/supervivencia/batalla?room=${roomId}&difficulty=${boss.apiDifficulty}`;
+            window.location.href = `/supervivencia/batalla?room=${roomId}`;
             return;
         }
         renderSlots(data.players);
     } catch { /* silent */ }
 }
 
-/* ── Slots ── */
+// ── Render slots ──────────────────────────────────────────────────────────────
 
 function renderSlots(players) {
-    const container = document.getElementById('sv3Slots');
+    const container = document.getElementById('survLobbySlots');
     container.innerHTML = '';
 
     players.forEach((player, idx) => {
         const slot = document.createElement('div');
-        slot.className = 'sv3-slot';
+        slot.className = 'surv-lobby-slot';
 
         const av = document.createElement('div');
-        av.className = 'sv3-slot-avatar filled';
+        av.className = 'surv-lobby-avatar filled';
         if (player.avatar) {
-            const img = document.createElement('img');
-            img.src   = player.avatar;
-            img.alt   = escHtml(player.username);
-            av.appendChild(img);
+            av.style.backgroundImage = `url(${player.avatar})`;
         } else {
             av.textContent = (player.username || '?').charAt(0).toUpperCase();
         }
 
         const name = document.createElement('div');
-        name.className = 'sv3-slot-name' + (idx === 0 ? ' you' : '');
+        name.className = 'surv-lobby-slot-name';
         name.textContent = idx === 0 ? 'TÚ' : player.username;
 
         slot.appendChild(av);
@@ -178,16 +105,17 @@ function renderSlots(players) {
 
     for (let i = players.length; i < 4; i++) {
         const slot = document.createElement('div');
-        slot.className = 'sv3-slot';
+        slot.className = 'surv-lobby-slot';
 
         const av = document.createElement('div');
-        av.className = 'sv3-slot-avatar empty';
-        av.innerHTML = '<span class="sv3-slot-plus">+</span>';
+        av.className = 'surv-lobby-avatar empty';
+        av.innerHTML = '<span>+</span>';
+        av.title = 'Invitar amigo';
         av.addEventListener('click', openInviteModal);
 
         const name = document.createElement('div');
-        name.className = 'sv3-slot-name';
-        name.textContent = 'VACÍO';
+        name.className = 'surv-lobby-slot-name muted';
+        name.textContent = '+ AMIGO';
 
         slot.appendChild(av);
         slot.appendChild(name);
@@ -195,12 +123,12 @@ function renderSlots(players) {
     }
 }
 
-/* ── Invite modal ── */
+// ── Invite modal ──────────────────────────────────────────────────────────────
 
 async function openInviteModal() {
-    document.getElementById('sv3InviteModal').classList.remove('hidden');
-    const list = document.getElementById('sv3FriendList');
-    list.innerHTML = '<div class="sv3-modal-empty">Cargando...</div>';
+    document.getElementById('survInviteModal').classList.remove('hidden');
+    const list = document.getElementById('survFriendList');
+    list.innerHTML = '<div class="surv-modal-empty">Cargando...</div>';
 
     const token = localStorage.getItem('access_token');
     try {
@@ -214,41 +142,41 @@ async function openInviteModal() {
         const friends = data.friends || [];
 
         if (!friends.length) {
-            list.innerHTML = '<div class="sv3-modal-empty">No tienes amigos aún.</div>';
+            list.innerHTML = '<div class="surv-modal-empty">No tienes amigos aún.</div>';
             return;
         }
 
         list.innerHTML = '';
         friends.forEach(friend => {
             const row = document.createElement('div');
-            row.className = 'sv3-fr-row';
+            row.className = 'surv-fr-row';
 
             const av = document.createElement('div');
-            av.className = 'sv3-fr-av';
+            av.className = 'surv-fr-av';
             if (friend.avatar) {
                 const img = document.createElement('img');
-                img.src   = friend.avatar;
+                img.src = friend.avatar;
                 av.appendChild(img);
             } else {
                 av.textContent = (friend.username || '?').charAt(0).toUpperCase();
             }
 
-            const info   = document.createElement('div');
-            info.className = 'sv3-fr-info';
+            const info = document.createElement('div');
+            info.className = 'surv-fr-info';
 
             const nm = document.createElement('div');
-            nm.className = 'sv3-fr-name';
+            nm.className = 'surv-fr-name';
             nm.textContent = friend.username;
 
             const st = document.createElement('div');
-            st.className = 'sv3-fr-status' + (friend.is_online ? ' online' : '');
+            st.className = 'surv-fr-status' + (friend.is_online ? ' online' : '');
             st.textContent = friend.is_online ? '● En línea' : (friend.last_seen_text || 'Desconectado');
 
             info.appendChild(nm);
             info.appendChild(st);
 
-            const btn  = document.createElement('button');
-            btn.className = 'sv3-fr-inv-btn';
+            const btn = document.createElement('button');
+            btn.className = 'surv-fr-inv-btn';
             const sent = pendingInvites.has(friend.username);
             btn.textContent = sent ? 'Enviado' : 'Invitar';
             if (sent) btn.disabled = true;
@@ -265,7 +193,7 @@ async function openInviteModal() {
             list.appendChild(row);
         });
     } catch {
-        list.innerHTML = '<div class="sv3-modal-empty">Error cargando amigos.</div>';
+        list.innerHTML = '<div class="surv-modal-empty">Error cargando amigos.</div>';
     }
 }
 
@@ -287,10 +215,10 @@ async function sendInvite(username, btn) {
     }
 }
 
-/* ── Start game ── */
+// ── Start game ────────────────────────────────────────────────────────────────
 
 async function startGame() {
-    const btn = document.getElementById('sv3StartBtn');
+    const btn = document.getElementById('survStartBtn');
     btn.disabled = true;
     btn.textContent = 'INICIANDO...';
     try {
@@ -302,8 +230,7 @@ async function startGame() {
         });
         if (res.ok) {
             clearInterval(pollInterval);
-            const boss = BOSS_DATA[selectedBoss];
-            window.location.href = `/supervivencia/batalla?room=${roomId}&difficulty=${boss.apiDifficulty}`;
+            window.location.href = `/supervivencia/batalla?room=${roomId}`;
         } else {
             btn.disabled = false;
             btn.textContent = 'INICIAR PARTIDA →';
@@ -314,7 +241,7 @@ async function startGame() {
     }
 }
 
-/* ── Init ── */
+// ── Init ──────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('access_token');
@@ -326,14 +253,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/login';
     });
 
-    document.getElementById('sv3InviteBtn').addEventListener('click', openInviteModal);
-
-    document.getElementById('sv3CloseModal').addEventListener('click', () => {
-        document.getElementById('sv3InviteModal').classList.add('hidden');
+    document.getElementById('survCloseModal').addEventListener('click', () => {
+        document.getElementById('survInviteModal').classList.add('hidden');
     });
-    document.getElementById('sv3InviteModal').addEventListener('click', e => {
-        if (e.target === document.getElementById('sv3InviteModal')) {
-            document.getElementById('sv3InviteModal').classList.add('hidden');
+    document.getElementById('survInviteModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('survInviteModal')) {
+            document.getElementById('survInviteModal').classList.add('hidden');
         }
     });
 
@@ -353,8 +278,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             navAv.textContent = myUser.username.charAt(0).toUpperCase();
         }
 
-        initBossIcons();
-        updateBossUI();
         renderSlots([{ username: myUser.username, avatar: myUser.avatar }]);
         fetchRecord();
         ensureRoom();

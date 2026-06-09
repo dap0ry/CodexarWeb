@@ -227,32 +227,23 @@ function renderBotStats(data) {
 }
 
 // ── Survival stats ────────────────────────────────────────────
-const SURVIVAL_DIFF_CONFIG = [
-    { key: 'normal',    label: 'Normal',    color: 'rgba(57,255,20,0.8)'   },
-    { key: 'dificil',   label: 'Difícil',   color: 'rgba(255,80,80,0.85)' },
-    { key: 'demencial', label: 'Demencial', color: 'rgba(180,80,255,0.9)' },
-];
-
 function renderSurvivalStats(data) {
     const el = document.getElementById('pvSurvivalStats');
     if (!el) return;
-    const stats  = data.survival_stats || {};
-    const games  = data.survival_games || 0;
-    const maxVal = Math.max(...SURVIVAL_DIFF_CONFIG.map(d => (stats[d.key]?.max_exercises || 0)), 1);
+    const sv    = data.survival_stats?.survival || {};
+    const games = data.survival_games || 0;
+    const maxEx = sv.max_exercises     || 0;
+    const maxT  = sv.max_time_survived || 0;
 
-    const diffBars = SURVIVAL_DIFF_CONFIG.map(({ key, label, color }) => {
-        const max = stats[key]?.max_exercises || 0;
-        const pct = Math.round((max / maxVal) * 100);
-        return `
-            <div class="pvb-diff-row">
-                <span class="pvb-diff-label">${escHtml(label)}</span>
-                <div class="pvb-diff-track">
-                    <div class="pvb-diff-fill" style="width:${pct}%;background:${color}"></div>
-                </div>
-                <span class="pvb-diff-count">${max}<span class="pvb-diff-of"> ej.</span></span>
-            </div>
-        `;
-    }).join('');
+    function fmtSurvTime(s) {
+        if (!s) return '—';
+        const m = Math.floor(s / 60);
+        const sc = s % 60;
+        return `${m}:${String(sc).padStart(2, '0')}`;
+    }
+
+    const exClass = maxEx > 0 ? 'accent-green' : 'accent-muted';
+    const tClass  = maxT  > 0 ? 'accent-green' : 'accent-muted';
 
     el.innerHTML = `
         <div class="pvb-body">
@@ -261,9 +252,15 @@ function renderSurvivalStats(data) {
                     <span class="pv-stat-key">Partidas</span>
                     <span class="pv-stat-val">${escHtml(String(games))}</span>
                 </div>
+                <div class="pvb-stat">
+                    <span class="pv-stat-key">Mejor tiempo</span>
+                    <span class="pv-stat-val ${tClass}">${fmtSurvTime(maxT)}</span>
+                </div>
+                <div class="pvb-stat">
+                    <span class="pv-stat-key">Máx. ejercicios</span>
+                    <span class="pv-stat-val ${exClass}">${maxEx || '—'}</span>
+                </div>
             </div>
-            <div class="pvb-divider"></div>
-            <div class="pvb-diff-bars">${diffBars}</div>
         </div>
     `;
 }
