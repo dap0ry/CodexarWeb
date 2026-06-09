@@ -532,6 +532,8 @@ body {
 .pv-tournament-card .pv-card-label { color: rgba(60, 130, 255, 0.75); }
 .pv-survival-card   .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 .pv-survival-card   .pvt-section-label { color: rgba(57, 255, 20, 0.45); }
+.pv-survival-card   .pvt-body          { justify-content: center; align-items: center; }
+.pv-survival-card   .pvt-body > *      { width: 100%; }
 .pv-bot-card        .pvb-body      { justify-content: center; align-items: center; }
 .pv-tournament-card .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 
