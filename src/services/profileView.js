@@ -229,37 +229,45 @@ function renderBotStats(data) {
 function renderSurvivalStats(data) {
     const el = document.getElementById('pvSurvivalStats');
     if (!el) return;
-    const sv    = data.survival_stats?.survival || {};
-    const games = data.survival_games || 0;
-    const maxEx = sv.max_exercises     || 0;
-    const maxT  = sv.max_time_survived || 0;
+    const sv   = data.survival_stats?.survival || {};
+    const solo = { games: sv.solo_games || 0, maxEx: sv.solo_max_exercises || 0, maxT: sv.solo_max_time_survived || 0 };
+    const coop = { games: sv.coop_games || 0, maxEx: sv.coop_max_exercises || 0, maxT: sv.coop_max_time_survived || 0 };
 
-    function fmtSurvTime(s) {
+    function fmtT(s) {
         if (!s) return '—';
         const m = Math.floor(s / 60);
         const sc = s % 60;
         return `${m}:${String(sc).padStart(2, '0')}`;
     }
 
-    const exClass = maxEx > 0 ? 'accent-green' : 'accent-muted';
-    const tClass  = maxT  > 0 ? 'accent-green' : 'accent-muted';
+    function section(label, d) {
+        const tC  = d.maxT  > 0 ? 'accent-green' : 'accent-muted';
+        const exC = d.maxEx > 0 ? 'accent-green' : 'accent-muted';
+        return `
+            <div>
+                <div class="pvt-section-label">${label}</div>
+                <div class="pvt-stats-row">
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Partidas</span>
+                        <span class="pv-stat-val">${d.games}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Mejor tiempo</span>
+                        <span class="pv-stat-val ${tC}">${fmtT(d.maxT)}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Máx. ejercicios</span>
+                        <span class="pv-stat-val ${exC}">${d.maxEx || '—'}</span>
+                    </div>
+                </div>
+            </div>`;
+    }
 
     el.innerHTML = `
-        <div class="pvb-body">
-            <div class="pvb-top-stats">
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Partidas</span>
-                    <span class="pv-stat-val">${escHtml(String(games))}</span>
-                </div>
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Mejor tiempo</span>
-                    <span class="pv-stat-val ${tClass}">${fmtSurvTime(maxT)}</span>
-                </div>
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Máx. ejercicios</span>
-                    <span class="pv-stat-val ${exClass}">${maxEx || '—'}</span>
-                </div>
-            </div>
+        <div class="pvt-body">
+            ${section('SOLO', solo)}
+            <div class="pvt-divider"></div>
+            ${section('COOPERATIVO', coop)}
         </div>
     `;
 }
