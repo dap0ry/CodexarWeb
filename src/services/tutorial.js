@@ -17,8 +17,6 @@ const LANG_DISPLAY = {
     python: 'Python',
     cpp:    'C++',
     java:   'Java',
-    go:     'Go',
-    csharp: 'C#',
 };
 
 // ─────────────────────────────────────────────
@@ -259,7 +257,7 @@ const LESSONS = {
       <tr><td class="op">/</td><td>División</td><td class="td-example">15 / 4</td><td>${lang === 'python' ? '3.75' : '3'}</td></tr>
       ${lang === 'python' ? '<tr><td class="op">//</td><td>División entera</td><td class="td-example">15 // 4</td><td>3</td></tr>' : ''}
       <tr><td class="op">%</td><td>Módulo (resto)</td><td class="td-example">17 % 5</td><td>2</td></tr>
-      <tr><td class="op">${lang === 'python' ? '**' : (lang === 'java' || lang === 'csharp' ? 'Math.Pow' : 'int(math.Pow')}</td><td>Potencia</td><td class="td-example">2${lang === 'python' ? '**' : '^'}10</td><td>1024</td></tr>
+      <tr><td class="op">${lang === 'python' ? '**' : (lang === 'java' ? 'Math.pow' : 'pow()')}</td><td>Potencia</td><td class="td-example">2${lang === 'python' ? '**' : '^'}10</td><td>1024</td></tr>
     </tbody>
   </table>
   <div class="lesson-callout warn">
@@ -491,8 +489,6 @@ const WHY_LANG = {
     python: `<p class="lesson-text"><strong>Python</strong> es el lenguaje más fácil para empezar. Su sintaxis es casi como escribir en inglés, no necesitas indicar los tipos de tus variables y el código es muy corto. Es el lenguaje más popular para aprender y también se usa mucho en programación competitiva para prototipar soluciones rápido.</p>`,
     cpp:    `<p class="lesson-text"><strong>C++</strong> es el lenguaje rey en competición. Casi todos los competidores de alto nivel usan C++ porque es increíblemente rápido y tiene la librería estándar <span class="ic">STL</span> con estructuras de datos y algoritmos ya hechos. Requiere algo más de configuración al principio, pero vale la pena.</p>`,
     java:   `<p class="lesson-text"><strong>Java</strong> es un lenguaje muy popular en el mundo profesional y también en competición. Es más estricto que Python (tienes que declarar los tipos), lo que ayuda a evitar errores. Las plataformas de jueces como Codeforces y LeetCode lo soportan perfectamente.</p>`,
-    go:     `<p class="lesson-text"><strong>Go</strong> (o Golang) es un lenguaje moderno creado por Google. Es rápido, simple y con muy buen soporte para concurrencia. Aunque no es tan común en competición como C++, su sintaxis limpia lo hace muy legible y es una excelente opción para aprender.</p>`,
-    csharp: `<p class="lesson-text"><strong>C#</strong> es el lenguaje de Microsoft, muy usado en desarrollo de videojuegos (Unity) y aplicaciones empresariales. Tiene una sintaxis similar a Java pero con características más modernas. En programación competitiva también está bien soportado.</p>`,
 };
 
 // ── Hola Mundo ──
@@ -500,31 +496,23 @@ const HELLO_CODE = {
     python: `<span class="fn">print</span>(<span class="str">"Hola, mundo!"</span>)`,
     cpp:    `<span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>\n<span class="kw">using namespace</span> <span class="ty">std</span>;\n\n<span class="ty">int</span> <span class="fn">main</span>() {\n    cout &lt;&lt; <span class="str">"Hola, mundo!"</span> &lt;&lt; endl;\n    <span class="kw">return</span> <span class="num">0</span>;\n}`,
     java:   `<span class="kw">public class</span> <span class="ty">Main</span> {\n    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {\n        System.out.<span class="fn">println</span>(<span class="str">"Hola, mundo!"</span>);\n    }\n}`,
-    go:     `<span class="kw">package</span> main\n\n<span class="kw">import</span> <span class="str">"fmt"</span>\n\n<span class="kw">func</span> <span class="fn">main</span>() {\n    fmt.<span class="fn">Println</span>(<span class="str">"Hola, mundo!"</span>)\n}`,
-    csharp: `<span class="kw">using</span> System;\n\n<span class="kw">class</span> <span class="ty">Program</span> {\n    <span class="kw">static void</span> <span class="fn">Main</span>() {\n        Console.<span class="fn">WriteLine</span>(<span class="str">"Hola, mundo!"</span>);\n    }\n}`,
 };
 
 const HELLO_EXPLAIN = {
     python: `<p class="lesson-text"><span class="ic">print()</span> es la función que muestra texto en pantalla. El texto va entre comillas <span class="ic">" "</span> porque es una <strong>cadena de texto</strong> (string). ¡Una sola línea y ya tienes tu primer programa!</p>`,
     cpp:    `<p class="lesson-text"><span class="ic">#include &lt;iostream&gt;</span> importa la librería de entrada/salida. <span class="ic">cout &lt;&lt;</span> manda texto a la pantalla, y <span class="ic">endl</span> añade un salto de línea. <span class="ic">main()</span> es la función que ejecuta el programa.</p>`,
     java:   `<p class="lesson-text">En Java todo va dentro de una <strong>clase</strong>. El método <span class="ic">main</span> es el punto de entrada. <span class="ic">System.out.println()</span> imprime texto y añade salto de línea automáticamente.</p>`,
-    go:     `<p class="lesson-text"><span class="ic">package main</span> indica que este es el programa principal. <span class="ic">import "fmt"</span> importa el paquete de formato. <span class="ic">fmt.Println()</span> imprime con salto de línea.</p>`,
-    csharp: `<p class="lesson-text"><span class="ic">using System</span> importa el namespace básico. <span class="ic">Console.WriteLine()</span> imprime texto con salto de línea. La clase y el método <span class="ic">Main</span> son obligatorios en C#.</p>`,
 };
 
 const PRINT_QUIZ_OPTS = {
     python: ['print()', 'console.log()', 'echo()', 'write()'],
     cpp:    ['cout <<', 'print()', 'console.log()', 'printf()'],
     java:   ['System.out.println()', 'print()', 'Console.WriteLine()', 'cout <<'],
-    go:     ['fmt.Println()', 'print()', 'console.log()', 'System.out.println()'],
-    csharp: ['Console.WriteLine()', 'print()', 'cout <<', 'fmt.Println()'],
 };
 const PRINT_QUIZ_FEEDBACK = {
     python: '¡Correcto! En Python se usa print() para mostrar texto. Es una de las funciones más usadas.',
     cpp:    '¡Correcto! cout << es el operador de salida estándar en C++.',
     java:   '¡Correcto! System.out.println() es la forma estándar de imprimir en Java.',
-    go:     '¡Correcto! fmt.Println() es la función de impresión más usada en Go.',
-    csharp: '¡Correcto! Console.WriteLine() es el método estándar de salida en C#.',
 };
 
 // ── Variables y tipos ──
@@ -564,56 +552,27 @@ const TYPES_TABLE = {
   </tbody>
 </table>`,
 
-    go: `<table class="var-table">
-  <thead><tr><th>Tipo</th><th>Go</th><th>Ejemplo</th><th>Descripción</th></tr></thead>
-  <tbody>
-    <tr><td class="td-type">Entero</td><td class="ic">int</td><td class="td-example">42</td><td class="td-desc">Números sin decimales</td></tr>
-    <tr><td class="td-type">Entero 64</td><td class="ic">int64</td><td class="td-example">9999999999</td><td class="td-desc">Para números muy grandes</td></tr>
-    <tr><td class="td-type">Decimal</td><td class="ic">float64</td><td class="td-example">3.14</td><td class="td-desc">Número de punto flotante</td></tr>
-    <tr><td class="td-type">Texto</td><td class="ic">string</td><td class="td-example">"hola"</td><td class="td-desc">Cadena de caracteres</td></tr>
-    <tr><td class="td-type">Booleano</td><td class="ic">bool</td><td class="td-example">true / false</td><td class="td-desc">Solo verdadero o falso</td></tr>
-  </tbody>
-</table>`,
-
-    csharp: `<table class="var-table">
-  <thead><tr><th>Tipo</th><th>C#</th><th>Ejemplo</th><th>Descripción</th></tr></thead>
-  <tbody>
-    <tr><td class="td-type">Entero</td><td class="ic">int</td><td class="td-example">42</td><td class="td-desc">Números sin decimales</td></tr>
-    <tr><td class="td-type">Entero grande</td><td class="ic">long</td><td class="td-example">9999999999L</td><td class="td-desc">Para números muy grandes</td></tr>
-    <tr><td class="td-type">Decimal</td><td class="ic">double</td><td class="td-example">3.14</td><td class="td-desc">Número de punto flotante</td></tr>
-    <tr><td class="td-type">Texto</td><td class="ic">string</td><td class="td-example">"hola"</td><td class="td-desc">Cadena de caracteres</td></tr>
-    <tr><td class="td-type">Booleano</td><td class="ic">bool</td><td class="td-example">true / false</td><td class="td-desc">Solo verdadero o falso</td></tr>
-  </tbody>
-</table>`,
 };
 
 const VARS_CODE = {
     python: `edad = <span class="num">20</span>\nnombre = <span class="str">"Ana"</span>\naltura = <span class="num">1.70</span>\nestudiante = <span class="kw">True</span>\n\n<span class="fn">print</span>(nombre, <span class="str">"tiene"</span>, edad, <span class="str">"años"</span>)\n<span class="fn">print</span>(<span class="str">"Altura:"</span>, altura)`,
     cpp:    `<span class="ty">int</span> edad = <span class="num">20</span>;\n<span class="ty">string</span> nombre = <span class="str">"Ana"</span>;\n<span class="ty">double</span> altura = <span class="num">1.70</span>;\n<span class="ty">bool</span> estudiante = <span class="kw">true</span>;\n\ncout &lt;&lt; nombre &lt;&lt; <span class="str">" tiene "</span> &lt;&lt; edad &lt;&lt; <span class="str">" años"</span> &lt;&lt; endl;\ncout &lt;&lt; <span class="str">"Altura: "</span> &lt;&lt; altura &lt;&lt; endl;`,
     java:   `<span class="ty">int</span> edad = <span class="num">20</span>;\n<span class="ty">String</span> nombre = <span class="str">"Ana"</span>;\n<span class="ty">double</span> altura = <span class="num">1.70</span>;\n<span class="ty">boolean</span> estudiante = <span class="kw">true</span>;\n\nSystem.out.<span class="fn">println</span>(nombre + <span class="str">" tiene "</span> + edad + <span class="str">" años"</span>);\nSystem.out.<span class="fn">println</span>(<span class="str">"Altura: "</span> + altura);`,
-    go:     `edad := <span class="num">20</span>\nnombre := <span class="str">"Ana"</span>\naltura := <span class="num">1.70</span>\nestudiante := <span class="kw">true</span>\n\nfmt.<span class="fn">Println</span>(nombre, <span class="str">"tiene"</span>, edad, <span class="str">"años"</span>)\nfmt.<span class="fn">Println</span>(<span class="str">"Altura:"</span>, altura)\n_ = estudiante <span class="cm">// Go no permite variables sin usar</span>`,
-    csharp: `<span class="ty">int</span> edad = <span class="num">20</span>;\n<span class="ty">string</span> nombre = <span class="str">"Ana"</span>;\n<span class="ty">double</span> altura = <span class="num">1.70</span>;\n<span class="ty">bool</span> estudiante = <span class="kw">true</span>;\n\nConsole.<span class="fn">WriteLine</span>(nombre + <span class="str">" tiene "</span> + edad + <span class="str">" años"</span>);\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Altura: "</span> + altura);`,
 };
 const VARS_OUTPUT = {
     python: 'Ana tiene 20 años\nAltura: 1.7',
     cpp:    'Ana tiene 20 años\nAltura: 1.7',
     java:   'Ana tiene 20 años\nAltura: 1.7',
-    go:     'Ana tiene 20 años\nAltura: 1.7',
-    csharp: 'Ana tiene 20 años\nAltura: 1.7',
 };
 const FLOAT_TYPE_OPTS = {
     python: ['float', 'int', 'decimal', 'number'],
     cpp:    ['double', 'int', 'long long', 'char'],
     java:   ['double', 'int', 'long', 'Float'],
-    go:     ['float64', 'int', 'int64', 'decimal'],
-    csharp: ['double', 'int', 'long', 'decimal'],
 };
 const FLOAT_TYPE_FEEDBACK = {
     python: '¡Correcto! En Python, los números con decimales son de tipo float.',
     cpp:    '¡Correcto! En C++, double es el tipo más usado para números con decimales.',
     java:   '¡Correcto! En Java, double es el tipo más usado para números con decimales.',
-    go:     '¡Correcto! En Go, float64 es el tipo estándar para números con decimales.',
-    csharp: '¡Correcto! En C#, double es el tipo más usado para números con decimales. (decimal existe pero es para cálculos financieros)',
 };
 
 // ── Input ──
@@ -621,23 +580,17 @@ const INPUT_CODE = {
     python: `<span class="fn">print</span>(<span class="str">"Escribe tu edad: "</span>, end=<span class="str">""</span>)\nedad = <span class="ty">int</span>(<span class="fn">input</span>())\n<span class="fn">print</span>(<span class="str">"Tienes"</span>, edad, <span class="str">"años"</span>)`,
     cpp:    `<span class="ty">int</span> edad;\ncout &lt;&lt; <span class="str">"Escribe tu edad: "</span>;\ncin &gt;&gt; edad;\ncout &lt;&lt; <span class="str">"Tienes "</span> &lt;&lt; edad &lt;&lt; <span class="str">" años"</span> &lt;&lt; endl;`,
     java:   `<span class="ty">Scanner</span> sc = <span class="kw">new</span> <span class="ty">Scanner</span>(System.in);\nSystem.out.<span class="fn">print</span>(<span class="str">"Escribe tu edad: "</span>);\n<span class="ty">int</span> edad = sc.<span class="fn">nextInt</span>();\nSystem.out.<span class="fn">println</span>(<span class="str">"Tienes "</span> + edad + <span class="str">" años"</span>);`,
-    go:     `<span class="kw">var</span> edad <span class="ty">int</span>\nfmt.<span class="fn">Print</span>(<span class="str">"Escribe tu edad: "</span>)\nfmt.<span class="fn">Scan</span>(&amp;edad)\nfmt.<span class="fn">Println</span>(<span class="str">"Tienes"</span>, edad, <span class="str">"años"</span>)`,
-    csharp: `Console.<span class="fn">Write</span>(<span class="str">"Escribe tu edad: "</span>);\n<span class="ty">int</span> edad = <span class="ty">int</span>.<span class="fn">Parse</span>(Console.<span class="fn">ReadLine</span>());\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Tienes "</span> + edad + <span class="str">" años"</span>);`,
 };
 const INPUT_EXPLAIN = {
     python: `<p class="lesson-text"><span class="ic">input()</span> siempre devuelve texto (string). Como queremos un número, lo envolvemos en <span class="ic">int()</span> para convertirlo. Esto es fundamental: cuando el juez te manda números, son texto hasta que los conviertes.</p>`,
     cpp:    `<p class="lesson-text"><span class="ic">cin &gt;&gt;</span> lee el siguiente dato del teclado y lo guarda en la variable. C++ detecta el tipo automáticamente según la variable donde guardas el dato — si es <span class="ic">int</span>, lee un entero.</p>`,
     java:   `<p class="lesson-text">En Java necesitas un <span class="ic">Scanner</span> para leer entradas. <span class="ic">sc.nextInt()</span> lee el siguiente entero. Para texto usa <span class="ic">sc.next()</span>, para una línea entera <span class="ic">sc.nextLine()</span>.</p>`,
-    go:     `<p class="lesson-text"><span class="ic">fmt.Scan()</span> lee datos de la entrada estándar. El <span class="ic">&amp;</span> delante de la variable es un <em>puntero</em> — Scan necesita la dirección de la variable para poder escribir en ella. Por ahora acéptalo como la sintaxis correcta.</p>`,
-    csharp: `<p class="lesson-text"><span class="ic">Console.ReadLine()</span> lee una línea entera como texto. Para convertirla a número usamos <span class="ic">int.Parse()</span>. Si el texto no es un número válido, el programa lanzará un error.</p>`,
 };
 
 const INPUT_TWO_CODE = {
     python: `a, b = <span class="ty">map</span>(<span class="ty">int</span>, <span class="fn">input</span>().<span class="fn">split</span>())\n<span class="fn">print</span>(<span class="str">"Suma:"</span>, a + b)`,
     cpp:    `<span class="ty">int</span> a, b;\ncin &gt;&gt; a &gt;&gt; b;\ncout &lt;&lt; <span class="str">"Suma: "</span> &lt;&lt; a + b &lt;&lt; endl;`,
     java:   `<span class="ty">int</span> a = sc.<span class="fn">nextInt</span>();\n<span class="ty">int</span> b = sc.<span class="fn">nextInt</span>();\nSystem.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + (a + b));`,
-    go:     `<span class="kw">var</span> a, b <span class="ty">int</span>\nfmt.<span class="fn">Scan</span>(&amp;a, &amp;b)\nfmt.<span class="fn">Println</span>(<span class="str">"Suma:"</span>, a+b)`,
-    csharp: `<span class="ty">string</span>[] partes = Console.<span class="fn">ReadLine</span>().<span class="fn">Split</span>();\n<span class="ty">int</span> a = <span class="ty">int</span>.<span class="fn">Parse</span>(partes[<span class="num">0</span>]);\n<span class="ty">int</span> b = <span class="ty">int</span>.<span class="fn">Parse</span>(partes[<span class="num">1</span>]);\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Suma: "</span> + (a + b));`,
 };
 
 const INPUT_QUIZ = {
@@ -659,18 +612,6 @@ const INPUT_QUIZ = {
         correct: 0,
         feedback: '¡Correcto! Scanner (del paquete java.util) es la forma más común de leer datos en Java.'
     }],
-    go: [{
-        q: '¿Qué función se usa en Go para leer datos de la entrada estándar?',
-        opts: ['fmt.Scan()', 'fmt.Println()', 'os.Read()', 'input()'],
-        correct: 0,
-        feedback: '¡Correcto! fmt.Scan() lee datos de la entrada estándar en Go.'
-    }],
-    csharp: [{
-        q: '¿Qué método lee una línea entera del usuario en C#?',
-        opts: ['Console.ReadLine()', 'Console.Read()', 'Console.WriteLine()', 'Console.Input()'],
-        correct: 0,
-        feedback: '¡Correcto! Console.ReadLine() lee toda la línea que escribe el usuario y la devuelve como string.'
-    }],
 };
 
 // ── Math ──
@@ -678,22 +619,16 @@ const MATH_CODE = {
     python: `a = <span class="num">17</span>\nb = <span class="num">5</span>\n\n<span class="fn">print</span>(<span class="str">"Suma:"</span>, a + b)\n<span class="fn">print</span>(<span class="str">"Resta:"</span>, a - b)\n<span class="fn">print</span>(<span class="str">"Multiplicación:"</span>, a * b)\n<span class="fn">print</span>(<span class="str">"División:"</span>, a / b)\n<span class="fn">print</span>(<span class="str">"División entera:"</span>, a // b)\n<span class="fn">print</span>(<span class="str">"Módulo (resto):"</span>, a % b)`,
     cpp:    `<span class="ty">int</span> a = <span class="num">17</span>, b = <span class="num">5</span>;\ncout &lt;&lt; <span class="str">"Suma: "</span>           &lt;&lt; a + b &lt;&lt; endl;\ncout &lt;&lt; <span class="str">"Resta: "</span>          &lt;&lt; a - b &lt;&lt; endl;\ncout &lt;&lt; <span class="str">"Multiplicación: "</span> &lt;&lt; a * b &lt;&lt; endl;\ncout &lt;&lt; <span class="str">"División entera: "</span>&lt;&lt; a / b &lt;&lt; endl;\ncout &lt;&lt; <span class="str">"Módulo (resto): "</span> &lt;&lt; a % b &lt;&lt; endl;`,
     java:   `<span class="ty">int</span> a = <span class="num">17</span>, b = <span class="num">5</span>;\nSystem.out.<span class="fn">println</span>(<span class="str">"Suma: "</span>           + (a + b));\nSystem.out.<span class="fn">println</span>(<span class="str">"Resta: "</span>          + (a - b));\nSystem.out.<span class="fn">println</span>(<span class="str">"Multiplicación: "</span> + (a * b));\nSystem.out.<span class="fn">println</span>(<span class="str">"División entera: "</span>+ (a / b));\nSystem.out.<span class="fn">println</span>(<span class="str">"Módulo (resto): "</span> + (a % b));`,
-    go:     `a, b := <span class="num">17</span>, <span class="num">5</span>\nfmt.<span class="fn">Println</span>(<span class="str">"Suma:"</span>, a+b)\nfmt.<span class="fn">Println</span>(<span class="str">"Resta:"</span>, a-b)\nfmt.<span class="fn">Println</span>(<span class="str">"Multiplicación:"</span>, a*b)\nfmt.<span class="fn">Println</span>(<span class="str">"División entera:"</span>, a/b)\nfmt.<span class="fn">Println</span>(<span class="str">"Módulo (resto):"</span>, a%b)`,
-    csharp: `<span class="ty">int</span> a = <span class="num">17</span>, b = <span class="num">5</span>;\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Suma: "</span>           + (a + b));\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Resta: "</span>          + (a - b));\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Multiplicación: "</span> + (a * b));\nConsole.<span class="fn">WriteLine</span>(<span class="str">"División entera: "</span>+ (a / b));\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Módulo (resto): "</span> + (a % b));`,
 };
 const MATH_OUTPUT = {
     python: 'Suma: 22\nResta: 12\nMultiplicación: 85\nDivisión: 3.4\nDivisión entera: 3\nMódulo (resto): 2',
     cpp:    'Suma: 22\nResta: 12\nMultiplicación: 85\nDivisión entera: 3\nMódulo (resto): 2',
     java:   'Suma: 22\nResta: 12\nMultiplicación: 85\nDivisión entera: 3\nMódulo (resto): 2',
-    go:     'Suma: 22\nResta: 12\nMultiplicación: 85\nDivisión entera: 3\nMódulo (resto): 2',
-    csharp: 'Suma: 22\nResta: 12\nMultiplicación: 85\nDivisión entera: 3\nMódulo (resto): 2',
 };
 const MATH_QUIZ = {
     python: [{ q: '¿Cuánto vale <span class="ic">13 % 4</span>?', opts: ['1', '3', '4', '0'], correct: 1, feedback: '¡Correcto! 13 = 4×3 + 1, así que 13 % 4 = 1. Espera... 4×3=12, 13-12=1. ¡Sí, es 1!' }],
     cpp:    [{ q: '¿Cuánto vale <span class="ic">13 % 4</span>?', opts: ['1', '3', '4', '0'], correct: 0, feedback: '¡Correcto! 13 = 4×3 + 1, así que el resto es 1.' }],
     java:   [{ q: '¿Cuánto vale <span class="ic">13 % 4</span>?', opts: ['1', '3', '4', '0'], correct: 0, feedback: '¡Correcto! El operador % da el resto de la división. 13 = 4×3 + 1, resto = 1.' }],
-    go:     [{ q: '¿Cuánto vale <span class="ic">13 % 4</span>?', opts: ['1', '3', '4', '0'], correct: 0, feedback: '¡Correcto! 13 dividido entre 4 es 3 con resto 1.' }],
-    csharp: [{ q: '¿Cuánto vale <span class="ic">13 % 4</span>?', opts: ['1', '3', '4', '0'], correct: 0, feedback: '¡Correcto! El módulo (%) da el resto de dividir 13 entre 4: es 1.' }],
 };
 
 // ── If/else ──
@@ -701,22 +636,16 @@ const IF_CODE = {
     python: `edad = <span class="ty">int</span>(<span class="fn">input</span>())\n\n<span class="kw">if</span> edad &gt;= <span class="num">18</span>:\n    <span class="fn">print</span>(<span class="str">"Eres mayor de edad"</span>)\n<span class="kw">elif</span> edad &gt;= <span class="num">13</span>:\n    <span class="fn">print</span>(<span class="str">"Eres adolescente"</span>)\n<span class="kw">else</span>:\n    <span class="fn">print</span>(<span class="str">"Eres menor de edad"</span>)`,
     cpp:    `<span class="ty">int</span> edad;\ncin &gt;&gt; edad;\n\n<span class="kw">if</span> (edad &gt;= <span class="num">18</span>) {\n    cout &lt;&lt; <span class="str">"Eres mayor de edad"</span> &lt;&lt; endl;\n} <span class="kw">else if</span> (edad &gt;= <span class="num">13</span>) {\n    cout &lt;&lt; <span class="str">"Eres adolescente"</span> &lt;&lt; endl;\n} <span class="kw">else</span> {\n    cout &lt;&lt; <span class="str">"Eres menor de edad"</span> &lt;&lt; endl;\n}`,
     java:   `<span class="ty">int</span> edad = sc.<span class="fn">nextInt</span>();\n\n<span class="kw">if</span> (edad &gt;= <span class="num">18</span>) {\n    System.out.<span class="fn">println</span>(<span class="str">"Eres mayor de edad"</span>);\n} <span class="kw">else if</span> (edad &gt;= <span class="num">13</span>) {\n    System.out.<span class="fn">println</span>(<span class="str">"Eres adolescente"</span>);\n} <span class="kw">else</span> {\n    System.out.<span class="fn">println</span>(<span class="str">"Eres menor de edad"</span>);\n}`,
-    go:     `<span class="kw">var</span> edad <span class="ty">int</span>\nfmt.<span class="fn">Scan</span>(&amp;edad)\n\n<span class="kw">if</span> edad &gt;= <span class="num">18</span> {\n    fmt.<span class="fn">Println</span>(<span class="str">"Eres mayor de edad"</span>)\n} <span class="kw">else if</span> edad &gt;= <span class="num">13</span> {\n    fmt.<span class="fn">Println</span>(<span class="str">"Eres adolescente"</span>)\n} <span class="kw">else</span> {\n    fmt.<span class="fn">Println</span>(<span class="str">"Eres menor de edad"</span>)\n}`,
-    csharp: `<span class="ty">int</span> edad = <span class="ty">int</span>.<span class="fn">Parse</span>(Console.<span class="fn">ReadLine</span>());\n\n<span class="kw">if</span> (edad &gt;= <span class="num">18</span>) {\n    Console.<span class="fn">WriteLine</span>(<span class="str">"Eres mayor de edad"</span>);\n} <span class="kw">else if</span> (edad &gt;= <span class="num">13</span>) {\n    Console.<span class="fn">WriteLine</span>(<span class="str">"Eres adolescente"</span>);\n} <span class="kw">else</span> {\n    Console.<span class="fn">WriteLine</span>(<span class="str">"Eres menor de edad"</span>);\n}`,
 };
 const IF_OUTPUT = {
     python: 'Eres mayor de edad',
     cpp:    'Eres mayor de edad',
     java:   'Eres mayor de edad',
-    go:     'Eres mayor de edad',
-    csharp: 'Eres mayor de edad',
 };
 const IF_QUIZ = {
     python: [{ q: 'Si <span class="ic">x = 5</span>, ¿qué imprime <span class="ic">if x > 3: print("A") else: print("B")</span>?', opts: ['A', 'B', 'AB', 'Nada'], correct: 0, feedback: '¡Correcto! 5 > 3 es verdadero, así que se ejecuta el bloque if y se imprime "A".' }],
     cpp:    [{ q: 'Si <span class="ic">x = 5</span>, ¿qué imprime <span class="ic">if (x > 3) cout << "A"; else cout << "B";</span>?', opts: ['A', 'B', 'AB', 'Nada'], correct: 0, feedback: '¡Correcto! 5 > 3 es true, así que se ejecuta el bloque if.' }],
     java:   [{ q: 'Si <span class="ic">x = 5</span>, ¿qué imprime <span class="ic">if (x > 3) println("A"); else println("B");</span>?', opts: ['A', 'B', 'AB', 'Nada'], correct: 0, feedback: '¡Correcto! 5 > 3 es true, se ejecuta el bloque if.' }],
-    go:     [{ q: 'Si <span class="ic">x = 5</span>, ¿qué imprime <span class="ic">if x > 3 { println("A") } else { println("B") }</span>?', opts: ['A', 'B', 'AB', 'Nada'], correct: 0, feedback: '¡Correcto! 5 > 3 es true, se ejecuta el bloque if.' }],
-    csharp: [{ q: 'Si <span class="ic">x = 5</span>, ¿qué imprime <span class="ic">if (x > 3) Console.Write("A"); else Console.Write("B");</span>?', opts: ['A', 'B', 'AB', 'Nada'], correct: 0, feedback: '¡Correcto! 5 > 3 es true, se ejecuta el bloque if.' }],
 };
 
 // ── Loops ──
@@ -724,29 +653,21 @@ const FOR_CODE = {
     python: `<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):\n    <span class="fn">print</span>(i)`,
     cpp:    `<span class="kw">for</span> (<span class="ty">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {\n    cout &lt;&lt; i &lt;&lt; endl;\n}`,
     java:   `<span class="kw">for</span> (<span class="ty">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {\n    System.out.<span class="fn">println</span>(i);\n}`,
-    go:     `<span class="kw">for</span> i := <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++ {\n    fmt.<span class="fn">Println</span>(i)\n}`,
-    csharp: `<span class="kw">for</span> (<span class="ty">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {\n    Console.<span class="fn">WriteLine</span>(i);\n}`,
 };
 const WHILE_CODE = {
     python: `n = <span class="ty">int</span>(<span class="fn">input</span>())\n<span class="kw">while</span> n != <span class="num">0</span>:\n    <span class="fn">print</span>(<span class="str">"Recibido:"</span>, n)\n    n = <span class="ty">int</span>(<span class="fn">input</span>())\n<span class="fn">print</span>(<span class="str">"Fin"</span>)`,
     cpp:    `<span class="ty">int</span> n;\ncin &gt;&gt; n;\n<span class="kw">while</span> (n != <span class="num">0</span>) {\n    cout &lt;&lt; <span class="str">"Recibido: "</span> &lt;&lt; n &lt;&lt; endl;\n    cin &gt;&gt; n;\n}\ncout &lt;&lt; <span class="str">"Fin"</span> &lt;&lt; endl;`,
     java:   `<span class="ty">int</span> n = sc.<span class="fn">nextInt</span>();\n<span class="kw">while</span> (n != <span class="num">0</span>) {\n    System.out.<span class="fn">println</span>(<span class="str">"Recibido: "</span> + n);\n    n = sc.<span class="fn">nextInt</span>();\n}\nSystem.out.<span class="fn">println</span>(<span class="str">"Fin"</span>);`,
-    go:     `<span class="kw">var</span> n <span class="ty">int</span>\nfmt.<span class="fn">Scan</span>(&amp;n)\n<span class="kw">for</span> n != <span class="num">0</span> {\n    fmt.<span class="fn">Println</span>(<span class="str">"Recibido:"</span>, n)\n    fmt.<span class="fn">Scan</span>(&amp;n)\n}\nfmt.<span class="fn">Println</span>(<span class="str">"Fin"</span>)`,
-    csharp: `<span class="ty">int</span> n = <span class="ty">int</span>.<span class="fn">Parse</span>(Console.<span class="fn">ReadLine</span>());\n<span class="kw">while</span> (n != <span class="num">0</span>) {\n    Console.<span class="fn">WriteLine</span>(<span class="str">"Recibido: "</span> + n);\n    n = <span class="ty">int</span>.<span class="fn">Parse</span>(Console.<span class="fn">ReadLine</span>());\n}\nConsole.<span class="fn">WriteLine</span>(<span class="str">"Fin"</span>);`,
 };
 const WHILE_EXPLAIN = {
     python: `<p class="lesson-text">Este patrón — <em>"leer hasta que llegue un 0"</em> — es muy común en problemas de competición. El bucle sigue mientras <span class="ic">n != 0</span>; cuando el usuario escribe 0 el bucle termina.</p>`,
     cpp:    `<p class="lesson-text">Este patrón es muy común en problemas de competición. El bucle <span class="ic">while (n != 0)</span> sigue ejecutándose hasta que el usuario escribe 0.</p>`,
     java:   `<p class="lesson-text">El bucle <span class="ic">while (n != 0)</span> sigue ejecutándose hasta que el usuario escribe 0. Muy común en problemas donde no sabes cuántos datos vas a recibir.</p>`,
-    go:     `<p class="lesson-text">En Go no existe <span class="ic">while</span>: se usa <span class="ic">for</span> con condición. <span class="ic">for n != 0</span> equivale al <span class="ic">while (n != 0)</span> de otros lenguajes.</p>`,
-    csharp: `<p class="lesson-text">El bucle <span class="ic">while (n != 0)</span> sigue ejecutándose hasta que el usuario escribe 0. Muy común en problemas donde no sabes cuántos datos vas a recibir.</p>`,
 };
 const LOOP_QUIZ = {
     python: [{ q: '¿Cuántas veces imprime algo este bucle? <span class="ic">for i in range(3, 8): print(i)</span>', opts: ['5 veces', '8 veces', '3 veces', '4 veces'], correct: 0, feedback: '¡Correcto! range(3,8) genera los valores 3,4,5,6,7 — son 5 valores, por lo que el cuerpo se ejecuta 5 veces.' }],
     cpp:    [{ q: '¿Cuántas veces se ejecuta el cuerpo de <span class="ic">for (int i=0; i&lt;5; i++)</span>?', opts: ['5 veces', '6 veces', '4 veces', '0 veces'], correct: 0, feedback: '¡Correcto! i va de 0 a 4 (mientras i < 5), es decir 5 iteraciones.' }],
     java:   [{ q: '¿Cuántas veces se ejecuta el cuerpo de <span class="ic">for (int i=0; i&lt;5; i++)</span>?', opts: ['5 veces', '6 veces', '4 veces', '0 veces'], correct: 0, feedback: '¡Correcto! i va de 0 a 4, son 5 iteraciones.' }],
-    go:     [{ q: '¿Cuántas veces se ejecuta el cuerpo de <span class="ic">for i:=0; i&lt;5; i++</span>?', opts: ['5 veces', '6 veces', '4 veces', '0 veces'], correct: 0, feedback: '¡Correcto! i va de 0 a 4, son 5 iteraciones.' }],
-    csharp: [{ q: '¿Cuántas veces se ejecuta el cuerpo de <span class="ic">for (int i=0; i&lt;5; i++)</span>?', opts: ['5 veces', '6 veces', '4 veces', '0 veces'], correct: 0, feedback: '¡Correcto! i va de 0 a 4, son 5 iteraciones.' }],
 };
 
 // ── A+B solution ──
@@ -754,15 +675,11 @@ const AB_CODE = {
     python: `a, b = <span class="ty">map</span>(<span class="ty">int</span>, <span class="fn">input</span>().<span class="fn">split</span>())\n<span class="fn">print</span>(a + b)`,
     cpp:    `<span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>\n<span class="kw">using namespace</span> std;\n<span class="ty">int</span> <span class="fn">main</span>() {\n    <span class="ty">int</span> a, b;\n    cin &gt;&gt; a &gt;&gt; b;\n    cout &lt;&lt; a + b &lt;&lt; endl;\n    <span class="kw">return</span> <span class="num">0</span>;\n}`,
     java:   `<span class="kw">import</span> java.util.Scanner;\n<span class="kw">public class</span> <span class="ty">Main</span> {\n    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {\n        <span class="ty">Scanner</span> sc = <span class="kw">new</span> <span class="ty">Scanner</span>(System.in);\n        <span class="ty">int</span> a = sc.<span class="fn">nextInt</span>();\n        <span class="ty">int</span> b = sc.<span class="fn">nextInt</span>();\n        System.out.<span class="fn">println</span>(a + b);\n    }\n}`,
-    go:     `<span class="kw">package</span> main\n<span class="kw">import</span> <span class="str">"fmt"</span>\n<span class="kw">func</span> <span class="fn">main</span>() {\n    <span class="kw">var</span> a, b <span class="ty">int</span>\n    fmt.<span class="fn">Scan</span>(&amp;a, &amp;b)\n    fmt.<span class="fn">Println</span>(a + b)\n}`,
-    csharp: `<span class="kw">using</span> System;\n<span class="kw">class</span> <span class="ty">Program</span> {\n    <span class="kw">static void</span> <span class="fn">Main</span>() {\n        <span class="ty">string</span>[] p = Console.<span class="fn">ReadLine</span>().<span class="fn">Split</span>();\n        <span class="ty">int</span> a = <span class="ty">int</span>.<span class="fn">Parse</span>(p[<span class="num">0</span>]);\n        <span class="ty">int</span> b = <span class="ty">int</span>.<span class="fn">Parse</span>(p[<span class="num">1</span>]);\n        Console.<span class="fn">WriteLine</span>(a + b);\n    }\n}`,
 };
 const AB_EXPLAIN = {
     python: 'Leemos los dos enteros de la misma línea con <span class="ic">map(int, input().split())</span> — esto divide la línea por espacios y convierte cada parte a entero. Luego imprimimos la suma. Así de sencillo.',
     cpp:    '<span class="ic">cin >> a >> b</span> lee dos enteros separados por espacio (o salto de línea). Luego <span class="ic">cout << a + b</span> imprime el resultado.',
     java:   'El <span class="ic">Scanner</span> con <span class="ic">nextInt()</span> lee automáticamente los espacios entre números. Dos llamadas a <span class="ic">nextInt()</span> leen los dos valores.',
-    go:     '<span class="ic">fmt.Scan(&a, &b)</span> lee los dos enteros de la entrada estándar, separados por cualquier espacio en blanco.',
-    csharp: 'Leemos toda la línea, la partimos por espacios con <span class="ic">Split()</span> y convertimos cada trozo a entero con <span class="ic">int.Parse()</span>.',
 };
 
 // ─────────────────────────────────────────────
