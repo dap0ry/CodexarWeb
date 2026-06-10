@@ -753,18 +753,25 @@ body {
  *  - body no se toca.
  */
 @media (max-height: 820px) {
+    /*
+     * margin:auto en flex items NO funciona con overflow-y:auto en Chrome
+     * (bug conocido: los márgenes auto colapsan a 0).
+     * Solución: pseudo-elementos ::before y ::after con flex:1 como spacers.
+     * Distribuyen el espacio libre igual arriba y abajo → centrado real.
+     * Cuando el contenido no cabe, min-height garantiza un margen mínimo
+     * y pv-main scrollea internamente.
+     */
+    .pv-main::before,
+    .pv-main::after {
+        content: '';
+        flex: 1;
+        min-height: clamp(14px, 2.5vh, 20px);
+    }
+
     .pv-main {
         overflow-y: auto;
         justify-content: flex-start;
-        padding: clamp(14px, 2.5vh, 22px) max(16px, calc(50% - 520px));
-    }
-
-    /* Centrado vertical real mediante margin:auto en los flex items */
-    .pv-content,
-    .pv-loading,
-    .pv-error {
-        margin-top: auto;
-        margin-bottom: auto;
+        padding: 0 max(16px, calc(50% - 520px));
     }
 
     .pv-content   { gap: 8px; }
