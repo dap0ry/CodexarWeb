@@ -515,16 +515,20 @@ function renderProfile(data) {
     renderSurvivalStats(data);
     renderTournamentStats(data);
 
+    // Apply owner's visual settings
+    applyProfileSettings(data.profile_settings);
+
     // Show content
     document.getElementById('pvLoading').classList.add('hidden');
     document.getElementById('pvContent').classList.remove('hidden');
 }
 
-// ── Apply saved profile display settings ─────────────────────
-(function () {
-    const style  = localStorage.getItem('codexar_box_style') || 'solid';
-    const bgVis  = localStorage.getItem('codexar_bg_vis')    || 'dim';
-    const banVis = localStorage.getItem('codexar_banner_vis') || 'dim';
+// ── Apply profile owner's display settings ────────────────────
+function applyProfileSettings(settings) {
+    const s      = settings || {};
+    const style  = s.box_style  || 'solid';
+    const bgVis  = s.bg_vis     || 'dim';
+    const banVis = s.banner_vis || 'dim';
 
     const boxOpacity = style  === 'transparent' ? 0 : style  === 'semi' ? 0.8 : 1;
     const bgDim      = bgVis  === 'full' ? 0    : bgVis  === 'mid' ? 0.5 : 1;
@@ -534,7 +538,7 @@ function renderProfile(data) {
     root.style.setProperty('--pv-box-opacity', boxOpacity);
     root.style.setProperty('--pv-bg-dim',      bgDim);
     root.style.setProperty('--pv-banner-dim',  bannerDim);
-})();
+}
 
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {

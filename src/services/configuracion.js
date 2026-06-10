@@ -170,23 +170,36 @@ function initPerfilSection(user) {
         } catch {}
     });
 
-    // Style groups (localStorage, instant)
-    function initStyleGroup(groupId, lsKey, dataAttr, defaultVal) {
+    // Style groups — saved to DB (and localStorage for instant preview)
+    async function saveProfileSetting(dbKey, value) {
+        const tk = localStorage.getItem('access_token');
+        try {
+            await fetch(`${API_BASE}/user/update-profile-settings`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${tk}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ [dbKey]: value }),
+            });
+        } catch {}
+    }
+
+    function initStyleGroup(groupId, lsKey, dataAttr, defaultVal, dbKey) {
         const group = document.getElementById(groupId);
         if (!group) return;
-        const saved = localStorage.getItem(lsKey) || defaultVal;
+        const saved = (userData.profile_settings || {})[dbKey] || localStorage.getItem(lsKey) || defaultVal;
         group.querySelectorAll(`[data-${dataAttr}]`).forEach(btn => {
             btn.classList.toggle('active', btn.dataset[dataAttr] === saved);
             btn.addEventListener('click', () => {
                 group.querySelectorAll(`[data-${dataAttr}]`).forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                localStorage.setItem(lsKey, btn.dataset[dataAttr]);
+                const val = btn.dataset[dataAttr];
+                localStorage.setItem(lsKey, val);
+                saveProfileSetting(dbKey, val);
             });
         });
     }
-    initStyleGroup('cfgBoxStyleGroup',  'codexar_box_style',  'style',  'solid');
-    initStyleGroup('cfgBgVisGroup',     'codexar_bg_vis',     'vis',    'dim');
-    initStyleGroup('cfgBannerVisGroup', 'codexar_banner_vis', 'banvis', 'dim');
+    initStyleGroup('cfgBoxStyleGroup',  'codexar_box_style',  'style',  'solid', 'box_style');
+    initStyleGroup('cfgBgVisGroup',     'codexar_bg_vis',     'vis',    'dim',   'bg_vis');
+    initStyleGroup('cfgBannerVisGroup', 'codexar_banner_vis', 'banvis', 'dim',   'banner_vis');
 
     // Username availability check (debounce for live feedback while typing)
     let debounce;
