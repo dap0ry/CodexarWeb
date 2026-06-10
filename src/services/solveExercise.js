@@ -190,7 +190,7 @@ function renderExercise(ex, user) {
     document.getElementById('exBadges').innerHTML = `
         <span class="ex-badge ${diffClass}">${ex.difficulty}</span>
         <span class="ex-badge badge-category">${ex.category}</span>
-        ${ex.solved ? `<span class="ex-badge badge-solved-ex">✓ ${window.i18nT('exercises.solved')}</span>` : ''}
+        ${ex.solved ? `<span class="ex-badge badge-solved-ex">${window.i18nT('exercises.solved')}</span>` : ''}
     `;
 
     renderTestCases(ex.test_cases, null);
@@ -319,7 +319,7 @@ async function handleCheck() {
 
     btnCheck.disabled = true;
     btnCheck.classList.add('loading');
-    btnCheck.innerHTML = `<span class="btn-icon">⏳</span> ${window.i18nT('exercises.checking')}`;
+    btnCheck.innerHTML = window.i18nT('exercises.checking');
     statusEl.textContent = window.i18nT('exercises.running');
     statusEl.style.color = 'var(--text-muted)';
     document.getElementById('editorOutput').style.display = 'none';
@@ -370,7 +370,7 @@ async function handleSave() {
     const btnSave = document.getElementById('btnSave');
 
     btnSave.disabled = true;
-    btnSave.innerHTML = `<span class="btn-icon">⏳</span> ${window.i18nT('exercises.saving')}`;
+    btnSave.innerHTML = window.i18nT('exercises.saving');
 
     try {
         const res = await fetch(`${API_BASE}/exercises/${exerciseData.id}/solve`, {
@@ -391,13 +391,13 @@ async function handleSave() {
             statusEl.style.color = 'var(--accent-green)';
             const badges = document.getElementById('exBadges');
             if (!badges.querySelector('.badge-solved-ex')) {
-                badges.innerHTML += `<span class="ex-badge badge-solved-ex">✓ ${window.i18nT('exercises.solved')}</span>`;
+                badges.innerHTML += `<span class="ex-badge badge-solved-ex">${window.i18nT('exercises.solved')}</span>`;
             }
         }
     } catch (err) {
         console.error('Save error:', err);
         btnSave.disabled = false;
-        btnSave.innerHTML = `<span class="btn-icon">✓</span> ${window.i18nT('exercises.saveSolution')}`;
+        btnSave.innerHTML = window.i18nT('exercises.saveSolution');
     }
 }
 
