@@ -139,7 +139,11 @@ function renderPage() {
     // Upload buttons
     document.getElementById('etPhotoUploadBtn').addEventListener('click', () => uploadFile('photo'));
     document.getElementById('etBannerUploadBtn').addEventListener('click', () => uploadFile('banner'));
-    document.getElementById('etBgUploadBtn').addEventListener('click', () => uploadFile('background'));
+    document.getElementById('etBgUploadBtn').addEventListener('click', () => {
+        const input = document.getElementById('etBgInput');
+        if (!input.files[0]) { input.click(); return; }
+        uploadFile('background');
+    });
 
     // Members list
     renderMembers(etTeam.members_info || []);
