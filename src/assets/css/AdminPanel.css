@@ -186,6 +186,18 @@ body {
 .ap-btn-role:hover { background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.45); }
 .ap-btn-delete  { color: #ff2e63; border-color: rgba(255,46,99,0.25); background: rgba(255,46,99,0.05); }
 .ap-btn-delete:hover { background: rgba(255,46,99,0.15); border-color: rgba(255,46,99,0.5); }
+.ap-btn-reset   { color: #f89820; border-color: rgba(248,152,32,0.25); background: rgba(248,152,32,0.05); }
+.ap-btn-reset:hover { background: rgba(248,152,32,0.15); border-color: rgba(248,152,32,0.5); }
+.ap-btn-reset-all {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    border-radius: 5px; padding: 6px 12px;
+    cursor: pointer; border: 1px solid rgba(255,46,99,0.35);
+    color: #ff2e63; background: rgba(255,46,99,0.07);
+    transition: all 0.15s; white-space: nowrap;
+}
+.ap-btn-reset-all:hover { background: rgba(255,46,99,0.18); border-color: rgba(255,46,99,0.6); }
 
 /* ── Role selector (inline) ── */
 .ap-role-select {

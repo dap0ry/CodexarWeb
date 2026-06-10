@@ -104,6 +104,7 @@ function renderUsers(users) {
                 : '<span class="ap-status-active">Activo</span>'}</td>
             <td>
                 <div class="ap-actions-cell">
+                    <button class="ap-btn ap-btn-reset" onclick="resetUserProgress('${esc(u.username)}')">Borrar progreso</button>
                     ${u.is_banned
                         ? `<button class="ap-btn ap-btn-unban" onclick="unbanUser('${esc(u.username)}')">Desbanear</button>`
                         : `<button class="ap-btn ap-btn-ban"   onclick="banUser('${esc(u.username)}')">Banear</button>`
@@ -136,6 +137,34 @@ async function unbanUser(username) {
         headers: { 'Authorization': `Bearer ${token()}` }
     });
     const data = await res.json();
+    if (res.ok) { showToast(data.message); await loadUsers(); }
+    else showToast(data.detail || 'Error', true);
+}
+
+async function resetUserProgress(username) {
+    if (!confirm(`¿Borrar TODO el progreso de ${username}?\n\nELO, ejercicios resueltos, wins, coins y todas las stats se pondrán a 0. Esta acción no se puede deshacer.`)) return;
+    const res = await fetch(`${API_BASE}/admin/reset-user/${encodeURIComponent(username)}`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); await loadUsers(); }
+    else showToast(data.detail || 'Error', true);
+}
+
+async function resetAllUsers() {
+    if (!confirm('⚠ ATENCIÓN: Esto borrará el progreso de TODOS los usuarios.\n\nELO, ejercicios, wins, coins y todas las stats de cada cuenta se pondrán a 0.\n\n¿Estás completamente seguro?')) return;
+    if (!confirm('Segunda confirmación: ¿realmente quieres restablecer a todos los usuarios?')) return;
+    const btn = document.getElementById('resetAllBtn');
+    btn.disabled = true;
+    btn.textContent = '...';
+    const res = await fetch(`${API_BASE}/admin/reset-all-users`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    const data = await res.json();
+    btn.disabled = false;
+    btn.textContent = '⚠ Restablecer todos';
     if (res.ok) { showToast(data.message); await loadUsers(); }
     else showToast(data.detail || 'Error', true);
 }
