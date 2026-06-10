@@ -496,6 +496,9 @@ function renderProfile(data) {
         }
     }
 
+    // Team box
+    renderTeamBox(data.team);
+
     // Social links
     renderSocials(data.social_links);
 
@@ -518,6 +521,21 @@ function renderProfile(data) {
     // Show content
     document.getElementById('pvLoading').classList.add('hidden');
     document.getElementById('pvContent').classList.remove('hidden');
+}
+
+// ── Team box ──────────────────────────────────────────────────
+function renderTeamBox(team) {
+    const box = document.getElementById('pvTeamBox');
+    if (!box || !team) return;
+    box.href = `/equipo?t=${encodeURIComponent(team.name)}`;
+    const photo = document.getElementById('pvTeamPhoto');
+    if (team.photo_url) {
+        photo.style.backgroundImage = `url(${team.photo_url})`;
+    } else {
+        photo.textContent = (team.name || '?').charAt(0).toUpperCase();
+    }
+    document.getElementById('pvTeamName').textContent = team.name;
+    box.classList.remove('hidden');
 }
 
 // ── Apply profile owner's display settings ────────────────────

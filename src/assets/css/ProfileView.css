@@ -216,6 +216,47 @@ body {
     flex-wrap: wrap;
 }
 
+.pv-team-box {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 8px;
+    padding: 4px 10px 4px 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+.pv-team-box:hover {
+    border-color: rgba(0,255,204,0.3);
+    background: rgba(0,255,204,0.04);
+}
+.pv-team-photo {
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    background: rgba(0,255,204,0.1);
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: rgba(0,255,204,0.7);
+}
+.pv-team-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #e8e8f0;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
 .pv-identity {
     display: flex;
     flex-direction: column;
