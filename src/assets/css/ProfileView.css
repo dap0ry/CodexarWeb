@@ -789,6 +789,8 @@ body {
 
 /* Pantallas muy ajustadas */
 @media (max-height: 680px) {
+    .pv-main::before,
+    .pv-main::after { min-height: clamp(8px, 1.2vh, 12px); }
     .pv-avatar    { width: 96px; height: 96px; font-size: 2.2rem; }
     .pv-left      { width: 104px; }
     .pv-username  { font-size: 1.1rem; }
@@ -799,6 +801,24 @@ body {
     .pv-banner    { height: 80px; }
     .pv-bottom    { gap: 8px; }
     .pv-top       { gap: 8px; }
+}
+
+/* Pantallas muy pequeñas (ThinkPad 768p + barra del SO + chrome del navegador ≈ 638 px) */
+@media (max-height: 640px) {
+    .pv-main::before,
+    .pv-main::after { min-height: 6px; }
+    .pv-content   { gap: 5px; }
+    .pv-banner    { height: 56px; }
+    .pv-top       { gap: 6px; }
+    .pv-bottom    { gap: 6px; }
+    .pv-avatar    { width: 78px; height: 78px; font-size: 1.8rem; }
+    .pv-left      { width: 86px; gap: 6px; }
+    .pv-username  { font-size: 0.95rem; }
+    .pv-right     { padding: 8px 12px; gap: 4px; }
+    .pv-stat-card { padding: 6px 10px 8px; gap: 6px; }
+    .pv-ach-card  { min-height: 24px; padding: 3px 6px; }
+    .pv-stat-val  { font-size: 0.74rem; }
+    .pv-card-label { font-size: 0.55rem; padding-bottom: 6px; }
 }
 
 /* Pantallas estrechas */
