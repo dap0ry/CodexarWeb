@@ -467,7 +467,7 @@ h1, h2, h3, h4, h5, h6, .brand {
 .news-card-dot { opacity: 0.3; }
 .news-card-body {
     font-family: var(--font-heading); font-size: 0.75rem;
-    color: rgba(230,230,240,0.75); line-height: 1.75;
+    color: #e8e8f0; line-height: 1.75;
     letter-spacing: 0.3px; white-space: pre-wrap;
 }
 .news-mention {
