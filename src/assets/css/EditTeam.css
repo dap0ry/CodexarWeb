@@ -126,7 +126,7 @@
 
 .et-upload-hint {
     font-size: 0.7rem;
-    color: rgba(114,114,138,0.55);
+    color: rgba(232,232,240,0.55);
     line-height: 1.5;
 }
 
@@ -283,7 +283,7 @@
 
 .et-danger-desc {
     font-size: 0.7rem;
-    color: rgba(114,114,138,0.55);
+    color: rgba(232,232,240,0.55);
     line-height: 1.5;
     max-width: 420px;
 }

@@ -47,7 +47,7 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase;
-    color: rgba(114,114,138,0.6);
+    color: rgba(232,232,240,0.6);
     background: transparent;
     border: none;
     border-bottom: 2px solid transparent;
@@ -88,7 +88,7 @@ body {
 .ap-count {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem;
-    color: rgba(114,114,138,0.6);
+    color: rgba(232,232,240,0.6);
     white-space: nowrap;
 }
 
@@ -106,7 +106,7 @@ body {
 }
 .ap-table th {
     background: rgba(0,0,0,0.3);
-    color: rgba(114,114,138,0.8);
+    color: rgba(232,232,240,0.8);
     font-size: 0.58rem;
     font-weight: 700;
     letter-spacing: 2px;
@@ -127,7 +127,7 @@ body {
 
 .ap-loading {
     text-align: center;
-    color: rgba(114,114,138,0.5);
+    color: rgba(232,232,240,0.5);
     padding: 30px !important;
     font-size: 0.7rem !important;
 }
@@ -144,7 +144,7 @@ body {
     text-transform: uppercase;
     white-space: nowrap;
 }
-.ap-role-user     { color: rgba(114,114,138,0.8); background: rgba(114,114,138,0.08); border: 1px solid rgba(114,114,138,0.15); }
+.ap-role-user     { color: rgba(232,232,240,0.8); background: rgba(114,114,138,0.08); border: 1px solid rgba(114,114,138,0.15); }
 .ap-role-moderator{ color: rgba(0,212,255,0.9);  background: rgba(0,212,255,0.07);   border: 1px solid rgba(0,212,255,0.2); }
 .ap-role-admin    { color: rgba(255,46,99,0.9);  background: rgba(255,46,99,0.07);   border: 1px solid rgba(255,46,99,0.2); }
 
@@ -242,7 +242,7 @@ body {
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: rgba(114,114,138,0.8);
+    color: rgba(232,232,240,0.8);
     display: flex;
     align-items: center;
     gap: 5px;
@@ -278,7 +278,7 @@ body {
 .ap-news-charcount {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
-    color: rgba(114,114,138,0.4);
+    color: rgba(232,232,240,0.4);
     text-align: right;
 }
 
@@ -348,7 +348,7 @@ body {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 6px;
-    color: #888;
+    color: #e8e8f0;
     font-size: 0.72rem;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
@@ -361,4 +361,4 @@ body {
 .ap-lang-tab .flag-icon { width: 14px; height: 10px; border-radius: 2px; object-fit: cover; }
 .ap-lang-panel { display: none; }
 .ap-lang-panel.active { display: block; }
-.ap-lang-opt { font-size: 0.65rem; color: #888; font-weight: 400; margin-left: 3px; }
+.ap-lang-opt { font-size: 0.65rem; color: #e8e8f0; font-weight: 400; margin-left: 3px; }

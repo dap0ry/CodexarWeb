@@ -150,7 +150,7 @@ body {
 .tm-invite-sub {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.52rem;
-    color: rgba(114,114,138,0.5);
+    color: rgba(232,232,240,0.5);
 }
 
 .tm-btn-accept {
@@ -402,7 +402,7 @@ body {
     width: 100%;
 }
 .tm-input:focus { border-color: rgba(0,255,204,0.3); }
-.tm-input::placeholder { color: rgba(114,114,138,0.45); }
+.tm-input::placeholder { color: rgba(232,232,240,0.45); }
 .tm-textarea { resize: none; height: 64px; line-height: 1.5; }
 
 .tm-btn-cancel {
@@ -441,7 +441,7 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     min-height: 14px;
-    color: rgba(114,114,138,0.5);
+    color: rgba(232,232,240,0.5);
 }
 .tm-feedback.ok  { color: #00ffcc; }
 .tm-feedback.err { color: #ff5566; }
@@ -467,7 +467,7 @@ body {
 .tm-empty {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
-    color: rgba(114,114,138,0.45);
+    color: rgba(232,232,240,0.45);
     text-align: center;
     padding: 40px 0;
     letter-spacing: 1px;

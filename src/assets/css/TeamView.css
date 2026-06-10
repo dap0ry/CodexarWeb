@@ -131,7 +131,7 @@
 .tm-member-count {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
-    color: rgba(114,114,138,0.55);
+    color: rgba(232,232,240,0.55);
     letter-spacing: 0.5px;
 }
 
@@ -189,7 +189,7 @@
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: rgba(114,114,138,0.5);
+    color: rgba(232,232,240,0.5);
     text-align: center;
 }
 
@@ -321,7 +321,7 @@
 }
 .tv-error-msg {
     font-size: 0.82rem;
-    color: rgba(114,114,138,0.6);
+    color: rgba(232,232,240,0.6);
 }
 
 /* Back button (reuse tm-btn-cancel style) */

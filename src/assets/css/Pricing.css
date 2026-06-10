@@ -212,7 +212,7 @@ body {
 .pr-price-mo {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
-    color: rgba(114,114,138,0.45);
+    color: rgba(232,232,240,0.45);
     padding-bottom: 8px;
 }
 .pr-price-plus { color: #00c8ff; }
@@ -220,7 +220,7 @@ body {
 
 .pr-card-tagline {
     font-size: 0.75rem;
-    color: rgba(114,114,138,0.45);
+    color: rgba(232,232,240,0.45);
     margin-top: -10px;
 }
 
@@ -256,7 +256,7 @@ body {
     opacity: 0.4;
 }
 .pr-li-yes  { color: rgba(230,230,240,0.6); }
-.pr-li-no   { color: rgba(114,114,138,0.3); }
+.pr-li-no   { color: rgba(232,232,240,0.3); }
 .pr-li-plus { color: rgba(230,230,240,0.78); }
 .pr-li-plus::before { background: #00c8ff; opacity: 0.7; }
 .pr-li-max  { color: rgba(230,230,240,0.8); }
@@ -345,7 +345,7 @@ body {
 .pr-secure-note {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.5rem;
-    color: rgba(114,114,138,0.3);
+    color: rgba(232,232,240,0.3);
     text-align: center;
     letter-spacing: 0.5px;
 }
@@ -451,12 +451,12 @@ body {
     transition: border-color 0.15s;
 }
 .pr-input:focus { border-color: rgba(255,196,0,0.28); }
-.pr-input::placeholder { color: rgba(114,114,138,0.35); }
+.pr-input::placeholder { color: rgba(232,232,240,0.35); }
 .pr-boost-fb {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     min-height: 14px;
-    color: rgba(114,114,138,0.45);
+    color: rgba(232,232,240,0.45);
 }
 .pr-boost-fb.ok  { color: #39ff14; }
 .pr-boost-fb.err { color: #ff5566; }
