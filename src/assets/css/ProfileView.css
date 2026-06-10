@@ -216,8 +216,15 @@ body {
     flex-wrap: wrap;
 }
 
+.pv-identity-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
 .pv-team-box {
-    margin-left: auto;
     display: flex;
     align-items: center;
     gap: 7px;
@@ -228,6 +235,7 @@ body {
     text-decoration: none;
     cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
+    margin-top: 10px;
 }
 .pv-team-box:hover {
     border-color: rgba(0,255,204,0.3);
