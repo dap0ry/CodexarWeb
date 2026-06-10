@@ -175,18 +175,7 @@
     "bgOpacityHint": "Cuánto oscurece el overlay sobre el wallpaper.",
     "bannerOpacity": "Opacidad del banner",
     "bannerOpacityHint": "Degradado sobre el banner superior del perfil.",
-    "save": "▸ Guardar cambios",
-    "tag03": "// 03",
-    "theme": "Tema visual",
-    "themeDesc": "Selecciona la paleta de colores de Codexar. Se aplica al instante, sin guardar.",
-    "selectTheme": "SELECCIONAR",
-    "darkThemeName": "Oscuro Moderno",
-    "darkThemeDesc": "Paleta cyberpunk oscura con acentos en cyan neón.",
-    "draculaThemeDesc": "Fondo profundo con acentos en morado y rosa.",
-    "nordThemeDesc": "Azules árticos y grises fríos del norte.",
-    "matrixThemeDesc": "Negro absoluto con verde neón. Dentro del sistema.",
-    "focusThemeDesc": "Minimal absoluto. Negro, blanco, silencio.",
-    "zenThemeDesc": "Papel washi, rosa sakura y tinta. Serenidad japonesa."
+    "save": "▸ Guardar cambios"
   },
   "ranked": {
     "subtitle": "Clasificatoria Ranked · Codexar",

@@ -310,31 +310,6 @@ function initLenguajesSection() {
     });
 }
 
-// ── Apariencia section ────────────────────────────────────────────────────
-
-function initAparienciaSection() {
-    const currentTheme = getTheme?.() ?? (localStorage.getItem('codexar_theme') || 'dark');
-    applyThemeActiveState(currentTheme);
-
-    document.querySelectorAll('.tema-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const theme = card.dataset.theme;
-            if (typeof setTheme === 'function') setTheme(theme);
-            applyThemeActiveState(theme);
-        });
-    });
-}
-
-function applyThemeActiveState(theme) {
-    if (theme === 'light') theme = 'zen';
-    document.querySelectorAll('.tema-card').forEach(card => {
-        const active = card.dataset.theme === theme;
-        card.classList.toggle('active', active);
-        const btn = card.querySelector('.tema-btn');
-        if (btn) btn.textContent = active ? 'ACTIVO ✓' : 'SELECCIONAR';
-    });
-}
-
 // ── Save all ──────────────────────────────────────────────────────────────
 
 async function saveAll() {
@@ -520,7 +495,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSocialsSection(userData);
     initSeguridadSection(userData);
     initLenguajesSection();
-    initAparienciaSection();
 
     document.getElementById('cfgSaveAllBtn').addEventListener('click', saveAll);
 });

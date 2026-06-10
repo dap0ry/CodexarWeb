@@ -175,18 +175,7 @@
     "bgOpacityHint": "How much the overlay darkens the wallpaper.",
     "bannerOpacity": "Banner opacity",
     "bannerOpacityHint": "Gradient over the top banner of your profile.",
-    "save": "▸ Save changes",
-    "tag03": "// 03",
-    "theme": "Visual theme",
-    "themeDesc": "Choose Codexar's color palette. Applied instantly, no save needed.",
-    "selectTheme": "SELECT",
-    "darkThemeName": "Modern Dark",
-    "darkThemeDesc": "Dark cyberpunk palette with neon cyan accents.",
-    "draculaThemeDesc": "Deep background with purple and pink accents.",
-    "nordThemeDesc": "Arctic blues and cold northern greys.",
-    "matrixThemeDesc": "Absolute black with neon green. Inside the system.",
-    "focusThemeDesc": "Absolute minimal. Black, white, silence.",
-    "zenThemeDesc": "Washi paper, sakura pink and ink. Japanese serenity."
+    "save": "▸ Save changes"
   },
   "ranked": {
     "subtitle": "Ranked · Codexar",

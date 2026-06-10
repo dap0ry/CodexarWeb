@@ -175,18 +175,7 @@
     "bgOpacityHint": "蒙层在壁纸上的遮盖程度。",
     "bannerOpacity": "横幅透明度",
     "bannerOpacityHint": "资料顶部横幅的渐变效果。",
-    "save": "▸ 保存更改",
-    "tag03": "// 03",
-    "theme": "视觉主题",
-    "themeDesc": "选择 Codexar 的配色方案。即时生效，无需保存。",
-    "selectTheme": "选择",
-    "darkThemeName": "现代暗黑",
-    "darkThemeDesc": "暗黑赛博朋克配色，搭配霓虹青色点缀。",
-    "draculaThemeDesc": "深色背景，紫色与粉色点缀。",
-    "nordThemeDesc": "北极蓝与寒冷北方灰。",
-    "matrixThemeDesc": "纯黑配霓虹绿。置身系统之中。",
-    "focusThemeDesc": "极简主义。黑，白，静默。",
-    "zenThemeDesc": "和纸、樱花粉与墨水。日式宁静。"
+    "save": "▸ 保存更改"
   },
   "ranked": {
     "subtitle": "排位赛 · Codexar",
