@@ -44,13 +44,11 @@ async function initEditTeam() {
     const teamName = params.get('t');
     if (!teamName) { showError(); return; }
 
-    // Load current user
     const meRes = await fetch(`${ET_API}/user/me`, { headers: authHeaders() });
     if (!meRes.ok) { window.location.href = '/login'; return; }
     const me = await meRes.json();
     etUsername = me.username;
 
-    // Navbar
     const navUsername = document.getElementById('navUsername');
     const navAvatar   = document.getElementById('navAvatar');
     if (navUsername) navUsername.textContent = me.username;
@@ -67,13 +65,11 @@ async function initEditTeam() {
         e.preventDefault(); localStorage.removeItem('access_token'); window.location.href = '/';
     });
 
-    // Load team (public endpoint gives us id + owner)
     const teamRes = await fetch(`${ET_API}/teams/public/${encodeURIComponent(teamName)}`);
     if (!teamRes.ok) { showError(); return; }
     etTeam = await teamRes.json();
     etTeamId = etTeam.id;
 
-    // Verify ownership
     if (etTeam.owner !== etUsername && me.role !== 'admin') { showError(); return; }
 
     renderPage();
@@ -117,12 +113,11 @@ function renderPage() {
     const bgPreview = document.getElementById('etBgPreview');
     if (etTeam.background_url) bgPreview.style.backgroundImage = `url(${etTeam.background_url})`;
 
-    // Photo input preview
+    // File pickers → update previews only
     document.getElementById('etPhotoInput').addEventListener('change', e => {
         const file = e.target.files[0];
         if (!file) return;
-        const url = URL.createObjectURL(file);
-        photoPreview.style.backgroundImage = `url(${url})`;
+        photoPreview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
         photoPreview.textContent = '';
     });
     document.getElementById('etBannerInput').addEventListener('change', e => {
@@ -134,12 +129,10 @@ function renderPage() {
         const file = e.target.files[0];
         if (!file) return;
         bgPreview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
-        uploadFile('background');
     });
 
-    // Upload buttons
-    document.getElementById('etPhotoUploadBtn').addEventListener('click', () => uploadFile('photo'));
-    document.getElementById('etBannerUploadBtn').addEventListener('click', () => uploadFile('banner'));
+    // Single save button
+    document.getElementById('etSaveAllBtn').addEventListener('click', saveAllImages);
 
     // Members list
     renderMembers(etTeam.members_info || []);
@@ -154,44 +147,62 @@ function renderPage() {
     });
 }
 
-async function uploadFile(type) {
-    const inputMap   = { photo: 'etPhotoInput',  banner: 'etBannerInput',  background: 'etBgInput'        };
-    const feedbackMap = { photo: 'etPhotoFeedback', banner: 'etBannerFeedback', background: 'etBgFeedback' };
-    const endpointMap = { photo: 'upload-photo',  banner: 'upload-banner',  background: 'upload-background' };
-    const fieldMap   = { photo: 'photo',          banner: 'banner',         background: 'bg'               };
+async function saveAllImages() {
+    const photoFile  = document.getElementById('etPhotoInput').files[0];
+    const bannerFile = document.getElementById('etBannerInput').files[0];
+    const bgFile     = document.getElementById('etBgInput').files[0];
 
-    const input = document.getElementById(inputMap[type]);
-    const file  = input?.files[0];
-    if (!file) { setFeedback(feedbackMap[type], 'Selecciona una imagen primero.', false); return; }
+    if (!photoFile && !bannerFile && !bgFile) {
+        setFeedback('etSaveFeedback', 'Elige al menos una imagen primero.', false);
+        return;
+    }
 
-    const btn = document.getElementById(`et${type.charAt(0).toUpperCase() + type.slice(1)}UploadBtn`);
+    const btn = document.getElementById('etSaveAllBtn');
     btn.disabled = true;
-    btn.textContent = 'Subiendo...';
+    btn.textContent = 'Guardando...';
+
+    const tasks = [];
+    if (photoFile)  tasks.push(uploadFileRaw('photo',      photoFile));
+    if (bannerFile) tasks.push(uploadFileRaw('banner',     bannerFile));
+    if (bgFile)     tasks.push(uploadFileRaw('background', bgFile));
+
+    const results = await Promise.all(tasks);
+    const allOk   = results.every(r => r);
+
+    btn.disabled = false;
+    btn.textContent = 'Guardar cambios';
+
+    if (allOk) {
+        setFeedback('etSaveFeedback', '¡Cambios guardados!', true);
+        showToast('¡Cambios guardados!');
+    } else {
+        setFeedback('etSaveFeedback', 'Alguna imagen no se pudo subir.', false);
+    }
+}
+
+async function uploadFileRaw(type, file) {
+    const endpointMap = { photo: 'upload-photo', banner: 'upload-banner', background: 'upload-background' };
+    const fieldMap    = { photo: 'photo',         banner: 'banner',        background: 'bg' };
 
     const form = new FormData();
     form.append(fieldMap[type], file);
 
     try {
-        const res = await fetch(`${ET_API}/teams/${etTeamId}/${endpointMap[type]}`, {
+        const res  = await fetch(`${ET_API}/teams/${etTeamId}/${endpointMap[type]}`, {
             method: 'POST',
             headers: authHeaders(),
             body: form,
         });
         const data = await res.json();
         if (res.ok) {
-            setFeedback(feedbackMap[type], '¡Imagen actualizada!', true);
-            showToast('¡Imagen actualizada!');
             if (type === 'background' && data.url) {
                 document.getElementById('etBgOverlay').style.backgroundImage = `url(${data.url})`;
             }
-        } else {
-            setFeedback(feedbackMap[type], data.detail || 'Error al subir', false);
+            return true;
         }
+        return false;
     } catch {
-        setFeedback(feedbackMap[type], 'Error de conexión', false);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = type === 'photo' ? 'Subir foto' : type === 'banner' ? 'Subir banner' : 'Subir fondo';
+        return false;
     }
 }
 
@@ -256,7 +267,6 @@ function confirmDeleteTeam() {
         `¿Disolver el club "${etTeam.name}" permanentemente? Todos los miembros serán expulsados.`;
     const modal = document.getElementById('etConfirmModal');
     modal.classList.remove('hidden');
-    // Replace title and button style for delete
     document.querySelector('#etConfirmModal .tm-modal-title').textContent = 'DISOLVER CLUB';
     document.getElementById('etConfirmOk').textContent = 'Disolver';
     document.getElementById('etConfirmOk').onclick = async () => {

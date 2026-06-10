@@ -28,11 +28,11 @@
                 <div class="username-display" id="navUsername">...</div>
             </div>
             <div class="user-dropdown">
-                <a href="/home"           class="dropdown-item" data-i18n="nav.home">Inicio</a>
-                <a href="/configuracion"  class="dropdown-item" data-i18n="nav.settings">Configuración</a>
-                <a href="/logros"         class="dropdown-item" data-i18n="nav.achievements">Logros</a>
+                <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+                <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+                <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
                 <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
-                <a href="/clasificacion"    class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+                <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
             </div>
@@ -78,8 +78,6 @@
                                     Elegir foto
                                     <input type="file" id="etPhotoInput" accept="image/*" class="et-file-input">
                                 </label>
-                                <button class="tm-btn-save et-upload-btn" id="etPhotoUploadBtn">Subir foto</button>
-                                <div class="tm-feedback" id="etPhotoFeedback"></div>
                             </div>
                         </div>
                     </div>
@@ -96,8 +94,6 @@
                                 Elegir banner
                                 <input type="file" id="etBannerInput" accept="image/*" class="et-file-input">
                             </label>
-                            <button class="tm-btn-save et-upload-btn" id="etBannerUploadBtn">Subir banner</button>
-                            <div class="tm-feedback" id="etBannerFeedback"></div>
                         </div>
                     </div>
                 </div>
@@ -109,11 +105,10 @@
                         <div class="et-bg-preview" id="etBgPreview"></div>
                         <div class="et-upload-info">
                             <p class="et-upload-hint">Se usa como fondo de la página del club. Máx 3 MB.</p>
-                            <div class="et-bg-btn-wrap">
-                                <button type="button" class="tm-btn-save et-upload-btn" id="etBgUploadBtn">Subir fondo</button>
-                                <input type="file" id="etBgInput" accept="image/*" class="et-bg-overlay-input">
-                            </div>
-                            <div class="tm-feedback" id="etBgFeedback"></div>
+                            <label class="et-file-label">
+                                Elegir fondo
+                                <input type="file" id="etBgInput" accept="image/*" class="et-file-input">
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -124,6 +119,12 @@
                     <div class="et-section-body">
                         <div class="et-members-list" id="etMembersList"></div>
                     </div>
+                </div>
+
+                <!-- Save all -->
+                <div class="et-save-row">
+                    <button class="et-save-all-btn" id="etSaveAllBtn">Guardar cambios</button>
+                    <div class="tm-feedback" id="etSaveFeedback"></div>
                 </div>
 
                 <!-- Danger zone -->
