@@ -32,7 +32,7 @@ async function fetchRecord() {
         document.getElementById('survRecordTime').textContent =
             data.max_time_survived ? formatTime(data.max_time_survived) : '--:--';
         document.getElementById('survRecordEx').textContent =
-            `${data.max_exercises || 0} ej.`;
+            data.max_exercises || 0;
     } catch { /* silent */ }
 }
 

@@ -183,13 +183,15 @@ body {
     background: rgba(0, 255, 204, 0.04);
     border: 1px solid rgba(0, 255, 204, 0.1);
     border-radius: 12px;
-    padding: 14px 20px;
+    padding: 18px 20px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    gap: 14px;
+    text-align: center;
 }
 
-.surv-record-label {
+.surv-record-title {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     font-weight: 700;
@@ -198,24 +200,42 @@ body {
     text-transform: uppercase;
 }
 
-.surv-record-vals {
+.surv-record-cols {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    width: 100%;
 }
 
-.surv-record-time,
-.surv-record-ex {
+.surv-record-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.surv-record-col-sep {
+    width: 1px;
+    height: 38px;
+    background: rgba(0,255,204,0.15);
+    flex-shrink: 0;
+}
+
+.surv-record-col-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(200, 210, 230, 0.4);
+    text-transform: uppercase;
+}
+
+.surv-record-col-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
     font-weight: 700;
     color: #00ffcc;
-}
-
-.surv-record-sep {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: rgba(0,255,204,0.3);
 }
 
 /* ── Start button ──────────────────────────────────────────── */
