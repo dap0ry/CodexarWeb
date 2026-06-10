@@ -4,6 +4,10 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+:root {
+    --font-heading: 'JetBrains Mono', monospace;
+}
+
 .hidden { display: none !important; }
 
 body {
@@ -40,7 +44,7 @@ body {
     background: transparent;
     border: none;
     color: rgba(0,255,204,0.5);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.67rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -75,7 +79,7 @@ body {
 }
 
 .surv-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 3px;
@@ -98,9 +102,9 @@ body {
 @keyframes surv-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
 .surv-subtitle {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    color: rgba(200, 210, 230, 0.4);
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    color: rgba(230, 230, 240, 0.88);
     letter-spacing: 0.5px;
 }
 
@@ -126,7 +130,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 1.6rem;
     font-weight: 700;
     background-size: cover;
@@ -160,12 +164,12 @@ body {
 }
 
 .surv-lobby-slot-name {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: rgba(200, 210, 230, 0.6);
+    color: rgba(230, 230, 240, 0.88);
     text-align: center;
     max-width: 80px;
     overflow: hidden;
@@ -174,7 +178,7 @@ body {
 }
 
 .surv-lobby-slot-name.muted {
-    color: rgba(200, 210, 230, 0.2);
+    color: rgba(230, 230, 240, 0.35);
 }
 
 /* ── Record bar ────────────────────────────────────────────── */
@@ -192,7 +196,7 @@ body {
 }
 
 .surv-record-title {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.58rem;
     font-weight: 700;
     letter-spacing: 2px;
@@ -223,16 +227,16 @@ body {
 }
 
 .surv-record-col-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.52rem;
     font-weight: 700;
     letter-spacing: 1.5px;
-    color: rgba(200, 210, 230, 0.4);
+    color: rgba(230, 230, 240, 0.75);
     text-transform: uppercase;
 }
 
 .surv-record-col-val {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
     color: #00ffcc;
@@ -246,7 +250,7 @@ body {
     border: 1px solid rgba(0,255,204,0.35);
     border-radius: 12px;
     color: #00ffcc;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 2px;
@@ -297,7 +301,7 @@ body {
     justify-content: space-between;
     padding: 16px 20px;
     border-bottom: 1px solid rgba(0,255,204,0.1);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -326,7 +330,7 @@ body {
 .surv-modal-empty {
     padding: 20px;
     text-align: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.7rem;
     color: rgba(200,210,230,0.35);
 }
@@ -351,7 +355,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.85rem;
     font-weight: 700;
     color: #00ffcc;
@@ -365,7 +369,7 @@ body {
 .surv-fr-info { flex: 1; min-width: 0; }
 
 .surv-fr-name {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.72rem;
     font-weight: 700;
     color: rgba(200,210,230,0.9);
@@ -375,7 +379,7 @@ body {
 }
 
 .surv-fr-status {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.6rem;
     color: rgba(200,210,230,0.35);
     margin-top: 2px;
@@ -389,7 +393,7 @@ body {
     border: 1px solid rgba(0,255,204,0.25);
     border-radius: 6px;
     color: #00ffcc;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-heading);
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.5px;
