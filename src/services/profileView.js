@@ -324,16 +324,9 @@ function renderTournamentStats(data) {
                         <span class="pv-stat-val accent-blue">${escHtml(String(mWins))}</span>
                     </div>
                     <div class="pvb-stat">
-                        <span class="pv-stat-key">Derrotas</span>
-                        <span class="pv-stat-val accent-muted">${escHtml(String(mLosses))}</span>
+                        <span class="pv-stat-key">Win Rate</span>
+                        <span class="pv-stat-val ${mrClass}">${mTotal > 0 ? mWR + '%' : '--%'}</span>
                     </div>
-                </div>
-            </div>
-            <div class="pvt-divider"></div>
-            <div class="pvt-stats-row">
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">WR partidas</span>
-                    <span class="pv-stat-val ${mrClass}">${mTotal > 0 ? mWR + '%' : '--%'}</span>
                 </div>
             </div>
         </div>
