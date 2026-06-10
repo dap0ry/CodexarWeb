@@ -186,41 +186,45 @@ function renderBotStats(data) {
 
     const winsByDiff    = data.bot_wins_by_diff    || {};
     const matchesByDiff = data.bot_matches_by_diff || {};
-    const maxWins = Math.max(...BOT_DIFF_CONFIG.map(d => winsByDiff[d.key] || 0), 1);
 
-    const diffBars = BOT_DIFF_CONFIG.map(({ key, label, color }) => {
+    const diffCols = BOT_DIFF_CONFIG.map(({ key, label }) => {
         const wins    = winsByDiff[key]    || 0;
         const matches = matchesByDiff[key] || 0;
-        const pct     = Math.round((wins / maxWins) * 100);
+        const cls     = wins > 0 ? 'accent-green' : (matches > 0 ? '' : 'accent-muted');
         return `
-            <div class="pvb-diff-row">
-                <span class="pvb-diff-label">${escHtml(label)}</span>
-                <div class="pvb-diff-track">
-                    <div class="pvb-diff-fill" style="width:${pct}%;background:${color}"></div>
-                </div>
-                <span class="pvb-diff-count">${wins}<span class="pvb-diff-of">/${matches}</span></span>
+            <div class="pvb-stat">
+                <span class="pv-stat-key">${escHtml(label)}</span>
+                <span class="pv-stat-val ${cls}">${wins}/${matches}</span>
             </div>
         `;
     }).join('');
 
     el.innerHTML = `
-        <div class="pvb-body">
-            <div class="pvb-top-stats">
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Partidas</span>
-                    <span class="pv-stat-val">${escHtml(String(data.bot_matches))}</span>
-                </div>
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Victorias</span>
-                    <span class="pv-stat-val accent-green">${escHtml(String(data.bot_wins))}</span>
-                </div>
-                <div class="pvb-stat">
-                    <span class="pv-stat-key">Win Rate</span>
-                    <span class="pv-stat-val ${wrClass}">${escHtml(wr)}</span>
+        <div class="pvt-body">
+            <div>
+                <div class="pvt-section-label">Resumen</div>
+                <div class="pvt-stats-row">
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Partidas</span>
+                        <span class="pv-stat-val">${escHtml(String(data.bot_matches))}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Victorias</span>
+                        <span class="pv-stat-val accent-green">${escHtml(String(data.bot_wins))}</span>
+                    </div>
+                    <div class="pvb-stat">
+                        <span class="pv-stat-key">Win Rate</span>
+                        <span class="pv-stat-val ${wrClass}">${escHtml(wr)}</span>
+                    </div>
                 </div>
             </div>
-            <div class="pvb-divider"></div>
-            <div class="pvb-diff-bars">${diffBars}</div>
+            <div class="pvt-divider"></div>
+            <div>
+                <div class="pvt-section-label">Por dificultad</div>
+                <div class="pvt-stats-row pvb-diff-cols">
+                    ${diffCols}
+                </div>
+            </div>
         </div>
     `;
 }
@@ -252,11 +256,11 @@ function renderSurvivalStats(data) {
                         <span class="pv-stat-val">${d.games}</span>
                     </div>
                     <div class="pvb-stat">
-                        <span class="pv-stat-key">Mejor tiempo</span>
+                        <span class="pv-stat-key">Tiempo</span>
                         <span class="pv-stat-val ${tC}">${fmtT(d.maxT)}</span>
                     </div>
                     <div class="pvb-stat">
-                        <span class="pv-stat-key">Máx. ejercicios</span>
+                        <span class="pv-stat-key">Ejercs.</span>
                         <span class="pv-stat-val ${exC}">${d.maxEx || '—'}</span>
                     </div>
                 </div>

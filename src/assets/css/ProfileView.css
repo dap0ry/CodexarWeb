@@ -532,6 +532,7 @@ body {
 .pv-tournament-card .pv-card-label { color: rgba(60, 130, 255, 0.75); }
 .pv-survival-card   .pv-stat-rows  { display: flex; flex-direction: column; flex: 1; }
 .pv-survival-card   .pvt-section-label { color: rgba(57, 255, 20, 0.45); }
+.pv-bot-card        .pvt-section-label { color: rgba(255, 140, 80, 0.75); }
 .pv-survival-card   .pvt-body          { justify-content: center; align-items: center; }
 .pv-survival-card   .pvt-body > *      { width: 100%; }
 .pv-bot-card        .pvb-body      { justify-content: center; align-items: center; }
@@ -558,6 +559,14 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 2px;
+    text-align: center;
+}
+
+/* Compact labels for NORMAL/DIFÍCIL/DEMENCIAL horizontal columns */
+.pvb-diff-cols .pv-stat-key {
+    font-size: 0.48rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
 .pvb-divider {
