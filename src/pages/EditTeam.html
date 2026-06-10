@@ -109,9 +109,10 @@
                         <div class="et-bg-preview" id="etBgPreview"></div>
                         <div class="et-upload-info">
                             <p class="et-upload-hint">Se usa como fondo de la página del club. Máx 3 MB.</p>
-                            <button type="button" class="et-file-label" onclick="document.getElementById('etBgInput').click()">Elegir fondo</button>
-                            <input type="file" id="etBgInput" accept="image/*" class="et-file-input">
-                            <button class="tm-btn-save et-upload-btn" id="etBgUploadBtn">Subir fondo</button>
+                            <div class="et-bg-btn-wrap">
+                                <button type="button" class="tm-btn-save et-upload-btn" id="etBgUploadBtn">Subir fondo</button>
+                                <input type="file" id="etBgInput" accept="image/*" class="et-bg-overlay-input">
+                            </div>
                             <div class="tm-feedback" id="etBgFeedback"></div>
                         </div>
                     </div>

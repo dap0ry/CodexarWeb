@@ -134,16 +134,12 @@ function renderPage() {
         const file = e.target.files[0];
         if (!file) return;
         bgPreview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+        uploadFile('background');
     });
 
     // Upload buttons
     document.getElementById('etPhotoUploadBtn').addEventListener('click', () => uploadFile('photo'));
     document.getElementById('etBannerUploadBtn').addEventListener('click', () => uploadFile('banner'));
-    document.getElementById('etBgUploadBtn').addEventListener('click', () => {
-        const input = document.getElementById('etBgInput');
-        if (!input.files[0]) { input.click(); return; }
-        uploadFile('background');
-    });
 
     // Members list
     renderMembers(etTeam.members_info || []);
