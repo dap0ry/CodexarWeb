@@ -63,13 +63,13 @@ body {
 .pv-error-msg {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
-    color: rgba(230, 230, 240, 0.5);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .pv-back-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(230, 230, 240, 0.5);
+    color: rgba(255, 255, 255, 0.9);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
     font-weight: 700;
@@ -344,7 +344,7 @@ body {
 
 .pv-desc {
     font-size: 0.82rem;
-    color: rgba(230, 230, 240, 0.4);
+    color: rgba(255, 255, 255, 0.9);
     font-style: italic;
 }
 
@@ -373,7 +373,7 @@ body {
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(230, 230, 240, 0.3);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .pv-exercises-total {
@@ -399,7 +399,7 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem;
     font-weight: 700;
-    color: rgba(230, 230, 240, 0.4);
+    color: rgba(255, 255, 255, 0.9);
     width: 86px;
     flex-shrink: 0;
     text-align: right;
@@ -422,13 +422,13 @@ body {
 .pv-bar-count {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem;
-    color: rgba(230, 230, 240, 0.25);
+    color: rgba(255, 255, 255, 0.9);
     width: 24px;
     text-align: right;
     flex-shrink: 0;
 }
 .pv-bar-count-active {
-    color: rgba(230, 230, 240, 0.85);
+    color: rgba(255, 255, 255, 0.95);
     font-weight: 700;
 }
 
@@ -453,7 +453,7 @@ body {
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(230, 230, 240, 0.28);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 4px;
 }
 
@@ -495,7 +495,7 @@ body {
     font-size: 0.58rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: rgba(230, 230, 240, 0.5);
+    color: rgba(255, 255, 255, 0.9);
     text-transform: uppercase;
 }
 
@@ -584,7 +584,7 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     font-weight: 700;
-    color: rgba(230,230,240,0.4);
+    color: rgba(255, 255, 255, 0.9);
     width: 62px;
     flex-shrink: 0;
     text-align: right;
@@ -610,7 +610,7 @@ body {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     font-weight: 800;
-    color: rgba(230,230,240,0.75);
+    color: rgba(255, 255, 255, 0.92);
     width: 36px;
     text-align: right;
     flex-shrink: 0;
@@ -619,7 +619,7 @@ body {
 .pvb-diff-of {
     font-size: 0.52rem;
     font-weight: 600;
-    color: rgba(230,230,240,0.3);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* ── Card heading ──────────────────────────────────────────── */
@@ -630,7 +630,7 @@ body {
     letter-spacing: 4px;
     text-transform: uppercase;
     text-align: center;
-    color: rgba(230, 230, 240, 0.45);
+    color: rgba(255, 255, 255, 0.9);
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
     position: relative;
@@ -711,7 +711,7 @@ body {
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: rgba(230, 230, 240, 0.32);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .pv-stat-val {
@@ -727,7 +727,7 @@ body {
 .pv-stat-val.accent-green { color: #50dc64; text-shadow: 0 0 14px rgba(80,220,100,0.25); }
 .pv-stat-val.accent-blue  { color: #3c82ff; text-shadow: 0 0 14px rgba(60,130,255,0.3); }
 .pv-stat-val.accent-muted {
-    color: rgba(230, 230, 240, 0.35);
+    color: rgba(255, 255, 255, 0.65);
     font-size: 0.78rem;
     font-weight: 700;
     font-style: italic;
