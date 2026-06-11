@@ -38,6 +38,8 @@ const PAGE_MAP = {
   'ProfileView.html':         'perfil.html',
   'QuickLogin.html':          'quick-login.html',
   'Mobile.html':              'mobile.html',
+  'MobileAuth.html':          'mobile/auth.html',
+  'MobileApp.html':           'mobile/app.html',
   'InstallIOS.html':          'instalar-ios.html',
   'EditTeam.html':            'editar-club.html',
 };

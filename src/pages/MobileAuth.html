@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Codexar — Acceder</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cyan:   #00ffcc;
+            --bg:     #080810;
+            --card:   #0f0f1a;
+            --border: rgba(255,255,255,0.07);
+            --text:   #e4e4f0;
+            --muted:  rgba(255,255,255,0.38);
+            --error:  #f87171;
+            --mono:   'JetBrains Mono', monospace;
+            --sans:   'Inter', sans-serif;
+        }
+
+        html, body {
+            height: 100%; height: 100dvh;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        .auth-wrap {
+            height: 100%; height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* grid bg */
+        .auth-wrap::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,204,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,204,0.025) 1px, transparent 1px);
+            background-size: 36px 36px;
+            pointer-events: none;
+        }
+        .auth-wrap::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, transparent 50%, var(--bg) 90%);
+            pointer-events: none;
+        }
+
+        /* ── LOGO ── */
+        .auth-logo-area {
+            position: relative; z-index: 1;
+            padding: calc(env(safe-area-inset-top) + 52px) 0 28px;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+        }
+        .auth-logo {
+            font-family: var(--mono);
+            font-size: 2.4rem; font-weight: 800; letter-spacing: -2px;
+            line-height: 1;
+        }
+        .auth-logo span { color: var(--cyan); }
+        .auth-tagline {
+            font-family: var(--mono);
+            font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(0,255,204,0.4);
+        }
+
+        /* ── TAB TOGGLE ── */
+        .auth-tabs {
+            position: relative; z-index: 1;
+            display: flex;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 3px;
+            margin-bottom: 28px;
+            width: calc(100% - 48px); max-width: 320px;
+        }
+        .auth-tab {
+            flex: 1;
+            font-family: var(--mono);
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 9px 0;
+            border-radius: 7px;
+            border: none; cursor: pointer;
+            background: transparent; color: var(--muted);
+            transition: background 0.18s, color 0.18s;
+        }
+        .auth-tab.active {
+            background: rgba(0,255,204,0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(0,255,204,0.2);
+        }
+
+        /* ── FORM ── */
+        .auth-form {
+            position: relative; z-index: 1;
+            width: calc(100% - 48px); max-width: 320px;
+            display: flex; flex-direction: column; gap: 10px;
+            display: none;
+        }
+        .auth-form.active { display: flex; }
+
+        .auth-input {
+            font-family: var(--mono);
+            font-size: 0.88rem;
+            padding: 14px 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.15s;
+            width: 100%;
+            -webkit-appearance: none;
+        }
+        .auth-input::placeholder { color: var(--muted); }
+        .auth-input:focus { border-color: rgba(0,255,204,0.35); }
+
+        .auth-error {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--error);
+            padding: 10px 14px;
+            background: rgba(248,113,113,0.07);
+            border: 1px solid rgba(248,113,113,0.2);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .auth-btn {
+            font-family: var(--mono);
+            font-size: 0.82rem; font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none; cursor: pointer;
+            background: rgba(0,255,204,0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(0,255,204,0.3);
+            transition: background 0.15s, transform 0.1s;
+            -webkit-appearance: none;
+            margin-top: 2px;
+        }
+        .auth-btn:active { transform: scale(0.98); background: rgba(0,255,204,0.16); }
+        .auth-btn:disabled { opacity: 0.45; cursor: default; }
+
+        .auth-note {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.5;
+        }
+        .auth-note a { color: rgba(0,255,204,0.55); text-decoration: none; }
+
+        /* ── BACK LINK ── */
+        .auth-back {
+            position: absolute; top: calc(env(safe-area-inset-top) + 14px); left: 20px;
+            z-index: 10;
+            display: flex; align-items: center; gap: 6px;
+            color: var(--muted);
+            font-family: var(--mono);
+            font-size: 0.65rem; font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── SUCCESS msg ── */
+        .auth-success {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--cyan);
+            padding: 10px 14px;
+            background: rgba(0,255,204,0.06);
+            border: 1px solid rgba(0,255,204,0.18);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .auth-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-wrap">
+
+    <a href="/mobile" class="auth-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Volver
+    </a>
+
+    <!-- Logo -->
+    <div class="auth-logo-area">
+        <div class="auth-logo">Codex<span>ar</span></div>
+        <div class="auth-tagline">// Programacion Competitiva</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+        <button class="auth-tab active" onclick="showAuthTab('login')">Iniciar sesion</button>
+        <button class="auth-tab" onclick="showAuthTab('register')">Crear cuenta</button>
+    </div>
+
+    <!-- Login -->
+    <form class="auth-form active" id="loginForm" autocomplete="on">
+        <input class="auth-input" type="email" id="loginEmail" placeholder="Correo electronico" autocomplete="email" inputmode="email">
+        <input class="auth-input" type="password" id="loginPassword" placeholder="Contrasena" autocomplete="current-password">
+        <div class="auth-error" id="loginError"></div>
+        <button class="auth-btn" type="submit" id="loginBtn">Entrar</button>
+    </form>
+
+    <!-- Register -->
+    <form class="auth-form" id="registerForm" autocomplete="on">
+        <input class="auth-input" type="email" id="regEmail" placeholder="Correo electronico" autocomplete="email" inputmode="email">
+        <input class="auth-input" type="password" id="regPassword" placeholder="Contrasena" autocomplete="new-password">
+        <input class="auth-input" type="password" id="regConfirm" placeholder="Confirmar contrasena" autocomplete="new-password">
+        <div class="auth-error" id="regError"></div>
+        <div class="auth-success" id="regSuccess"></div>
+        <button class="auth-btn" type="submit" id="regBtn">Crear cuenta</button>
+        <p class="auth-note">Al registrarte recibirás un correo de verificación</p>
+    </form>
+
+</div>
+
+<script>
+(function () {
+    const API = 'https://api.codexar.es/api/auth';
+
+    // Already logged in — skip to app
+    if (localStorage.getItem('access_token')) {
+        window.location.replace('/mobile/app');
+    }
+
+    // ── Tab switch ────────────────────────────────────────────
+    window.showAuthTab = function (tab) {
+        document.querySelectorAll('.auth-tab').forEach((b, i) => {
+            b.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'));
+        });
+        document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+        document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+    };
+
+    // ── Login ─────────────────────────────────────────────────
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email    = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const errEl    = document.getElementById('loginError');
+        const btn      = document.getElementById('loginBtn');
+
+        errEl.style.display = 'none';
+        btn.disabled = true;
+        btn.textContent = 'Verificando...';
+
+        try {
+            const res  = await fetch(API + '/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                localStorage.setItem('access_token', data.access_token);
+                if (data.username) localStorage.setItem('username', data.username);
+                localStorage.setItem('saved_email', email);
+                window.location.replace('/mobile/app');
+            } else {
+                errEl.textContent = data.detail || 'Correo o contraseña incorrectos';
+                errEl.style.display = 'block';
+            }
+        } catch (_) {
+            errEl.textContent = 'Error de conexion. Comprueba tu red.';
+            errEl.style.display = 'block';
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Entrar';
+        }
+    });
+
+    // ── Register ──────────────────────────────────────────────
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email    = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const confirm  = document.getElementById('regConfirm').value;
+        const errEl    = document.getElementById('regError');
+        const okEl     = document.getElementById('regSuccess');
+        const btn      = document.getElementById('regBtn');
+
+        errEl.style.display = 'none';
+        okEl.style.display  = 'none';
+
+        if (password !== confirm) {
+            errEl.textContent = 'Las contraseñas no coinciden';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Creando cuenta...';
+
+        try {
+            const res  = await fetch(API + '/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                sessionStorage.setItem('pending_email', email);
+                okEl.textContent = 'Cuenta creada. Revisa tu correo para verificarla.';
+                okEl.style.display = 'block';
+                btn.style.display  = 'none';
+                setTimeout(() => window.location.replace('/verificacion'), 1800);
+            } else {
+                errEl.textContent = data.detail || 'Error en el registro';
+                errEl.style.display = 'block';
+            }
+        } catch (_) {
+            errEl.textContent = 'Error de conexion. Comprueba tu red.';
+            errEl.style.display = 'block';
+        } finally {
+            if (btn.style.display !== 'none') {
+                btn.disabled = false;
+                btn.textContent = 'Crear cuenta';
+            }
+        }
+    });
+})();
+</script>
+
+</body>
+</html>
