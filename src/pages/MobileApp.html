@@ -1178,8 +1178,8 @@
         // ── Hero ──────────────────────────────────────────────
         const initial = esc((p.username||'?').charAt(0).toUpperCase());
         const imgTag  = p.avatar ? `<img src="${esc(p.avatar)}" alt="" onerror="this.remove()">` : '';
-        const bannerImg = p.profile_banner
-            ? `<img class="pf-banner-img" src="${esc(p.profile_banner)}" alt="" onerror="this.remove()">`
+        const bannerImg = p.profile_background
+            ? `<img class="pf-banner-img" src="${esc(p.profile_background)}" alt="" onerror="this.remove()">`
             : '';
 
         let badges = '';
