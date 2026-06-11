@@ -69,6 +69,7 @@ async function loadTeamsPage() {
         const invites  = invitesRes.ok ? await invitesRes.json() : [];
 
         hasTeam = !!(myTeam && myTeam.name);
+        console.log('[teams] myTeam raw:', myTeam, '→ hasTeam:', hasTeam);
 
         document.getElementById('tmLoading').classList.add('hidden');
         document.getElementById('tmPage').classList.remove('hidden');
@@ -124,10 +125,22 @@ function renderClubsGrid(teams, myTeam) {
                 e.stopPropagation();
                 btn.disabled = true;
                 btn.textContent = 'Uniéndose...';
-                const r = await fetch(`${API}/teams/${encodeURIComponent(btn.dataset.name)}/join`, { method: 'POST', headers: authHeaders() });
-                const d = await r.json();
-                if (r.ok) { showToast(d.message || '¡Unido al club!'); setTimeout(() => location.reload(), 700); }
-                else { showToast(d.detail || 'Error al unirse', true); btn.disabled = false; btn.textContent = 'Unirse'; }
+                try {
+                    // Fetch public team to get its id (list endpoint may omit id)
+                    const infoRes = await fetch(`${API}/teams/public/${encodeURIComponent(btn.dataset.name)}`, { headers: authHeaders() });
+                    if (!infoRes.ok) throw new Error('team_not_found');
+                    const info = await infoRes.json();
+                    const teamId = info.id || info._id;
+                    if (!teamId) throw new Error('no_id');
+                    const r = await fetch(`${API}/teams/${teamId}/join`, { method: 'POST', headers: authHeaders() });
+                    const d = await r.json();
+                    if (r.ok) { showToast(d.message || '¡Unido al club!'); setTimeout(() => location.reload(), 700); }
+                    else { showToast(d.detail || 'Error al unirse', true); btn.disabled = false; btn.textContent = 'Unirse'; }
+                } catch (_) {
+                    showToast('Error al conectar con el servidor', true);
+                    btn.disabled = false;
+                    btn.textContent = 'Unirse';
+                }
             });
         });
     }
