@@ -7,6 +7,7 @@ let creatingRoom   = false;
 let pendingInvites = new Set();
 let pollInterval   = null;
 let myUser         = null;
+let multiPanelOpen = false;
 
 function escHtml(str) {
     return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -218,6 +219,94 @@ async function sendInvite(username, btn) {
     }
 }
 
+// ── Multiplayer ───────────────────────────────────────────────────────────────
+
+function toggleMulti() {
+    const panel  = document.getElementById('survMultiPanel');
+    const toggle = document.getElementById('survMultiToggle');
+    multiPanelOpen = !multiPanelOpen;
+    if (multiPanelOpen) {
+        panel.classList.remove('hidden');
+        toggle.textContent = '− CREAR PARTIDA MULTIJUGADOR';
+    } else {
+        panel.classList.add('hidden');
+        toggle.textContent = '+ CREAR PARTIDA MULTIJUGADOR';
+    }
+}
+
+async function createMultiplayerRoom() {
+    const btn = document.getElementById('survBtnCreateParty');
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+    try {
+        const token = localStorage.getItem('access_token');
+        const res = await fetch(`${API_BASE}/survival/room`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) throw new Error();
+        const data    = await res.json();
+        roomId        = data.room_id;
+        isRoomCreated = true;
+
+        document.getElementById('survCodeBanner').classList.remove('hidden');
+        document.getElementById('survCodeBannerValue').textContent = data.join_code;
+
+        if (btn) { btn.textContent = 'SALA CREADA'; }
+        const joinBtn = document.getElementById('survBtnJoinParty');
+        if (joinBtn) joinBtn.style.display = 'none';
+        document.getElementById('survJoinRow').classList.add('hidden');
+
+        renderSlots([{ username: myUser.username, avatar: myUser.avatar }]);
+        pollInterval = setInterval(pollRoom, 2000);
+    } catch {
+        if (btn) { btn.disabled = false; btn.textContent = 'CREAR PARTIDA'; }
+    }
+}
+
+function showJoinInput() {
+    document.getElementById('survJoinRow').classList.remove('hidden');
+    document.getElementById('survCodeInput').focus();
+}
+
+async function joinByCode() {
+    const input = document.getElementById('survCodeInput');
+    const errorEl = document.getElementById('survJoinError');
+    const code = (input.value || '').trim().toUpperCase();
+    if (code.length !== 6) return;
+
+    const btn = document.getElementById('survBtnJoinEnter');
+    if (btn) btn.disabled = true;
+    errorEl.classList.add('hidden');
+
+    try {
+        const token = localStorage.getItem('access_token');
+        const lookupRes = await fetch(`${API_BASE}/survival/room/by-code/${code}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!lookupRes.ok) {
+            errorEl.classList.remove('hidden');
+            if (btn) btn.disabled = false;
+            return;
+        }
+        const { room_id } = await lookupRes.json();
+
+        const joinRes = await fetch(`${API_BASE}/survival/room/${room_id}/join`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!joinRes.ok) {
+            errorEl.classList.remove('hidden');
+            if (btn) btn.disabled = false;
+            return;
+        }
+
+        window.location.href = `/supervivencia/lobby?room=${room_id}&guest=1`;
+    } catch {
+        errorEl.classList.remove('hidden');
+        if (btn) btn.disabled = false;
+    }
+}
+
 // ── Start game ────────────────────────────────────────────────────────────────
 
 async function startGame() {
@@ -295,7 +384,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             pollInterval = setInterval(pollRoom, 2000);
         } else {
             renderSlots([{ username: myUser.username, avatar: myUser.avatar }]);
-            ensureRoom();
         }
 
     } catch {

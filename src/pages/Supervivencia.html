@@ -73,8 +73,31 @@
                 </div>
             </div>
 
+            <!-- Join code banner (visible once multiplayer room created) -->
+            <div class="surv-code-banner hidden" id="survCodeBanner">
+                <span class="surv-code-banner-label">CÓDIGO DE SALA</span>
+                <span class="surv-code-banner-value" id="survCodeBannerValue">------</span>
+                <span class="surv-code-banner-hint">Comparte este código con tus amigos</span>
+            </div>
+
             <!-- Start button -->
             <button class="surv-btn-start" id="survStartBtn" onclick="startGame()" data-i18n="survival.start">INICIAR PARTIDA →</button>
+
+            <!-- Multiplayer section -->
+            <div class="surv-multi-section">
+                <button class="surv-multi-toggle" id="survMultiToggle" onclick="toggleMulti()">+ CREAR PARTIDA MULTIJUGADOR</button>
+                <div class="surv-multi-panel hidden" id="survMultiPanel">
+                    <div class="surv-multi-btns" id="survMultiBtns">
+                        <button class="surv-btn-create-party" id="survBtnCreateParty" onclick="createMultiplayerRoom()">CREAR PARTIDA</button>
+                        <button class="surv-btn-join-party" id="survBtnJoinParty" onclick="showJoinInput()">UNIRSE A PARTIDA</button>
+                    </div>
+                    <div class="surv-join-row hidden" id="survJoinRow">
+                        <input type="text" id="survCodeInput" class="surv-code-input" placeholder="CÓDIGO (6 letras)" maxlength="6" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')joinByCode()" />
+                        <button class="surv-btn-join-enter" id="survBtnJoinEnter" onclick="joinByCode()">ENTRAR →</button>
+                    </div>
+                    <div class="surv-join-error hidden" id="survJoinError">Código incorrecto o sala llena</div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -92,7 +115,5 @@
 
     <script src="/src/services/matchmakingGlobal.js"></script>
     <script src="/src/services/supervivencia.js"></script>
-    <script src="/src/services/friendlyNotifications.js"></script>
-    <script src="/src/services/survivalNotifications.js"></script>
 </body>
 </html>

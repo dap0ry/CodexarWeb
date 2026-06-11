@@ -14,7 +14,7 @@ body {
     background-color: #07070f;
     color: #e6e6f0;
     font-family: 'Inter', sans-serif;
-    overflow: hidden;
+    overflow-y: auto;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -405,3 +405,178 @@ body {
     border-color: rgba(0,255,204,0.5);
 }
 .surv-fr-inv-btn:disabled { opacity: 0.45; cursor: default; }
+
+/* ── Join code banner ──────────────────────────────────────── */
+.surv-code-banner {
+    width: 100%;
+    background: rgba(0,255,204,0.06);
+    border: 1px solid rgba(0,255,204,0.3);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.surv-code-banner-label {
+    font-family: var(--font-heading);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(0,255,204,0.6);
+    text-transform: uppercase;
+}
+
+.surv-code-banner-value {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 8px;
+    color: #00ffcc;
+    text-shadow: 0 0 20px rgba(0,255,204,0.5);
+}
+
+.surv-code-banner-hint {
+    font-family: var(--font-heading);
+    font-size: 0.55rem;
+    color: rgba(230,230,240,0.35);
+    letter-spacing: 0.5px;
+}
+
+/* ── Multiplayer section ───────────────────────────────────── */
+.surv-multi-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.surv-multi-toggle {
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: 1px solid rgba(0,255,204,0.15);
+    border-radius: 10px;
+    color: rgba(0,255,204,0.55);
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.surv-multi-toggle:hover {
+    background: rgba(0,255,204,0.05);
+    border-color: rgba(0,255,204,0.3);
+    color: rgba(0,255,204,0.8);
+}
+
+.surv-multi-panel {
+    margin-top: 10px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(0,255,204,0.1);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.surv-multi-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.surv-btn-create-party,
+.surv-btn-join-party {
+    flex: 1;
+    padding: 11px 10px;
+    border-radius: 8px;
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.surv-btn-create-party {
+    background: rgba(0,255,204,0.1);
+    border: 1px solid rgba(0,255,204,0.35);
+    color: #00ffcc;
+}
+.surv-btn-create-party:hover:not(:disabled) {
+    background: rgba(0,255,204,0.18);
+    border-color: rgba(0,255,204,0.6);
+    box-shadow: 0 0 16px rgba(0,255,204,0.15);
+}
+.surv-btn-create-party:disabled { opacity: 0.5; cursor: default; }
+
+.surv-btn-join-party {
+    background: rgba(120,80,255,0.08);
+    border: 1px solid rgba(120,80,255,0.3);
+    color: rgba(180,140,255,0.85);
+}
+.surv-btn-join-party:hover {
+    background: rgba(120,80,255,0.15);
+    border-color: rgba(120,80,255,0.5);
+}
+
+/* ── Code input row ────────────────────────────────────────── */
+.surv-join-row {
+    display: flex;
+    gap: 8px;
+}
+
+.surv-code-input {
+    flex: 1;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,255,204,0.2);
+    border-radius: 8px;
+    color: #00ffcc;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.surv-code-input::placeholder { color: rgba(0,255,204,0.2); letter-spacing: 4px; }
+.surv-code-input:focus { border-color: rgba(0,255,204,0.5); }
+
+.surv-btn-join-enter {
+    padding: 10px 18px;
+    background: rgba(0,255,204,0.1);
+    border: 1px solid rgba(0,255,204,0.35);
+    border-radius: 8px;
+    color: #00ffcc;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.surv-btn-join-enter:hover:not(:disabled) {
+    background: rgba(0,255,204,0.18);
+    border-color: rgba(0,255,204,0.6);
+}
+.surv-btn-join-enter:disabled { opacity: 0.5; cursor: default; }
+
+.surv-join-error {
+    font-family: var(--font-heading);
+    font-size: 0.6rem;
+    color: rgba(255,80,80,0.8);
+    text-align: center;
+    letter-spacing: 0.5px;
+}
