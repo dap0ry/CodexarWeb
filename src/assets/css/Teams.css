@@ -310,3 +310,89 @@
 }
 .tm-feedback.ok  { color: var(--accent-cyan); }
 .tm-feedback.err { color: #ef4444; }
+
+/* ── Shared by TeamView + EditTeam (keep these) ──────────────────────────── */
+
+.tm-main {
+    padding-top: 64px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.tm-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: calc(100vh - 64px);
+}
+
+.tm-btn-cancel {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 7px;
+    color: rgba(255,255,255,0.4);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.tm-btn-cancel:hover { border-color: rgba(255,255,255,0.25); color: #e6e6f0; }
+
+.tm-btn-save {
+    padding: 8px 20px;
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.28);
+    border-radius: 7px;
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.tm-btn-save:hover { background: rgba(0,255,204,0.15); border-color: rgba(0,255,204,0.55); }
+
+.tm-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.tm-modal {
+    background: #0d0d1a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    width: min(440px, 92vw);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tm-modal-title {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(0,255,204,0.5);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.tm-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
