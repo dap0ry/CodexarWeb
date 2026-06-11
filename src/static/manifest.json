@@ -2,7 +2,7 @@
   "name": "Codexar",
   "short_name": "Codexar",
   "description": "Competitive coding platform",
-  "start_url": "/home",
+  "start_url": "/mobile/app",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
