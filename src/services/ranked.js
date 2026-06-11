@@ -79,6 +79,22 @@ async function initRankedPage(token) {
 
     document.getElementById('findMatchBtn').addEventListener('click', startSearch);
     document.getElementById('cancelSearchBtn').addEventListener('click', cancelSearch);
+
+    // Handle cancel triggered from the global navbar bar
+    document.addEventListener('matchmakingCancelled', _onExternalCancel);
+}
+
+function _onExternalCancel() {
+    document.removeEventListener('matchmakingCancelled', _onExternalCancel);
+    clearInterval(searchInterval);
+    const sv = document.getElementById('searchingView');
+    const rv = document.getElementById('readyView');
+    if (sv && sv.classList.contains('active-view')) {
+        sv.classList.remove('active-view');
+        sv.classList.add('hidden-view');
+        rv.classList.remove('hidden-view');
+        rv.classList.add('active-view');
+    }
 }
 
 function updateTimerDisplay() {
@@ -111,6 +127,7 @@ function startSearch() {
 }
 
 function cancelSearch() {
+    document.removeEventListener('matchmakingCancelled', _onExternalCancel);
     clearInterval(searchInterval);
     window.cancelMatchmaking();
 

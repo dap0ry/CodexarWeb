@@ -38,6 +38,7 @@ window.cancelMatchmaking = function () {
     _cleanupWS();
     _hideBar();
     _setState(null);
+    document.dispatchEvent(new CustomEvent('matchmakingCancelled'));
 };
 
 window.showCancelConfirmModal = function (onYes, onNo) {
