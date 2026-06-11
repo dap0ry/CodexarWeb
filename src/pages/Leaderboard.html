@@ -37,21 +37,39 @@
 
     <main class="lb-scene">
         <div class="lb-header">
-            <div class="lb-title" data-i18n="leaderboard.title">CLASIFICACIÓN</div>
+            <div class="lb-title">// <span class="lb-accent">C</span><span data-i18n="leaderboard.titleRest">LASIFICACIÓN</span> //</div>
             <div class="lb-subtitle" data-i18n="leaderboard.subtitle">Los mejores programadores de Codexar por ELO</div>
         </div>
 
-        <div class="lb-list-section">
-            <div class="lb-list-header">
-                <span class="lb-list-col lb-col-pos" data-i18n="leaderboard.pos">#</span>
-                <span class="lb-list-col lb-col-player" data-i18n="leaderboard.player">Jugador</span>
-                <span class="lb-list-col lb-col-rank" data-i18n="leaderboard.rank">Rango</span>
-                <span class="lb-list-col lb-col-elo" data-i18n="leaderboard.elo">ELO</span>
-                <span class="lb-list-col lb-col-solved" data-i18n="leaderboard.solved">Resueltos</span>
+        <div class="lb-dual-grid">
+
+            <!-- ── LEFT: Players ── -->
+            <div class="lb-panel">
+                <div class="lb-panel-title" data-i18n="leaderboard.playersTitle">// PROGRAMADORES //</div>
+                <div class="lb-list-header lb-players-cols">
+                    <span data-i18n="leaderboard.pos">#</span>
+                    <span data-i18n="leaderboard.player">Jugador</span>
+                    <span data-i18n="leaderboard.rank">Rango</span>
+                    <span data-i18n="leaderboard.elo">ELO</span>
+                    <span data-i18n="leaderboard.solved">Resueltos</span>
+                </div>
+                <div id="lbLoadingPlayers" class="lb-loading" data-i18n="leaderboard.loading">Cargando clasificación...</div>
+                <div id="lbPlayerList"></div>
             </div>
-            <div id="lbLoading" class="lb-loading" data-i18n="leaderboard.loading">Cargando clasificación...</div>
-            <div id="lbPlayerList"></div>
-            <button class="lb-load-more hidden" id="lbLoadMore" data-i18n="leaderboard.loadMore">Cargar más jugadores</button>
+
+            <!-- ── RIGHT: Teams ── -->
+            <div class="lb-panel">
+                <div class="lb-panel-title" data-i18n="leaderboard.teamsTitle">// EQUIPOS //</div>
+                <div class="lb-list-header lb-teams-cols">
+                    <span data-i18n="leaderboard.pos">#</span>
+                    <span data-i18n="leaderboard.team">Equipo</span>
+                    <span data-i18n="leaderboard.members">Miembros</span>
+                    <span data-i18n="leaderboard.solved">Resueltos</span>
+                </div>
+                <div id="lbLoadingTeams" class="lb-loading" data-i18n="leaderboard.loading">Cargando clasificación...</div>
+                <div id="lbTeamList"></div>
+            </div>
+
         </div>
     </main>
 

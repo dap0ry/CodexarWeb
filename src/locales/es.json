@@ -206,12 +206,17 @@
   },
   "leaderboard": {
     "title": "CLASIFICACIÓN",
-    "subtitle": "Los mejores programadores de Codexar por ELO",
+    "titleRest": "LASIFICACIÓN",
+    "subtitle": "Los mejores programadores y equipos de Codexar",
+    "playersTitle": "// PROGRAMADORES //",
+    "teamsTitle": "// EQUIPOS //",
     "pos": "#",
     "player": "Jugador",
+    "team": "Equipo",
     "rank": "Rango",
     "elo": "ELO",
     "solved": "Resueltos",
+    "members": "Miembros",
     "loading": "Cargando clasificación...",
     "loadMore": "Cargar más jugadores"
   },

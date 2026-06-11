@@ -206,12 +206,17 @@
   },
   "leaderboard": {
     "title": "排行榜",
-    "subtitle": "Codexar ELO 最高的程序员",
+    "titleRest": "行榜",
+    "subtitle": "Codexar 顶级程序员与战队",
+    "playersTitle": "// 程序员 //",
+    "teamsTitle": "// 战队 //",
     "pos": "#",
     "player": "玩家",
+    "team": "战队",
     "rank": "段位",
     "elo": "ELO",
     "solved": "已解题",
+    "members": "成员",
     "loading": "加载排行榜中...",
     "loadMore": "加载更多玩家"
   },

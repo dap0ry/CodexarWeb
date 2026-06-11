@@ -206,12 +206,17 @@
   },
   "leaderboard": {
     "title": "LEADERBOARD",
-    "subtitle": "Top Codexar programmers by ELO",
+    "titleRest": "EADERBOARD",
+    "subtitle": "Top Codexar programmers and teams",
+    "playersTitle": "// PROGRAMMERS //",
+    "teamsTitle": "// TEAMS //",
     "pos": "#",
     "player": "Player",
+    "team": "Team",
     "rank": "Rank",
     "elo": "ELO",
     "solved": "Solved",
+    "members": "Members",
     "loading": "Loading leaderboard...",
     "loadMore": "Load more players"
   },

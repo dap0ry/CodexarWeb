@@ -33,25 +33,63 @@ body {
 /* --- Header --- */
 .lb-header {
     text-align: center;
-    padding: 24px 0 32px;
+    padding: 24px 0 36px;
 }
 
 .lb-title {
     font-family: var(--font-heading);
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
     font-weight: 800;
-    letter-spacing: 8px;
-    color: var(--text-light);
+    letter-spacing: 6px;
+    color: rgba(0,255,204,0.35);
     text-transform: uppercase;
+}
+
+.lb-accent {
+    color: var(--accent-cyan);
 }
 
 .lb-subtitle {
     font-family: var(--font-heading);
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     color: var(--text-muted);
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-top: 6px;
+    margin-top: 8px;
+    opacity: 0.45;
+}
+
+/* --- Dual grid --- */
+.lb-dual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+@media (max-width: 860px) {
+    .lb-dual-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Panel --- */
+.lb-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lb-panel-title {
+    font-family: var(--font-heading);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(0,255,204,0.35);
+    text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
 /* Loading state */
@@ -61,22 +99,14 @@ body {
     font-size: 0.85rem;
     letter-spacing: 1px;
     padding: 20px 0;
+    opacity: 0.4;
 }
 
-/* ── Full player list ── */
-.lb-list-section {
-    width: 100%;
-    max-width: 860px;
-    padding: 0 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
+/* --- List header --- */
 .lb-list-header {
     display: grid;
-    grid-template-columns: 48px 1fr 160px 80px 90px;
-    padding: 8px 16px;
+    align-items: center;
+    padding: 8px 14px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.52rem;
     font-weight: 700;
@@ -87,11 +117,19 @@ body {
     margin-bottom: 4px;
 }
 
+.lb-players-cols {
+    grid-template-columns: 36px 1fr 110px 64px 70px;
+}
+
+.lb-teams-cols {
+    grid-template-columns: 36px 1fr 80px 80px;
+}
+
+/* --- Rows --- */
 .lb-row {
     display: grid;
-    grid-template-columns: 48px 1fr 160px 80px 90px;
     align-items: center;
-    padding: 11px 16px;
+    padding: 10px 14px;
     border-radius: 10px;
     border: 1px solid transparent;
     text-decoration: none;
@@ -104,6 +142,10 @@ body {
     border-color: rgba(255,255,255,0.07);
 }
 
+.lb-row-player-cols { grid-template-columns: 36px 1fr 110px 64px 70px; }
+.lb-row-team-cols   { grid-template-columns: 36px 1fr 80px 80px; }
+
+/* Position */
 .lb-row-pos {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
@@ -112,43 +154,54 @@ body {
 }
 .lb-pos-top { color: rgba(0,255,204,0.7); }
 
+/* Player cell */
 .lb-row-player {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
+    min-width: 0;
 }
 
 .lb-row-avatar {
-    width: 30px; height: 30px;
+    width: 28px; height: 28px;
     border-radius: 50%;
-    background: rgba(0,255,204,0.1);
-    border: 1px solid rgba(0,255,204,0.2);
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.18);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 700;
     color: rgba(0,255,204,0.7);
     flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
 }
 
 .lb-row-name {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 700;
     color: rgba(240,240,255,0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* Rank / ELO / Solved / Members */
 .lb-row-rank {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.35);
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .lb-row-elo {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 700;
     color: rgba(0,200,255,0.75);
 }
@@ -159,25 +212,10 @@ body {
     color: rgba(255,255,255,0.4);
 }
 
-.lb-load-more {
-    margin-top: 12px;
-    align-self: center;
-    padding: 10px 28px;
-    background: transparent;
-    border: 1px solid rgba(0,255,204,0.2);
-    border-radius: 9px;
-    color: rgba(0,255,204,0.6);
+.lb-row-members {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.15s;
-}
-.lb-load-more:hover {
-    background: rgba(0,255,204,0.05);
-    border-color: rgba(0,255,204,0.4);
-    color: rgba(0,255,204,0.9);
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.3);
 }
 
 .hidden { display: none !important; }

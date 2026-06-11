@@ -30,26 +30,21 @@ async function initNavbar() {
     return true;
 }
 
-// Logout
 document.getElementById('logoutBtn').addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.removeItem('access_token');
     window.location.href = '/';
 });
 
-// ── Full player list with pagination ──────────────────────────
-let lbSkip = 0;
-let lbTotal = 0;
-const LB_PAGE = 20;
+// ── Players top 10 ──────────────────────────────────────────────
 
 function renderPlayerRow(player, position) {
     const avatarStyle = player.avatar
         ? `background-image:url(${player.avatar});background-size:cover;background-position:center;`
         : '';
     const avatarText = player.avatar ? '' : escHtml(player.username).charAt(0).toUpperCase();
-
     return `
-        <a class="lb-row" href="/perfil?u=${encodeURIComponent(player.username)}">
+        <a class="lb-row lb-row-player-cols" href="/perfil?u=${encodeURIComponent(player.username)}">
             <span class="lb-row-pos ${position <= 3 ? 'lb-pos-top' : ''}">${position}</span>
             <span class="lb-row-player">
                 <span class="lb-row-avatar" style="${avatarStyle}">${avatarText}</span>
@@ -58,43 +53,67 @@ function renderPlayerRow(player, position) {
             <span class="lb-row-rank">${escHtml(player.rank_name)}</span>
             <span class="lb-row-elo">${player.elo}</span>
             <span class="lb-row-solved">${player.solved}</span>
-        </a>
-    `;
+        </a>`;
 }
 
-async function loadPlayerList() {
+async function loadPlayers() {
     const token = localStorage.getItem('access_token');
-    const res = await fetch(`${API_BASE}/leaderboard/all?skip=${lbSkip}&limit=${LB_PAGE}`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) {
-        document.getElementById('lbLoading').textContent = 'Error cargando clasificación.';
-        return;
+    try {
+        const res = await fetch(`${API_BASE}/leaderboard/all?skip=0&limit=10`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        document.getElementById('lbLoadingPlayers').style.display = 'none';
+        const list = document.getElementById('lbPlayerList');
+        data.players.slice(0, 10).forEach((p, i) => {
+            list.insertAdjacentHTML('beforeend', renderPlayerRow(p, i + 1));
+        });
+    } catch {
+        document.getElementById('lbLoadingPlayers').textContent = 'Error cargando clasificación.';
     }
-    const data = await res.json();
-    lbTotal = data.total;
+}
 
-    document.getElementById('lbLoading').style.display = 'none';
+// ── Teams top 10 ────────────────────────────────────────────────
 
-    const list = document.getElementById('lbPlayerList');
-    data.players.forEach((p, i) => {
-        list.insertAdjacentHTML('beforeend', renderPlayerRow(p, lbSkip + i + 1));
-    });
+function renderTeamRow(team, position) {
+    const logoStyle = team.photo_url
+        ? `background-image:url(${team.photo_url});background-size:cover;background-position:center;`
+        : '';
+    const logoText = team.photo_url ? '' : escHtml(team.name).charAt(0).toUpperCase();
+    return `
+        <a class="lb-row lb-row-team-cols" href="/equipo?t=${encodeURIComponent(team.name)}">
+            <span class="lb-row-pos ${position <= 3 ? 'lb-pos-top' : ''}">${position}</span>
+            <span class="lb-row-player">
+                <span class="lb-row-avatar" style="${logoStyle}">${logoText}</span>
+                <span class="lb-row-name">${escHtml(team.name)}</span>
+            </span>
+            <span class="lb-row-members">${team.member_count}</span>
+            <span class="lb-row-solved">${team.total_solved}</span>
+        </a>`;
+}
 
-    lbSkip += data.players.length;
-
-    const btn = document.getElementById('lbLoadMore');
-    if (lbSkip < lbTotal) {
-        btn.classList.remove('hidden');
-        btn.textContent = `Cargar más · ${lbTotal - lbSkip} restantes`;
-    } else {
-        btn.classList.add('hidden');
+async function loadTeams() {
+    const token = localStorage.getItem('access_token');
+    try {
+        const res = await fetch(`${API_BASE}/teams/leaderboard`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error();
+        const teams = await res.json();
+        document.getElementById('lbLoadingTeams').style.display = 'none';
+        const list = document.getElementById('lbTeamList');
+        teams.slice(0, 10).forEach((t, i) => {
+            list.insertAdjacentHTML('beforeend', renderTeamRow(t, i + 1));
+        });
+    } catch {
+        document.getElementById('lbLoadingTeams').textContent = 'Error cargando equipos.';
     }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     const ok = await initNavbar();
     if (!ok) return;
-    await loadPlayerList();
-    document.getElementById('lbLoadMore').addEventListener('click', loadPlayerList);
+    loadPlayers();
+    loadTeams();
 });
