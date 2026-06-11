@@ -96,7 +96,7 @@ function renderSlots(players) {
 
         const name = document.createElement('div');
         name.className = 'surv-lobby-slot-name';
-        name.textContent = idx === 0 ? 'TÚ' : player.username;
+        name.textContent = idx === 0 ? window.i18nT('survival.you') : player.username;
 
         slot.appendChild(av);
         slot.appendChild(name);
@@ -110,12 +110,12 @@ function renderSlots(players) {
         const av = document.createElement('div');
         av.className = 'surv-lobby-avatar empty';
         av.innerHTML = '<span>+</span>';
-        av.title = 'Invitar amigo';
+        av.title = window.i18nT('survival.invite');
         av.addEventListener('click', openInviteModal);
 
         const name = document.createElement('div');
         name.className = 'surv-lobby-slot-name muted';
-        name.textContent = '+ AMIGO';
+        name.textContent = window.i18nT('survival.addFriend');
 
         slot.appendChild(av);
         slot.appendChild(name);
@@ -128,7 +128,7 @@ function renderSlots(players) {
 async function openInviteModal() {
     document.getElementById('survInviteModal').classList.remove('hidden');
     const list = document.getElementById('survFriendList');
-    list.innerHTML = '<div class="surv-modal-empty">Cargando...</div>';
+    list.innerHTML = `<div class="surv-modal-empty">${window.i18nT('survival.loading')}</div>`;
 
     const token = localStorage.getItem('access_token');
     try {
@@ -142,7 +142,7 @@ async function openInviteModal() {
         const friends = data.friends || [];
 
         if (!friends.length) {
-            list.innerHTML = '<div class="surv-modal-empty">No tienes amigos aún.</div>';
+            list.innerHTML = `<div class="surv-modal-empty">${window.i18nT('survival.noFriends')}</div>`;
             return;
         }
 
@@ -170,7 +170,7 @@ async function openInviteModal() {
 
             const st = document.createElement('div');
             st.className = 'surv-fr-status' + (friend.is_online ? ' online' : '');
-            st.textContent = friend.is_online ? '● En línea' : (friend.last_seen_text || 'Desconectado');
+            st.textContent = friend.is_online ? window.i18nT('survival.online') : (friend.last_seen_text || window.i18nT('survival.offline'));
 
             info.appendChild(nm);
             info.appendChild(st);
@@ -178,7 +178,7 @@ async function openInviteModal() {
             const btn = document.createElement('button');
             btn.className = 'surv-fr-inv-btn';
             const sent = pendingInvites.has(friend.username);
-            btn.textContent = sent ? 'Enviado' : 'Invitar';
+            btn.textContent = sent ? window.i18nT('survival.sent') : window.i18nT('survival.inviteBtn');
             if (sent) btn.disabled = true;
 
             btn.addEventListener('click', async () => {
@@ -193,7 +193,7 @@ async function openInviteModal() {
             list.appendChild(row);
         });
     } catch {
-        list.innerHTML = '<div class="surv-modal-empty">Error cargando amigos.</div>';
+        list.innerHTML = `<div class="surv-modal-empty">${window.i18nT('survival.errorFriends')}</div>`;
     }
 }
 
@@ -206,7 +206,7 @@ async function sendInvite(username, btn) {
         );
         if (res.ok) {
             pendingInvites.add(username);
-            if (btn) { btn.textContent = 'Enviado'; btn.disabled = true; }
+            if (btn) { btn.textContent = window.i18nT('survival.sent'); btn.disabled = true; }
         } else {
             if (btn) { btn.textContent = 'Error'; btn.disabled = false; }
         }
@@ -220,7 +220,7 @@ async function sendInvite(username, btn) {
 async function startGame() {
     const btn = document.getElementById('survStartBtn');
     btn.disabled = true;
-    btn.textContent = 'INICIANDO...';
+    btn.textContent = window.i18nT('survival.starting');
     try {
         await ensureRoom();
         const token = localStorage.getItem('access_token');
@@ -233,7 +233,7 @@ async function startGame() {
             window.location.href = `/supervivencia/batalla?room=${roomId}`;
         } else {
             btn.disabled = false;
-            btn.textContent = 'INICIAR PARTIDA →';
+            btn.textContent = window.i18nT('survival.start');
         }
     } catch {
         btn.disabled = false;

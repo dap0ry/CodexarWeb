@@ -37,16 +37,19 @@
 
     <div class="surv-page">
 
-        <button class="surv-back" onclick="window.location.href='/home'">← Volver</button>
+        <button class="surv-back" onclick="window.location.href='/home'" data-i18n="survival.back">← Volver</button>
 
         <div class="surv-card">
 
             <div class="surv-header">
                 <div class="surv-eyebrow">
                     <span class="surv-dot"></span>
-                    SUPERVIVENCIA
+                    <span data-i18n="survival.eyebrow">SUPERVIVENCIA</span>
                 </div>
-                <div class="surv-subtitle">30 minutos para resolver la mayor cantidad de ejercicios que puedas, solo o cooperativo con amigos.<br>Cada ejercicio resuelto suma 5 minutos adicionales.</div>
+                <div class="surv-subtitle">
+                    <span data-i18n="survival.headerLine1">30 minutos para resolver la mayor cantidad de ejercicios que puedas, solo o cooperativo con amigos.</span><br>
+                    <span data-i18n="survival.headerLine2">Cada ejercicio resuelto suma 5 minutos adicionales.</span>
+                </div>
             </div>
 
             <!-- 4 player slots -->
@@ -56,22 +59,22 @@
 
             <!-- Personal record -->
             <div class="surv-record-bar">
-                <div class="surv-record-title">MEJOR PARTIDA</div>
+                <div class="surv-record-title" data-i18n="survival.bestGame">MEJOR PARTIDA</div>
                 <div class="surv-record-cols">
                     <div class="surv-record-col">
-                        <span class="surv-record-col-label">MEJOR TIEMPO</span>
+                        <span class="surv-record-col-label" data-i18n="survival.bestTime">MEJOR TIEMPO</span>
                         <span class="surv-record-col-val" id="survRecordTime">--:--</span>
                     </div>
                     <div class="surv-record-col-sep"></div>
                     <div class="surv-record-col">
-                        <span class="surv-record-col-label">EJERCICIOS RESUELTOS</span>
+                        <span class="surv-record-col-label" data-i18n="survival.exSolved">EJERCICIOS RESUELTOS</span>
                         <span class="surv-record-col-val" id="survRecordEx">0</span>
                     </div>
                 </div>
             </div>
 
             <!-- Start button -->
-            <button class="surv-btn-start" id="survStartBtn" onclick="startGame()">INICIAR PARTIDA →</button>
+            <button class="surv-btn-start" id="survStartBtn" onclick="startGame()" data-i18n="survival.start">INICIAR PARTIDA →</button>
 
         </div>
     </div>
@@ -80,7 +83,7 @@
     <div class="surv-modal-overlay hidden" id="survInviteModal">
         <div class="surv-modal">
             <div class="surv-modal-header">
-                <span>Invitar Amigo</span>
+                <span data-i18n="survival.inviteTitle">Invitar Amigo</span>
                 <button class="surv-modal-close" id="survCloseModal">✕</button>
             </div>
             <div class="surv-modal-body" id="survFriendList"></div>
