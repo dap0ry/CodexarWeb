@@ -41,9 +41,9 @@
             <div class="lb-subtitle" data-i18n="leaderboard.subtitle">Los mejores programadores de Codexar por ELO</div>
         </div>
 
-        <div class="lb-dual-grid">
+        <div class="lb-triple-grid">
 
-            <!-- ── LEFT: Players ── -->
+            <!-- ── LEFT: Players by ELO ── -->
             <div class="lb-panel">
                 <div class="lb-panel-title" data-i18n="leaderboard.playersTitle">// PROGRAMADORES //</div>
                 <div class="lb-list-header lb-players-cols">
@@ -55,6 +55,18 @@
                 </div>
                 <div id="lbLoadingPlayers" class="lb-loading" data-i18n="leaderboard.loading">Cargando clasificación...</div>
                 <div id="lbPlayerList"></div>
+            </div>
+
+            <!-- ── CENTER: Players by exercises solved ── -->
+            <div class="lb-panel">
+                <div class="lb-panel-title" data-i18n="leaderboard.exercisesTitle">// MÁS EJERCICIOS //</div>
+                <div class="lb-list-header lb-exercise-cols">
+                    <span data-i18n="leaderboard.pos">#</span>
+                    <span data-i18n="leaderboard.player">Jugador</span>
+                    <span data-i18n="leaderboard.solved">Resueltos</span>
+                </div>
+                <div id="lbLoadingExercises" class="lb-loading" data-i18n="leaderboard.loading">Cargando clasificación...</div>
+                <div id="lbExerciseList"></div>
             </div>
 
             <!-- ── RIGHT: Teams ── -->

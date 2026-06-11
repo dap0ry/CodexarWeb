@@ -59,18 +59,24 @@ body {
     opacity: 0.45;
 }
 
-/* --- Dual grid --- */
-.lb-dual-grid {
+/* --- Triple grid --- */
+.lb-triple-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     padding: 0 20px;
 }
 
-@media (max-width: 860px) {
-    .lb-dual-grid {
+@media (max-width: 1100px) {
+    .lb-triple-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .lb-triple-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -121,6 +127,10 @@ body {
     grid-template-columns: 36px 1fr 110px 64px 70px;
 }
 
+.lb-exercise-cols {
+    grid-template-columns: 36px 1fr 80px;
+}
+
 .lb-teams-cols {
     grid-template-columns: 36px 1fr 80px 80px;
 }
@@ -142,8 +152,9 @@ body {
     border-color: rgba(255,255,255,0.07);
 }
 
-.lb-row-player-cols { grid-template-columns: 36px 1fr 110px 64px 70px; }
-.lb-row-team-cols   { grid-template-columns: 36px 1fr 80px 80px; }
+.lb-row-player-cols   { grid-template-columns: 36px 1fr 110px 64px 70px; }
+.lb-row-exercise-cols { grid-template-columns: 36px 1fr 80px; }
+.lb-row-team-cols     { grid-template-columns: 36px 1fr 80px 80px; }
 
 /* Position */
 .lb-row-pos {

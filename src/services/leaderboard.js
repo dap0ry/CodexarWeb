@@ -74,6 +74,42 @@ async function loadPlayers() {
     }
 }
 
+// ── Exercises top 10 ────────────────────────────────────────────
+
+function renderExerciseRow(player, position) {
+    const avatarStyle = player.avatar
+        ? `background-image:url(${player.avatar});background-size:cover;background-position:center;`
+        : '';
+    const avatarText = player.avatar ? '' : escHtml(player.username).charAt(0).toUpperCase();
+    return `
+        <a class="lb-row lb-row-exercise-cols" href="/perfil?u=${encodeURIComponent(player.username)}">
+            <span class="lb-row-pos ${position <= 3 ? 'lb-pos-top' : ''}">${position}</span>
+            <span class="lb-row-player">
+                <span class="lb-row-avatar" style="${avatarStyle}">${avatarText}</span>
+                <span class="lb-row-name">${escHtml(player.username)}</span>
+            </span>
+            <span class="lb-row-solved">${player.solved}</span>
+        </a>`;
+}
+
+async function loadExercisePlayers() {
+    const token = localStorage.getItem('access_token');
+    try {
+        const res = await fetch(`${API_BASE}/leaderboard/solvers`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        document.getElementById('lbLoadingExercises').style.display = 'none';
+        const list = document.getElementById('lbExerciseList');
+        data.players.forEach((p, i) => {
+            list.insertAdjacentHTML('beforeend', renderExerciseRow(p, i + 1));
+        });
+    } catch {
+        document.getElementById('lbLoadingExercises').textContent = 'Error cargando clasificación.';
+    }
+}
+
 // ── Teams top 10 ────────────────────────────────────────────────
 
 function renderTeamRow(team, position) {
@@ -115,5 +151,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ok = await initNavbar();
     if (!ok) return;
     loadPlayers();
+    loadExercisePlayers();
     loadTeams();
 });
