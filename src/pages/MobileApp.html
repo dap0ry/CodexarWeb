@@ -240,27 +240,105 @@
         /* ── TOURNAMENTS ── */
         .tourn-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;
-        }
-        .tourn-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-        .tourn-name { font-family: var(--mono); font-size: 0.88rem; font-weight: 700; line-height: 1.3; flex: 1; }
-        .tourn-badge {
-            font-family: var(--mono); font-size: 0.52rem; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            padding: 4px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0;
-        }
-        .tourn-badge.waiting  { background: rgba(251,191,36,0.1);   color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
-        .tourn-badge.active   { background: rgba(34,197,94,0.1);    color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
-        .tourn-badge.finished { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); }
-        .tourn-meta { display: flex; align-items: center; gap: 14px; font-size: 0.76rem; color: var(--muted); }
-        .tourn-join {
-            font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
-            padding: 8px 14px; border-radius: 7px;
-            border: 1px solid rgba(0,255,204,0.25); background: rgba(0,255,204,0.06); color: var(--cyan);
-            cursor: pointer; align-self: flex-start; transition: background 0.15s;
+            border-radius: 16px; overflow: hidden; cursor: pointer;
+            transition: border-color 0.18s;
             -webkit-tap-highlight-color: transparent;
         }
-        .tourn-join:active { background: rgba(0,255,204,0.12); }
+        .tourn-card.open { border-color: rgba(0,255,204,0.22); }
+
+        /* banner */
+        .tourn-banner {
+            position: relative; height: 130px; overflow: hidden;
+            background: linear-gradient(135deg, #0c0c1e 0%, #131328 100%);
+        }
+        .tourn-banner::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,204,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,204,0.03) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        .tourn-banner img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            transition: opacity 0.3s;
+        }
+        .tourn-banner-letter {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 3.5rem; font-weight: 800;
+            color: rgba(0,255,204,0.07); user-select: none;
+            z-index: 0;
+        }
+        .tourn-banner-fade {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 56px;
+            background: linear-gradient(transparent, var(--card));
+            z-index: 1;
+        }
+        .tourn-status-badge {
+            position: absolute; top: 10px; right: 10px; z-index: 2;
+            font-family: var(--mono); font-size: 0.5rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 4px 9px; border-radius: 4px;
+        }
+        .tourn-status-badge.upcoming  { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+        .tourn-status-badge.active    { background: rgba(34,197,94,0.12);  color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+        .tourn-status-badge.finished  { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+
+        /* card body */
+        .tourn-body { padding: 12px 14px 10px; }
+        .tourn-name {
+            font-family: var(--mono); font-size: 0.9rem; font-weight: 700;
+            line-height: 1.25; margin-bottom: 6px;
+        }
+        .tourn-meta {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.74rem; color: var(--muted);
+        }
+        .tourn-meta-sep { color: rgba(255,255,255,0.12); }
+        .tourn-desc {
+            font-size: 0.78rem; color: var(--muted); line-height: 1.5;
+            margin-top: 6px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        /* joined indicator */
+        .tourn-joined-pill {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: var(--cyan); margin-top: 8px;
+        }
+        .tourn-joined-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+        }
+
+        /* action bar — slides in on tap */
+        .tourn-action {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.25s cubic-bezier(0.4,0,0.2,1),
+                        padding 0.25s;
+            border-top: 1px solid transparent;
+            padding: 0 14px;
+        }
+        .tourn-card.open .tourn-action {
+            max-height: 72px;
+            border-top-color: var(--border);
+            padding: 12px 14px;
+        }
+        .tourn-action-inner { display: flex; gap: 8px; }
+        .tourn-action-btn {
+            font-family: var(--mono); font-size: 0.74rem; font-weight: 700;
+            padding: 10px 18px; border-radius: 8px; cursor: pointer;
+            border: 1px solid; transition: opacity 0.15s, background 0.15s;
+            -webkit-tap-highlight-color: transparent; flex: 1; text-align: center;
+        }
+        .tourn-action-btn:disabled { opacity: 0.4; cursor: default; }
+        .tourn-action-btn.join  { background: rgba(0,255,204,0.08); border-color: rgba(0,255,204,0.3); color: var(--cyan); }
+        .tourn-action-btn.leave { background: rgba(248,113,113,0.06); border-color: rgba(248,113,113,0.2); color: var(--red); }
+        .tourn-action-btn.join:active  { background: rgba(0,255,204,0.16); }
+        .tourn-action-btn.leave:active { background: rgba(248,113,113,0.12); }
 
         /* ── PROFILE ── */
         .profile-hero {
@@ -360,10 +438,10 @@
 
         <!-- TORNEOS -->
         <div class="screen" id="screenTorneos">
-            <div class="section-eyebrow">// Torneos activos y proximos</div>
+            <div class="section-eyebrow">// Toca una card para inscribirte</div>
             <div class="feed" id="feedTorneos">
-                <div class="skel skel-block"></div>
-                <div class="skel skel-block"></div>
+                <div class="skel" style="height:200px;border-radius:16px;"></div>
+                <div class="skel" style="height:200px;border-radius:16px;"></div>
             </div>
         </div>
 
@@ -673,10 +751,9 @@
     async function loadTorneos() {
         const feed = document.getElementById('feedTorneos');
         try {
-            const res     = await fetch(API + '/tournaments', { headers: auth() });
-            const torneos = await res.json();
-            const list    = Array.isArray(torneos) ? torneos : (torneos.tournaments || []);
-            if (!list.length) {
+            const res  = await fetch(API + '/tournaments', { headers: auth() });
+            const list = await res.json();
+            if (!Array.isArray(list) || !list.length) {
                 feed.innerHTML = '<div class="empty-state">No hay torneos disponibles</div>';
             } else {
                 feed.innerHTML = list.map(t => tournCard(t)).join('');
@@ -686,31 +763,87 @@
     }
 
     function tournCard(t) {
-        const statusMap   = { waiting:'Esperando', active:'Activo', finished:'Finalizado' };
+        const statusMap   = { upcoming:'Proximo', active:'Activo', finished:'Finalizado' };
         const statusLabel = statusMap[t.status] || t.status || '';
-        const statusClass = t.status || 'waiting';
-        const count = t.participants_count != null ? t.participants_count : (t.players ? t.players.length : '?');
-        const max   = t.max_players ? '/' + t.max_players : '';
-        const id    = esc(String(t._id || t.id || ''));
-        return `<div class="tourn-card">
-            <div class="tourn-top">
+        const statusClass = t.status || 'upcoming';
+        const id          = esc(String(t.id || t._id || ''));
+        const participants = t.participants || [];
+        const count        = participants.length;
+        const max          = t.max_players ? '/' + t.max_players : '';
+        const isJoined     = user && participants.includes(user.email);
+        const letter       = esc((t.name || 'T').charAt(0).toUpperCase());
+
+        const bannerImg = t.banner_url
+            ? `<img src="${esc(t.banner_url)}" alt="" onerror="this.style.opacity=0">`
+            : '';
+
+        const date = t.start_time ? fmtDateTime(t.start_time) : '';
+
+        let actionInner = '';
+        if (t.status === 'upcoming') {
+            if (isJoined) {
+                actionInner = `<button class="tourn-action-btn leave" onclick="leaveTournament('${id}',this);event.stopPropagation()">Abandonar</button>`;
+            } else {
+                actionInner = `<button class="tourn-action-btn join" onclick="joinTournament('${id}',this);event.stopPropagation()">Inscribirse</button>`;
+            }
+        } else if (t.status === 'active') {
+            actionInner = `<button class="tourn-action-btn join" style="opacity:0.45;cursor:default" disabled>En curso</button>`;
+        } else {
+            actionInner = `<button class="tourn-action-btn join" style="opacity:0.45;cursor:default" disabled>Finalizado</button>`;
+        }
+
+        return `<div class="tourn-card" onclick="toggleTournCard(this)">
+            <div class="tourn-banner">
+                ${bannerImg}
+                <div class="tourn-banner-letter">${letter}</div>
+                <div class="tourn-banner-fade"></div>
+                <span class="tourn-status-badge ${statusClass}">${statusLabel}</span>
+            </div>
+            <div class="tourn-body">
                 <div class="tourn-name">${esc(t.name)}</div>
-                <span class="tourn-badge ${statusClass}">${statusLabel}</span>
+                <div class="tourn-meta">
+                    <span>${count}${max} jugadores</span>
+                    ${date ? `<span class="tourn-meta-sep">·</span><span>${date}</span>` : ''}
+                </div>
+                ${t.description ? `<div class="tourn-desc">${esc(t.description)}</div>` : ''}
+                ${isJoined ? `<div class="tourn-joined-pill"><div class="tourn-joined-dot"></div>Inscrito</div>` : ''}
             </div>
-            <div class="tourn-meta">
-                <span>${count}${max} jugadores</span>
-                ${t.starts_at ? `<span>${fmtDateTime(t.starts_at)}</span>` : ''}
+            <div class="tourn-action">
+                <div class="tourn-action-inner">${actionInner}</div>
             </div>
-            ${t.status === 'waiting' ? `<button class="tourn-join" onclick="joinTourn('${id}',this)">Unirse</button>` : ''}
         </div>`;
     }
 
-    window.joinTourn = async function (id, btn) {
+    window.toggleTournCard = function (card) {
+        card.classList.toggle('open');
+    };
+
+    window.joinTournament = async function (id, btn) {
         btn.disabled = true; btn.textContent = 'Uniendo...';
         try {
             const res = await fetch(API + '/tournaments/' + id + '/join', { method:'POST', headers:auth() });
-            if (res.ok) { btn.textContent = 'Unido'; btn.style.opacity = '0.5'; }
-            else { const d = await res.json(); btn.textContent = d.detail || 'Error'; btn.disabled = false; }
+            if (res.ok) {
+                cache['Torneos'] = false;
+                await loadTorneos();
+            } else {
+                const d = await res.json();
+                btn.textContent = d.detail || 'Error';
+                setTimeout(() => { btn.disabled = false; btn.textContent = 'Inscribirse'; }, 2000);
+            }
+        } catch (_) { btn.textContent = 'Error'; btn.disabled = false; }
+    };
+
+    window.leaveTournament = async function (id, btn) {
+        btn.disabled = true; btn.textContent = 'Saliendo...';
+        try {
+            const res = await fetch(API + '/tournaments/' + id + '/leave', { method:'POST', headers:auth() });
+            if (res.ok) {
+                cache['Torneos'] = false;
+                await loadTorneos();
+            } else {
+                btn.textContent = 'Error';
+                setTimeout(() => { btn.disabled = false; btn.textContent = 'Abandonar'; }, 2000);
+            }
         } catch (_) { btn.textContent = 'Error'; btn.disabled = false; }
     };
 
