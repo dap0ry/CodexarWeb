@@ -126,16 +126,10 @@ function renderClubsGrid(teams, myTeam) {
                 btn.disabled = true;
                 btn.textContent = 'Uniéndose...';
                 try {
-                    // Fetch public team to get its id (list endpoint may omit id)
-                    const infoRes = await fetch(`${API}/teams/public/${encodeURIComponent(btn.dataset.name)}`, { headers: authHeaders() });
-                    if (!infoRes.ok) throw new Error('team_not_found');
-                    const info = await infoRes.json();
-                    const teamId = info.id || info._id;
-                    if (!teamId) throw new Error('no_id');
-                    const r = await fetch(`${API}/teams/${teamId}/join`, { method: 'POST', headers: authHeaders() });
+                    const r = await fetch(`${API}/teams/${encodeURIComponent(btn.dataset.id)}/join`, { method: 'POST', headers: authHeaders() });
                     const d = await r.json();
                     if (r.ok) { showToast(d.message || '¡Unido al club!'); setTimeout(() => location.reload(), 700); }
-                    else { showToast(d.detail || 'Error al unirse', true); btn.disabled = false; btn.textContent = 'Unirse'; }
+                    else { showToast(d.detail || `Error ${r.status}`, true); btn.disabled = false; btn.textContent = 'Unirse'; }
                 } catch (_) {
                     showToast('Error al conectar con el servidor', true);
                     btn.disabled = false;
@@ -169,7 +163,7 @@ function buildClubCard(t, myName) {
     const initial = (t.name || '?').charAt(0).toUpperCase();
     const memberCount = Array.isArray(t.members) ? t.members.length : (t.member_count ?? 0);
     const joinBtn = (!hasTeam && !isOwn)
-        ? `<button class="tm-card-join-btn" data-name="${esc(t.name)}">Unirse</button>` : '';
+        ? `<button class="tm-card-join-btn" data-id="${esc(t.id || t._id || '')}" data-name="${esc(t.name)}">Unirse</button>` : '';
     const ownBadge = isOwn ? '<div class="tm-own-badge">Tu club</div>' : '';
     const isAdmin = currentUser && currentUser.role === 'admin';
     const adminBtn = isAdmin

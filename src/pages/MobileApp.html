@@ -1684,7 +1684,10 @@
     window.clubJoin = async function (name, btn) {
         btn.disabled = true; btn.textContent = 'Uniendose...';
         try {
-            const res = await fetch(API + '/teams/' + encodeURIComponent(name) + '/join', { method: 'POST', headers: auth() });
+            // Need team id — fetch from public endpoint
+            const info = await fetchClub(name);
+            const teamId = info.id || info._id;
+            const res = await fetch(API + '/teams/' + encodeURIComponent(teamId) + '/join', { method: 'POST', headers: auth() });
             const d   = await res.json();
             if (res.ok) {
                 clubDataCache.delete(name);
@@ -1703,7 +1706,7 @@
     window.clubLeave = async function (teamId, name, btn) {
         btn.disabled = true; btn.textContent = 'Saliendo...';
         try {
-            const res = await fetch(API + '/teams/' + encodeURIComponent(teamId) + '/members/' + encodeURIComponent(user.username), { method: 'DELETE', headers: auth() });
+            const res = await fetch(API + '/teams/' + encodeURIComponent(teamId) + '/leave', { method: 'POST', headers: auth() });
             const d   = await res.json();
             if (res.ok) {
                 clubDataCache.delete(name);
