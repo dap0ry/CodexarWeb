@@ -307,20 +307,6 @@ window.handleFriendAction = async function (action, targetUsername) {
     }
 };
 
-/* ─── Heartbeat ──────────────────────────────────────────── */
-
-function startHeartbeat() {
-    const beat = async () => {
-        const t = localStorage.getItem('access_token');
-        if (!t) return;
-        await fetch(`${API_BASE}/user/heartbeat`, {
-            method: 'POST', headers: { 'Authorization': `Bearer ${t}` }
-        }).catch(() => {});
-    };
-    beat();
-    setInterval(beat, 60_000);
-}
-
 /* ─── Friendly battle ────────────────────────────────────── */
 
 window.handleSendBattleInvite = async function (username, btn) {
@@ -424,7 +410,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         setupTabs();
         setupDirectAddListener();
-        startHeartbeat();
         await loadFriendsData();
 
     } catch (e) {

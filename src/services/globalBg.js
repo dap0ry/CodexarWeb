@@ -69,3 +69,21 @@
 
 
 })();
+
+// ── Heartbeat global — actualiza last_seen en todas las páginas ───────────
+(function () {
+    const API = 'https://api.codexar.es/api';
+    const INTERVAL = 5 * 60 * 1000;
+
+    function beat() {
+        const token = localStorage.getItem('access_token');
+        if (!token) return;
+        fetch(`${API}/user/heartbeat`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        }).catch(() => {});
+    }
+
+    beat();
+    setInterval(beat, INTERVAL);
+})();
