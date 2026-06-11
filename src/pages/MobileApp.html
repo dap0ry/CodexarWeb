@@ -341,47 +341,180 @@
         .tourn-action-btn.leave:active { background: rgba(248,113,113,0.12); }
 
         /* ── PROFILE ── */
-        .profile-hero {
-            padding: 32px 20px 24px; display: flex; flex-direction: column;
-            align-items: center; gap: 10px; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+        /* Banner strip */
+        .pf-banner {
+            height: 168px; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #0a0a1c 0%, #10102a 100%);
         }
-        .profile-av {
-            width: 76px; height: 76px; border-radius: 50%;
-            background: rgba(0,255,204,0.06); border: 2px solid rgba(0,255,204,0.2);
+        .pf-banner::before {
+            content: ''; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,204,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,204,0.03) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        .pf-banner-img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover; z-index: 1;
+        }
+        .pf-banner-fade {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 90px;
+            background: linear-gradient(transparent, var(--bg)); z-index: 2;
+        }
+        /* Identity block overlapping banner */
+        .pf-identity {
+            position: relative; z-index: 3;
+            margin-top: -44px;
+            display: flex; flex-direction: column; align-items: center; gap: 7px;
+            padding: 0 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .pf-av {
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid var(--bg);
+            background: rgba(0,255,204,0.08);
             display: flex; align-items: center; justify-content: center;
-            font-family: var(--mono); font-size: 1.8rem; font-weight: 800; color: var(--cyan);
-            overflow: hidden; position: relative;
+            font-family: var(--mono); font-size: 2rem; font-weight: 800; color: var(--cyan);
+            overflow: hidden; position: relative; flex-shrink: 0;
         }
-        .profile-av img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
-        .profile-name { font-family: var(--mono); font-size: 1.15rem; font-weight: 800; letter-spacing: -0.5px; }
-        .profile-email { font-size: 0.76rem; color: var(--muted); }
-        .profile-elo {
+        .pf-av img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+        .pf-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+        .pf-role-badge {
+            font-family: var(--mono); font-size: 0.5rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 4px;
+        }
+        .pf-role-mod  { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+        .pf-role-admin{ background: rgba(251,191,36,0.1);   color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+        .pf-sub-plus  { background: rgba(96,165,250,0.1);   color: #60a5fa; border: 1px solid rgba(96,165,250,0.2); }
+        .pf-sub-max   { background: rgba(0,255,204,0.1);    color: var(--cyan); border: 1px solid rgba(0,255,204,0.2); }
+        .pf-name { font-family: var(--mono); font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px; }
+        .pf-email { font-size: 0.74rem; color: var(--muted); }
+        .pf-elo-row { display: flex; align-items: center; gap: 8px; }
+        .pf-elo {
             font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
             letter-spacing: 2px; text-transform: uppercase;
             padding: 5px 14px; border-radius: 20px;
             background: rgba(0,255,204,0.06); border: 1px solid rgba(0,255,204,0.18); color: var(--cyan);
         }
-        .profile-stats {
-            display: grid; grid-template-columns: repeat(3,1fr);
-            gap: 8px; margin: 0 16px 16px;
+        .pf-rank {
+            font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4);
         }
-        .stat-card {
+        .pf-desc { font-size: 0.8rem; color: var(--muted); text-align: center; line-height: 1.6; max-width: 280px; }
+        .pf-global-rank { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+
+        /* Sections */
+        .pf-section { padding: 20px 16px 0; }
+        .pf-section-label {
+            font-family: var(--mono); font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(0,255,204,0.4); margin-bottom: 10px;
+        }
+        /* stat grid */
+        .pf-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+        .pf-grid-2 { grid-template-columns: repeat(2,1fr); }
+        .pf-stat {
+            background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+            padding: 12px 8px; text-align: center;
+        }
+        .pf-stat-val {
+            font-family: var(--mono); font-size: 1.15rem; font-weight: 800; letter-spacing: -0.5px;
+            line-height: 1.1; margin-bottom: 4px;
+        }
+        .pf-stat-key { font-size: 0.6rem; color: var(--muted); }
+        .cyan  { color: var(--cyan); }
+        .green { color: var(--green); }
+        .blue  { color: #60a5fa; }
+        .muted { color: var(--muted); }
+        /* diff bars */
+        .diff-row {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 8px;
+        }
+        .diff-row:last-child { margin-bottom: 0; }
+        .diff-label { font-size: 0.68rem; color: var(--muted); width: 80px; flex-shrink: 0; }
+        .diff-track {
+            flex: 1; height: 6px; background: rgba(255,255,255,0.05);
+            border-radius: 3px; overflow: hidden;
+        }
+        .diff-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+        .d-facil  { background: #4ade80; }
+        .d-normal { background: #60a5fa; }
+        .d-dif    { background: #fbbf24; }
+        .d-muydif { background: #f97316; }
+        .d-insane { background: #f87171; }
+        .d-abyss  { background: #c084fc; }
+        .diff-count { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); width: 22px; text-align: right; flex-shrink: 0; }
+        /* lang bar */
+        .lang-bar { height: 8px; border-radius: 4px; overflow: hidden; display: flex; margin-bottom: 10px; }
+        .lang-segment { height: 100%; }
+        .lang-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+        .lang-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--muted); }
+        .lang-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+        /* lang icons */
+        .pf-lang-icons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .pf-lang-icon { width: 30px; height: 30px; object-fit: contain; filter: grayscale(0.2); }
+        /* team */
+        .pf-team {
+            display: flex; align-items: center; gap: 12px;
             background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-            padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+            padding: 13px 14px; text-decoration: none; color: var(--text);
         }
-        .stat-val { font-family: var(--mono); font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
-        .stat-label { font-size: 0.65rem; color: var(--muted); text-align: center; }
-        .profile-actions { padding: 0 16px 40px; display: flex; flex-direction: column; gap: 8px; }
-        .profile-action-btn {
+        .pf-team-av {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 0.85rem; font-weight: 700;
+            overflow: hidden; flex-shrink: 0; background-size: cover; background-position: center;
+        }
+        .pf-team-name { font-family: var(--mono); font-size: 0.82rem; font-weight: 700; }
+        .pf-team-label { font-size: 0.7rem; color: var(--muted); }
+        /* socials */
+        .pf-socials { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pf-social {
+            display: flex; align-items: center; gap: 7px;
+            background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+            padding: 8px 12px; text-decoration: none; color: var(--text);
+            font-size: 0.75rem;
+        }
+        .pf-social img { width: 14px; height: 14px; }
+        /* achievements */
+        .pf-ach-list { display: flex; flex-direction: column; gap: 8px; }
+        .pf-ach {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .pf-ach-icon { font-size: 1.4rem; flex-shrink: 0; }
+        .pf-ach-title { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; }
+        .pf-ach-rarity {
+            font-family: var(--mono); font-size: 0.52rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        .rarity-legendary { color: #fbbf24; }
+        .rarity-epic      { color: #a78bfa; }
+        .rarity-rare      { color: #60a5fa; }
+        .rarity-common    { color: var(--muted); }
+        /* survival sub-section */
+        .pf-subsec-label {
+            font-family: var(--mono); font-size: 0.52rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: rgba(255,255,255,0.2); margin-bottom: 6px; margin-top: 10px;
+        }
+        .pf-subsec-label:first-child { margin-top: 0; }
+        /* actions */
+        .pf-actions { padding: 20px 16px 52px; display: flex; flex-direction: column; gap: 8px; }
+        .pf-action-btn {
             font-family: var(--mono); font-size: 0.78rem; font-weight: 700;
             padding: 14px; border-radius: 10px; border: 1px solid var(--border);
             background: var(--card); color: var(--text);
             display: flex; align-items: center; gap: 12px;
             cursor: pointer; -webkit-tap-highlight-color: transparent; text-decoration: none;
         }
-        .profile-action-btn svg { color: var(--muted); flex-shrink: 0; }
-        .profile-action-btn.danger { color: var(--red); border-color: rgba(248,113,113,0.15); }
-        .profile-action-btn.danger svg { color: rgba(248,113,113,0.5); }
+        .pf-action-btn svg { color: var(--muted); flex-shrink: 0; }
+        .pf-action-btn.danger { color: var(--red); border-color: rgba(248,113,113,0.15); }
+        .pf-action-btn.danger svg { color: rgba(248,113,113,0.5); }
     </style>
 </head>
 <body>
@@ -448,9 +581,13 @@
         <!-- PERFIL -->
         <div class="screen" id="screenPerfil">
             <div id="feedPerfil">
-                <div class="profile-hero">
-                    <div class="profile-av skel" style="border:none;"></div>
-                    <div class="skel" style="width:120px;height:18px;border-radius:6px;"></div>
+                <div class="pf-banner" style="height:168px;">
+                    <div class="pf-banner-fade"></div>
+                </div>
+                <div class="pf-identity">
+                    <div class="pf-av skel" style="border:none;"></div>
+                    <div class="skel" style="width:120px;height:18px;border-radius:6px;margin-top:12px;"></div>
+                    <div class="skel" style="width:160px;height:12px;border-radius:4px;margin-top:6px;"></div>
                 </div>
             </div>
         </div>
@@ -848,29 +985,240 @@
     };
 
     // ── PERFIL ────────────────────────────────────────────────
-    function loadPerfil() {
+    async function loadPerfil() {
         if (!user) return;
-        const initial = esc((user.username || '?').charAt(0).toUpperCase());
-        const imgTag  = user.avatar ? `<img src="${esc(user.avatar)}" alt="" onerror="this.remove()">` : '';
-        const elo     = user.elo          != null ? user.elo          : '--';
-        const wins    = user.wins         != null ? user.wins         : '--';
-        const matches = user.total_matches != null ? user.total_matches : (user.games_played != null ? user.games_played : '--');
-        const losses  = user.losses       != null ? user.losses       : '--';
+        const container = document.getElementById('feedPerfil');
 
-        document.getElementById('feedPerfil').innerHTML = `
-        <div class="profile-hero">
-            <div class="profile-av">${imgTag}${initial}</div>
-            <div class="profile-name">${esc(user.username)}</div>
-            <div class="profile-email">${esc(user.email || '')}</div>
-            <div class="profile-elo">ELO ${elo}</div>
+        try {
+            const res = await fetch(API + '/user/profile/' + encodeURIComponent(user.username), { headers: auth() });
+            const p   = await res.json();
+            container.innerHTML = buildProfileHTML(p);
+        } catch (_) {
+            container.innerHTML = buildProfileHTML(user); // fallback to basic user data
+        }
+        cache['Perfil'] = true;
+    }
+
+    function buildProfileHTML(p) {
+        const LANG_ICONS  = { Python:'python', 'C++':'cplusplus', Java:'java', Go:'go', 'C#':'csharp' };
+        const LANG_COLORS = { Python:'#4d96ff', 'C++':'#9b5de5', Java:'#ff8c00', Go:'#00d4aa', 'C#':'#c77dff' };
+
+        // ── Hero ──────────────────────────────────────────────
+        const initial = esc((p.username||'?').charAt(0).toUpperCase());
+        const imgTag  = p.avatar ? `<img src="${esc(p.avatar)}" alt="" onerror="this.remove()">` : '';
+        const bannerImg = p.profile_banner
+            ? `<img class="pf-banner-img" src="${esc(p.profile_banner)}" alt="" onerror="this.remove()">`
+            : '';
+
+        let badges = '';
+        if (p.role === 'admin')      badges += `<span class="pf-role-badge pf-role-admin">ADMIN</span>`;
+        else if (p.role === 'moderator') badges += `<span class="pf-role-badge pf-role-mod">MOD</span>`;
+        if (p.subscription_plan === 'max')  badges += `<span class="pf-role-badge pf-sub-max">◆ MAX</span>`;
+        else if ((p.subscription_plan||'').startsWith('plus')) badges += `<span class="pf-role-badge pf-sub-plus">▲ PLUS</span>`;
+
+        const elo  = p.elo       != null ? p.elo       : '--';
+        const rank = p.rank_name || '';
+
+        let html = `
+        <div class="pf-banner">
+            ${bannerImg}
+            <div class="pf-banner-fade"></div>
         </div>
-        <div class="profile-stats">
-            <div class="stat-card"><div class="stat-val">${matches}</div><div class="stat-label">Partidas</div></div>
-            <div class="stat-card"><div class="stat-val">${wins}</div><div class="stat-label">Victorias</div></div>
-            <div class="stat-card"><div class="stat-val">${losses}</div><div class="stat-label">Derrotas</div></div>
-        </div>
-        <div class="profile-actions">
-            <button class="profile-action-btn danger" onclick="logout()">
+        <div class="pf-identity">
+            <div class="pf-av">${imgTag}${initial}</div>
+            ${badges ? `<div class="pf-badges">${badges}</div>` : ''}
+            <div class="pf-name">${esc(p.username)}</div>
+            <div class="pf-email">${esc(p.email || user.email || '')}</div>
+            <div class="pf-elo-row">
+                <div class="pf-elo">ELO ${elo}</div>
+                ${rank ? `<div class="pf-rank">${esc(rank)}</div>` : ''}
+            </div>
+            ${p.global_rank ? `<div class="pf-global-rank">Posicion global #${p.global_rank}</div>` : ''}
+            ${p.description ? `<div class="pf-desc">${esc(p.description)}</div>` : ''}
+            ${buildLangIcons(p.languages, LANG_ICONS)}
+        </div>`;
+
+        // ── Ranked ────────────────────────────────────────────
+        const mp  = p.matches_played || 0;
+        const wr  = mp > 0 ? (p.win_rate || 0) + '%' : '--';
+        html += `
+        <div class="pf-section">
+            <div class="pf-section-label">// Ranked</div>
+            <div class="pf-grid">
+                <div class="pf-stat"><div class="pf-stat-val">${mp}</div><div class="pf-stat-key">Partidas</div></div>
+                <div class="pf-stat"><div class="pf-stat-val green">${p.wins||0}</div><div class="pf-stat-key">Victorias</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${mp>0?'green':'muted'}">${wr}</div><div class="pf-stat-key">Win Rate</div></div>
+                <div class="pf-stat"><div class="pf-stat-val cyan">${elo}</div><div class="pf-stat-key">ELO actual</div></div>
+                <div class="pf-stat"><div class="pf-stat-val">${p.max_elo||'--'}</div><div class="pf-stat-key">ELO maximo</div></div>
+                <div class="pf-stat"><div class="pf-stat-val">${esc(p.max_rank_name||'--')}</div><div class="pf-stat-key">Rango max</div></div>
+            </div>
+        </div>`;
+
+        // ── Ejercicios ────────────────────────────────────────
+        const solved = p.solved_count || 0;
+        const byDiff = p.solved_by_difficulty || {};
+        const DIFF_CONFIG = [
+            { key:'Fácil',       label:'800–1200',  cls:'d-facil'  },
+            { key:'Normal',      label:'1200–1800', cls:'d-normal' },
+            { key:'Difícil',     label:'1800–2400', cls:'d-dif'    },
+            { key:'Muy Difícil', label:'2400–3000', cls:'d-muydif' },
+            { key:'Insane',      label:'3000–3500', cls:'d-insane' },
+            { key:'Abyssal',     label:'3500+',     cls:'d-abyss'  },
+        ];
+        const diffMax = Math.max(...Object.values(byDiff), 1);
+        const diffRows = DIFF_CONFIG.map(d => {
+            const n = byDiff[d.key] || 0;
+            const w = n > 0 ? Math.max(Math.round(n / diffMax * 100), 4) : 0;
+            return `<div class="diff-row">
+                <span class="diff-label">${d.label}</span>
+                <div class="diff-track"><div class="diff-fill ${d.cls}" style="width:${w}%"></div></div>
+                <span class="diff-count">${n||''}</span>
+            </div>`;
+        }).join('');
+
+        // Language bar
+        const langStats  = p.lang_stats || {};
+        const langTotal  = Object.values(langStats).reduce((a,b) => a+b, 0);
+        let   langBarHTML = '', langLegendHTML = '';
+        if (langTotal > 0) {
+            langBarHTML = `<div class="lang-bar">` +
+                Object.entries(langStats).filter(([,v])=>v>0).map(([l,n]) => {
+                    const pct   = (n/langTotal*100).toFixed(1);
+                    const color = LANG_COLORS[l] || '#888';
+                    return `<div class="lang-segment" style="width:${pct}%;background:${color}" title="${esc(l)}"></div>`;
+                }).join('') + `</div>`;
+            langLegendHTML = `<div class="lang-legend">` +
+                Object.entries(langStats).filter(([,v])=>v>0).map(([l,n]) => {
+                    const pct   = Math.round(n/langTotal*100);
+                    const color = LANG_COLORS[l] || '#888';
+                    return `<span class="lang-legend-item"><span class="lang-legend-dot" style="background:${color}"></span>${esc(l)} ${pct}%</span>`;
+                }).join('') + `</div>`;
+        }
+
+        html += `
+        <div class="pf-section" style="margin-top:20px">
+            <div class="pf-section-label">// Ejercicios — ${solved} resueltos</div>
+            ${diffRows}
+            ${langBarHTML ? `<div style="margin-top:14px">${langBarHTML}${langLegendHTML}</div>` : ''}
+        </div>`;
+
+        // ── Bot ───────────────────────────────────────────────
+        const bm = p.bot_matches || 0;
+        const bw = p.bot_wins    || 0;
+        const bwr = bm > 0 ? (p.bot_winrate || 0) + '%' : '--';
+        html += `
+        <div class="pf-section" style="margin-top:20px">
+            <div class="pf-section-label">// Vs CPU</div>
+            <div class="pf-grid">
+                <div class="pf-stat"><div class="pf-stat-val">${bm}</div><div class="pf-stat-key">Partidas</div></div>
+                <div class="pf-stat"><div class="pf-stat-val green">${bw}</div><div class="pf-stat-key">Victorias</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${bm>0?'green':'muted'}">${bwr}</div><div class="pf-stat-key">Win Rate</div></div>
+            </div>
+        </div>`;
+
+        // ── Supervivencia ──────────────────────────────────────
+        const sv = (p.survival_stats && p.survival_stats.survival) || {};
+        function fmtT(s) { if(!s)return'—'; return Math.floor(s/60)+':'+(s%60+'').padStart(2,'0'); }
+        const so = { g:sv.solo_games||0, t:fmtT(sv.solo_max_time_survived), e:sv.solo_max_exercises||0 };
+        const co = { g:sv.coop_games||0, t:fmtT(sv.coop_max_time_survived), e:sv.coop_max_exercises||0 };
+        html += `
+        <div class="pf-section" style="margin-top:20px">
+            <div class="pf-section-label">// Supervivencia</div>
+            <div class="pf-subsec-label">Solo</div>
+            <div class="pf-grid">
+                <div class="pf-stat"><div class="pf-stat-val">${so.g}</div><div class="pf-stat-key">Partidas</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${sv.solo_max_time_survived?'green':'muted'}">${so.t}</div><div class="pf-stat-key">Mejor tiempo</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${sv.solo_max_exercises?'green':'muted'}">${so.e||'—'}</div><div class="pf-stat-key">Max ejercs</div></div>
+            </div>
+            <div class="pf-subsec-label">Cooperativo</div>
+            <div class="pf-grid">
+                <div class="pf-stat"><div class="pf-stat-val">${co.g}</div><div class="pf-stat-key">Partidas</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${sv.coop_max_time_survived?'green':'muted'}">${co.t}</div><div class="pf-stat-key">Mejor tiempo</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${sv.coop_max_exercises?'green':'muted'}">${co.e||'—'}</div><div class="pf-stat-key">Max ejercs</div></div>
+            </div>
+        </div>`;
+
+        // ── Torneos ────────────────────────────────────────────
+        const tj  = p.tournaments_joined      || 0;
+        const tw  = p.tournament_wins         || 0;
+        const twr = tj > 0 ? (p.tournament_winrate||0) + '%' : '--';
+        const tmw = p.tournament_match_wins   || 0;
+        const tml = p.tournament_match_losses || 0;
+        html += `
+        <div class="pf-section" style="margin-top:20px">
+            <div class="pf-section-label">// Torneos</div>
+            <div class="pf-grid">
+                <div class="pf-stat"><div class="pf-stat-val">${tj}</div><div class="pf-stat-key">Jugados</div></div>
+                <div class="pf-stat"><div class="pf-stat-val blue">${tw}</div><div class="pf-stat-key">Ganados</div></div>
+                <div class="pf-stat"><div class="pf-stat-val ${tj>0?'blue':'muted'}">${twr}</div><div class="pf-stat-key">Win Rate</div></div>
+            </div>
+        </div>`;
+
+        // ── Team ───────────────────────────────────────────────
+        if (p.team) {
+            const tav = p.team.photo_url
+                ? `style="background-image:url(${esc(p.team.photo_url)});background-size:cover;"`
+                : '';
+            const tinit = esc((p.team.name||'?').charAt(0).toUpperCase());
+            html += `
+            <div class="pf-section" style="margin-top:20px">
+                <div class="pf-section-label">// Club</div>
+                <a class="pf-team" href="/equipo?t=${encodeURIComponent(p.team.name)}">
+                    <div class="pf-team-av" ${tav}>${tav?'':tinit}</div>
+                    <div>
+                        <div class="pf-team-name">${esc(p.team.name)}</div>
+                        <div class="pf-team-label">Ver club</div>
+                    </div>
+                </a>
+            </div>`;
+        }
+
+        // ── Social links ───────────────────────────────────────
+        const SOCIAL_CFG = [
+            { key:'github',     label:'GitHub',     icon:'https://cdn.simpleicons.org/github/ffffff' },
+            { key:'codeforces', label:'Codeforces', icon:'https://cdn.simpleicons.org/codeforces/ffffff' },
+            { key:'instagram',  label:'Instagram',  icon:'https://cdn.simpleicons.org/instagram/ffffff' },
+            { key:'tiktok',     label:'TikTok',     icon:'https://cdn.simpleicons.org/tiktok/ffffff' },
+            { key:'linkedin',   label:'LinkedIn',   icon:'https://cdn.simpleicons.org/linkedin/ffffff' },
+        ];
+        const sl = p.social_links || {};
+        const activeSocials = SOCIAL_CFG.filter(s => sl[s.key]);
+        if (activeSocials.length) {
+            html += `
+            <div class="pf-section" style="margin-top:20px">
+                <div class="pf-section-label">// Redes</div>
+                <div class="pf-socials">
+                    ${activeSocials.map(s => `
+                    <a class="pf-social" href="${esc(sl[s.key])}" target="_blank" rel="noopener">
+                        <img src="${s.icon}" alt="${s.label}"> ${s.label}
+                    </a>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        // ── Achievements ───────────────────────────────────────
+        const achs = (p.equipped_achievements||[]).filter(Boolean);
+        if (achs.length) {
+            html += `
+            <div class="pf-section" style="margin-top:20px">
+                <div class="pf-section-label">// Logros</div>
+                <div class="pf-ach-list">
+                    ${achs.map(a => `
+                    <div class="pf-ach">
+                        <span class="pf-ach-icon">${a.icon||''}</span>
+                        <div>
+                            <div class="pf-ach-title">${esc(a.title||'')}</div>
+                            <div class="pf-ach-rarity rarity-${esc(a.rarity||'common')}">${esc((a.rarity||'').toUpperCase())}</div>
+                        </div>
+                    </div>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        // ── Actions ────────────────────────────────────────────
+        html += `
+        <div class="pf-actions">
+            <button class="pf-action-btn danger" onclick="logout()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                     <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -878,7 +1226,19 @@
                 Cerrar sesion
             </button>
         </div>`;
-        cache['Perfil'] = true;
+
+        return html;
+    }
+
+    function buildLangIcons(languages, LANG_ICONS) {
+        if (!languages || !languages.length) return '';
+        const icons = languages.map(l => {
+            const icon = LANG_ICONS[l];
+            return icon
+                ? `<img class="pf-lang-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${icon}/${icon}-original.svg" title="${esc(l)}" alt="${esc(l)}">`
+                : '';
+        }).filter(Boolean).join('');
+        return icons ? `<div class="pf-lang-icons" style="margin-top:6px">${icons}</div>` : '';
     }
 
     window.logout = function () {
