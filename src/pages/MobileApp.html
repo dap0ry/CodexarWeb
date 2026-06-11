@@ -1585,7 +1585,11 @@
         }
 
         try {
-            const t = await fetchClub(name);
+            // Fetch club and own profile in parallel; profile needed to know if user already has a team
+            const [t] = await Promise.all([
+                fetchClub(name),
+                user && !profileDataCache.has(user.username) ? fetchProfile(user.username) : Promise.resolve()
+            ]);
             content.innerHTML = buildClubDetailHTML(t);
         } catch (_) {
             content.innerHTML = `<div class="empty-state" style="margin-top:140px">Error al cargar el club</div>`;
@@ -1614,13 +1618,16 @@
             : initial;
 
         // Join / leave logic
-        const isOwner  = user && t.owner === user.username;
-        const isMember = user && members.some(m => m.username === user.username);
-        let actionBtn  = '';
+        const isOwner    = user && t.owner === user.username;
+        const isMember   = user && members.some(m => m.username === user.username);
+        const cachedMe   = user && profileDataCache.get(user.username);
+        const userTeam   = cachedMe ? (cachedMe.data?.team?.name || null) : null;
+        const hasOtherTeam = userTeam && userTeam !== name;
+        let actionBtn = '';
         if (!isOwner) {
             if (isMember) {
                 actionBtn = `<button class="cd-action-btn leave" onclick="clubLeave('${esc(teamId)}','${esc(name)}',this)">Abandonar club</button>`;
-            } else {
+            } else if (!hasOtherTeam) {
                 actionBtn = `<button class="cd-action-btn join" onclick="clubJoin('${esc(name)}',this)">Unirse al club</button>`;
             }
         }
