@@ -606,6 +606,18 @@
             font-family: var(--mono); font-size: 0.96rem; font-weight: 700; color: var(--cyan);
         }
         .cd-stat-key { font-size: 0.6rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .cd-action-wrap { width: 100%; margin-top: 14px; }
+        .cd-action-btn {
+            width: 100%; padding: 12px 0;
+            font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+            border-radius: 10px; cursor: pointer; border: 1px solid;
+            -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.15s;
+        }
+        .cd-action-btn:disabled { opacity: 0.4; cursor: default; }
+        .cd-action-btn:active { opacity: 0.75; }
+        .cd-action-btn.join  { background: rgba(0,255,204,0.08); border-color: rgba(0,255,204,0.3); color: var(--cyan); }
+        .cd-action-btn.leave { background: rgba(248,113,113,0.06); border-color: rgba(248,113,113,0.2); color: var(--red); }
         .cd-section-label {
             font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
             letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
@@ -1587,6 +1599,7 @@
 
     function buildClubDetailHTML(t) {
         const name    = t.name || '';
+        const teamId  = t.id || t._id || '';
         const initial = esc(name.charAt(0).toUpperCase());
         const bg      = t.background_url || '';
         const photo   = t.photo_url || '';
@@ -1599,6 +1612,18 @@
         const photoInner = photo
             ? `<img src="${esc(photo)}" alt="" onerror="this.remove()">${initial}`
             : initial;
+
+        // Join / leave logic
+        const isOwner  = user && t.owner === user.username;
+        const isMember = user && members.some(m => m.username === user.username);
+        let actionBtn  = '';
+        if (!isOwner) {
+            if (isMember) {
+                actionBtn = `<button class="cd-action-btn leave" onclick="clubLeave('${esc(teamId)}','${esc(name)}',this)">Abandonar club</button>`;
+            } else {
+                actionBtn = `<button class="cd-action-btn join" onclick="clubJoin('${esc(name)}',this)">Unirse al club</button>`;
+            }
+        }
 
         const membersHTML = members.length ? members.map(m => {
             const init  = esc((m.username||'?').charAt(0).toUpperCase());
@@ -1636,9 +1661,61 @@
                     <div class="cd-stat-key">Partidas</div>
                 </div>
             </div>
+            ${actionBtn ? `<div class="cd-action-wrap">${actionBtn}</div>` : ''}
         </div>
         <div class="cd-section-label">// Integrantes</div>
         <div class="cd-members">${membersHTML}</div>`;
+    }
+
+    window.clubJoin = async function (name, btn) {
+        btn.disabled = true; btn.textContent = 'Uniendose...';
+        try {
+            const res = await fetch(API + '/teams/' + encodeURIComponent(name) + '/join', { method: 'POST', headers: auth() });
+            const d   = await res.json();
+            if (res.ok) {
+                clubDataCache.delete(name);
+                profileDataCache.delete(user.username);
+                cache['Clubs'] = false;
+                cache['Perfil'] = false;
+                const t = await fetchClub(name);
+                document.getElementById('clubDetailContent').innerHTML = buildClubDetailHTML(t);
+            } else {
+                btn.disabled = false; btn.textContent = 'Unirse al club';
+                showClubMsg(d.detail || 'No se pudo unir', true);
+            }
+        } catch (_) { btn.disabled = false; btn.textContent = 'Unirse al club'; }
+    };
+
+    window.clubLeave = async function (teamId, name, btn) {
+        btn.disabled = true; btn.textContent = 'Saliendo...';
+        try {
+            const res = await fetch(API + '/teams/' + encodeURIComponent(teamId) + '/members/' + encodeURIComponent(user.username), { method: 'DELETE', headers: auth() });
+            const d   = await res.json();
+            if (res.ok) {
+                clubDataCache.delete(name);
+                profileDataCache.delete(user.username);
+                cache['Clubs'] = false;
+                cache['Perfil'] = false;
+                const t = await fetchClub(name);
+                document.getElementById('clubDetailContent').innerHTML = buildClubDetailHTML(t);
+            } else {
+                btn.disabled = false; btn.textContent = 'Abandonar club';
+                showClubMsg(d.detail || 'No se pudo salir', true);
+            }
+        } catch (_) { btn.disabled = false; btn.textContent = 'Abandonar club'; }
+    };
+
+    function showClubMsg(msg, isErr) {
+        const el = document.createElement('div');
+        el.textContent = msg;
+        el.style.cssText = `position:fixed;bottom:calc(env(safe-area-inset-bottom)+80px);left:50%;transform:translateX(-50%);
+            background:${isErr ? 'rgba(248,113,113,0.15)' : 'rgba(0,255,204,0.12)'};
+            border:1px solid ${isErr ? 'rgba(248,113,113,0.3)' : 'rgba(0,255,204,0.3)'};
+            color:${isErr ? '#f87171' : 'var(--cyan)'};
+            font-family:var(--mono);font-size:0.75rem;font-weight:700;
+            padding:10px 18px;border-radius:10px;z-index:300;white-space:nowrap;`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 2500);
     }
 
     // ── PERFIL ────────────────────────────────────────────────

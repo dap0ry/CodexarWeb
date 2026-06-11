@@ -68,7 +68,7 @@ async function loadTeamsPage() {
         const allTeams = allRes.ok    ? await allRes.json()    : [];
         const invites  = invitesRes.ok ? await invitesRes.json() : [];
 
-        hasTeam = !!myTeam;
+        hasTeam = !!(myTeam && myTeam.name);
 
         document.getElementById('tmLoading').classList.add('hidden');
         document.getElementById('tmPage').classList.remove('hidden');
@@ -122,10 +122,12 @@ function renderClubsGrid(teams, myTeam) {
         grid.querySelectorAll('.tm-card-join-btn').forEach(btn => {
             btn.addEventListener('click', async e => {
                 e.stopPropagation();
-                const r = await fetch(`${API}/teams/${btn.dataset.id}/join`, { method: 'POST', headers: authHeaders() });
+                btn.disabled = true;
+                btn.textContent = 'Uniéndose...';
+                const r = await fetch(`${API}/teams/${encodeURIComponent(btn.dataset.name)}/join`, { method: 'POST', headers: authHeaders() });
                 const d = await r.json();
                 if (r.ok) { showToast(d.message || '¡Unido al club!'); setTimeout(() => location.reload(), 700); }
-                else showToast(d.detail || 'Error al unirse', true);
+                else { showToast(d.detail || 'Error al unirse', true); btn.disabled = false; btn.textContent = 'Unirse'; }
             });
         });
     }
@@ -154,7 +156,7 @@ function buildClubCard(t, myName) {
     const initial = (t.name || '?').charAt(0).toUpperCase();
     const memberCount = Array.isArray(t.members) ? t.members.length : (t.member_count ?? 0);
     const joinBtn = (!hasTeam && !isOwn)
-        ? `<button class="tm-card-join-btn" data-id="${esc(t.id)}">Unirse</button>` : '';
+        ? `<button class="tm-card-join-btn" data-name="${esc(t.name)}">Unirse</button>` : '';
     const ownBadge = isOwn ? '<div class="tm-own-badge">Tu club</div>' : '';
     const isAdmin = currentUser && currentUser.role === 'admin';
     const adminBtn = isAdmin
