@@ -101,7 +101,10 @@ function renderUsers(users) {
             <td style="color:var(--accent-cyan)">${u.elo}</td>
             <td>${u.is_banned
                 ? '<span class="ap-status-banned">BANEADO</span>'
-                : '<span class="ap-status-active">Activo</span>'}</td>
+                : u.is_online
+                    ? '<span class="ap-status-active">● En línea</span>'
+                    : `<span class="ap-status-offline">${esc(u.last_seen_text || 'Nunca')}</span>`
+            }</td>
             <td>
                 <div class="ap-actions-cell">
                     <button class="ap-btn ap-btn-reset" onclick="resetUserProgress('${esc(u.username)}')">Borrar progreso</button>

@@ -149,8 +149,9 @@ body {
 .ap-role-admin    { color: rgba(255,46,99,0.9);  background: rgba(255,46,99,0.07);   border: 1px solid rgba(255,46,99,0.2); }
 
 /* ── Status badge ── */
-.ap-status-active { color: #39ff14; font-size: 0.65rem; }
-.ap-status-banned { color: #ff5566; font-size: 0.65rem; }
+.ap-status-active  { color: #39ff14; font-size: 0.65rem; }
+.ap-status-banned  { color: #ff5566; font-size: 0.65rem; }
+.ap-status-offline { color: rgba(114,114,138,0.7); font-size: 0.65rem; }
 
 /* ── Difficulty badge ── */
 .ap-diff {
