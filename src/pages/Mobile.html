@@ -262,12 +262,13 @@
 
         .btn-dl-ios {
             background: #14141e;
-            border: 1px solid rgba(180,180,200,0.18);
+            border: 1px solid rgba(0,255,204,0.22);
+            width: 100%;
         }
         .btn-dl-ios::before {
             content: '';
             position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(180,180,200,0.05) 0%, transparent 60%);
+            background: linear-gradient(135deg, rgba(0,255,204,0.05) 0%, transparent 60%);
             pointer-events: none;
         }
 
@@ -283,9 +284,9 @@
             color: #3ddc84;
         }
         .btn-dl-ios .btn-dl-icon {
-            background: rgba(200,200,220,0.06);
-            border: 1px solid rgba(200,200,220,0.15);
-            color: #c8c8d8;
+            background: rgba(0,255,204,0.07);
+            border: 1px solid rgba(0,255,204,0.18);
+            color: var(--cyan);
         }
 
         .btn-dl-text { display: flex; flex-direction: column; gap: 1px; }
@@ -294,14 +295,104 @@
             letter-spacing: 1.5px; text-transform: uppercase;
         }
         .btn-dl-android .btn-dl-top { color: rgba(61,220,132,0.6); }
-        .btn-dl-ios     .btn-dl-top { color: rgba(200,200,220,0.5); }
+        .btn-dl-ios     .btn-dl-top { color: rgba(0,255,204,0.5); }
 
         .btn-dl-name {
             font-family: var(--mono);
             font-size: 0.88rem; font-weight: 700; letter-spacing: -0.3px;
         }
         .btn-dl-android .btn-dl-name { color: #3ddc84; }
-        .btn-dl-ios     .btn-dl-name { color: #c8c8d8; }
+        .btn-dl-ios     .btn-dl-name { color: var(--cyan); }
+
+        /* ─── iOS INSTALL GUIDE ─── */
+        .ios-guide {
+            width: 100%; max-width: 300px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1),
+                        opacity 0.28s ease,
+                        margin-top 0.28s ease;
+            opacity: 0;
+            margin-top: 0;
+            position: relative; z-index: 1;
+        }
+        .ios-guide.open {
+            max-height: 480px;
+            opacity: 1;
+            margin-top: 4px;
+        }
+
+        .ios-guide-inner {
+            background: #0c0c18;
+            border: 1px solid rgba(0,255,204,0.14);
+            border-radius: 12px;
+            padding: 20px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .ios-guide-title {
+            font-family: var(--mono);
+            font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(0,255,204,0.45);
+            margin-bottom: 18px;
+        }
+
+        .ios-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .ios-step:first-of-type { border-top: none; padding-top: 0; }
+        .ios-step:last-of-type  { padding-bottom: 0; }
+
+        .ios-step-num {
+            font-family: var(--mono);
+            font-size: 0.6rem; font-weight: 700;
+            color: rgba(0,255,204,0.3);
+            letter-spacing: 1px;
+            min-width: 20px;
+            padding-top: 1px;
+        }
+
+        .ios-step-body { flex: 1; }
+
+        .ios-step-title {
+            font-family: var(--mono);
+            font-size: 0.78rem; font-weight: 700;
+            color: var(--text);
+            margin-bottom: 3px;
+            line-height: 1.3;
+        }
+
+        .ios-step-desc {
+            font-size: 0.76rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .ios-step-icon {
+            flex-shrink: 0;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,255,204,0.05);
+            border: 1px solid rgba(0,255,204,0.12);
+            border-radius: 8px;
+            color: rgba(0,255,204,0.6);
+        }
+
+        .ios-guide-note {
+            margin-top: 16px;
+            font-size: 0.73rem;
+            color: rgba(255,255,255,0.22);
+            line-height: 1.5;
+            text-align: center;
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.3px;
+        }
 
         /* ─── FEATURES ─── */
         .features {
@@ -406,17 +497,67 @@
             </div>
         </button>
 
-        <button class="btn-dl btn-dl-ios">
+        <button class="btn-dl btn-dl-ios" id="btnIos" onclick="toggleIosGuide()">
             <div class="btn-dl-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v13M8 6l4-4 4 4"/><rect x="3" y="15" width="18" height="6" rx="2"/>
                 </svg>
             </div>
             <div class="btn-dl-text">
-                <span class="btn-dl-top">Descargar en</span>
-                <span class="btn-dl-name">App Store · iOS</span>
+                <span class="btn-dl-top">Instalar en</span>
+                <span class="btn-dl-name">iPhone · iOS</span>
             </div>
         </button>
+    </div>
+
+    <!-- iOS install guide (expands on tap) -->
+    <div class="ios-guide" id="iosGuide">
+        <div class="ios-guide-inner">
+            <div class="ios-guide-title">// Como instalar</div>
+
+            <div class="ios-step">
+                <div class="ios-step-num">01</div>
+                <div class="ios-step-body">
+                    <div class="ios-step-title">Abre esta pagina en Safari</div>
+                    <div class="ios-step-desc">El instalador solo funciona desde Safari. Si la abriste con otro navegador, copiala en Safari.</div>
+                </div>
+                <div class="ios-step-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="ios-step">
+                <div class="ios-step-num">02</div>
+                <div class="ios-step-body">
+                    <div class="ios-step-title">Toca el boton compartir</div>
+                    <div class="ios-step-desc">El icono del cuadrado con la flecha hacia arriba, en la barra inferior de Safari.</div>
+                </div>
+                <div class="ios-step-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="ios-step">
+                <div class="ios-step-num">03</div>
+                <div class="ios-step-body">
+                    <div class="ios-step-title">Anadir a pantalla de inicio</div>
+                    <div class="ios-step-desc">Desplazate por el menu hasta encontrar esa opcion y pulsa Anadir en la esquina superior derecha.</div>
+                </div>
+                <div class="ios-step-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="ios-guide-note">
+                La app aparece en tu pantalla de inicio y se abre<br>en pantalla completa como una aplicacion nativa.
+            </div>
+        </div>
     </div>
 
 </section>
@@ -484,6 +625,14 @@
     }, { threshold: 0.15 });
     items.forEach(el => io.observe(el));
 })();
+
+function toggleIosGuide() {
+    var guide = document.getElementById('iosGuide');
+    var btn   = document.getElementById('btnIos');
+    var open  = guide.classList.toggle('open');
+    var label = btn.querySelector('.btn-dl-name');
+    label.textContent = open ? 'Ver instrucciones' : 'iPhone · iOS';
+}
 </script>
 
 </body>
