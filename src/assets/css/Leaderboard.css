@@ -124,7 +124,7 @@ body {
 }
 
 .lb-players-cols {
-    grid-template-columns: 36px 1fr 110px 64px 70px;
+    grid-template-columns: 36px 1fr 110px 64px;
 }
 
 .lb-exercise-cols {
@@ -152,7 +152,7 @@ body {
     border-color: rgba(255,255,255,0.07);
 }
 
-.lb-row-player-cols   { grid-template-columns: 36px 1fr 110px 64px 70px; }
+.lb-row-player-cols   { grid-template-columns: 36px 1fr 110px 64px; }
 .lb-row-exercise-cols { grid-template-columns: 36px 1fr 80px; }
 .lb-row-team-cols     { grid-template-columns: 36px 1fr 80px 80px; }
 

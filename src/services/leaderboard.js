@@ -52,7 +52,6 @@ function renderPlayerRow(player, position) {
             </span>
             <span class="lb-row-rank">${escHtml(player.rank_name)}</span>
             <span class="lb-row-elo">${player.elo}</span>
-            <span class="lb-row-solved">${player.solved}</span>
         </a>`;
 }
 
