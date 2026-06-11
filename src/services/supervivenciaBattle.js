@@ -6,8 +6,6 @@ const MONACO_LANG = {
     'Python': 'python',
     'C++':    'cpp',
     'Java':   'java',
-    'Go':     'go',
-    'C#':     'csharp',
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
