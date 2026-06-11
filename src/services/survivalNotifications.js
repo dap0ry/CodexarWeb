@@ -165,7 +165,7 @@
                 if (res.ok) {
                     const data = await res.json();
                     closeToast(toast);
-                    window.location.href = `/supervivencia/lobby?room=${data.room_id}&guest=1`;
+                    window.location.href = `/supervivencia?room=${data.room_id}&guest=1`;
                 } else {
                     closeToast(toast);
                 }

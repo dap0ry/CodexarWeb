@@ -82,21 +82,24 @@ function renderSlots(players) {
     const container = document.getElementById('survLobbySlots');
     container.innerHTML = '';
 
-    players.forEach((player, idx) => {
+    players.forEach((player) => {
         const slot = document.createElement('div');
         slot.className = 'surv-lobby-slot';
 
         const av = document.createElement('div');
         av.className = 'surv-lobby-avatar filled';
         if (player.avatar) {
-            av.style.backgroundImage = `url(${player.avatar})`;
+            av.style.backgroundImage = `url('${player.avatar}')`;
+            av.style.backgroundSize = 'cover';
+            av.style.backgroundPosition = 'center';
         } else {
             av.textContent = (player.username || '?').charAt(0).toUpperCase();
         }
 
         const name = document.createElement('div');
         name.className = 'surv-lobby-slot-name';
-        name.textContent = idx === 0 ? window.i18nT('survival.you') : player.username;
+        const isMe = myUser && player.username === myUser.username;
+        name.textContent = isMe ? window.i18nT('survival.you') : player.username;
 
         slot.appendChild(av);
         slot.appendChild(name);
@@ -278,9 +281,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             navAv.textContent = myUser.username.charAt(0).toUpperCase();
         }
 
-        renderSlots([{ username: myUser.username, avatar: myUser.avatar }]);
         fetchRecord();
-        ensureRoom();
+
+        const urlParams  = new URLSearchParams(window.location.search);
+        const guestRoom  = urlParams.get('room');
+        const isGuest    = urlParams.get('guest') === '1';
+
+        if (guestRoom && isGuest) {
+            // Guest: skip room creation, join existing room
+            roomId        = guestRoom;
+            isRoomCreated = true;
+            pollRoom();
+            pollInterval = setInterval(pollRoom, 2000);
+        } else {
+            renderSlots([{ username: myUser.username, avatar: myUser.avatar }]);
+            ensureRoom();
+        }
 
     } catch {
         window.location.href = '/login';
