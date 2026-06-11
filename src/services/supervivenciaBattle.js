@@ -168,6 +168,7 @@ async function initBattle() {
 
     document.getElementById('btnCheck').addEventListener('click', handleCheck);
     document.getElementById('btnSave').addEventListener('click', handleSave);
+    document.getElementById('btnSurrender').addEventListener('click', confirmSurrender);
     document.getElementById('logoutBtn').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('access_token');
@@ -486,7 +487,7 @@ async function handleCheck() {
 
     btnCheck.disabled = true;
     btnCheck.classList.add('loading');
-    btnCheck.innerHTML = '<span class="btn-icon">⏳</span> Comprobando...';
+    btnCheck.textContent = 'Comprobando...';
     statusEl.textContent = 'Ejecutando casos de prueba...';
     statusEl.style.color = 'var(--text-muted)';
     document.getElementById('editorOutput').style.display = 'none';
@@ -500,20 +501,20 @@ async function handleCheck() {
         const data = await res.json();
 
         if (data.correct) {
-            statusEl.textContent = '✓ Todos los casos superados — Guarda para avanzar';
+            statusEl.textContent = 'Todos los casos superados — Guarda para avanzar';
             statusEl.style.color = 'var(--accent-green)';
             showOutput('success', data);
             renderTestCases(exerciseData.test_cases, { correct: true });
             document.getElementById('btnSave').classList.remove('hidden');
             btnCheck.classList.add('hidden');
         } else {
-            statusEl.textContent = `✗ ${data.message}`;
+            statusEl.textContent = data.message;
             statusEl.style.color = 'var(--accent-red)';
             showOutput('error', data);
             renderTestCases(exerciseData.test_cases, data);
             btnCheck.disabled = false;
             btnCheck.classList.remove('loading');
-            btnCheck.innerHTML = '<span class="btn-icon">▶</span> Comprobar Código';
+            btnCheck.textContent = 'Comprobar Código';
         }
     } catch {
         statusEl.textContent = 'Error de conexión con la API';
@@ -521,7 +522,7 @@ async function handleCheck() {
         showOutput('error', { message: 'No se pudo conectar con el servidor.' });
         btnCheck.disabled = false;
         btnCheck.classList.remove('loading');
-        btnCheck.innerHTML = '<span class="btn-icon">▶</span> Comprobar Código';
+        btnCheck.textContent = 'Comprobar Código';
     }
 }
 
@@ -530,7 +531,7 @@ function handleSave() {
     if (battleEnded || !ws || ws.readyState !== WebSocket.OPEN) return;
     const btnSave = document.getElementById('btnSave');
     btnSave.disabled = true;
-    btnSave.innerHTML = '<span class="btn-icon">⏳</span> Enviando...';
+    btnSave.textContent = 'Enviando...';
     ws.send(JSON.stringify({ action: 'submit' }));
 }
 
@@ -539,10 +540,10 @@ function resetCheckState() {
     const btnSave  = document.getElementById('btnSave');
     btnCheck.disabled = false;
     btnCheck.classList.remove('loading', 'hidden');
-    btnCheck.innerHTML = '<span class="btn-icon">▶</span> Comprobar Código';
+    btnCheck.textContent = 'Comprobar Código';
     btnSave.classList.add('hidden');
     btnSave.disabled = false;
-    btnSave.innerHTML = '<span class="btn-icon">✓</span> Guardar Solución';
+    btnSave.textContent = 'Guardar Solución';
     document.getElementById('editorStatus').textContent = '';
     document.getElementById('editorOutput').style.display = 'none';
 }
@@ -556,7 +557,6 @@ function showOutput(type, data) {
     if (type === 'success') {
         content.innerHTML = `
             <div class="output-success">
-                <span style="font-size:1.3rem;">✓</span>
                 <span>${escHtml(data.message)}</span>
             </div>`;
     } else {
@@ -568,7 +568,7 @@ function showOutput(type, data) {
             </div>` : '';
         content.innerHTML = `
             <div class="output-error">
-                <div class="output-error-title">✗ ${escHtml(data.message)}</div>
+                <div class="output-error-title">${escHtml(data.message)}</div>
                 ${detailHtml}
             </div>`;
     }
@@ -588,7 +588,7 @@ function showWrongAnswerToast(details) {
         font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700;
         z-index: 400;
     `;
-    toast.textContent = `✗ ${details || 'Solución incorrecta'}`;
+    toast.textContent = details || 'Solución incorrecta';
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
 }
@@ -607,25 +607,23 @@ function showGameOver(exercisesSolved, timeSurvived, newRecord, abandonedBy) {
     clearTimeout(syncTimer);
 
     if (editor) editor.updateOptions({ readOnly: true });
-    document.getElementById('btnCheck').disabled = true;
-    document.getElementById('btnSave').disabled  = true;
+    document.getElementById('btnCheck').disabled    = true;
+    document.getElementById('btnSave').disabled     = true;
+    document.getElementById('btnSurrender').disabled = true;
 
     document.getElementById('goExercisesNum').textContent = exercisesSolved;
-    document.getElementById('goTimeSurvived').textContent  = `⏱ ${fmtTime(timeSurvived || 0)}`;
+    document.getElementById('goTimeSurvived').textContent  = fmtTime(timeSurvived || 0);
 
-    const iconEl   = document.getElementById('goIcon');
-    const titleEl  = document.getElementById('goTitle');
+    const titleEl   = document.getElementById('goTitle');
     const abandonEl = document.getElementById('goAbandonMsg');
 
     if (abandonedBy) {
-        iconEl.textContent  = '🚪';
         titleEl.textContent = 'Partida Terminada';
         abandonEl.textContent = abandonedBy === myUsername
-            ? 'Abandonaste la partida'
-            : `${abandonedBy} salió de la partida`;
+            ? 'Te rendiste'
+            : `${abandonedBy} salio de la partida`;
         abandonEl.classList.remove('hidden');
     } else {
-        iconEl.textContent  = '⏱';
         titleEl.textContent = 'Tiempo Agotado';
     }
 
@@ -634,6 +632,25 @@ function showGameOver(exercisesSolved, timeSurvived, newRecord, abandonedBy) {
     }
     document.getElementById('gameOverOverlay').classList.remove('hidden');
 }
+
+// ── Surrender flow ────────────────────────────────────────────────────────────
+function confirmSurrender() {
+    if (battleEnded) return;
+    document.getElementById('surrenderOverlay').classList.remove('hidden');
+}
+
+window.closeSurrenderModal = function () {
+    document.getElementById('surrenderOverlay').classList.add('hidden');
+};
+
+window.doSurrender = function () {
+    document.getElementById('surrenderOverlay').classList.add('hidden');
+    const btn = document.getElementById('btnSurrender');
+    if (btn) btn.disabled = true;
+    if (ws?.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ action: 'abandon' }));
+    }
+};
 
 // ── Leave / Abandon flow ──────────────────────────────────────────────────────
 window.confirmLeave = function (href) {

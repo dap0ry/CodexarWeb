@@ -95,12 +95,9 @@
             </div>
 
             <div class="editor-actions">
-                <button id="btnCheck" class="btn-check">
-                    <span class="btn-icon">▶</span> Comprobar Código
-                </button>
-                <button id="btnSave" class="btn-save hidden">
-                    <span class="btn-icon">✓</span> Guardar Solución
-                </button>
+                <button id="btnSurrender" class="btn-surrender">Rendirse</button>
+                <button id="btnCheck" class="btn-check">Comprobar Código</button>
+                <button id="btnSave" class="btn-save hidden">Guardar Solución</button>
             </div>
         </div>
     </main>
@@ -110,12 +107,26 @@
         <div class="surv-leave-modal">
             <div class="surv-leave-glow"></div>
             <div class="surv-leave-inner">
-                <div class="surv-leave-icon">⚠</div>
-                <div class="surv-leave-title">¿Seguro que quieres salir?</div>
-                <div class="surv-leave-subtitle" id="abandonSubtitle">Se perderá la partida en curso y todos los compañeros quedarán eliminados.</div>
+                <div class="surv-leave-title">Seguro que quieres salir?</div>
+                <div class="surv-leave-subtitle" id="abandonSubtitle">Se perdera la partida en curso y todos los companeros quedaran eliminados.</div>
                 <div class="surv-leave-actions">
                     <button class="surv-leave-btn surv-leave-btn-cancel" onclick="closeAbandonModal()">Quedarse</button>
                     <button class="surv-leave-btn surv-leave-btn-confirm" onclick="doLeave()">Salir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Surrender Modal -->
+    <div class="surv-leave-overlay hidden" id="surrenderOverlay">
+        <div class="surv-leave-modal">
+            <div class="surv-leave-glow"></div>
+            <div class="surv-leave-inner">
+                <div class="surv-leave-title">Seguro que quieres rendirte?</div>
+                <div class="surv-leave-subtitle">La partida terminara y se guardara tu progreso hasta aqui.</div>
+                <div class="surv-leave-actions">
+                    <button class="surv-leave-btn surv-leave-btn-cancel" onclick="closeSurrenderModal()">Cancelar</button>
+                    <button class="surv-leave-btn surv-leave-btn-confirm" id="btnConfirmSurrender" onclick="doSurrender()">Rendirse</button>
                 </div>
             </div>
         </div>
@@ -126,23 +137,22 @@
         <div class="surv-gameover-box">
             <div class="surv-gameover-glow"></div>
             <div class="surv-gameover-inner">
-                <div class="surv-gameover-icon" id="goIcon">⏱</div>
                 <div class="surv-gameover-title" id="goTitle">Tiempo Agotado</div>
                 <div class="surv-gameover-abandon hidden" id="goAbandonMsg"></div>
                 <div class="surv-gameover-solved">
                     <span class="surv-gameover-num" id="goExercisesNum">0</span>
                     <span class="surv-gameover-label">ejercicios resueltos</span>
                 </div>
-                <div class="surv-gameover-time" id="goTimeSurvived">⏱ 00:00</div>
+                <div class="surv-gameover-time" id="goTimeSurvived">00:00</div>
                 <div class="surv-gameover-record hidden" id="goNewRecord">
-                    <span class="surv-record-badge">★ NUEVO RÉCORD</span>
+                    <span class="surv-record-badge">NUEVO RECORD</span>
                 </div>
                 <div class="surv-gameover-actions">
                     <button class="surv-go-btn surv-go-btn-secondary" onclick="window.location.href='/home'">
-                        ← Menú Principal
+                        Menu Principal
                     </button>
                     <button class="surv-go-btn surv-go-btn-primary" onclick="replaySurvival()">
-                        Jugar de nuevo ↺
+                        Jugar de nuevo
                     </button>
                 </div>
             </div>
