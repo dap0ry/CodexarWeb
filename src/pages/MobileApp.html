@@ -999,6 +999,28 @@
     let cache     = {};
     let activeTab = 'Noticias';
 
+    const DATA_TTL       = 5 * 60 * 1000; // 5 min
+    const profileDataCache = new Map();    // username → {data, ts}
+    const clubDataCache    = new Map();    // name    → {data, ts}
+
+    async function fetchProfile(username) {
+        const hit = profileDataCache.get(username);
+        if (hit && Date.now() - hit.ts < DATA_TTL) return hit.data;
+        const res  = await fetch(API + '/user/profile/' + encodeURIComponent(username), { headers: auth() });
+        const data = await res.json();
+        profileDataCache.set(username, { data, ts: Date.now() });
+        return data;
+    }
+
+    async function fetchClub(name) {
+        const hit = clubDataCache.get(name);
+        if (hit && Date.now() - hit.ts < DATA_TTL) return hit.data;
+        const res  = await fetch(API + '/teams/public/' + encodeURIComponent(name));
+        const data = await res.json();
+        clubDataCache.set(name, { data, ts: Date.now() });
+        return data;
+    }
+
     // ── Init ──────────────────────────────────────────────────
     async function init() {
         if (!tok()) { window.location.replace('/mobile/auth'); return; }
@@ -1180,27 +1202,27 @@
         const statsEl  = document.getElementById('fcardStats');
         const actEl    = document.getElementById('fcardActions');
 
-        // Reset to loading state
-        banner.style.backgroundImage = '';
-        avEl.innerHTML = `<span>${esc(username.charAt(0).toUpperCase())}</span>`;
-        nameEl.textContent = username;
-        rankEl.textContent = '';
-        statsEl.innerHTML  = `<div style="color:var(--muted);font-size:0.72rem">Cargando...</div>`;
-        actEl.innerHTML    = '';
-        dotEl.className    = 'fcard-av-dot' + (isOnline ? ' online' : '');
-
+        dotEl.className = 'fcard-av-dot' + (isOnline ? ' online' : '');
         backdrop.classList.add('open');
         document.body.style.overflow = 'hidden';
 
+        // If cached, fill instantly without showing loading state
+        const cached = profileDataCache.get(username);
+        if (!cached) {
+            banner.style.backgroundImage = '';
+            avEl.innerHTML = `<span>${esc(username.charAt(0).toUpperCase())}</span>`;
+            nameEl.textContent = username;
+            rankEl.textContent = '';
+            statsEl.innerHTML  = `<div style="color:var(--muted);font-size:0.72rem">Cargando...</div>`;
+            actEl.innerHTML    = '';
+        }
+
         try {
-            const res = await fetch(API + '/user/profile/' + encodeURIComponent(username), { headers: auth() });
-            const p   = await res.json();
+            const p = await fetchProfile(username);
 
-            // Banner background
             const bg = p.profile_background || p.profile_banner;
-            if (bg) banner.style.backgroundImage = `url(${esc(bg)})`;
+            banner.style.backgroundImage = bg ? `url(${esc(bg)})` : '';
 
-            // Avatar
             let avInner = `<span>${esc((p.username||username).charAt(0).toUpperCase())}</span>`;
             if (p.avatar) avInner = `<img src="${esc(p.avatar)}" alt="" onerror="this.remove()">${avInner}`;
             avEl.innerHTML = avInner;
@@ -1208,10 +1230,10 @@
             nameEl.textContent = p.username || username;
             rankEl.textContent = p.rank_name || '';
 
-            const elo     = p.elo           != null ? p.elo           : '--';
-            const solved  = p.solved_count  != null ? p.solved_count  : '--';
-            const matches = p.matches_played != null ? p.matches_played : '--';
-            const wr      = p.win_rate      != null ? p.win_rate + '%' : '--';
+            const elo     = p.elo            != null ? p.elo            : '--';
+            const solved  = p.solved_count   != null ? p.solved_count   : '--';
+            const matches = p.matches_played  != null ? p.matches_played : '--';
+            const wr      = p.win_rate       != null ? p.win_rate + '%' : '--';
 
             statsEl.innerHTML = `
                 <div class="fcard-stat"><div class="fcard-stat-val">${elo}</div><div class="fcard-stat-key">ELO</div></div>
@@ -1238,21 +1260,30 @@
         const screen  = document.getElementById('fprofileScreen');
         const content = document.getElementById('fprofileContent');
 
-        // Show loading skeleton while fetching
-        content.innerHTML = `
-            <div class="pf-banner" style="height:168px;"><div class="pf-banner-fade"></div></div>
-            <div class="pf-identity">
-                <div class="pf-av skel" style="border:none;"></div>
-                <div class="skel" style="width:120px;height:18px;border-radius:6px;margin-top:12px;"></div>
-                <div class="skel" style="width:160px;height:12px;border-radius:4px;margin-top:6px;"></div>
-            </div>`;
         screen.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        // If already showing this user, just scroll to top — no re-render
+        if (screen.dataset.user === username) {
+            screen.scrollTop = 0;
+            return;
+        }
+        screen.dataset.user = username;
         screen.scrollTop = 0;
 
+        // Skeleton only if no cached data yet
+        if (!profileDataCache.has(username)) {
+            content.innerHTML = `
+                <div class="pf-banner" style="height:168px;"><div class="pf-banner-fade"></div></div>
+                <div class="pf-identity">
+                    <div class="pf-av skel" style="border:none;"></div>
+                    <div class="skel" style="width:120px;height:18px;border-radius:6px;margin-top:12px;"></div>
+                    <div class="skel" style="width:160px;height:12px;border-radius:4px;margin-top:6px;"></div>
+                </div>`;
+        }
+
         try {
-            const res = await fetch(API + '/user/profile/' + encodeURIComponent(username), { headers: auth() });
-            const p   = await res.json();
+            const p = await fetchProfile(username);
             content.innerHTML = buildProfileHTML(p, false);
         } catch (_) {
             content.innerHTML = `<div class="empty-state" style="margin-top:120px">Error al cargar el perfil</div>`;
@@ -1473,20 +1504,28 @@
         const screen  = document.getElementById('clubScreen');
         const content = document.getElementById('clubDetailContent');
 
-        content.innerHTML = `
-            <div class="cd-hero"><div class="cd-hero-fade"></div></div>
-            <div class="cd-identity">
-                <div class="cd-photo skel" style="border:none;"></div>
-                <div class="skel" style="width:140px;height:20px;border-radius:6px;margin-top:12px;"></div>
-                <div class="skel" style="width:180px;height:12px;border-radius:4px;margin-top:6px;"></div>
-            </div>`;
         screen.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        if (screen.dataset.club === name) {
+            screen.scrollTop = 0;
+            return;
+        }
+        screen.dataset.club = name;
         screen.scrollTop = 0;
 
+        if (!clubDataCache.has(name)) {
+            content.innerHTML = `
+                <div class="cd-hero"><div class="cd-hero-fade"></div></div>
+                <div class="cd-identity">
+                    <div class="cd-photo skel" style="border:none;"></div>
+                    <div class="skel" style="width:140px;height:20px;border-radius:6px;margin-top:12px;"></div>
+                    <div class="skel" style="width:180px;height:12px;border-radius:4px;margin-top:6px;"></div>
+                </div>`;
+        }
+
         try {
-            const res = await fetch(API + '/teams/public/' + encodeURIComponent(name));
-            const t   = await res.json();
+            const t = await fetchClub(name);
             content.innerHTML = buildClubDetailHTML(t);
         } catch (_) {
             content.innerHTML = `<div class="empty-state" style="margin-top:140px">Error al cargar el club</div>`;
@@ -1557,14 +1596,14 @@
     // ── PERFIL ────────────────────────────────────────────────
     async function loadPerfil() {
         if (!user) return;
+        if (cache['Perfil']) return; // DOM already rendered, images already in browser cache
         const container = document.getElementById('feedPerfil');
 
         try {
-            const res = await fetch(API + '/user/profile/' + encodeURIComponent(user.username), { headers: auth() });
-            const p   = await res.json();
+            const p = await fetchProfile(user.username);
             container.innerHTML = buildProfileHTML(p);
         } catch (_) {
-            container.innerHTML = buildProfileHTML(user); // fallback to basic user data
+            container.innerHTML = buildProfileHTML(user);
         }
         cache['Perfil'] = true;
     }
