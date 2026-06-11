@@ -497,7 +497,7 @@
             </div>
         </button>
 
-        <button class="btn-dl btn-dl-ios" id="btnIos" onclick="toggleIosGuide()">
+        <a href="/instalar-ios" class="btn-dl btn-dl-ios">
             <div class="btn-dl-icon">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2v13M8 6l4-4 4 4"/><rect x="3" y="15" width="18" height="6" rx="2"/>
@@ -507,57 +507,7 @@
                 <span class="btn-dl-top">Instalar en</span>
                 <span class="btn-dl-name">iPhone · iOS</span>
             </div>
-        </button>
-    </div>
-
-    <!-- iOS install guide (expands on tap) -->
-    <div class="ios-guide" id="iosGuide">
-        <div class="ios-guide-inner">
-            <div class="ios-guide-title">// Como instalar</div>
-
-            <div class="ios-step">
-                <div class="ios-step-num">01</div>
-                <div class="ios-step-body">
-                    <div class="ios-step-title">Abre esta pagina en Safari</div>
-                    <div class="ios-step-desc">El instalador solo funciona desde Safari. Si la abriste con otro navegador, copiala en Safari.</div>
-                </div>
-                <div class="ios-step-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="ios-step">
-                <div class="ios-step-num">02</div>
-                <div class="ios-step-body">
-                    <div class="ios-step-title">Toca el boton compartir</div>
-                    <div class="ios-step-desc">El icono del cuadrado con la flecha hacia arriba, en la barra inferior de Safari.</div>
-                </div>
-                <div class="ios-step-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="ios-step">
-                <div class="ios-step-num">03</div>
-                <div class="ios-step-body">
-                    <div class="ios-step-title">Anadir a pantalla de inicio</div>
-                    <div class="ios-step-desc">Desplazate por el menu hasta encontrar esa opcion y pulsa Anadir en la esquina superior derecha.</div>
-                </div>
-                <div class="ios-step-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="ios-guide-note">
-                La app aparece en tu pantalla de inicio y se abre<br>en pantalla completa como una aplicacion nativa.
-            </div>
-        </div>
+        </a>
     </div>
 
 </section>
@@ -626,13 +576,7 @@
     items.forEach(el => io.observe(el));
 })();
 
-function toggleIosGuide() {
-    var guide = document.getElementById('iosGuide');
-    var btn   = document.getElementById('btnIos');
-    var open  = guide.classList.toggle('open');
-    var label = btn.querySelector('.btn-dl-name');
-    label.textContent = open ? 'Ver instrucciones' : 'iPhone · iOS';
-}
+
 </script>
 
 </body>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Codexar — Instalar en iPhone</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cyan:    #00ffcc;
+            --bg:      #080810;
+            --surface: #0f0f1a;
+            --card:    #13131e;
+            --border:  rgba(255,255,255,0.06);
+            --text:    #e4e4f0;
+            --muted:   rgba(255,255,255,0.38);
+            --mono:    'JetBrains Mono', monospace;
+            --sans:    'Inter', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        /* ── TOP BAR ── */
+        .topbar {
+            position: sticky; top: 0; z-index: 100;
+            height: 52px;
+            display: flex; align-items: center; gap: 12px;
+            padding: 0 20px;
+            background: rgba(8,8,16,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .topbar-back {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer; text-decoration: none;
+            transition: background 0.15s;
+            flex-shrink: 0;
+        }
+        .topbar-back:active { background: rgba(255,255,255,0.08); }
+        .topbar-logo {
+            font-family: var(--mono);
+            font-size: 0.95rem; font-weight: 800; letter-spacing: -0.5px;
+        }
+        .topbar-logo span { color: var(--cyan); }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 44px 24px 36px;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,204,0.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,204,0.022) 1px, transparent 1px);
+            background-size: 36px 36px;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, transparent 40%, var(--bg) 85%);
+            pointer-events: none;
+        }
+        .hero-inner { position: relative; z-index: 1; }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(0,255,204,0.45);
+            margin-bottom: 12px;
+        }
+        .hero-title {
+            font-family: var(--mono);
+            font-size: 1.9rem; font-weight: 800;
+            letter-spacing: -1px; line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        .hero-title span { color: var(--cyan); }
+        .hero-desc {
+            font-size: 0.88rem; color: var(--muted);
+            line-height: 1.65; max-width: 320px;
+        }
+
+        /* ── STEPS ── */
+        .steps {
+            padding: 8px 24px 60px;
+            display: flex; flex-direction: column;
+            gap: 0;
+        }
+
+        .step {
+            display: flex; flex-direction: column;
+            gap: 18px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .step:last-child { border-bottom: none; }
+        .step.visible { opacity: 1; transform: translateY(0); }
+
+        .step-header {
+            display: flex; align-items: flex-start; gap: 16px;
+        }
+        .step-num {
+            font-family: var(--mono);
+            font-size: 0.58rem; font-weight: 700;
+            letter-spacing: 1px;
+            color: rgba(0,255,204,0.3);
+            min-width: 24px;
+            padding-top: 3px;
+        }
+        .step-text { flex: 1; }
+        .step-title {
+            font-family: var(--mono);
+            font-size: 1rem; font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 7px;
+            line-height: 1.25;
+        }
+        .step-desc {
+            font-size: 0.84rem; color: var(--muted);
+            line-height: 1.65;
+        }
+        .step-desc b { color: rgba(255,255,255,0.65); font-weight: 600; }
+
+        /* ── MOCKUPS ── */
+        .mockup {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: #101018;
+            position: relative;
+        }
+
+        /* Step 1 mockup — Safari address bar */
+        .mock-safari {
+            padding: 14px 16px 16px;
+        }
+        .mock-safari-bar {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 9px 13px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .mock-safari-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(0,255,204,0.5);
+            box-shadow: 0 0 6px rgba(0,255,204,0.4);
+            flex-shrink: 0;
+        }
+        .mock-safari-url {
+            font-family: var(--mono);
+            font-size: 0.72rem; font-weight: 600;
+            color: rgba(255,255,255,0.75);
+            flex: 1;
+            letter-spacing: 0.2px;
+        }
+        .mock-safari-url span { color: var(--cyan); }
+        .mock-safari-reload {
+            color: rgba(255,255,255,0.2);
+        }
+        .mock-safari-page {
+            margin-top: 12px;
+            background: #07070f;
+            border-radius: 8px;
+            padding: 14px;
+            display: flex; align-items: center; gap: 10px;
+            border: 1px solid rgba(0,255,204,0.08);
+        }
+        .mock-site-logo {
+            font-family: var(--mono);
+            font-size: 0.85rem; font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .mock-site-logo span { color: var(--cyan); }
+        .mock-site-desc {
+            font-size: 0.7rem; color: var(--muted);
+        }
+
+        /* Step 2 mockup — Safari bottom bar */
+        .mock-bottom-bar {
+            padding: 12px 20px 16px;
+            background: rgba(255,255,255,0.03);
+        }
+        .mock-bottom-bar-inner {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .mock-bar-btn {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px;
+            color: rgba(255,255,255,0.2);
+        }
+        .mock-bar-btn.active { color: rgba(0,120,255,0.75); }
+        .mock-bar-btn.highlighted {
+            color: var(--cyan);
+            position: relative;
+        }
+        .mock-bar-btn.highlighted::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 10px;
+            background: rgba(0,255,204,0.07);
+            border: 1px solid rgba(0,255,204,0.2);
+        }
+        .mock-bar-label {
+            font-family: var(--mono);
+            font-size: 0.45rem; font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .mock-bar-hint {
+            margin-top: 12px;
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            color: rgba(0,255,204,0.5);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* Step 3 mockup — Share sheet */
+        .mock-sheet {
+            padding: 0;
+        }
+        .mock-sheet-handle {
+            display: flex; justify-content: center;
+            padding: 10px 0 6px;
+        }
+        .mock-sheet-handle-bar {
+            width: 36px; height: 4px; border-radius: 2px;
+            background: rgba(255,255,255,0.12);
+        }
+        .mock-sheet-title {
+            font-family: var(--mono);
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .mock-sheet-actions {
+            display: flex; flex-direction: column;
+        }
+        .mock-sheet-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 13px 18px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+        .mock-sheet-item.highlighted {
+            background: rgba(0,255,204,0.05);
+            border-top-color: rgba(0,255,204,0.1);
+            color: var(--text);
+        }
+        .mock-sheet-item.highlighted + .mock-sheet-item {
+            border-top-color: rgba(0,255,204,0.1);
+        }
+        .mock-sheet-item-icon {
+            width: 30px; height: 30px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+        .mock-sheet-item.highlighted .mock-sheet-item-icon {
+            background: rgba(0,255,204,0.1);
+            border-color: rgba(0,255,204,0.2);
+            color: var(--cyan);
+        }
+        .mock-sheet-arrow {
+            margin-left: auto;
+            color: rgba(0,255,204,0.4);
+        }
+
+        /* Step 4 mockup — Confirmation dialog */
+        .mock-dialog {
+            padding: 18px;
+        }
+        .mock-dialog-topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .mock-dialog-cancel {
+            font-size: 0.78rem;
+            color: rgba(0,120,255,0.65);
+        }
+        .mock-dialog-heading {
+            font-family: var(--mono);
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.5);
+        }
+        .mock-dialog-add {
+            font-family: var(--mono);
+            font-size: 0.78rem; font-weight: 700;
+            color: var(--cyan);
+            background: rgba(0,255,204,0.08);
+            border: 1px solid rgba(0,255,204,0.25);
+            border-radius: 6px;
+            padding: 5px 12px;
+        }
+        .mock-dialog-body {
+            display: flex; gap: 14px; align-items: center;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+        }
+        .mock-dialog-icon {
+            width: 44px; height: 44px; border-radius: 10px;
+            background: #07070f;
+            border: 1px solid rgba(0,255,204,0.15);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .mock-dialog-icon-inner {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: rgba(0,255,204,0.12);
+            border: 2px solid rgba(0,255,204,0.4);
+        }
+        .mock-dialog-info {}
+        .mock-dialog-name {
+            font-family: var(--mono);
+            font-size: 0.82rem; font-weight: 700;
+        }
+        .mock-dialog-url {
+            font-size: 0.7rem; color: var(--muted); margin-top: 2px;
+        }
+
+        /* ── RESULT CARD ── */
+        .result-card {
+            margin: 0 24px 60px;
+            background: rgba(0,255,204,0.04);
+            border: 1px solid rgba(0,255,204,0.14);
+            border-radius: 16px;
+            padding: 24px 20px;
+            display: flex; gap: 16px; align-items: flex-start;
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .result-card.visible { opacity: 1; transform: translateY(0); }
+        .result-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: #07070f;
+            border: 1px solid rgba(0,255,204,0.2);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .result-icon-dot {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: rgba(0,255,204,0.1);
+            border: 2px solid rgba(0,255,204,0.5);
+        }
+        .result-text {}
+        .result-title {
+            font-family: var(--mono);
+            font-size: 0.82rem; font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .result-desc {
+            font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+        }
+
+        /* ── FOOTER ── */
+        .page-footer {
+            padding: 28px 24px 52px;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 8px;
+            border-top: 1px solid var(--border);
+        }
+        .page-footer-logo {
+            font-family: var(--mono);
+            font-size: 0.9rem; font-weight: 800;
+        }
+        .page-footer-logo span { color: var(--cyan); }
+        .page-footer-hint {
+            font-size: 0.73rem; color: var(--muted);
+        }
+        .page-footer-hint a { color: rgba(0,255,204,0.5); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="topbar">
+    <a href="/mobile" class="topbar-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+        </svg>
+    </a>
+    <div class="topbar-logo">Codex<span>ar</span></div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-eyebrow">// Instalacion</div>
+        <h1 class="hero-title">Instalar en<br><span>iPhone</span></h1>
+        <p class="hero-desc">Sin App Store, sin descargas. Sigue estos 4 pasos desde Safari y Codexar aparece en tu pantalla de inicio como una app nativa.</p>
+    </div>
+</section>
+
+<!-- Steps -->
+<div class="steps">
+
+    <!-- Step 1 -->
+    <div class="step">
+        <div class="step-header">
+            <div class="step-num">01</div>
+            <div class="step-text">
+                <div class="step-title">Abre esta pagina en Safari</div>
+                <div class="step-desc">El instalador solo funciona desde <b>Safari</b>. Si llegaste aqui desde Chrome, Instagram u otro navegador, copia la URL y pegala en Safari.</div>
+            </div>
+        </div>
+        <div class="mockup mock-safari">
+            <div class="mock-safari-bar">
+                <div class="mock-safari-dot"></div>
+                <div class="mock-safari-url"><span>codexar.es</span></div>
+                <div class="mock-safari-reload">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mock-safari-page">
+                <div>
+                    <div class="mock-site-logo">Codex<span>ar</span></div>
+                    <div class="mock-site-desc">Programacion Competitiva</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+        <div class="step-header">
+            <div class="step-num">02</div>
+            <div class="step-text">
+                <div class="step-title">Toca el boton compartir</div>
+                <div class="step-desc">En la barra inferior de Safari, toca el icono del <b>cuadrado con la flecha hacia arriba</b>. Esta en el centro de la barra.</div>
+            </div>
+        </div>
+        <div class="mockup">
+            <div class="mock-bottom-bar">
+                <div class="mock-bottom-bar-inner">
+                    <div class="mock-bar-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                        <span class="mock-bar-label">Atras</span>
+                    </div>
+                    <div class="mock-bar-btn active">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                        <span class="mock-bar-label">Adelante</span>
+                    </div>
+                    <div class="mock-bar-btn highlighted">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                        <span class="mock-bar-label">Compartir</span>
+                    </div>
+                    <div class="mock-bar-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+                        </svg>
+                        <span class="mock-bar-label">Pestanas</span>
+                    </div>
+                    <div class="mock-bar-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span class="mock-bar-label">Inicio</span>
+                    </div>
+                </div>
+                <div class="mock-bar-hint">Toca este boton</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+        <div class="step-header">
+            <div class="step-num">03</div>
+            <div class="step-text">
+                <div class="step-title">Anadir a pantalla de inicio</div>
+                <div class="step-desc">Se abre un menu desde abajo. Desplazate hasta encontrar <b>"Anadir a pantalla de inicio"</b> y pulsalo.</div>
+            </div>
+        </div>
+        <div class="mockup mock-sheet">
+            <div class="mock-sheet-handle">
+                <div class="mock-sheet-handle-bar"></div>
+            </div>
+            <div class="mock-sheet-title">Compartir</div>
+            <div class="mock-sheet-actions">
+                <div class="mock-sheet-item">
+                    <div class="mock-sheet-item-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    Copiar enlace
+                </div>
+                <div class="mock-sheet-item highlighted">
+                    <div class="mock-sheet-item-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                    </div>
+                    Anadir a pantalla de inicio
+                    <span class="mock-sheet-arrow">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="mock-sheet-item">
+                    <div class="mock-sheet-item-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                    </div>
+                    Marcadores
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+        <div class="step-header">
+            <div class="step-num">04</div>
+            <div class="step-text">
+                <div class="step-title">Confirma con Anadir</div>
+                <div class="step-desc">Aparece una pantalla de confirmacion. Puedes cambiar el nombre si quieres. Pulsa <b>Anadir</b> en la esquina superior derecha.</div>
+            </div>
+        </div>
+        <div class="mockup mock-dialog">
+            <div class="mock-dialog-topbar">
+                <span class="mock-dialog-cancel">Cancelar</span>
+                <span class="mock-dialog-heading">Pantalla de inicio</span>
+                <span class="mock-dialog-add">Anadir</span>
+            </div>
+            <div class="mock-dialog-body">
+                <div class="mock-dialog-icon">
+                    <div class="mock-dialog-icon-inner"></div>
+                </div>
+                <div class="mock-dialog-info">
+                    <div class="mock-dialog-name">Codexar</div>
+                    <div class="mock-dialog-url">codexar.es</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Result card -->
+<div class="result-card" id="resultCard">
+    <div class="result-icon">
+        <div class="result-icon-dot"></div>
+    </div>
+    <div class="result-text">
+        <div class="result-title">Listo</div>
+        <div class="result-desc">El icono de Codexar aparece en tu pantalla de inicio. Al abrirlo se lanza en pantalla completa, sin barra de Safari, igual que una app nativa.</div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer">
+    <div class="page-footer-logo">Codex<span>ar</span></div>
+    <p class="page-footer-hint">En PC entra en <a href="https://codexar.es">codexar.es</a></p>
+</footer>
+
+<script>
+(function () {
+    var els = document.querySelectorAll('.step, .result-card');
+    var io  = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e, i) {
+            if (e.isIntersecting) {
+                setTimeout(function () { e.target.classList.add('visible'); }, i * 60);
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>
