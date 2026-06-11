@@ -51,6 +51,18 @@ function copyDir(src, dest) {
   }
 }
 
+// PWA meta tags + SW registration injected into every HTML page
+const PWA_TAGS = `
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Codexar">
+    <meta name="theme-color" content="#07070f">
+    <link rel="apple-touch-icon" href="/icons/icon-180.png">
+    <link rel="manifest" href="/manifest.json">`;
+
+const SW_SCRIPT = `
+    <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')});}</script>`;
+
 // Clean output dir
 if (fs.existsSync(OUT)) fs.rmSync(OUT, { recursive: true });
 fs.mkdirSync(OUT);
@@ -60,12 +72,20 @@ copyDir(path.join(SRC, 'assets'), path.join(OUT, 'src', 'assets'));
 copyDir(path.join(SRC, 'services'), path.join(OUT, 'src', 'services'));
 copyDir(path.join(SRC, 'locales'), path.join(OUT, 'src', 'locales'));
 
-// Copy pages with clean names
+// Copy static root files (manifest.json, sw.js, icons/, …)
+copyDir(path.join(SRC, 'static'), OUT);
+
+// Copy pages with clean names + inject PWA tags
 for (const [srcFile, outFile] of Object.entries(PAGE_MAP)) {
   const srcPath = path.join(SRC, 'pages', srcFile);
   const outPath = path.join(OUT, outFile);
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
-  fs.copyFileSync(srcPath, outPath);
+
+  let html = fs.readFileSync(srcPath, 'utf8');
+  html = html.replace('</head>', PWA_TAGS + '\n</head>');
+  html = html.replace('</body>', SW_SCRIPT + '\n</body>');
+  fs.writeFileSync(outPath, html);
+
   console.log(`  ${srcFile} → ${outFile}`);
 }
 
