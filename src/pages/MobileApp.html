@@ -117,8 +117,11 @@
         /* ── NEWS ── */
         .news-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 12px; padding: 16px;
+            border-radius: 12px; padding: 16px; cursor: pointer;
+            transition: border-color 0.18s;
+            -webkit-tap-highlight-color: transparent;
         }
+        .news-card.open { border-color: rgba(0,255,204,0.22); }
         .news-card-meta {
             font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
             letter-spacing: 1.5px; text-transform: uppercase;
@@ -127,7 +130,13 @@
         .news-card-title { font-size: 0.96rem; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
         .news-card-sub {
             font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+        }
+        .news-card-sub.clamped {
             display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .news-card-toggle {
+            font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+            color: rgba(0,255,204,0.5); margin-top: 8px; letter-spacing: 0.5px;
         }
 
         /* ── FRIENDS — Add bar ── */
@@ -215,6 +224,15 @@
         }
         .friend-row { cursor: pointer; }
         .friend-row:active { opacity: 0.75; }
+        .friend-del-btn {
+            flex-shrink: 0; background: transparent;
+            border: 1px solid rgba(248,113,113,0.2); border-radius: 8px;
+            color: rgba(248,113,113,0.5); padding: 6px 8px;
+            font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            transition: background 0.15s, color 0.15s;
+        }
+        .friend-del-btn:active { background: rgba(248,113,113,0.1); color: var(--red); }
 
         /* ── FRIEND PROFILE SCREEN ── */
         .fprofile-screen {
@@ -1087,16 +1105,27 @@
                 feed.innerHTML = items.map(n => {
                     const title    = (n.title_i18n && n.title_i18n[lang]) || n.title || '';
                     const subtitle = (n.subtitle_i18n && n.subtitle_i18n[lang]) || n.subtitle || '';
-                    return `<div class="news-card">
+                    const hasMore  = subtitle && subtitle.length > 120;
+                    return `<div class="news-card" onclick="toggleNews(this)">
                         <div class="news-card-meta">${esc(n.author_username || 'Codexar')} &middot; ${fmtDate(n.created_at)}</div>
                         <div class="news-card-title">${esc(title)}</div>
-                        ${subtitle ? `<div class="news-card-sub">${esc(subtitle)}</div>` : ''}
+                        ${subtitle ? `<div class="news-card-sub${hasMore ? ' clamped' : ''}">${esc(subtitle)}</div>` : ''}
+                        ${hasMore ? `<div class="news-card-toggle">Leer mas</div>` : ''}
                     </div>`;
                 }).join('');
             }
         } catch (_) { feed.innerHTML = '<div class="empty-state">Error cargando noticias</div>'; }
         cache['Noticias'] = true;
     }
+
+    window.toggleNews = function (card) {
+        const sub    = card.querySelector('.news-card-sub');
+        const toggle = card.querySelector('.news-card-toggle');
+        if (!sub || !toggle) return;
+        const open = card.classList.toggle('open');
+        sub.classList.toggle('clamped', !open);
+        toggle.textContent = open ? 'Leer menos' : 'Leer mas';
+    };
 
     // ── AMIGOS ────────────────────────────────────────────────
     async function loadAmigos() {
@@ -1188,6 +1217,7 @@
                 <div class="friend-sub ${online ? 'online' : ''}">${online ? 'En linea' : esc(f.last_seen_text || 'Desconectado')}</div>
             </div>
             ${f.elo != null ? `<div class="friend-elo">ELO ${f.elo}</div>` : ''}
+            <button class="friend-del-btn" onclick="event.stopPropagation();removeFriend('${esc(f.username)}',this)">Eliminar</button>
         </div>`;
     }
 
@@ -1344,6 +1374,24 @@
                 btn.disabled = false;
             }
         } catch (_) { btn.disabled = false; }
+    };
+
+    window.removeFriend = async function (username, btn) {
+        btn.disabled = true;
+        btn.textContent = '...';
+        try {
+            const res = await fetch(API + '/friends/' + encodeURIComponent(username), {
+                method: 'DELETE', headers: auth()
+            });
+            if (res.ok) {
+                profileDataCache.delete(username); // invalidate cached profile
+                cache['Amigos'] = false;
+                loadAmigos();
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Eliminar';
+            }
+        } catch (_) { btn.disabled = false; btn.textContent = 'Eliminar'; }
     };
 
     // Enter key on add input
