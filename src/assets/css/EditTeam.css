@@ -327,6 +327,29 @@
     line-height: 1.5;
 }
 
+.et-upload-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.et-btn-clear-img {
+    padding: 7px 12px;
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 7px;
+    color: rgba(239,68,68,0.65);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+.et-btn-clear-img:hover { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.4); color: #ef4444; }
+
 @media (max-width: 600px) {
     .et-preview-row { flex-direction: column; align-items: flex-start; }
     .et-danger-row  { flex-direction: column; align-items: flex-start; }

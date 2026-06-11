@@ -113,6 +113,15 @@ function renderPage() {
     const bgPreview = document.getElementById('etBgPreview');
     if (etTeam.background_url) bgPreview.style.backgroundImage = `url(${etTeam.background_url})`;
 
+    // Show delete buttons for existing images
+    if (etTeam.photo_url)      document.getElementById('etPhotoClearBtn').classList.remove('hidden');
+    if (etTeam.banner_url)     document.getElementById('etBannerClearBtn').classList.remove('hidden');
+    if (etTeam.background_url) document.getElementById('etBgClearBtn').classList.remove('hidden');
+
+    document.getElementById('etPhotoClearBtn').addEventListener('click',  () => clearImage('photo'));
+    document.getElementById('etBannerClearBtn').addEventListener('click', () => clearImage('banner'));
+    document.getElementById('etBgClearBtn').addEventListener('click',     () => clearImage('background'));
+
     // File pickers → update previews only
     document.getElementById('etPhotoInput').addEventListener('change', e => {
         const file = e.target.files[0];
@@ -291,6 +300,39 @@ async function deleteTeam() {
     } catch {
         showToast('Error de conexión', true);
     }
+}
+
+async function clearImage(type) {
+    const res = await fetch(`${ET_API}/teams/${etTeamId}/images/${type}`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+    });
+    if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        showToast(d.detail || 'Error al eliminar la imagen', true);
+        return;
+    }
+
+    if (type === 'photo') {
+        const preview = document.getElementById('etPhotoPreview');
+        preview.style.backgroundImage = '';
+        preview.textContent = (etTeam.name || '?').charAt(0).toUpperCase();
+        document.getElementById('etPhotoInput').value = '';
+        document.getElementById('etPhotoClearBtn').classList.add('hidden');
+        etTeam.photo_url = null;
+    } else if (type === 'banner') {
+        document.getElementById('etBannerPreview').style.backgroundImage = '';
+        document.getElementById('etBannerInput').value = '';
+        document.getElementById('etBannerClearBtn').classList.add('hidden');
+        etTeam.banner_url = null;
+    } else if (type === 'background') {
+        document.getElementById('etBgPreview').style.backgroundImage = '';
+        document.getElementById('etBgOverlay').style.backgroundImage = '';
+        document.getElementById('etBgInput').value = '';
+        document.getElementById('etBgClearBtn').classList.add('hidden');
+        etTeam.background_url = null;
+    }
+    showToast('Imagen eliminada');
 }
 
 function closeConfirm() {
