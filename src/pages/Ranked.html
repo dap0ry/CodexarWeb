@@ -6,11 +6,10 @@
     <script src="/src/services/mobileRedirect.js"></script>
     <script src="/src/services/themeService.js"></script>
     <script src="/src/services/i18n.js"></script>
-    <title>Codexar - Clasificatoria</title>
+    <title>Codexar — Clasificatoria</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/src/assets/css/Home.css">
     <link rel="stylesheet" href="/src/assets/css/Ranked.css">
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
@@ -36,10 +35,17 @@
         </div>
     </nav>
 
-    <div class="ranked-container">
+    <div class="ranked-page">
+
+        <button class="rk-back" onclick="window.location.href='/home'">← Volver</button>
 
         <!-- ── Vista 1: Listo ── -->
         <div id="readyView" class="view-panel active-view">
+
+            <div class="rk-eyebrow">
+                <span class="rk-dot"></span>
+                <span>CLASIFICATORIA · RANKED</span>
+            </div>
 
             <div class="rk-emblem">
                 <div class="rk-emblem-pulse"></div>
@@ -49,7 +55,6 @@
             </div>
 
             <h2 class="rk-rank-name" id="myRank">—</h2>
-            <p class="rk-subtitle" data-i18n="ranked.subtitle">Clasificatoria Ranked · Codexar</p>
 
             <div class="rk-stats">
                 <div class="rk-stat">
@@ -89,25 +94,34 @@
         <!-- ── Vista 2: Buscando ── -->
         <div id="searchingView" class="view-panel hidden-view">
 
-            <p class="rk-searching-label" data-i18n="ranked.searching">Buscando rival...</p>
+            <div class="rk-eyebrow rk-eyebrow--searching">
+                <span class="rk-dot rk-dot--blink"></span>
+                <span data-i18n="ranked.searching">Buscando rival...</span>
+            </div>
 
             <div class="rk-duel">
                 <div class="rk-duel-slot">
-                    <div class="rk-duel-aura rk-duel-aura--me"></div>
-                    <div class="rk-duel-avatar rk-duel-avatar--me" id="searchMyAvatar"></div>
-                    <span class="rk-duel-name" data-i18n="ranked.you">Tú</span>
+                    <div class="rk-avatar-wrap">
+                        <div class="rk-duel-aura rk-duel-aura--me"></div>
+                        <div class="rk-duel-avatar rk-duel-avatar--me" id="searchMyAvatar"></div>
+                    </div>
+                    <span class="rk-duel-name" data-i18n="ranked.you">TÚ</span>
                 </div>
 
                 <div class="rk-duel-mid">
-                    <div class="rk-duel-line rk-duel-line--left"></div>
+                    <div class="rk-vs-line rk-vs-line--left"></div>
                     <span class="rk-duel-vs">VS</span>
-                    <div class="rk-duel-line rk-duel-line--right"></div>
+                    <div class="rk-vs-line rk-vs-line--right"></div>
                 </div>
 
                 <div class="rk-duel-slot">
-                    <div class="rk-duel-aura rk-duel-aura--op"></div>
-                    <div class="rk-duel-avatar rk-duel-avatar--op">?</div>
-                    <span class="rk-duel-name" data-i18n="ranked.rival">Rival</span>
+                    <div class="rk-avatar-wrap">
+                        <div class="rk-scan-ring rk-scan-ring-1"></div>
+                        <div class="rk-scan-ring rk-scan-ring-2"></div>
+                        <div class="rk-duel-aura rk-duel-aura--op"></div>
+                        <div class="rk-duel-avatar rk-duel-avatar--op">?</div>
+                    </div>
+                    <span class="rk-duel-name" data-i18n="ranked.rival">RIVAL</span>
                 </div>
             </div>
 

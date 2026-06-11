@@ -1,42 +1,113 @@
 /* Ranked.css */
 
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
+    background-color: #07070f;
+    color: #e6e6f0;
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    background-image:
+        radial-gradient(ellipse at 0% 100%, rgba(0,255,204,0.045) 0%, transparent 55%),
+        radial-gradient(ellipse at 100% 0%,  rgba(0,255,204,0.025) 0%, transparent 50%),
+        linear-gradient(rgba(0,255,204,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,204,0.018) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px;
 }
 
-.ranked-container {
+/* ── Page wrapper ─────────────────────────────────────── */
+
+.ranked-page {
     flex: 1;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 80px 20px 48px;
+    justify-content: center;
+    padding: 80px 24px 24px;
+    position: relative;
 }
 
-/* ── Panel ───────────────────────────────────────────────────────────────── */
+/* ── Back button ───────────────────────────────────────── */
+
+.rk-back {
+    position: absolute;
+    top: 16px;
+    left: 24px;
+    background: transparent;
+    border: none;
+    color: rgba(0,255,204,0.5);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+.rk-back:hover { color: #00ffcc; }
+
+/* ── Eyebrow ───────────────────────────────────────────── */
+
+.rk-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(0,255,204,0.8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.rk-eyebrow--searching {
+    color: rgba(230,230,240,0.55);
+    letter-spacing: 2px;
+}
+
+.rk-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00ffcc;
+    box-shadow: 0 0 10px rgba(0,255,204,0.9);
+    flex-shrink: 0;
+    animation: rk-dot-pulse 2.2s ease-in-out infinite;
+}
+
+.rk-dot--blink {
+    animation: rk-dot-blink 1s ease-in-out infinite;
+}
+
+@keyframes rk-dot-pulse { 0%,100%{opacity:0.7;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
+@keyframes rk-dot-blink  { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ── Panel (card) ──────────────────────────────────────── */
 
 .view-panel {
     position: relative;
-    width: 500px;
+    width: 480px;
     max-width: 100%;
     display: none;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(13,13,22,0.92);
+    border: 1px solid rgba(0,255,204,0.14);
     border-radius: 20px;
-    padding: 48px 44px 40px;
+    padding: 44px 48px 40px;
+    box-shadow: 0 0 60px rgba(0,255,204,0.05), 0 20px 60px rgba(0,0,0,0.5);
     overflow: hidden;
 }
 
-/* línea superior degradada */
 .view-panel::before {
     content: '';
     position: absolute;
-    top: 0; left: 40px; right: 40px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.5), transparent);
+    top: 0; left: 60px; right: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,204,0.55), transparent);
 }
 
 .view-panel.active-view {
@@ -51,79 +122,71 @@ body {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    VISTA 1 — LISTO
-   ═══════════════════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════ */
 
-/* ── Emblema ─────────────────────────────────────────────────────────────── */
+/* ── Emblem ────────────────────────────────────────────── */
 
 .rk-emblem {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 84px;
+    height: 84px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .rk-emblem-pulse {
     position: absolute;
-    inset: -8px;
+    inset: -14px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,255,204,0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,255,204,0.13) 0%, transparent 70%);
     animation: emblemPulse 2.8s ease-in-out infinite;
 }
 
 @keyframes emblemPulse {
     0%, 100% { transform: scale(1);    opacity: 0.7; }
-    50%       { transform: scale(1.1); opacity: 1;   }
+    50%       { transform: scale(1.12); opacity: 1;  }
 }
 
 .rk-emblem-circle {
-    width: 80px;
-    height: 80px;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
-    border: 1.5px solid rgba(0,255,204,0.25);
+    border: 1.5px solid rgba(0,255,204,0.28);
     background: rgba(0,255,204,0.06);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 32px rgba(0,255,204,0.08), inset 0 0 24px rgba(0,255,204,0.04);
 }
 
 .rk-emblem-icon {
-    font-size: 30px;
-    filter: drop-shadow(0 0 8px rgba(0,255,204,0.4));
+    font-size: 32px;
+    filter: drop-shadow(0 0 10px rgba(0,255,204,0.55));
 }
 
-/* ── Título de rango ─────────────────────────────────────────────────────── */
+/* ── Rank name ─────────────────────────────────────────── */
 
 .rk-rank-name {
-    font-family: var(--font-heading);
+    font-family: 'JetBrains Mono', monospace;
     font-size: 26px;
     font-weight: 800;
-    color: var(--text-light);
+    color: #e6e6f0;
     letter-spacing: -0.5px;
-    margin: 0 0 5px;
+    margin: 0 0 4px;
 }
 
-.rk-subtitle {
-    font-size: 11px;
-    color: var(--text-muted);
-    opacity: 0.4;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin: 0 0 28px;
-}
-
-/* ── Stats ───────────────────────────────────────────────────────────────── */
+/* ── Stats ─────────────────────────────────────────────── */
 
 .rk-stats {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
-    margin-bottom: 28px;
+    gap: 28px;
+    margin-bottom: 24px;
     width: 100%;
 }
 
@@ -135,73 +198,77 @@ body {
 }
 
 .rk-stat-val {
-    font-family: var(--font-heading);
-    font-size: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px;
     font-weight: 800;
-    color: var(--text-light);
+    color: #e6e6f0;
     line-height: 1;
 }
 
-.rk-stat-val--elo    { color: var(--accent-cyan); }
-.rk-stat-val--streak { color: #f59e0b; }
+.rk-stat-val--elo    { color: #00ffcc; text-shadow: 0 0 18px rgba(0,255,204,0.45); }
+.rk-stat-val--streak { color: #f59e0b; text-shadow: 0 0 18px rgba(245,158,11,0.35); }
 
 .rk-stat-lbl {
-    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-    opacity: 0.5;
+    letter-spacing: 2px;
+    color: rgba(230,230,240,0.45);
 }
 
 .rk-stat-sep {
     width: 1px;
-    height: 32px;
-    background: rgba(255,255,255,0.07);
+    height: 36px;
+    background: rgba(0,255,204,0.12);
 }
 
-/* ── Barra de progreso ───────────────────────────────────────────────────── */
+/* ── Progress bar ──────────────────────────────────────── */
 
 .rk-progress {
     width: 100%;
-    margin-bottom: 28px;
+    margin-bottom: 22px;
 }
 
 .rk-progress-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
-    color: var(--text-muted);
-    opacity: 0.5;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(230,230,240,0.4);
     margin-bottom: 8px;
 }
 
 .rk-progress-track {
     width: 100%;
-    height: 6px;
-    background: rgba(255,255,255,0.06);
+    height: 5px;
+    background: rgba(0,255,204,0.06);
+    border: 1px solid rgba(0,255,204,0.08);
     border-radius: 6px;
     overflow: hidden;
 }
 
 .rk-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent-cyan), #00ffaa);
+    background: linear-gradient(90deg, #00ffcc, #00ffaa);
     border-radius: 6px;
-    box-shadow: 0 0 10px rgba(0,255,204,0.45);
+    box-shadow: 0 0 12px rgba(0,255,204,0.6);
     transition: width 0.7s ease;
 }
 
-/* ── Descripción ─────────────────────────────────────────────────────────── */
+/* ── Description ───────────────────────────────────────── */
 
 .rk-desc {
-    font-size: 13px;
-    color: var(--text-muted);
-    opacity: 0.5;
-    line-height: 1.75;
-    margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(230,230,240,0.6);
+    line-height: 1.85;
+    margin-bottom: 24px;
+    letter-spacing: 0.2px;
 }
 
-/* ── Botón buscar ────────────────────────────────────────────────────────── */
+/* ── Find button ───────────────────────────────────────── */
 
 .rk-find-btn {
     display: flex;
@@ -209,58 +276,48 @@ body {
     justify-content: center;
     gap: 9px;
     width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    background: var(--accent-cyan);
-    color: #06060f;
-    border: none;
-    font-family: var(--font-heading);
-    font-size: 13px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.35);
+    color: #00ffcc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition: all 0.2s ease;
     margin-bottom: 14px;
-    box-shadow: 0 4px 20px rgba(0,255,204,0.2);
 }
 
 .rk-find-btn:hover {
-    box-shadow: 0 0 36px rgba(0,255,204,0.38);
-    transform: translateY(-2px);
+    background: rgba(0,255,204,0.15);
+    border-color: rgba(0,255,204,0.6);
+    box-shadow: 0 0 28px rgba(0,255,204,0.22);
+    transform: translateY(-1px);
 }
 
 .rk-footnote {
-    font-size: 10.5px;
-    color: var(--text-muted);
-    opacity: 0.28;
-    letter-spacing: 0.3px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   VISTA 2 — BUSCANDO
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.rk-searching-label {
-    font-family: var(--font-heading);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    color: rgba(230,230,240,0.22);
+    letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--text-muted);
-    opacity: 0.45;
-    margin-bottom: 36px;
 }
 
-/* ── Duelo de avatares ───────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   VISTA 2 — BUSCANDO
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Duel layout ───────────────────────────────────────── */
 
 .rk-duel {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
     width: 100%;
-    margin-bottom: 36px;
+    margin-bottom: 30px;
 }
 
 .rk-duel-slot {
@@ -268,34 +325,63 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    position: relative;
+    gap: 12px;
 }
 
-/* Aura animada alrededor del avatar */
+/* ── Avatar wrapper (for positioning aura + rings) ─────── */
+
+.rk-avatar-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Aura glow ─────────────────────────────────────────── */
+
 .rk-duel-aura {
     position: absolute;
-    top: -8px;
-    width: 96px;
-    height: 96px;
+    inset: -10px;
     border-radius: 50%;
     pointer-events: none;
 }
 
 .rk-duel-aura--me {
-    background: radial-gradient(circle, rgba(0,255,204,0.14) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,255,204,0.16) 0%, transparent 70%);
     animation: auraPulse 2.4s ease-in-out infinite;
 }
 
 .rk-duel-aura--op {
-    background: radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(239,68,68,0.13) 0%, transparent 70%);
     animation: auraPulse 2.4s ease-in-out infinite 0.8s;
 }
 
 @keyframes auraPulse {
     0%, 100% { transform: scale(1);    opacity: 0.6; }
-    50%       { transform: scale(1.15); opacity: 1;  }
+    50%       { transform: scale(1.18); opacity: 1;  }
 }
+
+/* ── Scan rings (opponent searching animation) ─────────── */
+
+.rk-scan-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(239,68,68,0.55);
+    pointer-events: none;
+    animation: scanExpand 2.2s ease-out infinite;
+}
+
+.rk-scan-ring-2 { animation-delay: 1.1s; }
+
+@keyframes scanExpand {
+    0%   { transform: scale(0.88); opacity: 0.85; }
+    100% { transform: scale(2.1);  opacity: 0; }
+}
+
+/* ── Avatars ───────────────────────────────────────────── */
 
 .rk-duel-avatar {
     position: relative;
@@ -305,6 +391,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 26px;
     font-weight: 700;
     background: rgba(255,255,255,0.04);
@@ -314,141 +401,134 @@ body {
 }
 
 .rk-duel-avatar--me {
-    border: 2.5px solid var(--accent-cyan);
-    box-shadow: 0 0 20px rgba(0,255,204,0.25), 0 0 0 4px rgba(0,255,204,0.06);
+    border: 2.5px solid #00ffcc;
+    box-shadow: 0 0 24px rgba(0,255,204,0.32), 0 0 0 4px rgba(0,255,204,0.07);
 }
 
 .rk-duel-avatar--op {
-    border: 2.5px solid rgba(239,68,68,0.5);
-    color: var(--text-muted);
-    box-shadow: 0 0 20px rgba(239,68,68,0.15), 0 0 0 4px rgba(239,68,68,0.04);
-    animation: opSearch 2s ease-in-out infinite;
+    border: 2.5px solid rgba(239,68,68,0.45);
+    color: rgba(239,68,68,0.35);
+    box-shadow: 0 0 24px rgba(239,68,68,0.15), 0 0 0 4px rgba(239,68,68,0.05);
+    animation: opSearch 2.2s ease-in-out infinite;
 }
 
 @keyframes opSearch {
     0%, 100% { border-color: rgba(239,68,68,0.3); box-shadow: 0 0 20px rgba(239,68,68,0.1),  0 0 0 4px rgba(239,68,68,0.03); }
-    50%       { border-color: rgba(239,68,68,0.7); box-shadow: 0 0 28px rgba(239,68,68,0.25), 0 0 0 4px rgba(239,68,68,0.07); }
+    50%       { border-color: rgba(239,68,68,0.7); box-shadow: 0 0 32px rgba(239,68,68,0.28), 0 0 0 4px rgba(239,68,68,0.08); }
 }
 
 .rk-duel-name {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    opacity: 0.5;
-    letter-spacing: 0.5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(230,230,240,0.55);
 }
 
-/* VS central con líneas animadas */
+/* ── VS divider with horizontal lines ──────────────────── */
+
 .rk-duel-mid {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
-    padding: 0 8px;
     padding-bottom: 22px;
 }
 
+.rk-vs-line {
+    width: 32px;
+    height: 1px;
+}
+
+.rk-vs-line--left  { background: linear-gradient(to right, transparent, rgba(0,255,204,0.5)); }
+.rk-vs-line--right { background: linear-gradient(to left,  transparent, rgba(239,68,68,0.5)); }
+
 .rk-duel-vs {
-    font-family: var(--font-heading);
-    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 3px;
-    color: var(--text-muted);
-    opacity: 0.35;
+    letter-spacing: 4px;
+    color: rgba(230,230,240,0.38);
+    padding: 0 2px;
 }
 
-.rk-duel-line {
-    width: 2px;
-    height: 14px;
-    border-radius: 2px;
-}
-
-.rk-duel-line--left {
-    background: linear-gradient(to bottom, rgba(0,255,204,0.4), transparent);
-}
-
-.rk-duel-line--right {
-    background: linear-gradient(to top, rgba(239,68,68,0.4), transparent);
-}
-
-/* ── Timer ───────────────────────────────────────────────────────────────── */
+/* ── Timer ─────────────────────────────────────────────── */
 
 .rk-timer-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .rk-timer {
-    font-family: var(--font-heading);
-    font-size: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 52px;
     font-weight: 800;
-    color: var(--accent-cyan);
-    letter-spacing: -1px;
+    color: #00ffcc;
+    letter-spacing: -2px;
     line-height: 1;
-    text-shadow: 0 0 28px rgba(0,255,204,0.3);
+    text-shadow: 0 0 36px rgba(0,255,204,0.45);
 }
 
 .rk-timer-sub {
-    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    opacity: 0.3;
+    letter-spacing: 3px;
+    color: rgba(230,230,240,0.22);
 }
 
-/* ── Rango de búsqueda ───────────────────────────────────────────────────── */
+/* ── Search range ──────────────────────────────────────── */
 
 .rk-range {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
+    gap: 5px;
+    background: rgba(0,255,204,0.04);
+    border: 1px solid rgba(0,255,204,0.1);
     border-radius: 10px;
-    padding: 12px 32px;
-    margin-bottom: 28px;
-    width: 75%;
+    padding: 12px 40px;
+    margin-bottom: 22px;
+    width: 80%;
 }
 
 .rk-range-lbl {
-    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-muted);
-    opacity: 0.4;
+    letter-spacing: 2px;
+    color: rgba(230,230,240,0.38);
 }
 
 .rk-range-val {
-    font-family: var(--font-heading);
-    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: var(--accent-cyan);
+    color: #00ffcc;
 }
 
-/* ── Cancelar ────────────────────────────────────────────────────────────── */
+/* ── Cancel button ──────────────────────────────────────── */
 
 .rk-cancel-btn {
     background: transparent;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 10px;
-    padding: 12px 32px;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-    font-size: 13px;
+    padding: 12px 40px;
+    color: rgba(230,230,240,0.4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
     font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-    opacity: 0.65;
+    transition: all 0.2s;
 }
 
 .rk-cancel-btn:hover {
     border-color: rgba(239,68,68,0.4);
     color: #ef4444;
     background: rgba(239,68,68,0.05);
-    opacity: 1;
 }
