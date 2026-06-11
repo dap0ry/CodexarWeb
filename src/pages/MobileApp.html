@@ -213,6 +213,95 @@
             font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
             color: rgba(0,255,204,0.45); white-space: nowrap;
         }
+        .friend-row { cursor: pointer; }
+        .friend-row:active { opacity: 0.75; }
+
+        /* ── FRIEND CARD MODAL ── */
+        .fcard-backdrop {
+            position: fixed; inset: 0; z-index: 200;
+            background: rgba(0,0,0,0.65);
+            display: flex; align-items: flex-end; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.22s ease;
+        }
+        .fcard-backdrop.open { opacity: 1; pointer-events: auto; }
+        .fcard {
+            width: 100%; max-width: 480px;
+            background: var(--card);
+            border-radius: 20px 20px 0 0;
+            border: 1px solid var(--border); border-bottom: none;
+            overflow: hidden;
+            transform: translateY(100%);
+            transition: transform 0.28s cubic-bezier(.32,1.1,.42,.98);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .fcard-backdrop.open .fcard { transform: translateY(0); }
+        .fcard-banner {
+            height: 110px; position: relative;
+            background: #111;
+            background-size: cover; background-position: center;
+        }
+        .fcard-banner::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(7,7,15,0.85));
+        }
+        .fcard-close {
+            position: absolute; top: 10px; right: 12px; z-index: 1;
+            background: rgba(0,0,0,0.45); border: none;
+            color: #fff; border-radius: 50%; width: 28px; height: 28px;
+            font-size: 1rem; cursor: pointer; line-height: 28px; text-align: center;
+        }
+        .fcard-body {
+            padding: 0 20px 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .fcard-av-wrap { margin-top: -36px; position: relative; }
+        .fcard-av {
+            width: 72px; height: 72px; border-radius: 50%;
+            border: 3px solid var(--bg);
+            background: var(--border);
+            font-family: var(--mono); font-size: 1.5rem; font-weight: 800;
+            color: rgba(255,255,255,0.6);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+        .fcard-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .fcard-av-dot {
+            position: absolute; bottom: 3px; right: 3px;
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 2px solid var(--bg); background: rgba(255,255,255,0.15);
+        }
+        .fcard-av-dot.online { background: var(--green); }
+        .fcard-name {
+            font-family: var(--mono); font-size: 1rem; font-weight: 800;
+            margin-top: 10px; text-align: center;
+        }
+        .fcard-stats {
+            display: flex; gap: 28px; margin-top: 14px;
+        }
+        .fcard-stat { text-align: center; }
+        .fcard-stat-val {
+            font-family: var(--mono); font-size: 1rem; font-weight: 700;
+            color: var(--cyan);
+        }
+        .fcard-stat-key {
+            font-size: 0.65rem; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .fcard-rank {
+            font-size: 0.7rem; color: var(--muted); margin-top: 4px;
+        }
+        .fcard-actions {
+            display: flex; gap: 10px; margin-top: 18px; width: 100%;
+        }
+        .fcard-btn {
+            flex: 1; padding: 10px 0;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--text); font-family: var(--mono); font-size: 0.75rem; font-weight: 700;
+            border-radius: 10px; cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .fcard-btn.primary { background: var(--cyan); color: #07070f; border-color: var(--cyan); }
+        .fcard-btn:active { opacity: 0.75; }
 
         /* ── FRIENDS — request row ── */
         .req-row {
@@ -594,6 +683,25 @@
 
     </main>
 
+    <!-- FRIEND CARD MODAL -->
+    <div class="fcard-backdrop" id="fcardBackdrop" onclick="closeFriendCard(event)">
+        <div class="fcard" id="fcardSheet">
+            <div class="fcard-banner" id="fcardBanner">
+                <button class="fcard-close" onclick="closeFriendCard()">&#x2715;</button>
+            </div>
+            <div class="fcard-body">
+                <div class="fcard-av-wrap">
+                    <div class="fcard-av" id="fcardAv"></div>
+                    <div class="fcard-av-dot" id="fcardDot"></div>
+                </div>
+                <div class="fcard-name" id="fcardName"></div>
+                <div class="fcard-rank" id="fcardRank"></div>
+                <div class="fcard-stats" id="fcardStats"></div>
+                <div class="fcard-actions" id="fcardActions"></div>
+            </div>
+        </div>
+    </div>
+
     <nav class="bottom-nav">
         <button class="nav-btn active" id="nb-Noticias" onclick="switchTab('Noticias')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -815,7 +923,7 @@
 
     function friendRow(f) {
         const online = !!f.is_online;
-        return `<div class="friend-row">
+        return `<div class="friend-row" onclick="openFriendCard('${esc(f.username)}',${online})">
             <div class="av-wrap">
                 ${avHTML(f.username, f.avatar)}
                 <div class="av-dot ${online ? 'online' : ''}"></div>
@@ -827,6 +935,70 @@
             ${f.elo != null ? `<div class="friend-elo">ELO ${f.elo}</div>` : ''}
         </div>`;
     }
+
+    // ── FRIEND CARD MODAL ────────────────────────────────────
+    window.openFriendCard = async function (username, isOnline) {
+        const backdrop = document.getElementById('fcardBackdrop');
+        const banner   = document.getElementById('fcardBanner');
+        const avEl     = document.getElementById('fcardAv');
+        const dotEl    = document.getElementById('fcardDot');
+        const nameEl   = document.getElementById('fcardName');
+        const rankEl   = document.getElementById('fcardRank');
+        const statsEl  = document.getElementById('fcardStats');
+        const actEl    = document.getElementById('fcardActions');
+
+        // Reset to loading state
+        banner.style.backgroundImage = '';
+        avEl.innerHTML = `<span>${esc(username.charAt(0).toUpperCase())}</span>`;
+        nameEl.textContent = username;
+        rankEl.textContent = '';
+        statsEl.innerHTML  = `<div style="color:var(--muted);font-size:0.72rem">Cargando...</div>`;
+        actEl.innerHTML    = '';
+        dotEl.className    = 'fcard-av-dot' + (isOnline ? ' online' : '');
+
+        backdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+
+        try {
+            const res = await fetch(API + '/user/profile/' + encodeURIComponent(username), { headers: auth() });
+            const p   = await res.json();
+
+            // Banner background
+            const bg = p.profile_background || p.profile_banner;
+            if (bg) banner.style.backgroundImage = `url(${esc(bg)})`;
+
+            // Avatar
+            let avInner = `<span>${esc((p.username||username).charAt(0).toUpperCase())}</span>`;
+            if (p.avatar) avInner = `<img src="${esc(p.avatar)}" alt="" onerror="this.remove()">${avInner}`;
+            avEl.innerHTML = avInner;
+
+            nameEl.textContent = p.username || username;
+            rankEl.textContent = p.rank_name || '';
+
+            const elo     = p.elo           != null ? p.elo           : '--';
+            const solved  = p.solved_count  != null ? p.solved_count  : '--';
+            const matches = p.matches_played != null ? p.matches_played : '--';
+            const wr      = p.win_rate      != null ? p.win_rate + '%' : '--';
+
+            statsEl.innerHTML = `
+                <div class="fcard-stat"><div class="fcard-stat-val">${elo}</div><div class="fcard-stat-key">ELO</div></div>
+                <div class="fcard-stat"><div class="fcard-stat-val" style="color:var(--green)">${solved}</div><div class="fcard-stat-key">Resueltos</div></div>
+                <div class="fcard-stat"><div class="fcard-stat-val" style="color:rgba(255,255,255,0.6)">${matches}</div><div class="fcard-stat-key">Partidas</div></div>
+                <div class="fcard-stat"><div class="fcard-stat-val" style="color:var(--green)">${wr}</div><div class="fcard-stat-key">Win rate</div></div>`;
+
+            actEl.innerHTML = `
+                <button class="fcard-btn primary" onclick="closeFriendCard();window.location.href='/perfil?u=${encodeURIComponent(username)}'">Ver perfil</button>`;
+
+        } catch (_) {
+            statsEl.innerHTML = `<div style="color:var(--muted);font-size:0.72rem">Error al cargar</div>`;
+        }
+    };
+
+    window.closeFriendCard = function (e) {
+        if (e && e.target !== document.getElementById('fcardBackdrop')) return;
+        document.getElementById('fcardBackdrop').classList.remove('open');
+        document.body.style.overflow = '';
+    };
 
     // Add friend
     window.sendRequest = async function () {
