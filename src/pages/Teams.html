@@ -10,9 +10,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/css/Home.css">
+    <link rel="stylesheet" href="/src/assets/css/Tournaments.css">
+    <link rel="stylesheet" href="/src/assets/css/Teams.css">
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
-    <link rel="stylesheet" href="/src/assets/css/Teams.css">
 </head>
 <body>
 
@@ -26,62 +28,63 @@
         <div class="user-dropdown">
             <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
             <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
-            <a href="/precios"       class="dropdown-item" data-i18n="nav.plans">✦ Planes</a>
             <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
             <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
             <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
+            <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
 
-<main class="tm-main">
+<div id="tmLoading" class="tm-load-screen">
+    <div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div>
+</div>
 
-    <div id="tmLoading" class="tm-loading">
-        <div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div>
+<div id="tmPage" class="t-page hidden">
+
+    <div class="t-header">
+        <div class="t-header-left">
+            <div class="t-title">EQUI<span>POS</span></div>
+            <div class="t-subtitle">Clubs · Únete o funda el tuyo</div>
+        </div>
+        <div class="t-header-right">
+            <div id="tmTopBar" class="hidden">
+                <button class="t-create-btn" id="tmOpenCreateBtn">+ Fundar club</button>
+            </div>
+            <div id="tmMyTeamBar" class="hidden"></div>
+        </div>
     </div>
 
-    <div id="tmPage" class="tm-page-wrap hidden">
+    <div id="tmPendingStrip" class="tm-pending-strip hidden"></div>
 
-        <div id="tmTopBar" class="tm-top-bar hidden">
-            <div id="tmPendingStrip" class="tm-pending-strip hidden"></div>
-            <div class="tm-top-bar-inner">
-                <div class="tm-top-eyebrow" data-i18n="teams.eyebrow">// CLUBES · CODEXAR</div>
-                <h1 class="tm-top-title" data-i18n="teams.title">Encuentra tu equipo</h1>
-                <p class="tm-top-sub" data-i18n="teams.sub">Únete a un club o funda el tuyo propio.</p>
-                <button class="tm-btn-open-create" id="tmOpenCreateBtn" data-i18n="teams.found">+ Fundar club</button>
-            </div>
-        </div>
-
-        <div id="tmMyTeamBar" class="tm-my-team-bar hidden">
-            <div class="tm-my-team-bar-inner">
-                <div class="tm-top-eyebrow" data-i18n="teams.eyebrow">// CLUBES · CODEXAR</div>
-                <h1 class="tm-top-title" data-i18n="teams.allClubs">Todos los clubes</h1>
-                <p class="tm-top-sub" data-i18n="teams.allClubsSub">Tu club aparece primero. Haz clic en cualquier tarjeta para ver su perfil.</p>
-            </div>
-        </div>
-
-        <div class="tm-clubs-section">
-            <div class="tm-clubs-grid" id="tmClubsGrid">
-                <div class="tm-empty" data-i18n="teams.loading">Cargando clubes...</div>
-            </div>
-        </div>
-
+    <div class="t-grid" id="tmClubsGrid">
+        <div class="t-loading">Cargando clubes...</div>
     </div>
 
-</main>
+</div>
 
-<div class="tm-modal-backdrop hidden" id="tmCreateModal">
-    <div class="tm-modal">
-        <div class="tm-modal-title" data-i18n="teams.modalTitle">// FUNDAR CLUB</div>
-        <input type="text" id="createName" class="tm-input" placeholder="Nombre del club (máx. 20 car.)" data-i18n-placeholder="teams.namePlaceholder" maxlength="20" autocomplete="off">
-        <textarea id="createDesc" class="tm-input tm-textarea" placeholder="Descripción (opcional)" data-i18n-placeholder="teams.descPlaceholder"></textarea>
-        <div class="tm-modal-actions">
-            <button class="tm-btn-cancel" id="tmCreateCancel" data-i18n="teams.cancel">Cancelar</button>
-            <button class="tm-btn-save"   id="tmCreateSave" data-i18n="teams.create">Fundar</button>
+<div class="t-modal-overlay hidden" id="tmCreateModal">
+    <div class="t-modal">
+        <div class="t-modal-header">
+            <span class="t-modal-title">// FUNDAR CLUB</span>
+            <button class="t-modal-close" id="tmCreateCancel">✕</button>
         </div>
-        <p id="createFeedback" class="tm-feedback"></p>
+        <div class="t-modal-body">
+            <label class="t-label">
+                <span>Nombre del club</span>
+                <input class="t-input" type="text" id="createName" placeholder="Nombre del club (máx. 20 car.)" maxlength="20" autocomplete="off">
+            </label>
+            <label class="t-label">
+                <span>Descripción</span>
+                <textarea class="t-input t-textarea" id="createDesc" placeholder="Descripción (opcional)" rows="3"></textarea>
+            </label>
+            <div class="t-modal-footer">
+                <span class="tm-feedback" id="createFeedback"></span>
+                <button class="t-modal-submit" type="button" id="tmCreateSave">Fundar</button>
+            </div>
+        </div>
     </div>
 </div>
 

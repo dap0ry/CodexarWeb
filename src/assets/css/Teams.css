@@ -1,131 +1,60 @@
-/* Teams.css — Codexar Club System */
+/* Teams.css — estilos específicos de clubes, layout via Tournaments.css */
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+.hidden { display: none !important; }
 
-body {
-    background: #07070f;
-    color: #e6e6f0;
-    font-family: 'Inter', sans-serif;
-    overflow-y: auto;
-    min-height: 100vh;
-}
+/* ── Loading screen ──────────────────────────────────────────────────────── */
 
-.tm-main {
-    padding-top: 64px;
-    min-height: 100vh;
-    position: relative;
-}
-
-/* ── Loading ── */
-.tm-loading {
+.tm-load-screen {
+    position: fixed;
+    inset: 64px 0 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: calc(100vh - 64px);
 }
+
 .tm-dot {
-    width: 8px; height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: rgba(0,255,204,0.5);
     animation: tmPulse 1.2s ease-in-out infinite;
 }
 .tm-dot:nth-child(2) { animation-delay: 0.2s; }
 .tm-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes tmPulse { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
 
-.hidden { display: none !important; }
-
-/* ── Page wrap ── */
-.tm-page-wrap {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 5% 60px;
+@keyframes tmPulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50%       { opacity: 1;   transform: scale(1); }
 }
 
-/* ── Top bar (no team) ── */
-.tm-top-bar {
-    padding: 40px 0 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
+/* ── Pending invites strip ───────────────────────────────────────────────── */
 
-.tm-my-team-bar {
-    padding: 40px 0 32px;
-}
-
-.tm-top-bar-inner,
-.tm-my-team-bar-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.tm-top-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.52rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: rgba(0,255,204,0.4);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-}
-
-.tm-top-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2rem;
-    font-weight: 800;
-    color: #f0f0ff;
-    letter-spacing: 1px;
-}
-
-.tm-top-sub {
-    font-size: 0.82rem;
-    color: rgba(230,230,240,0.38);
-    margin-top: 4px;
-}
-
-.tm-btn-open-create {
-    margin-top: 18px;
-    align-self: flex-start;
-    padding: 10px 20px;
-    background: rgba(0,255,204,0.07);
-    border: 1px solid rgba(0,255,204,0.28);
-    border-radius: 8px;
-    color: rgba(0,255,204,0.9);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.15s;
-}
-.tm-btn-open-create:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.5); color: #fff; }
-
-/* ── Pending invites strip ── */
 .tm-pending-strip {
+    padding: 12px 5%;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    flex-shrink: 0;
 }
 
 .tm-invite-card {
-    background: rgba(12,12,20,0.95);
+    background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .tm-invite-card-photo {
-    width: 36px; height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
-    background: rgba(255,196,0,0.07);
-    border: 1px solid rgba(255,196,0,0.18);
+    background: rgba(0,255,204,0.06);
+    border: 1px solid rgba(0,255,204,0.18);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -136,10 +65,10 @@ body {
 }
 
 .tm-invite-team-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     font-weight: 700;
-    color: #e6e6f0;
+    color: var(--text-light);
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -148,128 +77,103 @@ body {
 }
 
 .tm-invite-sub {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 0.52rem;
-    color: rgba(232,232,240,0.5);
+    color: var(--text-muted);
+    opacity: 0.6;
+    margin-top: 2px;
 }
 
 .tm-btn-accept {
-    padding: 5px 10px;
-    background: rgba(0,255,204,0.07);
-    border: 1px solid rgba(0,255,204,0.25);
-    border-radius: 5px;
-    font-family: 'JetBrains Mono', monospace;
+    padding: 5px 12px;
+    background: rgba(0,255,204,0.08);
+    border: 1px solid rgba(0,255,204,0.28);
+    border-radius: 6px;
+    font-family: var(--font-mono);
     font-size: 0.58rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    color: rgba(0,255,204,0.9);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
     cursor: pointer;
     transition: all 0.15s;
     white-space: nowrap;
 }
-.tm-btn-accept:hover { background: rgba(0,255,204,0.14); }
+.tm-btn-accept:hover { background: rgba(0,255,204,0.15); }
 
 .tm-btn-decline {
-    padding: 5px 8px;
+    padding: 5px 10px;
     background: transparent;
-    border: 1px solid rgba(255,85,102,0.2);
-    border-radius: 5px;
-    color: rgba(255,85,102,0.65);
-    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 6px;
+    color: rgba(239,68,68,0.6);
+    font-family: var(--font-mono);
     font-size: 0.62rem;
     cursor: pointer;
     transition: all 0.15s;
 }
-.tm-btn-decline:hover { border-color: rgba(255,85,102,0.5); color: #ff5566; }
+.tm-btn-decline:hover { border-color: rgba(239,68,68,0.5); color: #ef4444; }
 
-/* ── Clubs section ── */
-.tm-clubs-section { padding-bottom: 20px; }
+/* ── Club card ───────────────────────────────────────────────────────────── */
 
-/* 3-column grid */
-.tm-clubs-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-}
-
-/* ── Club card ── */
 .tm-club-card {
-    background: rgba(12,12,20,0.95);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     overflow: hidden;
     cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
-.tm-club-card:hover { border-color: rgba(0,255,204,0.22); transform: translateY(-3px); }
-.tm-club-card.is-own { border-color: rgba(0,255,204,0.32); }
-
-/* Own team badge */
-.tm-own-badge {
-    position: absolute;
-    top: 10px; right: 10px;
-    background: rgba(0,255,204,0.1);
-    border: 1px solid rgba(0,255,204,0.35);
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.46rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: rgba(0,255,204,0.9);
-    text-transform: uppercase;
-    z-index: 2;
+.tm-club-card:hover {
+    border-color: rgba(0,255,204,0.18);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.45);
+    transform: translateY(-2px);
+}
+.tm-club-card.is-own {
+    border-color: rgba(0,255,204,0.28);
 }
 
-/* Banner at top of card */
 .tm-card-banner {
     width: 100%;
-    height: 88px;
-    background: linear-gradient(135deg, rgba(0,255,204,0.04) 0%, rgba(7,7,15,1) 100%);
+    height: 100px;
+    background: linear-gradient(135deg, rgba(0,255,204,0.04) 0%, rgba(0,0,0,0) 100%);
     background-size: cover;
     background-position: center;
-    position: relative;
+    display: block;
     flex-shrink: 0;
 }
-.tm-card-banner::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 30%, rgba(12,12,20,0.92) 100%);
-}
 
-/* Card body */
 .tm-card-body {
-    padding: 0 16px 16px;
+    padding: 0 16px 14px;
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-/* Photo overlapping banner */
 .tm-card-photo-wrap {
-    margin-top: -26px;
-    margin-bottom: 10px;
+    margin-top: -20px;
+    margin-bottom: 8px;
     position: relative;
     z-index: 1;
 }
 
 .tm-card-photo {
-    width: 52px; height: 52px;
-    border-radius: 11px;
-    background: #1a1a2e;
-    border: 3px solid #07070f;
-    box-shadow: 0 0 0 1px rgba(255,196,0,0.18), 0 4px 16px rgba(0,0,0,0.5);
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(0,255,204,0.08);
+    border: 2px solid rgba(7,7,15,0.95);
+    box-shadow: 0 0 0 1px rgba(0,255,204,0.18);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.35rem;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
     font-weight: 800;
-    color: rgba(255,196,0,0.5);
+    color: var(--accent-cyan);
     background-size: cover;
     background-position: center;
     overflow: hidden;
@@ -277,26 +181,27 @@ body {
 }
 
 .tm-card-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #f0f0ff;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-light);
+    line-height: 1.25;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .tm-card-desc {
-    font-size: 0.7rem;
-    color: rgba(230,230,240,0.38);
-    line-height: 1.55;
+    font-size: 0.68rem;
+    color: rgba(200,200,220,0.55);
+    line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 34px;
-    margin-bottom: 12px;
+    min-height: 22px;
+    margin-bottom: 10px;
 }
 
 .tm-card-footer {
@@ -304,40 +209,60 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.04);
 }
 
 .tm-card-members {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.56rem;
-    color: rgba(0,255,204,0.5);
-    letter-spacing: 0.5px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    opacity: 0.5;
 }
 
 .tm-card-join-btn {
-    padding: 5px 12px;
-    background: rgba(0,255,204,0.06);
-    border: 1px solid rgba(0,255,204,0.24);
+    padding: 6px 14px;
     border-radius: 6px;
-    color: rgba(0,255,204,0.85);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 1px;
+    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.15s;
-    text-transform: uppercase;
+    background: rgba(0,255,204,0.1);
+    border: 1px solid rgba(0,255,204,0.28);
+    color: var(--accent-cyan);
 }
-.tm-card-join-btn:hover { background: rgba(0,255,204,0.14); border-color: rgba(0,255,204,0.5); color: #fff; }
+.tm-card-join-btn:hover { background: rgba(0,255,204,0.18); }
 
-/* ── Admin delete button on card ── */
+.tm-own-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0,255,204,0.25);
+    background: rgba(0,255,204,0.06);
+    z-index: 2;
+}
+
 .tm-card-admin-delete {
     position: absolute;
-    top: 8px; left: 8px;
-    width: 24px; height: 24px;
-    background: rgba(255,46,99,0.15);
-    border: 1px solid rgba(255,46,99,0.4);
+    top: 8px;
+    left: 8px;
+    width: 24px;
+    height: 24px;
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.2);
     border-radius: 6px;
-    color: #ff2e63;
+    color: #ef4444;
     font-size: 0.7rem;
     font-weight: 700;
     cursor: pointer;
@@ -348,137 +273,40 @@ body {
     transition: all 0.15s;
     line-height: 1;
 }
-.tm-card-admin-delete:hover { background: rgba(255,46,99,0.35); border-color: rgba(255,46,99,0.8); }
+.tm-card-admin-delete:hover { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.5); }
 
-/* ── Create modal ── */
-.tm-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(4px);
-}
+/* ── Toast ───────────────────────────────────────────────────────────────── */
 
-.tm-modal {
-    background: #0d0d1a;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    padding: 28px 28px 24px;
-    width: min(440px, 92vw);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.tm-modal-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    font-weight: 800;
-    letter-spacing: 3px;
-    color: rgba(0,255,204,0.5);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-}
-
-.tm-modal-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-.tm-input {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    color: #e6e6f0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    padding: 9px 13px;
-    outline: none;
-    transition: border-color 0.15s;
-    width: 100%;
-}
-.tm-input:focus { border-color: rgba(0,255,204,0.3); }
-.tm-input::placeholder { color: rgba(232,232,240,0.45); }
-.tm-textarea { resize: none; height: 64px; line-height: 1.5; }
-
-.tm-btn-cancel {
-    padding: 8px 16px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 7px;
-    color: rgba(255,255,255,0.4);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-}
-.tm-btn-cancel:hover { border-color: rgba(255,255,255,0.25); color: #e6e6f0; }
-
-.tm-btn-save {
-    padding: 8px 20px;
-    background: rgba(0,255,204,0.08);
-    border: 1px solid rgba(0,255,204,0.28);
-    border-radius: 7px;
-    color: #00ffcc;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-}
-.tm-btn-save:hover { background: rgba(0,255,204,0.15); border-color: rgba(0,255,204,0.55); }
-
-.tm-feedback {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    min-height: 14px;
-    color: rgba(232,232,240,0.5);
-}
-.tm-feedback.ok  { color: #00ffcc; }
-.tm-feedback.err { color: #ff5566; }
-
-/* ── Toast ── */
 .tm-toast {
     position: fixed;
-    bottom: 24px; right: 24px;
-    background: #0d0d1a;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-card);
     border: 1px solid rgba(0,255,204,0.25);
     border-radius: 8px;
-    color: #00ffcc;
-    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
     font-size: 0.72rem;
     padding: 12px 18px;
     z-index: 999;
     box-shadow: 0 8px 28px rgba(0,0,0,0.6);
     animation: tmToastIn 0.2s ease;
 }
-.tm-toast.err { color: #ff5566; border-color: rgba(255,85,102,0.25); }
-@keyframes tmToastIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.tm-toast.err { color: #ef4444; border-color: rgba(239,68,68,0.25); }
 
-.tm-empty {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: rgba(232,232,240,0.45);
-    text-align: center;
-    padding: 40px 0;
-    letter-spacing: 1px;
-    grid-column: 1 / -1;
+@keyframes tmToastIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Responsive ── */
-@media (max-width: 900px) {
-    .tm-clubs-grid { grid-template-columns: repeat(2, 1fr); }
+/* ── Feedback ────────────────────────────────────────────────────────────── */
+
+.tm-feedback {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    min-height: 14px;
+    flex: 1;
+    color: var(--text-muted);
 }
-@media (max-width: 560px) {
-    .tm-clubs-grid { grid-template-columns: 1fr; }
-    .tm-top-title { font-size: 1.5rem; }
-}
+.tm-feedback.ok  { color: var(--accent-cyan); }
+.tm-feedback.err { color: #ef4444; }
