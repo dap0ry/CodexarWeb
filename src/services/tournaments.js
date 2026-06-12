@@ -1,11 +1,12 @@
 /* tournaments.js — exercise-scoring tournaments */
 const API_BASE = 'https://api.codexar.es/api';
 
-function token() { return localStorage.getItem('token') || ''; }
-function userEmail() { return localStorage.getItem('email') || ''; }
+function token() { return localStorage.getItem('access_token') || ''; }
+function userEmail() { return localStorage.getItem('saved_email') || ''; }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 let _isAdmin = false;
+let _myEmail = '';
 
 function diffColor(d) {
     if (d <= 900)  return '#4ade80';
@@ -50,7 +51,7 @@ function buildLeaderboard(lb, cardId) {
         </div>`;
 }
 
-function buildCard(t, myEmail) {
+function buildCard(t, myEmail = _myEmail) {
     const status   = t.status || 'upcoming';
     const id       = esc(t.id || '');
     const isJoined = (t.participants || []).includes(myEmail);
@@ -178,12 +179,11 @@ async function loadTournaments() {
 
 function renderGrid() {
     const grid = document.getElementById('tournGrid');
-    const myEmail = userEmail();
     const list = _activeFilter === 'all'
         ? _allTournaments
         : _allTournaments.filter(t => t.status === _activeFilter);
     if (!list.length) { grid.innerHTML = '<div class="t-empty">No hay torneos en esta categoría.</div>'; return; }
-    grid.innerHTML = list.map(t => buildCard(t, myEmail)).join('');
+    grid.innerHTML = list.map(t => buildCard(t)).join('');
 }
 
 window.joinTourn = async function(id, btn) {
@@ -243,7 +243,7 @@ window.deleteTourn = async function(id, name) {
 document.addEventListener('DOMContentLoaded', async () => {
     if (!token()) { window.location.href = '/login'; return; }
 
-    // Check admin role
+    // Fetch current user for role + email (needed for isJoined + admin buttons)
     try {
         const res = await fetch(`${API_BASE}/user/me`, {
             headers: { 'Authorization': `Bearer ${token()}` }
@@ -251,8 +251,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (res.ok) {
             const me = await res.json();
             _isAdmin = (me.role === 'admin' || me.role === 'superadmin');
+            _myEmail = me.email || userEmail();
+        } else {
+            _myEmail = userEmail();
         }
-    } catch {}
+    } catch {
+        _myEmail = userEmail();
+    }
 
     await loadTournaments();
 
