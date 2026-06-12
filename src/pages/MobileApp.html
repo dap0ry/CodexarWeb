@@ -134,9 +134,17 @@
         .news-card-sub.clamped {
             display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
         }
+        .news-card-body {
+            display: none; font-size: 0.82rem; color: var(--muted); line-height: 1.7;
+            margin-top: 10px; padding-top: 10px;
+            border-top: 1px solid var(--border);
+            white-space: pre-wrap; word-break: break-word;
+        }
+        .news-card.open .news-card-body { display: block; }
         .news-card-toggle {
             font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
             color: rgba(0,255,204,0.5); margin-top: 8px; letter-spacing: 0.5px;
+            cursor: pointer;
         }
 
         /* ── FRIENDS — Add bar ── */
@@ -1317,12 +1325,15 @@
                 feed.innerHTML = items.map(n => {
                     const title    = (n.title_i18n && n.title_i18n[lang]) || n.title || '';
                     const subtitle = (n.subtitle_i18n && n.subtitle_i18n[lang]) || n.subtitle || '';
-                    const hasMore  = subtitle && subtitle.length > 120;
+                    const body     = (n.body_i18n && n.body_i18n[lang]) || n.body || '';
+                    const author   = n.creator || n.author_username || 'Codexar';
+                    const hasMore  = body.trim().length > 0 || subtitle.length > 100;
                     return `<div class="news-card" onclick="toggleNews(this)">
-                        <div class="news-card-meta">${esc(n.author_username || 'Codexar')} &middot; ${fmtDate(n.created_at)}</div>
+                        <div class="news-card-meta">${esc(author)} &middot; ${fmtDate(n.created_at)}</div>
                         <div class="news-card-title">${esc(title)}</div>
                         ${subtitle ? `<div class="news-card-sub${hasMore ? ' clamped' : ''}">${esc(subtitle)}</div>` : ''}
-                        ${hasMore ? `<div class="news-card-toggle">Leer mas</div>` : ''}
+                        ${body ? `<div class="news-card-body">${esc(body).replace(/\n/g, '<br>')}</div>` : ''}
+                        ${hasMore ? `<div class="news-card-toggle">Leer más ↓</div>` : ''}
                     </div>`;
                 }).join('');
             }
@@ -1333,10 +1344,9 @@
     window.toggleNews = function (card) {
         const sub    = card.querySelector('.news-card-sub');
         const toggle = card.querySelector('.news-card-toggle');
-        if (!sub || !toggle) return;
-        const open = card.classList.toggle('open');
-        sub.classList.toggle('clamped', !open);
-        toggle.textContent = open ? 'Leer menos' : 'Leer mas';
+        const open   = card.classList.toggle('open');
+        if (sub)    sub.classList.toggle('clamped', !open);
+        if (toggle) toggle.textContent = open ? 'Leer menos ↑' : 'Leer más ↓';
     };
 
     // ── AMIGOS ────────────────────────────────────────────────
