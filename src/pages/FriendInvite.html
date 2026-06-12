@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexar — Invitación de amigo</title>
+    <style>
+        body { background: #07070f; color: #e8e8f0; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { text-align: center; }
+        .logo { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+        .logo span { color: #00ffcc; }
+        p { color: rgba(255,255,255,0.5); font-size: 14px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">Codex<span>ar</span></div>
+    <p>Redirigiendo a la app...</p>
+</div>
+<script>
+    // Forward the invite token to the mobile PWA
+    const params = new URLSearchParams(window.location.search);
+    const inv = params.get('inv');
+    const token = localStorage.getItem('access_token');
+    if (inv) {
+        // If on mobile and has token, go to the app with the invite token
+        const dest = `/mobile/app?inv=${encodeURIComponent(inv)}`;
+        window.location.replace(dest);
+    } else {
+        window.location.replace('/');
+    }
+</script>
+</body>
+</html>

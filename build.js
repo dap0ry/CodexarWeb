@@ -30,6 +30,7 @@ const PAGE_MAP = {
   'Ranked.html':              'ranked.html',
   'RankedBattle.html':        'ranked/batalla.html',
   'TournamentHelp.html':      'torneos/ayuda.html',
+  'FriendInvite.html':        'amigo.html',
   'TournamentBattle.html':    'torneos/batalla.html',
   'FriendlyBattle.html':      'friendly/batalla.html',
   'Supervivencia.html':       'supervivencia.html',
