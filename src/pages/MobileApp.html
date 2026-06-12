@@ -1034,7 +1034,7 @@
                 Torneos
             </button>
         </div>
-        <div class="bk-hero"><div class="bk-hero-fade"></div></div>
+        <div class="bk-hero" id="bracketHero"><div class="bk-hero-fade"></div></div>
         <div id="bracketScreenContent"></div>
     </div>
 
@@ -1617,11 +1617,13 @@
 
     window.openTournBracket = async function (id) {
         const screen  = document.getElementById('bracketScreen');
+        const hero    = document.getElementById('bracketHero');
         const content = document.getElementById('bracketScreenContent');
+        hero.innerHTML = '<div class="bk-hero-fade"></div>';
         content.innerHTML = `
             <div class="bk-header" style="padding-top:60px;">
                 <div class="bk-eyebrow">// Torneo</div>
-                <div class="bk-title skel" style="width:180px;height:22px;border-radius:6px;"></div>
+                <div class="skel" style="width:180px;height:22px;border-radius:6px;"></div>
             </div>
             <div class="bk-participants">
                 <div class="skel" style="height:52px;border-radius:10px;margin-bottom:8px;"></div>
@@ -1632,6 +1634,17 @@
         try {
             const res = await fetch(API + '/tournaments/' + id, { headers: auth() });
             const t   = await res.json();
+            if (t.banner_url) {
+                const img = document.createElement('img');
+                img.src = t.banner_url;
+                img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
+                img.onerror = () => img.remove();
+                hero.prepend(img);
+            }
+            const letter = document.createElement('div');
+            letter.className = 'tourn-banner-letter';
+            letter.textContent = (t.name || 'T').charAt(0).toUpperCase();
+            hero.prepend(letter);
             const pts = Array.isArray(t.participants_info) ? t.participants_info : [];
             const ptRows = pts.length
                 ? pts.map(p => {
@@ -1660,6 +1673,7 @@
 
     window.closeTournBracket = function () {
         document.getElementById('bracketScreen').classList.remove('open');
+        document.getElementById('bracketHero').innerHTML = '<div class="bk-hero-fade"></div>';
     };
 
     // ── CLUBS ─────────────────────────────────────────────────
