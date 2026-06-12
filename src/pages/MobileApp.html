@@ -472,6 +472,88 @@
         .tourn-action-btn.leave { background: rgba(248,113,113,0.06); border-color: rgba(248,113,113,0.2); color: var(--red); }
         .tourn-action-btn.join:active  { background: rgba(0,255,204,0.16); }
         .tourn-action-btn.leave:active { background: rgba(248,113,113,0.12); }
+        .tourn-action-btn.bracket { background: rgba(0,255,204,0.06); border-color: rgba(0,255,204,0.25); color: var(--cyan); }
+        .tourn-action-btn.bracket:active { background: rgba(0,255,204,0.14); }
+        .tourn-action-inner.stack { flex-direction: column; }
+        .tourn-card.tourn-card--joined.open .tourn-action { max-height: 114px; }
+
+        /* ── BRACKET SCREEN ── */
+        .bracket-screen {
+            position: fixed; inset: 0; z-index: 180;
+            background: var(--bg);
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(.32,1.1,.42,.98);
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .bracket-screen.open { transform: translateX(0); }
+        .bracket-screen-back {
+            position: fixed; top: env(safe-area-inset-top, 0); left: 0; right: 0;
+            z-index: 181;
+            display: flex; align-items: center;
+            padding: 12px 14px;
+            background: linear-gradient(to bottom, rgba(7,7,15,0.92), transparent);
+        }
+        .bk-hero {
+            height: 140px; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #0a0a1c 0%, #10102a 100%);
+        }
+        .bk-hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,204,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,204,0.04) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        .bk-hero-fade {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 90px;
+            background: linear-gradient(transparent, var(--bg)); z-index: 1;
+        }
+        .bk-header {
+            padding: 0 16px 20px; margin-top: -20px; position: relative; z-index: 2;
+        }
+        .bk-eyebrow {
+            font-family: var(--mono); font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--cyan);
+            margin-bottom: 6px;
+        }
+        .bk-title {
+            font-family: var(--mono); font-size: 1.35rem; font-weight: 800;
+            line-height: 1.2; letter-spacing: -0.5px;
+        }
+        .bk-section-label {
+            font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+            margin-bottom: 10px;
+        }
+        .bk-participants { padding: 0 16px 32px; }
+        .bk-participant-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .bk-participant-item:last-child { border-bottom: none; }
+        .bk-part-av {
+            width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+            background: var(--card); border: 1px solid var(--border);
+            font-family: var(--mono); font-size: 0.95rem; font-weight: 800;
+            color: rgba(255,255,255,0.45);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+        .bk-part-av img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .bk-part-name {
+            font-family: var(--mono); font-size: 0.82rem; font-weight: 600;
+            flex: 1; min-width: 0;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .bk-empty {
+            text-align: center; color: var(--muted);
+            font-size: 0.8rem; padding: 40px 16px;
+        }
 
         /* ── CLUBS ── */
         .club-card {
@@ -942,6 +1024,18 @@
             </button>
         </div>
         <div id="clubDetailContent"></div>
+    </div>
+
+    <!-- BRACKET SCREEN -->
+    <div class="bracket-screen" id="bracketScreen">
+        <div class="bracket-screen-back">
+            <button class="club-screen-back-btn" onclick="closeTournBracket()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Torneos
+            </button>
+        </div>
+        <div class="bk-hero"><div class="bk-hero-fade"></div></div>
+        <div id="bracketScreenContent"></div>
     </div>
 
     <!-- FRIEND PROFILE SCREEN -->
@@ -1451,9 +1545,11 @@
         const date = t.start_time ? fmtDateTime(t.start_time) : '';
 
         let actionInner = '';
+        let stackClass = '';
         if (t.status === 'upcoming') {
             if (isJoined) {
-                actionInner = `<button class="tourn-action-btn leave" onclick="leaveTournament('${id}',this);event.stopPropagation()">Abandonar</button>`;
+                stackClass = ' stack';
+                actionInner = `<button class="tourn-action-btn bracket" onclick="openTournBracket('${id}');event.stopPropagation()">Ver bracket</button><button class="tourn-action-btn leave" onclick="leaveTournament('${id}',this);event.stopPropagation()">Abandonar</button>`;
             } else {
                 actionInner = `<button class="tourn-action-btn join" onclick="joinTournament('${id}',this);event.stopPropagation()">Inscribirse</button>`;
             }
@@ -1463,7 +1559,8 @@
             actionInner = `<button class="tourn-action-btn join" style="opacity:0.45;cursor:default" disabled>Finalizado</button>`;
         }
 
-        return `<div class="tourn-card" onclick="toggleTournCard(this)">
+        const joinedCardClass = isJoined && t.status === 'upcoming' ? ' tourn-card--joined' : '';
+        return `<div class="tourn-card${joinedCardClass}" onclick="toggleTournCard(this)">
             <div class="tourn-banner">
                 ${bannerImg}
                 <div class="tourn-banner-letter">${letter}</div>
@@ -1480,7 +1577,7 @@
                 ${isJoined ? `<div class="tourn-joined-pill"><div class="tourn-joined-dot"></div>Inscrito</div>` : ''}
             </div>
             <div class="tourn-action">
-                <div class="tourn-action-inner">${actionInner}</div>
+                <div class="tourn-action-inner${stackClass}">${actionInner}</div>
             </div>
         </div>`;
     }
@@ -1516,6 +1613,53 @@
                 setTimeout(() => { btn.disabled = false; btn.textContent = 'Abandonar'; }, 2000);
             }
         } catch (_) { btn.textContent = 'Error'; btn.disabled = false; }
+    };
+
+    window.openTournBracket = async function (id) {
+        const screen  = document.getElementById('bracketScreen');
+        const content = document.getElementById('bracketScreenContent');
+        content.innerHTML = `
+            <div class="bk-header" style="padding-top:60px;">
+                <div class="bk-eyebrow">// Torneo</div>
+                <div class="bk-title skel" style="width:180px;height:22px;border-radius:6px;"></div>
+            </div>
+            <div class="bk-participants">
+                <div class="skel" style="height:52px;border-radius:10px;margin-bottom:8px;"></div>
+                <div class="skel" style="height:52px;border-radius:10px;margin-bottom:8px;"></div>
+                <div class="skel" style="height:52px;border-radius:10px;"></div>
+            </div>`;
+        screen.classList.add('open');
+        try {
+            const res = await fetch(API + '/tournaments/' + id, { headers: auth() });
+            const t   = await res.json();
+            const pts = Array.isArray(t.participants_info) ? t.participants_info : [];
+            const ptRows = pts.length
+                ? pts.map(p => {
+                    const initial = esc((p.username || p.email || '?').charAt(0).toUpperCase());
+                    const name    = esc(p.username || p.email || 'Jugador');
+                    const avImg   = p.avatar ? `<img src="${esc(p.avatar)}" onerror="this.style.display='none'" alt="">` : '';
+                    return `<div class="bk-participant-item">
+                        <div class="bk-part-av">${avImg}${initial}</div>
+                        <div class="bk-part-name">${name}</div>
+                    </div>`;
+                }).join('')
+                : '<div class="bk-empty">Sin participantes aún</div>';
+            content.innerHTML = `
+                <div class="bk-header" style="padding-top:60px;">
+                    <div class="bk-eyebrow">// Torneo</div>
+                    <div class="bk-title">${esc(t.name || '')}</div>
+                </div>
+                <div class="bk-participants">
+                    <div class="bk-section-label">// Participantes (${pts.length})</div>
+                    ${ptRows}
+                </div>`;
+        } catch (_) {
+            content.innerHTML = '<div class="bk-empty">Error cargando datos</div>';
+        }
+    };
+
+    window.closeTournBracket = function () {
+        document.getElementById('bracketScreen').classList.remove('open');
     };
 
     // ── CLUBS ─────────────────────────────────────────────────
