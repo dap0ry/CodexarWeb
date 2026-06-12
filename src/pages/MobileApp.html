@@ -1765,7 +1765,8 @@
         if (t.status === 'finished' && t.winner) {
             const wInitial = esc((t.winner.username || '?').charAt(0).toUpperCase());
             const wAv = t.winner.avatar ? `<img src="${esc(t.winner.avatar)}" onerror="this.style.display='none'" alt="">` : '';
-            html += `<div class="mbk-champion">
+            const wUname = esc(t.winner.username || '');
+            html += `<div class="mbk-champion" style="cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="openFriendProfile('${wUname}')">
                 <div class="mbk-champion-av">${wAv}${wInitial}</div>
                 <div><div class="mbk-champion-label">🏆 Campeón</div><div class="mbk-champion-name">${esc(t.winner.username)}</div></div>
             </div>`;
