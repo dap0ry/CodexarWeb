@@ -146,6 +146,14 @@
             color: rgba(0,255,204,0.5); margin-top: 8px; letter-spacing: 0.5px;
             cursor: pointer;
         }
+        .news-mention {
+            color: var(--cyan); font-weight: 700;
+            text-decoration: none; border-bottom: 1px solid rgba(0,255,204,0.3);
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .news-team-mention {
+            color: #ffc400; border-bottom-color: rgba(255,196,0,0.3);
+        }
 
         /* ── FRIENDS — Add bar ── */
         .add-friend-bar {
@@ -1313,6 +1321,17 @@
     }
 
     // ── NOTICIAS ──────────────────────────────────────────────
+    function parseMentions(text) {
+        return text
+            .replace(/#([\w ]{1,20}?)(?=\s|$|[^\w\s])/g, (_, name) => {
+                const t = name.trim();
+                return `<span class="news-mention news-team-mention" onclick="openClubDetail('${t.replace(/'/g, "\\'")}');event.stopPropagation()">#${t}</span>`;
+            })
+            .replace(/@(\w+)/g, (_, username) => {
+                return `<span class="news-mention" onclick="openFriendProfile('${username}');event.stopPropagation()">@${username}</span>`;
+            });
+    }
+
     async function loadNoticias() {
         const feed = document.getElementById('feedNoticias');
         try {
@@ -1328,11 +1347,13 @@
                     const body     = (n.body_i18n && n.body_i18n[lang]) || n.body || '';
                     const author   = n.creator || n.author_username || 'Codexar';
                     const hasMore  = body.trim().length > 0 || subtitle.length > 100;
+                    const subHtml  = parseMentions(esc(subtitle));
+                    const bodyHtml = parseMentions(esc(body)).replace(/\n/g, '<br>');
                     return `<div class="news-card" onclick="toggleNews(this)">
                         <div class="news-card-meta">${esc(author)} &middot; ${fmtDate(n.created_at)}</div>
                         <div class="news-card-title">${esc(title)}</div>
-                        ${subtitle ? `<div class="news-card-sub${hasMore ? ' clamped' : ''}">${esc(subtitle)}</div>` : ''}
-                        ${body ? `<div class="news-card-body">${esc(body).replace(/\n/g, '<br>')}</div>` : ''}
+                        ${subtitle ? `<div class="news-card-sub${hasMore ? ' clamped' : ''}">${subHtml}</div>` : ''}
+                        ${body ? `<div class="news-card-body">${bodyHtml}</div>` : ''}
                         ${hasMore ? `<div class="news-card-toggle">Leer más ↓</div>` : ''}
                     </div>`;
                 }).join('');
