@@ -560,6 +560,100 @@
             font-size: 0.8rem; padding: 40px 16px;
         }
 
+        /* winner pill inside tournament card */
+        .tourn-winner-pill {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.22);
+            border-radius: 20px; padding: 4px 10px 4px 4px; margin-top: 8px;
+        }
+        .tourn-winner-av {
+            width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+            background: rgba(251,191,36,0.15);
+            font-family: var(--mono); font-size: 0.62rem; font-weight: 800;
+            color: #fbbf24;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+        .tourn-winner-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .tourn-winner-label {
+            font-family: var(--mono); font-size: 0.68rem; font-weight: 700; color: #fbbf24;
+        }
+
+        /* ── MOBILE BRACKET ── */
+        .mbk-champion {
+            margin: 0 16px 20px;
+            background: linear-gradient(135deg, rgba(251,191,36,0.09), rgba(251,191,36,0.03));
+            border: 1px solid rgba(251,191,36,0.25); border-radius: 12px;
+            padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+        }
+        .mbk-champion-av {
+            width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+            background: rgba(251,191,36,0.15); border: 2px solid rgba(251,191,36,0.35);
+            font-family: var(--mono); font-size: 1.05rem; font-weight: 800; color: #fbbf24;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+        .mbk-champion-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .mbk-champion-label {
+            font-family: var(--mono); font-size: 0.54rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: rgba(251,191,36,0.65);
+        }
+        .mbk-champion-name {
+            font-family: var(--mono); font-size: 0.95rem; font-weight: 800;
+            color: #fbbf24; margin-top: 2px;
+        }
+        .mbk-rounds { padding: 0 16px 32px; }
+        .mbk-round { margin-bottom: 16px; }
+        .mbk-round-label {
+            font-family: var(--mono); font-size: 0.56rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--cyan);
+            margin-bottom: 8px; padding-bottom: 5px;
+            border-bottom: 1px solid rgba(0,255,204,0.1);
+        }
+        .mbk-match {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 10px; margin-bottom: 8px; overflow: hidden;
+        }
+        .mbk-match--done { border-color: rgba(0,255,204,0.14); }
+        .mbk-slot {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px; cursor: pointer;
+            -webkit-tap-highlight-color: transparent; transition: background 0.15s;
+        }
+        .mbk-slot + .mbk-slot { border-top: 1px solid var(--border); }
+        .mbk-slot--winner { background: rgba(0,255,204,0.05); }
+        .mbk-slot--loser  { opacity: 0.4; }
+        .mbk-slot--empty  { opacity: 0.35; cursor: default; }
+        .mbk-slot:active:not(.mbk-slot--empty) { background: rgba(255,255,255,0.04); }
+        .mbk-slot-av {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            background: var(--border);
+            font-family: var(--mono); font-size: 0.7rem; font-weight: 800;
+            color: rgba(255,255,255,0.45);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+        .mbk-slot-av img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .mbk-slot-name {
+            font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
+            flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mbk-slot--winner .mbk-slot-name { color: var(--cyan); }
+        .mbk-slot-win {
+            font-family: var(--mono); font-size: 0.6rem; font-weight: 800;
+            letter-spacing: 1px; color: var(--cyan); margin-left: auto; flex-shrink: 0;
+        }
+        .mbk-badge {
+            font-family: var(--mono); font-size: 0.52rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 3px 10px; text-align: center;
+            background: rgba(255,255,255,0.02); color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+        .mbk-badge--live   { color: var(--green); background: rgba(34,197,94,0.05); }
+        .mbk-badge--done   { color: var(--cyan);  background: rgba(0,255,204,0.04); }
+        .mbk-badge--forfeit{ color: var(--red);   background: rgba(248,113,113,0.04); }
+
         /* ── CLUBS ── */
         .club-card {
             background: var(--card); border: 1px solid var(--border);
@@ -1558,10 +1652,15 @@
             } else {
                 actionInner = `<button class="tourn-action-btn join" onclick="joinTournament('${id}',this);event.stopPropagation()">Inscribirse</button>`;
             }
-        } else if (t.status === 'active') {
-            actionInner = `<button class="tourn-action-btn join" style="opacity:0.45;cursor:default" disabled>En curso</button>`;
         } else {
-            actionInner = `<button class="tourn-action-btn join" style="opacity:0.45;cursor:default" disabled>Finalizado</button>`;
+            actionInner = `<button class="tourn-action-btn bracket" onclick="openTournBracket('${id}');event.stopPropagation()">Ver bracket</button>`;
+        }
+
+        let winnerHtml = '';
+        if (t.status === 'finished' && t.winner) {
+            const wInitial = esc((t.winner.username || '?').charAt(0).toUpperCase());
+            const wAv = t.winner.avatar ? `<img src="${esc(t.winner.avatar)}" onerror="this.style.display='none'" alt="">` : '';
+            winnerHtml = `<div class="tourn-winner-pill"><div class="tourn-winner-av">${wAv}${wInitial}</div><span class="tourn-winner-label">🏆 ${esc(t.winner.username)}</span></div>`;
         }
 
         const joinedCardClass = isJoined && t.status === 'upcoming' ? ' tourn-card--joined' : '';
@@ -1580,6 +1679,7 @@
                 </div>
                 ${t.description ? `<div class="tourn-desc">${esc(t.description)}</div>` : ''}
                 ${isJoined ? `<div class="tourn-joined-pill"><div class="tourn-joined-dot"></div>Inscrito</div>` : ''}
+                ${winnerHtml}
             </div>
             <div class="tourn-action">
                 <div class="tourn-action-inner${stackClass}">${actionInner}</div>
@@ -1620,6 +1720,67 @@
         } catch (_) { btn.textContent = 'Error'; btn.disabled = false; }
     };
 
+    function buildMobileMatchBox(match) {
+        const winnerEmail = match.winner_email;
+        const isDone = ['done','forfeit','bye'].includes(match.status);
+
+        const slotHtml = (player) => {
+            if (!player) {
+                return `<div class="mbk-slot mbk-slot--empty"><div class="mbk-slot-av">?</div><div class="mbk-slot-name">Por definir</div></div>`;
+            }
+            const isW = player.email === winnerEmail;
+            const isL = isDone && !isW;
+            const initial  = esc((player.username || '?').charAt(0).toUpperCase());
+            const avImg    = player.avatar ? `<img src="${esc(player.avatar)}" onerror="this.style.display='none'" alt="">` : '';
+            const uname    = esc(player.username || '');
+            const clickAttr = uname ? `onclick="openFriendProfile('${uname}')"` : '';
+            return `<div class="mbk-slot${isW?' mbk-slot--winner':isL?' mbk-slot--loser':''}" ${clickAttr}>
+                <div class="mbk-slot-av">${avImg}${initial}</div>
+                <div class="mbk-slot-name">${esc(player.username || 'Jugador')}</div>
+                ${isW ? '<span class="mbk-slot-win">▶ WIN</span>' : ''}
+            </div>`;
+        };
+
+        const badgeMap = {
+            ongoing: ['mbk-badge--live',   'EN CURSO'],
+            done:    ['mbk-badge--done',   'COMPLETADO'],
+            forfeit: ['mbk-badge--forfeit','FORFEIT'],
+            bye:     ['',                  'BYE'],
+            skip:    ['',                  '—'],
+            pending: ['',                  'PENDIENTE'],
+        };
+        const [badgeCls, badgeText] = badgeMap[match.status] || ['',''];
+        const badge = badgeText ? `<div class="mbk-badge ${badgeCls}">${badgeText}</div>` : '';
+
+        return `<div class="mbk-match${isDone?' mbk-match--done':''}">
+            ${slotHtml(match.p1)}${slotHtml(match.p2)}${badge}
+        </div>`;
+    }
+
+    function buildMobileBracketHTML(t) {
+        const bracket = t.bracket || [];
+        if (!bracket.length) return '<div class="bk-empty">Sin bracket disponible</div>';
+        const numRounds = bracket.length;
+        let html = '';
+        if (t.status === 'finished' && t.winner) {
+            const wInitial = esc((t.winner.username || '?').charAt(0).toUpperCase());
+            const wAv = t.winner.avatar ? `<img src="${esc(t.winner.avatar)}" onerror="this.style.display='none'" alt="">` : '';
+            html += `<div class="mbk-champion">
+                <div class="mbk-champion-av">${wAv}${wInitial}</div>
+                <div><div class="mbk-champion-label">🏆 Campeón</div><div class="mbk-champion-name">${esc(t.winner.username)}</div></div>
+            </div>`;
+        }
+        html += '<div class="mbk-rounds">';
+        for (let r = 0; r < numRounds; r++) {
+            const label = r === numRounds - 1 ? 'FINAL' : r === numRounds - 2 && numRounds > 2 ? 'SEMIFINAL' : `RONDA ${r + 1}`;
+            html += `<div class="mbk-round"><div class="mbk-round-label">${label}</div>`;
+            for (const match of bracket[r]) html += buildMobileMatchBox(match);
+            html += '</div>';
+        }
+        html += '</div>';
+        return html;
+    }
+
     window.openTournBracket = async function (id) {
         const screen  = document.getElementById('bracketScreen');
         const hero    = document.getElementById('bracketHero');
@@ -1630,10 +1791,10 @@
                 <div class="bk-eyebrow">// Torneo</div>
                 <div class="skel" style="width:180px;height:22px;border-radius:6px;"></div>
             </div>
-            <div class="bk-participants">
-                <div class="skel" style="height:52px;border-radius:10px;margin-bottom:8px;"></div>
-                <div class="skel" style="height:52px;border-radius:10px;margin-bottom:8px;"></div>
-                <div class="skel" style="height:52px;border-radius:10px;"></div>
+            <div style="padding:0 16px;">
+                <div class="skel" style="height:60px;border-radius:10px;margin-bottom:8px;"></div>
+                <div class="skel" style="height:60px;border-radius:10px;margin-bottom:8px;"></div>
+                <div class="skel" style="height:60px;border-radius:10px;"></div>
             </div>`;
         screen.classList.add('open');
         try {
@@ -1650,31 +1811,32 @@
             letter.className = 'tourn-banner-letter';
             letter.textContent = (t.name || 'T').charAt(0).toUpperCase();
             hero.prepend(letter);
-            const pts = Array.isArray(t.participants_info) ? t.participants_info : [];
-            const ptRows = pts.length
-                ? pts.map(p => {
-                    const initial  = esc((p.username || p.email || '?').charAt(0).toUpperCase());
-                    const name     = esc(p.username || p.email || 'Jugador');
-                    const uname    = esc(p.username || '');
-                    const avImg    = p.avatar ? `<img src="${esc(p.avatar)}" onerror="this.style.display='none'" alt="">` : '';
-                    const clickAttr = uname ? `onclick="openFriendProfile('${uname}')"` : '';
-                    const chevron  = uname ? `<svg class="bk-participant-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>` : '';
-                    return `<div class="bk-participant-item" ${clickAttr}>
-                        <div class="bk-part-av">${avImg}${initial}</div>
-                        <div class="bk-part-name">${name}</div>
-                        ${chevron}
-                    </div>`;
-                }).join('')
-                : '<div class="bk-empty">Sin participantes aún</div>';
+
+            let bodyHTML = '';
+            if (t.status === 'upcoming') {
+                const pts = Array.isArray(t.participants_info) ? t.participants_info : [];
+                const ptRows = pts.length
+                    ? pts.map(p => {
+                        const initial   = esc((p.username || p.email || '?').charAt(0).toUpperCase());
+                        const name      = esc(p.username || p.email || 'Jugador');
+                        const uname     = esc(p.username || '');
+                        const avImg     = p.avatar ? `<img src="${esc(p.avatar)}" onerror="this.style.display='none'" alt="">` : '';
+                        const clickAttr = uname ? `onclick="openFriendProfile('${uname}')"` : '';
+                        const chevron   = uname ? `<svg class="bk-participant-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>` : '';
+                        return `<div class="bk-participant-item" ${clickAttr}><div class="bk-part-av">${avImg}${initial}</div><div class="bk-part-name">${name}</div>${chevron}</div>`;
+                    }).join('')
+                    : '<div class="bk-empty">Sin participantes aún</div>';
+                bodyHTML = `<div class="bk-participants"><div class="bk-section-label">// Participantes (${pts.length})</div>${ptRows}</div>`;
+            } else {
+                bodyHTML = buildMobileBracketHTML(t);
+            }
+
             content.innerHTML = `
                 <div class="bk-header" style="padding-top:60px;">
                     <div class="bk-eyebrow">// Torneo</div>
                     <div class="bk-title">${esc(t.name || '')}</div>
                 </div>
-                <div class="bk-participants">
-                    <div class="bk-section-label">// Participantes (${pts.length})</div>
-                    ${ptRows}
-                </div>`;
+                ${bodyHTML}`;
         } catch (_) {
             content.innerHTML = '<div class="bk-empty">Error cargando datos</div>';
         }
