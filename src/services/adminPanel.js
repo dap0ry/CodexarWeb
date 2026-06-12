@@ -430,11 +430,63 @@ function renderTournaments(list) {
     }).join('');
 }
 
+// ── Tournament exercise picker ────────────────────────────────────────────────
+const _tExSelected = [];
+
+async function searchTournamentExercises() {
+    const q = document.getElementById('tExSearch').value.trim();
+    const box = document.getElementById('tExResults');
+    if (q.length < 2) { box.style.display = 'none'; return; }
+    const res = await fetch(`${API_BASE}/exercises?search=${encodeURIComponent(q)}&limit=10`, {
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    if (!res.ok) return;
+    const exercises = await res.json();
+    const list = Array.isArray(exercises) ? exercises : (exercises.exercises || []);
+    if (!list.length) { box.innerHTML = '<div style="padding:10px;color:rgba(255,255,255,0.4);font-size:13px">Sin resultados</div>'; box.style.display = 'block'; return; }
+    box.innerHTML = list.map(ex => `
+        <div onclick="addTournEx('${ex.id}','${esc(ex.title)}',${ex.difficulty || 800})"
+             style="padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.05);transition:background .15s"
+             onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+            <span style="font-size:13px">${esc(ex.title)}</span>
+            <span style="font-size:11px;color:var(--cyan);font-weight:700">${ex.difficulty || 800} pts</span>
+        </div>`).join('');
+    box.style.display = 'block';
+}
+
+function addTournEx(id, title, difficulty) {
+    if (_tExSelected.length >= 6) { showToast('Máximo 6 ejercicios.', true); return; }
+    if (_tExSelected.find(e => e.id === id)) return;
+    _tExSelected.push({ id, title, difficulty });
+    renderTournExSelected();
+    document.getElementById('tExResults').style.display = 'none';
+    document.getElementById('tExSearch').value = '';
+}
+
+function removeTournEx(id) {
+    const idx = _tExSelected.findIndex(e => e.id === id);
+    if (idx !== -1) _tExSelected.splice(idx, 1);
+    renderTournExSelected();
+}
+
+function renderTournExSelected() {
+    const box = document.getElementById('tExSelected');
+    box.innerHTML = _tExSelected.map(ex => `
+        <div style="display:flex;align-items:center;gap:6px;background:rgba(0,255,204,0.07);border:1px solid rgba(0,255,204,0.2);border-radius:6px;padding:4px 10px;font-size:12px">
+            <span>${esc(ex.title)}</span>
+            <span style="color:var(--cyan);font-weight:700">${ex.difficulty}</span>
+            <span onclick="removeTournEx('${ex.id}')" style="cursor:pointer;color:rgba(255,255,255,0.4);margin-left:4px;font-size:14px">×</span>
+        </div>`).join('');
+    document.getElementById('tExIds').value = _tExSelected.map(e => e.id).join(',');
+}
+
 async function createTournament() {
-    const name  = document.getElementById('tName').value.trim();
-    const desc  = document.getElementById('tDesc').value.trim();
-    const start = document.getElementById('tStart').value;
-    const banner = document.getElementById('tBanner').files[0];
+    const name     = document.getElementById('tName').value.trim();
+    const desc     = document.getElementById('tDesc').value.trim();
+    const start    = document.getElementById('tStart').value;
+    const duration = document.getElementById('tDuration').value;
+    const banner   = document.getElementById('tBanner').files[0];
+    const exIds    = document.getElementById('tExIds').value;
 
     if (!name)  { showToast('El nombre es obligatorio.', true); return; }
     if (!start) { showToast('La fecha de inicio es obligatoria.', true); return; }
@@ -447,6 +499,8 @@ async function createTournament() {
     form.append('name', name);
     form.append('description', desc);
     form.append('start_time', new Date(start).toISOString());
+    form.append('duration_minutes', duration || '240');
+    form.append('exercise_ids', exIds);
     if (banner) form.append('banner', banner);
 
     try {
@@ -463,6 +517,8 @@ async function createTournament() {
             document.getElementById('tDesc').value  = '';
             document.getElementById('tStart').value = '';
             document.getElementById('tBanner').value = '';
+            _tExSelected.length = 0;
+            renderTournExSelected();
             await loadTournaments();
         } else {
             showToast(data.detail || 'Error al crear el torneo.', true);
@@ -476,7 +532,7 @@ async function createTournament() {
 }
 
 async function startTournament(id, btn) {
-    if (!confirm('¿Iniciar el torneo ahora? Se generará el bracket y comenzará la primera ronda.')) return;
+    if (!confirm('¿Iniciar el torneo ahora? Los participantes podrán empezar a resolver ejercicios.')) return;
     btn.disabled = true;
     btn.textContent = '...';
     const res  = await fetch(`${API_BASE}/tournaments/${id}/start`, {

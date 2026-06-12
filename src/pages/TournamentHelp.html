@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/src/services/mobileRedirect.js"></script>
+    <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
+    <title>Codexar — Descargar aplicación</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/css/Home.css">
+    <link rel="stylesheet" href="/src/assets/css/global.css">
+    <link rel="stylesheet" href="/src/assets/css/themes.css">
+    <style>
+        body { background: var(--bg, #07070f); color: var(--text, #e8e8f0); font-family: 'Inter', sans-serif; }
+        .help-page { max-width: 720px; margin: 0 auto; padding: 48px 24px 100px; }
+        .help-back { color: rgba(255,255,255,0.4); font-size: 13px; cursor: pointer; margin-bottom: 32px; display: inline-block; text-decoration: none; }
+        .help-back:hover { color: rgba(255,255,255,0.7); }
+        .help-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--cyan,#00ffcc); text-transform: uppercase; margin-bottom: 12px; }
+        .help-title { font-family: 'JetBrains Mono', monospace; font-size: clamp(28px,5vw,44px); font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
+        .help-title span { color: var(--cyan,#00ffcc); }
+        .help-lead { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 48px; max-width: 560px; }
+
+        /* Download cards */
+        .help-downloads { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+        @media (max-width: 520px) { .help-downloads { grid-template-columns: 1fr; } }
+        .help-dl-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; transition: border-color .2s; }
+        .help-dl-card:hover { border-color: rgba(0,255,204,0.25); }
+        .help-dl-icon { font-size: 32px; margin-bottom: 12px; }
+        .help-dl-os { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .help-dl-ext { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+        .help-dl-btn { display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--cyan,#00ffcc), #00ccaa); color: #07070f; font-weight: 800; font-size: 13px; border: none; border-radius: 10px; padding: 10px 18px; cursor: pointer; text-decoration: none; width: 100%; justify-content: center; }
+        .help-dl-btn:hover { filter: brightness(1.08); }
+
+        /* Steps */
+        .help-steps-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .help-steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+        .help-step { display: flex; gap: 16px; align-items: flex-start; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; }
+        .help-step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.3); color: var(--cyan,#00ffcc); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .help-step-body h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .help-step-body p { font-size: 13px; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.6; }
+
+        /* FAQ */
+        .help-faq-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .help-faq { display: flex; flex-direction: column; gap: 12px; }
+        .help-faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 16px; }
+        .help-faq-q { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .help-faq-a { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
+    <div class="user-pill-container">
+        <div class="user-pill" id="userPill">
+            <div class="avatar" id="navAvatar"></div>
+            <div class="username-display" id="navUsername">Cargando...</div>
+        </div>
+        <div class="user-dropdown">
+            <a href="/home"          class="dropdown-item" data-i18n="nav.home">Inicio</a>
+            <a href="/configuracion" class="dropdown-item" data-i18n="nav.settings">Configuración</a>
+            <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
+            <a href="/torneos"       class="dropdown-item">Torneos</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
+        </div>
+    </div>
+</nav>
+
+<div class="help-page">
+    <a href="/torneos" class="help-back">← Volver a Torneos</a>
+
+    <div class="help-eyebrow">Aplicación de Escritorio</div>
+    <h1 class="help-title">Juega torneos con la<br>app de <span>Codexar</span></h1>
+    <p class="help-lead">
+        Para participar en torneos necesitas la aplicación de escritorio oficial de Codexar.
+        Incluye un editor de código integrado, ejecución de código en tiempo real y sistema anti-trampas.
+    </p>
+
+    <div class="help-downloads">
+        <div class="help-dl-card">
+            <div class="help-dl-icon">🪟</div>
+            <div class="help-dl-os">Windows</div>
+            <div class="help-dl-ext">.exe · x64 · Windows 10/11</div>
+            <a href="https://api.codexar.es/downloads/codexar-setup.exe" class="help-dl-btn" download>
+                ↓ Descargar para Windows
+            </a>
+        </div>
+        <div class="help-dl-card">
+            <div class="help-dl-icon">🐧</div>
+            <div class="help-dl-os">Linux</div>
+            <div class="help-dl-ext">.AppImage · x64 · Ubuntu/Debian</div>
+            <a href="https://api.codexar.es/downloads/codexar.AppImage" class="help-dl-btn" download>
+                ↓ Descargar para Linux
+            </a>
+        </div>
+    </div>
+
+    <div class="help-steps-title">¿Cómo participar?</div>
+    <div class="help-steps">
+        <div class="help-step">
+            <div class="help-step-num">1</div>
+            <div class="help-step-body">
+                <h4>Inscríbete en un torneo</h4>
+                <p>Desde la página de <a href="/torneos" style="color:var(--cyan)">Torneos</a> inscríbete en cualquier torneo con estado "Próximo" antes de que empiece.</p>
+            </div>
+        </div>
+        <div class="help-step">
+            <div class="help-step-num">2</div>
+            <div class="help-step-body">
+                <h4>Descarga e instala la app</h4>
+                <p>Descarga la aplicación de escritorio usando los botones de arriba. En Windows ejecuta el instalador; en Linux dale permisos de ejecución al AppImage.</p>
+            </div>
+        </div>
+        <div class="help-step">
+            <div class="help-step-num">3</div>
+            <div class="help-step-body">
+                <h4>Inicia sesión en la app</h4>
+                <p>Abre Codexar y usa tu mismo usuario y contraseña de la web. La app se conectará automáticamente a tu cuenta.</p>
+            </div>
+        </div>
+        <div class="help-step">
+            <div class="help-step-num">4</div>
+            <div class="help-step-body">
+                <h4>Selecciona el torneo activo</h4>
+                <p>Cuando el torneo empiece verás el botón "Jugar" en la app. Al entrar tendrás acceso a todos los ejercicios del torneo.</p>
+            </div>
+        </div>
+        <div class="help-step">
+            <div class="help-step-num">5</div>
+            <div class="help-step-body">
+                <h4>Resuelve los ejercicios y entrega</h4>
+                <p>Cada ejercicio resuelto suma puntos a tu marcador. Puedes entregar cuando quieras o esperar a que acabe el tiempo. ¡El ranking se actualiza en tiempo real!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="help-faq-title">Preguntas frecuentes</div>
+    <div class="help-faq">
+        <div class="help-faq-item">
+            <div class="help-faq-q">¿Por qué es obligatoria la app de escritorio?</div>
+            <div class="help-faq-a">La app garantiza un entorno de juego justo mediante un sistema anti-trampas que detecta cuando cambias de ventana o minimizas la aplicación.</div>
+        </div>
+        <div class="help-faq-item">
+            <div class="help-faq-q">¿Qué pasa si minimizo la ventana durante el torneo?</div>
+            <div class="help-faq-a">La app registra automáticamente tu entrega con los puntos conseguidos hasta ese momento. Es una medida anti-trampas.</div>
+        </div>
+        <div class="help-faq-item">
+            <div class="help-faq-q">¿Cómo se calcula la puntuación?</div>
+            <div class="help-faq-a">Cada ejercicio tiene una puntuación de dificultad (800–3500 pts). En caso de empate se desempata por quién ha tardado menos tiempo.</div>
+        </div>
+        <div class="help-faq-item">
+            <div class="help-faq-q">¿Puedo ver el clasificador sin la app?</div>
+            <div class="help-faq-a">Sí, el ranking y los ejercicios del torneo son visibles desde la web en la página de Torneos.</div>
+        </div>
+    </div>
+</div>
+
+<script src="/src/services/globalBg.js"></script>
+<script src="/src/services/roleNav.js"></script>
+</body>
+</html>

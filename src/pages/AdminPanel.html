@@ -353,9 +353,29 @@
                                 <input type="datetime-local" id="tStart" class="ap-news-input">
                             </div>
                             <div class="ap-news-field">
-                                <label class="ap-news-label">Banner <span class="ap-news-opt">(imagen, máx. 5 MB)</span></label>
-                                <input type="file" id="tBanner" class="ap-news-input" accept="image/*" style="padding:6px;cursor:pointer">
+                                <label class="ap-news-label">Duración <span class="ap-news-req">*</span></label>
+                                <select id="tDuration" class="ap-news-input" style="cursor:pointer">
+                                    <option value="60">1 hora</option>
+                                    <option value="120">2 horas</option>
+                                    <option value="180">3 horas</option>
+                                    <option value="240" selected>4 horas</option>
+                                    <option value="300">5 horas</option>
+                                    <option value="360">6 horas</option>
+                                </select>
                             </div>
+                        </div>
+                        <div class="ap-news-field">
+                            <label class="ap-news-label">Banner <span class="ap-news-opt">(imagen, máx. 5 MB)</span></label>
+                            <input type="file" id="tBanner" class="ap-news-input" accept="image/*" style="padding:6px;cursor:pointer">
+                        </div>
+                        <div class="ap-news-field">
+                            <label class="ap-news-label">Ejercicios del torneo <span class="ap-news-opt">(máx. 6)</span></label>
+                            <div style="display:flex;gap:8px;margin-bottom:8px">
+                                <input type="text" id="tExSearch" class="ap-news-input" placeholder="Buscar ejercicio por nombre..." autocomplete="off" oninput="searchTournamentExercises()" style="flex:1">
+                            </div>
+                            <div id="tExResults" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;max-height:160px;overflow-y:auto;display:none"></div>
+                            <div id="tExSelected" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+                            <input type="hidden" id="tExIds" value="">
                         </div>
                     </div>
                     <div class="ap-news-form-footer">

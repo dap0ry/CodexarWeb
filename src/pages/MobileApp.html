@@ -1056,6 +1056,14 @@
             </div>
             <div class="add-feedback" id="addFeedback"></div>
 
+            <!-- Invite friends -->
+            <div style="padding:0 0 12px">
+                <button onclick="inviteFriend()" style="width:100%;background:rgba(0,255,204,0.07);border:1px dashed rgba(0,255,204,0.3);border-radius:12px;padding:12px 16px;color:var(--cyan);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    Invitar amigo por enlace
+                </button>
+            </div>
+
             <!-- Received requests -->
             <div id="secReceived" style="display:none">
                 <div class="friends-count" id="lblReceived"></div>
@@ -1283,6 +1291,24 @@
         }
         beat();
         setInterval(beat, 5 * 60 * 1000);
+
+        // Auto-accept friend invite from URL (?inv=TOKEN)
+        const urlParams = new URLSearchParams(window.location.search);
+        const invToken = urlParams.get('inv');
+        if (invToken) {
+            try {
+                const invRes  = await fetch(API + '/friends/use-invite/' + encodeURIComponent(invToken), { headers: auth() });
+                const invData = await invRes.json();
+                if (invRes.ok) {
+                    const feedback = document.createElement('div');
+                    feedback.style = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,255,204,0.15);border:1px solid rgba(0,255,204,0.4);color:#00ffcc;border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;z-index:9999;backdrop-filter:blur(8px)';
+                    feedback.textContent = invData.message || '¡Amigo añadido!';
+                    document.body.appendChild(feedback);
+                    setTimeout(() => feedback.remove(), 4000);
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
+            } catch (_) {}
+        }
 
         // Preload friend request badge without full render
         fetchFriendsBadge();
@@ -1568,6 +1594,29 @@
         document.body.style.overflow = '';
     };
 
+    // Invite friend via link
+    window.inviteFriend = async function () {
+        try {
+            const res  = await fetch(API + '/friends/generate-invite', { method: 'POST', headers: auth() });
+            const data = await res.json();
+            if (!res.ok) { alert(data.detail || 'Error al generar el enlace'); return; }
+            const url = data.url;
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: '¡Únete a Codexar!', text: 'Te invito a ser mi amigo en Codexar', url });
+                    return;
+                } catch (_) {}
+            }
+            await navigator.clipboard.writeText(url);
+            const feedback = document.getElementById('addFeedback');
+            feedback.className = 'add-feedback ok';
+            feedback.textContent = '¡Enlace copiado! Compártelo con tu amigo.';
+            setTimeout(() => { feedback.textContent = ''; feedback.className = 'add-feedback'; }, 3000);
+        } catch (_) {
+            alert('Error al generar el enlace de invitación');
+        }
+    };
+
     // Add friend
     window.sendRequest = async function () {
         const input    = document.getElementById('addInput');
@@ -1657,14 +1706,22 @@
         cache['Torneos'] = true;
     }
 
+    function diffColorMobile(d) {
+        if (d <= 900)  return '#4ade80';
+        if (d <= 1200) return '#86efac';
+        if (d <= 1600) return '#fbbf24';
+        if (d <= 2200) return '#f97316';
+        if (d <= 2800) return '#ef4444';
+        return '#a855f7';
+    }
+
     function tournCard(t) {
-        const statusMap   = { upcoming:'Proximo', active:'Activo', finished:'Finalizado' };
+        const statusMap   = { upcoming:'Próximo', active:'Activo', finished:'Finalizado' };
         const statusLabel = statusMap[t.status] || t.status || '';
         const statusClass = t.status || 'upcoming';
         const id          = esc(String(t.id || t._id || ''));
         const participants = t.participants || [];
         const count        = participants.length;
-        const max          = t.max_players ? '/' + t.max_players : '';
         const isJoined     = user && participants.includes(user.email);
         const letter       = esc((t.name || 'T').charAt(0).toUpperCase());
 
@@ -1672,21 +1729,22 @@
             ? `<img src="${esc(t.banner_url)}" alt="" onerror="this.style.opacity=0">`
             : '';
 
+        const durH = Math.round((t.duration_minutes || 240) / 60);
         const date = t.start_time ? fmtDateTime(t.start_time) : '';
 
-        let actionInner = '';
-        let stackClass = '';
-        if (t.status === 'upcoming') {
-            if (isJoined) {
-                stackClass = ' stack';
-                actionInner = `<button class="tourn-action-btn bracket" onclick="openTournBracket('${id}');event.stopPropagation()">Ver bracket</button><button class="tourn-action-btn leave" onclick="leaveTournament('${id}',this);event.stopPropagation()">Abandonar</button>`;
-            } else {
-                actionInner = `<button class="tourn-action-btn join" onclick="joinTournament('${id}',this);event.stopPropagation()">Inscribirse</button>`;
-            }
-        } else {
-            actionInner = `<button class="tourn-action-btn bracket" onclick="openTournBracket('${id}');event.stopPropagation()">Ver bracket</button>`;
-        }
+        // Exercises
+        const exercises = t.exercises_info || [];
+        const exHtml = exercises.length
+            ? exercises.map(ex => {
+                const c = diffColorMobile(ex.difficulty || 800);
+                return `<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:3px 8px;font-size:11px;margin:2px">
+                    ${esc(ex.title_i18n?.es || ex.title || '?')}
+                    <span style="color:${c};font-weight:700">${ex.difficulty||800}</span>
+                </span>`;
+            }).join('')
+            : '';
 
+        // Winner
         let winnerHtml = '';
         if (t.status === 'finished' && t.winner) {
             const wInitial = esc((t.winner.username || '?').charAt(0).toUpperCase());
@@ -1694,7 +1752,23 @@
             winnerHtml = `<div class="tourn-winner-pill"><div class="tourn-winner-av">${wAv}${wInitial}</div><span class="tourn-winner-label">🏆 ${esc(t.winner.username)}</span></div>`;
         }
 
-        const joinedCardClass = isJoined && t.status === 'upcoming' ? ' tourn-card--joined' : '';
+        // Actions
+        let actionInner = '';
+        let stackClass = '';
+        if (t.status === 'upcoming') {
+            if (isJoined) {
+                stackClass = ' stack';
+                actionInner = `<button class="tourn-action-btn bracket" onclick="window.open('https://codexar.es/torneos/ayuda','_blank');event.stopPropagation()">Descargar app</button><button class="tourn-action-btn leave" onclick="leaveTournament('${id}',this);event.stopPropagation()">Abandonar</button>`;
+            } else {
+                actionInner = `<button class="tourn-action-btn join" onclick="joinTournament('${id}',this);event.stopPropagation()">Inscribirse</button>`;
+            }
+        } else if (t.status === 'active') {
+            actionInner = `<button class="tourn-action-btn bracket" onclick="window.open('https://codexar.es/torneos/ayuda','_blank');event.stopPropagation()">Jugar con la app ↗</button>`;
+        } else {
+            actionInner = `<button class="tourn-action-btn bracket" onclick="toggleTournCard(this.closest('.tourn-card'));event.stopPropagation()">Ver resultados</button>`;
+        }
+
+        const joinedCardClass = isJoined ? ' tourn-card--joined' : '';
         return `<div class="tourn-card${joinedCardClass}" onclick="toggleTournCard(this)">
             <div class="tourn-banner">
                 ${bannerImg}
@@ -1705,10 +1779,11 @@
             <div class="tourn-body">
                 <div class="tourn-name">${esc(t.name)}</div>
                 <div class="tourn-meta">
-                    <span>${count}${max} jugadores</span>
+                    <span>${count} jugadores · ${durH}h</span>
                     ${date ? `<span class="tourn-meta-sep">·</span><span>${date}</span>` : ''}
                 </div>
                 ${t.description ? `<div class="tourn-desc">${esc(t.description)}</div>` : ''}
+                ${exercises.length ? `<div style="display:flex;flex-wrap:wrap;gap:2px;margin:8px 0">${exHtml}</div>` : ''}
                 ${isJoined ? `<div class="tourn-joined-pill"><div class="tourn-joined-dot"></div>Inscrito</div>` : ''}
                 ${winnerHtml}
             </div>

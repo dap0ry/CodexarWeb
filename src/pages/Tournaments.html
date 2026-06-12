@@ -11,9 +11,97 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/assets/css/Home.css">
-    <link rel="stylesheet" href="/src/assets/css/Tournaments.css">
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
+    <style>
+        body { background: var(--bg, #07070f); color: var(--text, #e8e8f0); font-family: 'Inter', sans-serif; }
+        .t-page { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+        /* Header */
+        .t-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
+        .t-title { font-family: 'JetBrains Mono', monospace; font-size: clamp(28px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; }
+        .t-title span { color: var(--cyan, #00ffcc); }
+        .t-subtitle { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+        .t-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+        .t-tab { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 7px 16px; font-size: 13px; color: rgba(255,255,255,0.55); cursor: pointer; transition: all .2s; }
+        .t-tab:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .t-tab.active { background: rgba(0,255,204,0.1); border-color: rgba(0,255,204,0.35); color: var(--cyan, #00ffcc); }
+
+        /* Desktop CTA */
+        .t-desktop-cta { background: linear-gradient(135deg, rgba(0,255,204,0.05) 0%, rgba(100,80,255,0.06) 100%); border: 1px solid rgba(0,255,204,0.2); border-radius: 16px; padding: 24px 28px; margin-bottom: 32px; display: flex; align-items: center; gap: 20px; }
+        .t-desktop-cta-icon { font-size: 36px; flex-shrink: 0; }
+        .t-desktop-cta-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .t-desktop-cta-text p { font-size: 13px; color: rgba(255,255,255,0.5); margin: 0; }
+        .t-desktop-cta-btn { margin-left: auto; flex-shrink: 0; background: linear-gradient(135deg, var(--cyan,#00ffcc), #00ccaa); color: #07070f; font-weight: 800; font-size: 13px; border: none; border-radius: 10px; padding: 10px 20px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+
+        /* Tournament card */
+        .t-grid { display: grid; gap: 20px; }
+        .t-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; transition: border-color .2s; }
+        .t-card:hover { border-color: rgba(255,255,255,0.14); }
+        .t-card-banner { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .t-card-banner-placeholder { width: 100%; height: 160px; background: linear-gradient(135deg, rgba(0,255,204,0.06), rgba(100,80,255,0.08)); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        .t-card-body { padding: 20px 24px; }
+        .t-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .t-card-status { font-size: 11px; font-weight: 700; letter-spacing: .5px; border-radius: 20px; padding: 3px 10px; }
+        .t-card-status.upcoming { background: rgba(255,196,0,0.12); color: #ffc400; border: 1px solid rgba(255,196,0,0.3); }
+        .t-card-status.active   { background: rgba(0,255,204,0.1);  color: var(--cyan,#00ffcc); border: 1px solid rgba(0,255,204,0.3); }
+        .t-card-status.finished { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); }
+        .t-card-duration { font-size: 12px; color: rgba(255,255,255,0.4); }
+        .t-card-name { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .t-card-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+
+        /* Winner */
+        .t-winner-pill { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(255,196,0,0.08), rgba(255,160,0,0.06)); border: 1px solid rgba(255,196,0,0.25); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; }
+        .t-winner-av { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #ffc400; }
+        .t-winner-av-placeholder { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,196,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; border: 2px solid #ffc400; }
+        .t-winner-info { flex: 1; }
+        .t-winner-label { font-size: 10px; font-weight: 700; letter-spacing: .5px; color: #ffc400; text-transform: uppercase; }
+        .t-winner-name { font-size: 14px; font-weight: 600; }
+
+        /* Exercises */
+        .t-exercises-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 10px; }
+        .t-exercises { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .t-ex-badge { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 8px; padding: 5px 10px; font-size: 12px; }
+        .t-ex-diff { font-size: 11px; font-weight: 700; color: var(--cyan,#00ffcc); }
+        .t-ex-none { font-size: 13px; color: rgba(255,255,255,0.25); }
+
+        /* Leaderboard */
+        .t-lb-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 10px; }
+        .t-lb-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .t-lb-table th { text-align: left; color: rgba(255,255,255,0.3); font-weight: 600; padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 11px; }
+        .t-lb-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .t-lb-rank { font-weight: 700; color: rgba(255,255,255,0.4); width: 32px; }
+        .t-lb-rank.gold   { color: #ffd700; }
+        .t-lb-rank.silver { color: #c0c0c0; }
+        .t-lb-rank.bronze { color: #cd7f32; }
+        .t-lb-av { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-right: 6px; }
+        .t-lb-av-placeholder { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; vertical-align: middle; margin-right: 6px; }
+        .t-lb-score { color: var(--cyan,#00ffcc); font-weight: 700; }
+        .t-lb-empty { font-size: 13px; color: rgba(255,255,255,0.25); padding: 12px 0; }
+
+        /* Card actions */
+        .t-card-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+        .t-btn { border-radius: 10px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s; border: 1px solid; }
+        .t-btn-join  { background: rgba(0,255,204,0.1); border-color: rgba(0,255,204,0.3); color: var(--cyan,#00ffcc); }
+        .t-btn-join:hover { background: rgba(0,255,204,0.18); }
+        .t-btn-leave { background: rgba(255,80,80,0.08); border-color: rgba(255,80,80,0.25); color: #ff5050; }
+        .t-btn-leave:hover { background: rgba(255,80,80,0.15); }
+        .t-btn-play  { background: linear-gradient(135deg,var(--cyan,#00ffcc),#00ccaa); border-color: transparent; color: #07070f; font-weight: 800; }
+        .t-btn-play:hover { filter: brightness(1.1); }
+        .t-btn-ghost { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); }
+
+        /* Toggleable leaderboard */
+        .t-lb-wrap { display: none; margin-top: 16px; }
+        .t-lb-wrap.open { display: block; }
+        .t-lb-toggle { background: none; border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px; color: rgba(255,255,255,0.4); font-size: 12px; cursor: pointer; padding: 5px 12px; transition: all .2s; }
+        .t-lb-toggle:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+
+        /* Enrolled indicator */
+        .t-enrolled-badge { font-size: 11px; background: rgba(0,255,204,0.08); border: 1px solid rgba(0,255,204,0.2); border-radius: 20px; padding: 2px 9px; color: var(--cyan,#00ffcc); font-weight: 700; }
+
+        .t-empty { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.25); font-size: 15px; }
+        .t-loading { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.25); }
+    </style>
 </head>
 <body>
 
@@ -30,96 +118,40 @@
             <a href="/logros"        class="dropdown-item" data-i18n="nav.achievements">Logros</a>
             <a href="/amigos"        class="dropdown-item" data-i18n="nav.friends">Amigos</a>
             <a href="/clasificacion" class="dropdown-item" data-i18n="nav.leaderboard">Clasificación</a>
-            <a href="#"              class="dropdown-item" data-i18n="nav.help">Ayuda</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn" data-i18n="nav.logout">Cerrar Sesión</a>
         </div>
     </div>
 </nav>
 
-<div class="t-page" id="listPanel">
+<div class="t-page">
 
     <div class="t-header">
-        <div class="t-header-left">
+        <div>
             <div class="t-title">TOR<span>NEOS</span></div>
-            <div class="t-subtitle" data-i18n="tournaments.subtitle">Brackets 1v1 · El mejor llega a la cima</div>
+            <div class="t-subtitle">Ejercicios · Clasificación · Aplicación de escritorio</div>
         </div>
-        <div class="t-header-right">
-            <div class="t-tabs">
-                <button class="t-tab active" data-filter="all" data-i18n="tournaments.all">Todos</button>
-                <button class="t-tab" data-filter="upcoming" data-i18n="tournaments.upcoming">Próximos</button>
-                <button class="t-tab" data-filter="active" data-i18n="tournaments.active">Activos</button>
-                <button class="t-tab" data-filter="finished" data-i18n="tournaments.finished">Finalizados</button>
-            </div>
-            <button class="t-create-btn" id="createTournBtn" style="display:none" data-i18n="tournaments.create">+ Crear Torneo</button>
+        <div class="t-tabs">
+            <button class="t-tab active" data-filter="all">Todos</button>
+            <button class="t-tab" data-filter="upcoming">Próximos</button>
+            <button class="t-tab" data-filter="active">Activos</button>
+            <button class="t-tab" data-filter="finished">Finalizados</button>
         </div>
+    </div>
+
+    <div class="t-desktop-cta">
+        <div class="t-desktop-cta-icon">🖥️</div>
+        <div class="t-desktop-cta-text">
+            <h3>Para jugar torneos necesitas la aplicación de escritorio</h3>
+            <p>La app de escritorio Codexar incluye el editor de código, anti-trampas y entrega automática.</p>
+        </div>
+        <a href="/torneos/ayuda" class="t-desktop-cta-btn">Descargar app →</a>
     </div>
 
     <div class="t-grid" id="tournGrid">
-        <div class="t-loading" data-i18n="tournaments.loading">Cargando torneos...</div>
+        <div class="t-loading">Cargando torneos...</div>
     </div>
 
-</div>
-
-<div class="t-page t-page--hidden" id="bracketPanel">
-
-    <div class="t-bracket-header">
-        <button class="t-back-btn" id="backBtn" data-i18n="tournaments.back">← Volver</button>
-        <div class="t-bracket-info">
-            <div class="t-bracket-name" id="bracketName">—</div>
-            <div class="t-bracket-meta" id="bracketMeta">—</div>
-        </div>
-        <div class="t-bracket-actions" id="bracketActions"></div>
-    </div>
-
-    <div class="t-bracket-wrap" id="bracketWrap">
-        <div class="t-bracket-scroll">
-            <div class="t-bracket-stage" id="bracketStage"></div>
-        </div>
-    </div>
-
-    <div class="t-match-alert" id="matchAlert" style="display:none">
-        <div class="t-match-alert-icon">⚔</div>
-        <div class="t-match-alert-text">
-            <strong data-i18n="tournaments.yourTurn">¡Es tu turno!</strong>
-            <span id="matchAlertSub" data-i18n="tournaments.matchReady">Tu partida está lista.</span>
-        </div>
-        <div class="t-match-alert-timer" id="matchAlertTimer">2:00</div>
-        <button class="t-match-join-btn" id="matchJoinBtn" data-i18n="tournaments.join">Unirse a la partida</button>
-    </div>
-
-</div>
-
-<div class="t-modal-overlay" id="createModal" style="display:none">
-    <div class="t-modal">
-        <div class="t-modal-header">
-            <span class="t-modal-title" data-i18n="tournaments.modalTitle">Crear Torneo</span>
-            <button class="t-modal-close" id="createModalClose">✕</button>
-        </div>
-        <form id="createForm" class="t-modal-body">
-            <label class="t-label">
-                <span data-i18n="tournaments.nameLabel">Nombre del torneo</span>
-                <input class="t-input" type="text" id="cName" placeholder="Gran Premio de Algoritmos" data-i18n-placeholder="tournaments.namePlaceholder" required maxlength="80">
-            </label>
-            <label class="t-label">
-                <span data-i18n="tournaments.descLabel">Descripción</span>
-                <textarea class="t-input t-textarea" id="cDesc" placeholder="Descripción breve del torneo..." data-i18n-placeholder="tournaments.descPlaceholder" rows="3" maxlength="300"></textarea>
-            </label>
-            <label class="t-label">
-                <span data-i18n="tournaments.startLabel">Fecha y hora de inicio</span>
-                <input class="t-input" type="datetime-local" id="cStart" required>
-            </label>
-            <label class="t-label">
-                <span data-i18n="tournaments.bannerLabel">Banner (imagen, máx. 5 MB)</span>
-                <input class="t-input-file" type="file" id="cBanner" accept="image/*">
-                <div class="t-banner-preview" id="bannerPreview"></div>
-            </label>
-            <div class="t-modal-footer">
-                <span class="t-modal-feedback" id="createFeedback"></span>
-                <button class="t-modal-submit" type="submit" data-i18n="tournaments.submit">Crear torneo</button>
-            </div>
-        </form>
-    </div>
 </div>
 
 <script src="/src/services/tournaments.js"></script>
