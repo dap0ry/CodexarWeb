@@ -1,9 +1,11 @@
-/* tournaments.js — exercise-scoring tournament listing (web, read-only) */
+/* tournaments.js — exercise-scoring tournaments */
 const API_BASE = 'https://api.codexar.es/api';
 
 function token() { return localStorage.getItem('token') || ''; }
 function userEmail() { return localStorage.getItem('email') || ''; }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+let _isAdmin = false;
 
 function diffColor(d) {
     if (d <= 900)  return '#4ade80';
@@ -15,125 +17,139 @@ function diffColor(d) {
 }
 
 function fmtDate(iso) {
-    if (!iso) return '—';
+    if (!iso) return '';
     const d = new Date(iso);
     return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-function lbRankSymbol(i) {
-    if (i === 0) return '🥇';
-    if (i === 1) return '🥈';
-    if (i === 2) return '🥉';
-    return String(i + 1);
-}
-function lbRankClass(i) {
-    return ['gold','silver','bronze'][i] || '';
-}
+function lbSymbol(i) { return ['🥇','🥈','🥉'][i] || (i + 1); }
+function lbClass(i)  { return ['gold','silver','bronze'][i] || ''; }
 
-function buildLeaderboard(lb) {
-    if (!lb || !lb.length) return '<p class="t-lb-empty">Aún no hay puntuaciones.</p>';
-    return `<table class="t-lb-table">
-        <thead><tr><th>#</th><th>Jugador</th><th>Resueltos</th><th>Puntos</th><th>Tiempo</th></tr></thead>
-        <tbody>${lb.map((row, i) => {
-            const av = row.avatar
-                ? `<img class="t-lb-av" src="${esc(row.avatar)}" alt="">`
-                : `<span class="t-lb-av-placeholder">${esc((row.username||'?')[0]).toUpperCase()}</span>`;
-            const mins = Math.floor((row.total_time || 0) / 60);
-            const secs = (row.total_time || 0) % 60;
-            return `<tr>
-                <td class="t-lb-rank ${lbRankClass(i)}">${lbRankSymbol(i)}</td>
-                <td>${av}${esc(row.username)}</td>
-                <td style="color:rgba(255,255,255,0.55)">${row.exercises_solved || 0}</td>
-                <td class="t-lb-score">${row.total_score || 0}</td>
-                <td style="color:rgba(255,255,255,0.4);font-size:12px">${mins}m ${String(secs).padStart(2,'0')}s</td>
-            </tr>`;
-        }).join('')}</tbody>
-    </table>`;
+function buildLeaderboard(lb, cardId) {
+    if (!lb || !lb.length) return '';
+    const rows = lb.map((row, i) => {
+        const av = row.avatar
+            ? `<img class="t-lb-av" src="${esc(row.avatar)}" alt="">`
+            : `<span class="t-lb-av-ph">${esc((row.username||'?')[0]).toUpperCase()}</span>`;
+        const mins = Math.floor((row.total_time || 0) / 60);
+        const secs = (row.total_time || 0) % 60;
+        return `<tr>
+            <td class="t-lb-rank ${lbClass(i)}">${lbSymbol(i)}</td>
+            <td class="t-lb-name">${av}${esc(row.username)}</td>
+            <td>${row.exercises_solved || 0}</td>
+            <td class="t-lb-score">${row.total_score || 0}</td>
+            <td>${mins}:${String(secs).padStart(2,'0')}</td>
+        </tr>`;
+    }).join('');
+    return `<button class="t-lb-toggle" onclick="toggleLb(event,'${cardId}')">📊 Ver clasificación (${lb.length}) ▾</button>
+        <div class="t-lb-wrap" id="lb-${cardId}">
+            <table class="t-lb-table">
+                <thead><tr><th>#</th><th>Jugador</th><th>Ej</th><th>Pts</th><th>Tiempo</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>`;
 }
 
 function buildCard(t, myEmail) {
-    const isJoined = (t.participants || []).includes(myEmail);
     const status   = t.status || 'upcoming';
-    const statusLabels = { upcoming: 'Próximo', active: 'En curso', finished: 'Finalizado' };
-    const statusLabel  = statusLabels[status] || status;
+    const id       = esc(t.id || '');
+    const isJoined = (t.participants || []).includes(myEmail);
 
-    const bannerHtml = t.banner_url
-        ? `<img class="t-card-banner" src="${esc(t.banner_url)}" alt="">`
-        : `<div class="t-card-banner-placeholder">🏆</div>`;
+    const badgeClass = { upcoming: 't-badge--upcoming', active: 't-badge--active', finished: 't-badge--finished' }[status] || '';
+    const badgeLabel = { upcoming: 'PRÓXIMO', active: 'ACTIVO', finished: 'FINALIZADO' }[status] || status.toUpperCase();
 
     const durH = Math.round((t.duration_minutes || 240) / 60);
-    const metaInfo = status === 'upcoming'
-        ? `Inicio: ${fmtDate(t.start_time)} · ${durH}h`
-        : status === 'active'
-            ? `${durH}h · Comenzó: ${fmtDate(t.started_at)}`
-            : `Finalizado: ${fmtDate(t.ended_at || t.started_at)}`;
+    const dateStr = status === 'upcoming' ? fmtDate(t.start_time) : status === 'active' ? fmtDate(t.started_at) : fmtDate(t.ended_at);
 
-    let winnerHtml = '';
+    // Banner
+    const banner = t.banner_url
+        ? `<img class="t-card-banner" src="${esc(t.banner_url)}" alt="">`
+        : `<div class="t-card-banner-placeholder"></div>`;
+
+    // Winner
+    let winner = '';
     if (status === 'finished' && t.winner) {
-        const wav = t.winner.avatar
-            ? `<img class="t-winner-av" src="${esc(t.winner.avatar)}" alt="">`
-            : `<span class="t-winner-av-placeholder">🏆</span>`;
-        winnerHtml = `<div class="t-winner-pill">
-            ${wav}
-            <div class="t-winner-info">
-                <div class="t-winner-label">Ganador</div>
-                <div class="t-winner-name">${esc(t.winner.username)}</div>
-            </div>
+        const wAv = t.winner.avatar
+            ? `<img class="t-card-winner-av" src="${esc(t.winner.avatar)}" alt="">`
+            : `<div class="t-card-winner-av t-card-winner-av--initial">${esc((t.winner.username||'?')[0]).toUpperCase()}</div>`;
+        winner = `<div class="t-card-winner">
+            <span class="t-card-winner-label">Ganador</span>
+            ${wAv}
+            <span class="t-card-winner-name">${esc(t.winner.username)}</span>
         </div>`;
     }
 
+    // Exercises
     const exercises = t.exercises_info || [];
-    let exHtml;
+    let exSection = '';
     if (exercises.length) {
-        exHtml = exercises.map(ex => {
+        const pills = exercises.map(ex => {
             const c = diffColor(ex.difficulty || 800);
-            return `<div class="t-ex-badge">
-                <span style="font-size:12px">${esc(ex.title_i18n?.es || ex.title || '?')}</span>
-                <span class="t-ex-diff" style="color:${c}">${ex.difficulty || 800}</span>
-            </div>`;
+            return `<span class="t-ex-pill">${esc(ex.title_i18n?.es || ex.title || '?')}<span class="t-ex-pts" style="color:${c}">${ex.difficulty || 800}</span></span>`;
         }).join('');
-    } else {
-        exHtml = '<span class="t-ex-none">Sin ejercicios configurados</span>';
+        exSection = `<div class="t-card-exercises">${pills}</div>`;
     }
 
+    // Leaderboard
     const lb = t.leaderboard || [];
-    const lbHtml = lb.length
-        ? `<button class="t-lb-toggle" onclick="toggleLb('${esc(t.id)}')">Ver clasificación (${lb.length}) ▾</button>
-           <div class="t-lb-wrap" id="lb-${esc(t.id)}">${buildLeaderboard(lb)}</div>`
-        : '';
+    const lbSection = lb.length ? buildLeaderboard(lb, id) : '';
 
-    let actions = '';
+    // Footer buttons (right side)
+    let rightBtns = '';
     if (status === 'upcoming') {
         if (isJoined) {
-            actions = `<span class="t-enrolled-badge">✓ Inscrito</span>
-                <button class="t-btn t-btn-leave" onclick="leaveTourn('${t.id}',this)">Abandonar</button>`;
+            rightBtns = `<button class="t-join-card-btn t-join-card-btn--leave" onclick="leaveTourn('${id}',this)">Abandonar</button>`;
         } else {
-            actions = `<button class="t-btn t-btn-join" onclick="joinTourn('${t.id}',this)">Inscribirse</button>`;
+            rightBtns = `<button class="t-join-card-btn t-join-card-btn--join" onclick="joinTourn('${id}',this)">Inscribirse</button>`;
         }
     } else if (status === 'active' && isJoined) {
-        actions = `<span class="t-enrolled-badge">✓ Inscrito</span>
-            <a href="/torneos/ayuda" class="t-btn t-btn-play">Jugar con la app →</a>`;
+        rightBtns = `<a href="/torneos/ayuda" class="t-join-card-btn t-join-card-btn--view" style="text-decoration:none">Jugar →</a>`;
     }
 
-    return `<div class="t-card" data-status="${status}" data-id="${t.id}">
-        ${bannerHtml}
+    // Admin buttons
+    let adminBtns = '';
+    if (_isAdmin) {
+        if (status === 'upcoming') {
+            adminBtns = `<button class="t-join-card-btn t-join-card-btn--start" onclick="startTourn('${id}',this)">▶ Iniciar</button>`;
+        }
+        adminBtns += `<button class="t-join-card-btn t-join-card-btn--del" onclick="deleteTourn('${id}','${esc(t.name)}')">✕</button>`;
+    }
+
+    // Footer left info
+    const count = (t.participants || []).length;
+    const enrolled = isJoined && status !== 'finished' ? '<span style="color:var(--accent-cyan);font-family:var(--font-mono);font-size:0.58rem;font-weight:700">✓ Inscrito</span>' : '';
+
+    return `<div class="t-card">
+        ${banner}
         <div class="t-card-body">
-            <div class="t-card-meta">
-                <span class="t-card-status ${status}">${statusLabel}</span>
-                <span class="t-card-duration">${metaInfo}</span>
+            <div class="t-card-top">
+                <div class="t-card-name">${esc(t.name)}</div>
+                <span class="t-badge ${badgeClass}">${badgeLabel}</span>
             </div>
-            <div class="t-card-name">${esc(t.name)}</div>
             ${t.description ? `<div class="t-card-desc">${esc(t.description)}</div>` : ''}
-            ${winnerHtml}
-            <div class="t-exercises-label">Ejercicios del torneo</div>
-            <div class="t-exercises">${exHtml}</div>
-            ${lbHtml}
-            ${actions ? `<div class="t-card-actions" style="margin-top:16px">${actions}</div>` : ''}
+            <div class="t-card-meta">
+                <span data-icon="👥">${count} jugadores</span>
+                <span data-icon="⏱">${durH}h</span>
+                ${dateStr ? `<span data-icon="📅">${dateStr}</span>` : ''}
+            </div>
+            ${exSection}
+            ${winner}
+            ${lbSection}
+        </div>
+        <div class="t-card-footer">
+            <div class="t-card-footer-left">
+                <span class="t-card-count">${enrolled}</span>
+            </div>
+            <div class="t-card-footer-right">
+                ${adminBtns}
+                ${rightBtns}
+            </div>
         </div>
     </div>`;
 }
 
-window.toggleLb = function(id) {
+window.toggleLb = function(e, id) {
+    e.stopPropagation();
     const wrap = document.getElementById(`lb-${id}`);
     const btn = wrap?.previousElementSibling;
     if (!wrap) return;
@@ -148,7 +164,6 @@ let _activeFilter = 'all';
 
 async function loadTournaments() {
     const grid = document.getElementById('tournGrid');
-    grid.innerHTML = '<div class="t-loading">Cargando torneos...</div>';
     try {
         const res = await fetch(`${API_BASE}/tournaments`, {
             headers: { 'Authorization': `Bearer ${token()}` }
@@ -198,9 +213,49 @@ window.leaveTourn = async function(id, btn) {
     } catch { btn.disabled = false; btn.textContent = 'Abandonar'; }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+window.startTourn = async function(id, btn) {
+    if (!confirm('¿Iniciar el torneo ahora? Los participantes podrán empezar a resolver ejercicios.')) return;
+    btn.disabled = true; btn.textContent = '...';
+    try {
+        const res = await fetch(`${API_BASE}/tournaments/${id}/start`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token()}` }
+        });
+        const data = await res.json();
+        if (res.ok) { await loadTournaments(); }
+        else { alert(data.detail || 'Error'); btn.disabled = false; btn.textContent = '▶ Iniciar'; }
+    } catch { btn.disabled = false; btn.textContent = '▶ Iniciar'; }
+};
+
+window.deleteTourn = async function(id, name) {
+    if (!confirm(`¿Eliminar el torneo "${name}"? No se puede deshacer.`)) return;
+    try {
+        const res = await fetch(`${API_BASE}/tournaments/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token()}` }
+        });
+        const data = await res.json();
+        if (res.ok) { await loadTournaments(); }
+        else alert(data.detail || 'Error');
+    } catch { alert('Error de conexión.'); }
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
     if (!token()) { window.location.href = '/login'; return; }
-    loadTournaments();
+
+    // Check admin role
+    try {
+        const res = await fetch(`${API_BASE}/user/me`, {
+            headers: { 'Authorization': `Bearer ${token()}` }
+        });
+        if (res.ok) {
+            const me = await res.json();
+            _isAdmin = (me.role === 'admin' || me.role === 'superadmin');
+        }
+    } catch {}
+
+    await loadTournaments();
+
     document.querySelectorAll('.t-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
