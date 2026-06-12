@@ -236,7 +236,7 @@
 
         /* ── FRIEND PROFILE SCREEN ── */
         .fprofile-screen {
-            position: fixed; inset: 0; z-index: 180;
+            position: fixed; inset: 0; z-index: 190;
             background: var(--bg);
             transform: translateX(100%);
             transition: transform 0.3s cubic-bezier(.32,1.1,.42,.98);
@@ -246,7 +246,7 @@
         .fprofile-screen.open { transform: translateX(0); }
         .fprofile-back {
             position: fixed; top: env(safe-area-inset-top, 0); left: 0; right: 0;
-            z-index: 181;
+            z-index: 191;
             display: flex; align-items: center; gap: 8px;
             padding: 12px 14px;
             background: linear-gradient(to bottom, rgba(7,7,15,0.9), transparent);
@@ -531,8 +531,13 @@
             display: flex; align-items: center; gap: 12px;
             padding: 10px 0;
             border-bottom: 1px solid var(--border);
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
         }
+        .bk-participant-item:active { opacity: 0.7; }
         .bk-participant-item:last-child { border-bottom: none; }
+        .bk-participant-chevron {
+            margin-left: auto; color: var(--muted); flex-shrink: 0;
+        }
         .bk-part-av {
             width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
             background: var(--card); border: 1px solid var(--border);
@@ -1648,12 +1653,16 @@
             const pts = Array.isArray(t.participants_info) ? t.participants_info : [];
             const ptRows = pts.length
                 ? pts.map(p => {
-                    const initial = esc((p.username || p.email || '?').charAt(0).toUpperCase());
-                    const name    = esc(p.username || p.email || 'Jugador');
-                    const avImg   = p.avatar ? `<img src="${esc(p.avatar)}" onerror="this.style.display='none'" alt="">` : '';
-                    return `<div class="bk-participant-item">
+                    const initial  = esc((p.username || p.email || '?').charAt(0).toUpperCase());
+                    const name     = esc(p.username || p.email || 'Jugador');
+                    const uname    = esc(p.username || '');
+                    const avImg    = p.avatar ? `<img src="${esc(p.avatar)}" onerror="this.style.display='none'" alt="">` : '';
+                    const clickAttr = uname ? `onclick="openFriendProfile('${uname}')"` : '';
+                    const chevron  = uname ? `<svg class="bk-participant-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>` : '';
+                    return `<div class="bk-participant-item" ${clickAttr}>
                         <div class="bk-part-av">${avImg}${initial}</div>
                         <div class="bk-part-name">${name}</div>
+                        ${chevron}
                     </div>`;
                 }).join('')
                 : '<div class="bk-empty">Sin participantes aún</div>';
@@ -1937,7 +1946,7 @@
             <div class="pf-av">${imgTag}${initial}</div>
             ${badges ? `<div class="pf-badges">${badges}</div>` : ''}
             <div class="pf-name">${esc(p.username)}</div>
-            <div class="pf-email">${esc(p.email || user.email || '')}</div>
+            ${(isOwnProfile ? (p.email || user.email || '') : (p.email || '')) ? `<div class="pf-email">${esc(isOwnProfile ? (p.email || user.email || '') : p.email)}</div>` : ''}
             <div class="pf-elo-row">
                 <div class="pf-elo">ELO ${elo}</div>
                 ${rank ? `<div class="pf-rank">${esc(rank)}</div>` : ''}
