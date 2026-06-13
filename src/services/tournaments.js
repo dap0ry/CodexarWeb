@@ -280,9 +280,23 @@ window.deleteTourn = async function(id, name) {
     } catch { alert('Error de conexión.'); }
 };
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     if (!token()) { window.location.href = '/login'; return; }
 
+    // Register tab listeners immediately so tabs work right away
+    document.querySelectorAll('.t-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            _activeFilter = tab.dataset.filter;
+            renderGrid();
+        });
+    });
+
+    initPage();
+});
+
+async function initPage() {
     const grid = document.getElementById('tournGrid');
     try {
         // Fetch user info and tournaments in parallel
@@ -308,13 +322,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch {
         grid.innerHTML = '<div class="t-empty">Error al cargar torneos.</div>';
     }
-
-    document.querySelectorAll('.t-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            _activeFilter = tab.dataset.filter;
-            renderGrid();
-        });
-    });
-});
+}
