@@ -321,6 +321,25 @@ async function initPage() {
             const me = await meRes.json();
             _isAdmin = (me.role === 'admin' || me.role === 'superadmin');
             _myEmail = me.email || userEmail();
+
+            // Populate navbar
+            const navUsername = document.getElementById('navUsername');
+            if (navUsername) navUsername.textContent = me.username || me.email || '';
+            const navAvatar = document.getElementById('navAvatar');
+            if (navAvatar) {
+                if (me.avatar) {
+                    navAvatar.style.backgroundImage = `url('${me.avatar}')`;
+                    navAvatar.style.backgroundSize = 'cover';
+                    navAvatar.style.backgroundPosition = 'center';
+                } else {
+                    navAvatar.textContent = (me.username || '?')[0].toUpperCase();
+                }
+            }
+            document.getElementById('logoutBtn')?.addEventListener('click', e => {
+                e.preventDefault();
+                localStorage.removeItem('access_token');
+                window.location.href = '/';
+            });
         } else {
             _myEmail = userEmail();
         }

@@ -4,10 +4,13 @@ const API = 'https://api.codexar.es/api';
 const params = new URLSearchParams(window.location.search);
 const TOURN_ID = params.get('id');
 
-let _tournament = null;
-let _catalog    = [];
-let _token      = () => localStorage.getItem('access_token') || '';
-let _addOpen    = false;
+let _tournament    = null;
+let _catalog       = [];
+let _token         = () => localStorage.getItem('access_token') || '';
+let _addOpen       = false;
+let _clockInterval = null;
+let _pollInterval  = null;
+let _myEmail       = '';
 
 function esc(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -36,6 +39,7 @@ async function init() {
     if (!meRes.ok) { window.location.href = '/login'; return; }
     const me = await meRes.json();
     if (me.role !== 'admin' && me.role !== 'superadmin') { window.location.href = '/torneos'; return; }
+    _myEmail = me.email || '';
 
     // Navbar
     document.getElementById('navUsername').textContent = me.username;
@@ -63,9 +67,96 @@ async function init() {
     bindLangTabs();
     buildTestCases();
     bindStubTabs();
+
+    if (_tournament.status === 'active') {
+        startLbClock();
+        startLbPoll();
+    }
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────────
+
+function renderLeaderboard() {
+    const t = _tournament;
+    const section = document.getElementById('tdLbSection');
+    if (!section) return;
+
+    if (t.status === 'upcoming') { section.style.display = 'none'; return; }
+    section.style.display = '';
+
+    const clockEl = document.getElementById('tdLbClock');
+    if (t.status === 'active' && t.started_at) {
+        clockEl.style.display = '';
+    } else {
+        clockEl.style.display = 'none';
+    }
+
+    const lb = (t.leaderboard || []).slice(0, 5);
+    const wrap = document.getElementById('tdLbWrap');
+
+    if (!lb.length) {
+        wrap.innerHTML = '<div class="td-empty-hint">Sin participantes con puntuación aún.</div>';
+        return;
+    }
+
+    const syms = ['🥇', '🥈', '🥉', '4º', '5º'];
+    const rows = lb.map((row, i) => {
+        const av = row.avatar
+            ? `<img class="td-lb-av" src="${esc(row.avatar)}" alt="">`
+            : `<div class="td-lb-av-ph">${esc((row.username || '?')[0]).toUpperCase()}</div>`;
+        const mins = Math.floor((row.total_time || 0) / 60);
+        const secs = (row.total_time || 0) % 60;
+        const timeStr = row.total_time ? `${mins}:${String(secs).padStart(2, '0')}` : '—';
+        const isMine = row.email === _myEmail;
+        return `<tr class="${isMine ? 'td-lb-mine' : ''}">
+            <td class="td-lb-rank">${syms[i] || (i + 1)}</td>
+            <td class="td-lb-player-cell"><div class="td-lb-player">${av}<span>${esc(row.username)}</span></div></td>
+            <td>${row.exercises_solved || 0}</td>
+            <td>${timeStr}</td>
+            <td class="td-lb-pts">${row.total_score || 0} pts</td>
+        </tr>`;
+    }).join('');
+
+    wrap.innerHTML = `<table class="td-lb-table">
+        <thead><tr>
+            <th>#</th><th>Jugador</th><th>Ej. entregados</th><th>Tiempo últ. entrega</th><th>Puntos</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function startLbClock() {
+    if (_clockInterval) return;
+    _clockInterval = setInterval(() => {
+        if (!_tournament?.started_at) return;
+        const el = document.getElementById('tdLbClock');
+        if (!el) return;
+        const elapsed = Math.floor((Date.now() - new Date(_tournament.started_at).getTime()) / 1000);
+        const h = Math.floor(elapsed / 3600);
+        const m = Math.floor((elapsed % 3600) / 60);
+        const s = elapsed % 60;
+        el.textContent = (h > 0
+            ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+            : `${m}:${String(s).padStart(2, '0')}`) + ' en curso';
+    }, 1000);
+}
+
+function startLbPoll() {
+    if (_pollInterval) return;
+    _pollInterval = setInterval(async () => {
+        try {
+            const res = await fetch(`${API}/tournaments/${TOURN_ID}`, { headers: { Authorization: `Bearer ${_token()}` } });
+            if (!res.ok) return;
+            _tournament = await res.json();
+            renderLeaderboard();
+            if (_tournament.status !== 'active') {
+                clearInterval(_pollInterval); _pollInterval = null;
+                clearInterval(_clockInterval); _clockInterval = null;
+                renderPage();
+            }
+        } catch {}
+    }, 10000);
+}
 
 function renderPage() {
     const t = _tournament;
@@ -92,6 +183,7 @@ function renderPage() {
     ].filter(Boolean).join('');
 
     renderExercises();
+    renderLeaderboard();
 
     // Add button only for upcoming
     const addBtn = document.getElementById('tdAddBtn');

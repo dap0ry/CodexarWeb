@@ -281,6 +281,65 @@
         /* ── Create form wrapper ── */
         .td-create-wrap .ce-form { max-width: 100%; }
         .td-create-wrap .ce-actions { padding-top: 8px; }
+
+        /* ── Leaderboard ── */
+        .td-lb-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .td-lb-clock {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--accent-cyan);
+            opacity: 0.85;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border: 1px solid rgba(0,255,204,0.2);
+            border-radius: 4px;
+            background: rgba(0,255,204,0.04);
+        }
+        .td-lb-table { width: 100%; border-collapse: collapse; }
+        .td-lb-table th {
+            font-family: var(--font-mono);
+            font-size: 0.46rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0.5;
+            padding: 6px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+        }
+        .td-lb-table td {
+            padding: 9px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.025);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            vertical-align: middle;
+        }
+        .td-lb-table tr:last-child td { border-bottom: none; }
+        .td-lb-table tr:first-child td { padding-top: 12px; }
+        .td-lb-rank { width: 36px; font-size: 1rem !important; text-align: center !important; }
+        .td-lb-player-cell { color: var(--text-light) !important; }
+        .td-lb-player { display: flex; align-items: center; gap: 7px; }
+        .td-lb-av {
+            width: 24px; height: 24px; border-radius: 50%;
+            object-fit: cover; flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .td-lb-av-ph {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: rgba(0,255,204,0.07); border: 1px solid rgba(0,255,204,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.48rem; font-weight: 800; color: var(--accent-cyan);
+            flex-shrink: 0;
+        }
+        .td-lb-pts { color: var(--accent-cyan) !important; font-weight: 700; }
+        .td-lb-mine td { background: rgba(0,255,204,0.03); }
     </style>
 </head>
 <body>
@@ -319,6 +378,15 @@
         <div class="td-section">
             <div class="td-section-title">Información</div>
             <div id="tdInfo" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);display:flex;gap:20px;flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Leaderboard (active / finished) -->
+        <div class="td-section" id="tdLbSection" style="display:none">
+            <div class="td-lb-header">
+                <div class="td-section-title" style="margin-bottom:0">Clasificación en vivo</div>
+                <span id="tdLbClock" class="td-lb-clock" style="display:none"></span>
+            </div>
+            <div id="tdLbWrap"><div class="td-empty-hint">Sin datos aún.</div></div>
         </div>
 
         <!-- Exercises -->
