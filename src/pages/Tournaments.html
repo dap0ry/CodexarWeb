@@ -143,6 +143,32 @@
         .t-join-card-btn--del:hover { border-color: rgba(239,68,68,0.5); color: #ef4444; }
         .t-card-footer-left { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
         .t-card-footer-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        /* Participant chips */
+        .t-participants-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 6px 0;
+        }
+        .t-participant-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: var(--text-muted);
+        }
+        .t-participant-more {
+            font-family: var(--font-mono);
+            font-size: 0.52rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            align-self: center;
+        }
     </style>
 </head>
 <body>

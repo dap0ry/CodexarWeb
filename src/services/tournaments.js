@@ -51,6 +51,24 @@ function buildLeaderboard(lb, cardId) {
         </div>`;
 }
 
+function buildParticipants(pInfo, cardId) {
+    if (!pInfo || !pInfo.length) return '';
+    const visible = pInfo.slice(0, 12);
+    const chips = visible.map(p => {
+        const av = p.avatar
+            ? `<img class="t-lb-av" src="${esc(p.avatar)}" alt="">`
+            : `<span class="t-lb-av-ph">${esc((p.username||'?')[0]).toUpperCase()}</span>`;
+        return `<span class="t-participant-chip">${av}${esc(p.username)}</span>`;
+    }).join('');
+    const more = pInfo.length > 12
+        ? `<span class="t-participant-more">+${pInfo.length - 12} más</span>`
+        : '';
+    return `<button class="t-lb-toggle" onclick="toggleParticipants(event,'${cardId}')">👥 Participantes (${pInfo.length}) ▾</button>
+        <div class="t-lb-wrap" id="pts-${cardId}">
+            <div class="t-participants-wrap">${chips}${more}</div>
+        </div>`;
+}
+
 function buildCard(t, myEmail = _myEmail) {
     const status   = t.status || 'upcoming';
     const id       = esc(t.id || '');
@@ -91,9 +109,11 @@ function buildCard(t, myEmail = _myEmail) {
         exSection = `<div class="t-card-exercises">${pills}</div>`;
     }
 
-    // Leaderboard
+    // Leaderboard (finished) or Participants (upcoming/active)
     const lb = t.leaderboard || [];
     const lbSection = lb.length ? buildLeaderboard(lb, id) : '';
+    const pInfo = t.participants_info || [];
+    const ptsSection = (status !== 'finished' && pInfo.length) ? buildParticipants(pInfo, id) : '';
 
     // Footer buttons (right side)
     let rightBtns = '';
@@ -103,8 +123,12 @@ function buildCard(t, myEmail = _myEmail) {
         } else {
             rightBtns = `<button class="t-join-card-btn t-join-card-btn--join" onclick="joinTourn('${id}',this)">Inscribirse</button>`;
         }
-    } else if (status === 'active' && isJoined) {
-        rightBtns = `<a href="/torneos/ayuda" class="t-join-card-btn t-join-card-btn--view" style="text-decoration:none">Jugar →</a>`;
+    } else if (status === 'active') {
+        if (isJoined) {
+            rightBtns = `<button class="t-join-card-btn t-join-card-btn--start" onclick="showDesktopPlay()">🖥️ Iniciar Torneo</button>`;
+        } else {
+            rightBtns = `<button class="t-join-card-btn" style="opacity:0.4;cursor:default" disabled>Solo app de escritorio</button>`;
+        }
     }
 
     // Admin buttons
@@ -135,6 +159,7 @@ function buildCard(t, myEmail = _myEmail) {
             </div>
             ${exSection}
             ${winner}
+            ${ptsSection}
             ${lbSection}
         </div>
         <div class="t-card-footer">
@@ -158,6 +183,21 @@ window.toggleLb = function(e, id) {
     if (btn) btn.textContent = wrap.classList.contains('open')
         ? btn.textContent.replace('▾','▴')
         : btn.textContent.replace('▴','▾');
+};
+
+window.toggleParticipants = function(e, id) {
+    e.stopPropagation();
+    const wrap = document.getElementById(`pts-${id}`);
+    const btn = wrap?.previousElementSibling;
+    if (!wrap) return;
+    wrap.classList.toggle('open');
+    if (btn) btn.textContent = wrap.classList.contains('open')
+        ? btn.textContent.replace('▾','▴')
+        : btn.textContent.replace('▴','▾');
+};
+
+window.showDesktopPlay = function() {
+    alert('Los torneos solo se pueden jugar en la aplicación de escritorio de Codexar.\n\nDescarga la app desde codexar.es para competir.');
 };
 
 let _allTournaments = [];
@@ -243,23 +283,31 @@ window.deleteTourn = async function(id, name) {
 document.addEventListener('DOMContentLoaded', async () => {
     if (!token()) { window.location.href = '/login'; return; }
 
-    // Fetch current user for role + email (needed for isJoined + admin buttons)
+    const grid = document.getElementById('tournGrid');
     try {
-        const res = await fetch(`${API_BASE}/user/me`, {
-            headers: { 'Authorization': `Bearer ${token()}` }
-        });
-        if (res.ok) {
-            const me = await res.json();
+        // Fetch user info and tournaments in parallel
+        const [meRes, tourRes] = await Promise.all([
+            fetch(`${API_BASE}/user/me`, { headers: { 'Authorization': `Bearer ${token()}` } }),
+            fetch(`${API_BASE}/tournaments`, { headers: { 'Authorization': `Bearer ${token()}` } }),
+        ]);
+
+        if (meRes.ok) {
+            const me = await meRes.json();
             _isAdmin = (me.role === 'admin' || me.role === 'superadmin');
             _myEmail = me.email || userEmail();
         } else {
             _myEmail = userEmail();
         }
-    } catch {
-        _myEmail = userEmail();
-    }
 
-    await loadTournaments();
+        if (tourRes.ok) {
+            _allTournaments = await tourRes.json();
+            renderGrid();
+        } else {
+            grid.innerHTML = '<div class="t-empty">Error al cargar torneos.</div>';
+        }
+    } catch {
+        grid.innerHTML = '<div class="t-empty">Error al cargar torneos.</div>';
+    }
 
     document.querySelectorAll('.t-tab').forEach(tab => {
         tab.addEventListener('click', () => {
