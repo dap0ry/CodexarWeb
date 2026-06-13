@@ -1,4 +1,4 @@
-const CACHE = 'codexar-v6';
+const CACHE = 'codexar-v7';
 
 // Core shell to precache
 const SHELL = [

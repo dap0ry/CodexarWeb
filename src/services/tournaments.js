@@ -161,9 +161,7 @@ function buildCard(t, myEmail = _myEmail) {
                 <span data-icon="⏱">${durH}h</span>
                 ${dateStr ? `<span data-icon="📅">${dateStr}</span>` : ''}
             </div>
-            ${exSection}
             ${winner}
-            ${ptsSection}
             ${lbSection}
         </div>
         <div class="t-card-footer">
