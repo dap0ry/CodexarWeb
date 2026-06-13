@@ -14,40 +14,178 @@
     <link rel="stylesheet" href="/src/assets/css/global.css">
     <link rel="stylesheet" href="/src/assets/css/themes.css">
     <style>
-        body { background: var(--bg, #07070f); color: var(--text, #e8e8f0); font-family: 'Inter', sans-serif; }
-        .help-page { max-width: 720px; margin: 0 auto; padding: 48px 24px 100px; }
-        .help-back { color: rgba(255,255,255,0.4); font-size: 13px; cursor: pointer; margin-bottom: 32px; display: inline-block; text-decoration: none; }
-        .help-back:hover { color: rgba(255,255,255,0.7); }
-        .help-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--cyan,#00ffcc); text-transform: uppercase; margin-bottom: 12px; }
-        .help-title { font-family: 'JetBrains Mono', monospace; font-size: clamp(28px,5vw,44px); font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
-        .help-title span { color: var(--cyan,#00ffcc); }
-        .help-lead { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 48px; max-width: 560px; }
+        /* Fix: Home.css sets body overflow:hidden for the app shell — undo it here */
+        html, body {
+            height: auto !important;
+            overflow: visible !important;
+            overflow-x: hidden !important;
+        }
 
-        /* Download cards */
-        .help-downloads { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+        .help-page {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 96px 24px 100px;   /* 96px top = 64px navbar + 32px gap */
+            position: relative;
+            z-index: 10;
+        }
+
+        .help-back {
+            display: inline-block;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            font-family: var(--font-mono);
+            text-decoration: none;
+            margin-bottom: 36px;
+            transition: color .18s;
+        }
+        .help-back:hover { color: var(--accent-cyan); }
+
+        .help-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+            margin-bottom: 12px;
+        }
+
+        .help-title {
+            font-family: var(--font-mono) !important;
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+        .help-title span { color: var(--accent-cyan); }
+
+        .help-lead {
+            font-size: 15px;
+            color: rgba(232,232,240,0.55);
+            line-height: 1.75;
+            margin-bottom: 48px;
+            max-width: 560px;
+        }
+
+        /* ── Download cards ── */
+        .help-downloads {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 56px;
+        }
         @media (max-width: 520px) { .help-downloads { grid-template-columns: 1fr; } }
-        .help-dl-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; transition: border-color .2s; }
-        .help-dl-card:hover { border-color: rgba(0,255,204,0.25); }
-        .help-dl-icon { font-size: 32px; margin-bottom: 12px; }
-        .help-dl-os { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-        .help-dl-ext { font-size: 12px; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
-        .help-dl-btn { display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--cyan,#00ffcc), #00ccaa); color: #07070f; font-weight: 800; font-size: 13px; border: none; border-radius: 10px; padding: 10px 18px; cursor: pointer; text-decoration: none; width: 100%; justify-content: center; }
-        .help-dl-btn:hover { filter: brightness(1.08); }
 
-        /* Steps */
-        .help-steps-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
-        .help-steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
-        .help-step { display: flex; gap: 16px; align-items: flex-start; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; }
-        .help-step-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.3); color: var(--cyan,#00ffcc); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .help-step-body h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-        .help-step-body p { font-size: 13px; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.6; }
+        .help-dl-card {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 24px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .help-dl-card:hover {
+            border-color: rgba(0,255,204,0.22);
+            box-shadow: 0 0 24px rgba(0,255,204,0.04);
+        }
+        .help-dl-icon { font-size: 30px; margin-bottom: 12px; }
+        .help-dl-os { font-size: 17px; font-weight: 700; font-family: var(--font-mono); margin-bottom: 4px; }
+        .help-dl-ext { font-size: 11px; color: rgba(255,255,255,0.3); font-family: var(--font-mono); margin-bottom: 18px; letter-spacing: 0.5px; }
 
-        /* FAQ */
-        .help-faq-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
-        .help-faq { display: flex; flex-direction: column; gap: 12px; }
-        .help-faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 16px; }
-        .help-faq-q { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-        .help-faq-a { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+        .help-dl-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent-cyan), #00ccaa);
+            color: #07070f;
+            font-weight: 800;
+            font-size: 13px;
+            font-family: var(--font-mono);
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            letter-spacing: 0.3px;
+            transition: filter .18s, transform .18s;
+        }
+        .help-dl-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        /* ── Steps ── */
+        .help-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .help-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 56px; }
+
+        .help-step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.055);
+            border-radius: 12px;
+            padding: 16px 20px;
+            transition: border-color .18s;
+        }
+        .help-step:hover { border-color: rgba(0,255,204,0.12); }
+
+        .help-step-num {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: rgba(0,255,204,0.08);
+            border: 1px solid rgba(0,255,204,0.25);
+            color: var(--accent-cyan);
+            font-weight: 800;
+            font-size: 13px;
+            font-family: var(--font-mono);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .help-step-body h4 {
+            font-size: 13px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+        .help-step-body p {
+            font-size: 13px;
+            color: rgba(232,232,240,0.5);
+            margin: 0;
+            line-height: 1.65;
+        }
+
+        /* ── FAQ ── */
+        .help-faq { display: flex; flex-direction: column; gap: 10px; }
+
+        .help-faq-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.055);
+            border-radius: 10px;
+            padding: 16px 20px;
+            transition: border-color .18s;
+        }
+        .help-faq-item:hover { border-color: rgba(0,255,204,0.12); }
+
+        .help-faq-q {
+            font-size: 13px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            margin-bottom: 7px;
+            color: var(--text-light);
+        }
+        .help-faq-a {
+            font-size: 13px;
+            color: rgba(232,232,240,0.5);
+            line-height: 1.65;
+        }
     </style>
 </head>
 <body>
@@ -99,13 +237,13 @@
         </div>
     </div>
 
-    <div class="help-steps-title">¿Cómo participar?</div>
+    <div class="help-section-title">¿Cómo participar?</div>
     <div class="help-steps">
         <div class="help-step">
             <div class="help-step-num">1</div>
             <div class="help-step-body">
                 <h4>Inscríbete en un torneo</h4>
-                <p>Desde la página de <a href="/torneos" style="color:var(--cyan)">Torneos</a> inscríbete en cualquier torneo con estado "Próximo" antes de que empiece.</p>
+                <p>Desde la página de <a href="/torneos" style="color:var(--accent-cyan)">Torneos</a> inscríbete en cualquier torneo con estado "Próximo" antes de que empiece.</p>
             </div>
         </div>
         <div class="help-step">
@@ -138,7 +276,7 @@
         </div>
     </div>
 
-    <div class="help-faq-title">Preguntas frecuentes</div>
+    <div class="help-section-title">Preguntas frecuentes</div>
     <div class="help-faq">
         <div class="help-faq-item">
             <div class="help-faq-q">¿Por qué es obligatoria la app de escritorio?</div>
