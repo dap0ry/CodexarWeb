@@ -76,6 +76,29 @@ async function init() {
 
 // ── Render ─────────────────────────────────────────────────────────────────────
 
+function _lbStatusLabel(status) {
+    if (status === 'finished')   return '<span style="color:#4ade80;font-weight:700">Entregado</span>';
+    if (status === 'competing')  return '<span style="color:var(--accent-cyan)">Compitiendo</span>';
+    return '<span style="opacity:.45">No empezado</span>';
+}
+
+function _lbRow(row, rank, isMine) {
+    const av = row.avatar
+        ? `<img class="td-lb-av" src="${esc(row.avatar)}" alt="">`
+        : `<div class="td-lb-av-ph">${esc((row.username || '?')[0]).toUpperCase()}</div>`;
+    const mins = Math.floor((row.total_time || 0) / 60);
+    const secs = (row.total_time || 0) % 60;
+    const timeStr = row.total_time ? `${mins}:${String(secs).padStart(2, '0')}` : '—';
+    return `<tr class="${isMine ? 'td-lb-mine' : ''}">
+        <td class="td-lb-rank">${rank}</td>
+        <td class="td-lb-player-cell"><div class="td-lb-player">${av}<span>${esc(row.username)}</span></div></td>
+        <td>${row.exercises_solved || 0}</td>
+        <td>${timeStr}</td>
+        <td class="td-lb-pts">${row.total_score || 0} pts</td>
+        <td>${_lbStatusLabel(row.status || 'not_started')}</td>
+    </tr>`;
+}
+
 function renderLeaderboard() {
     const t = _tournament;
     const section = document.getElementById('tdLbSection');
@@ -85,43 +108,39 @@ function renderLeaderboard() {
     section.style.display = '';
 
     const clockEl = document.getElementById('tdLbClock');
-    if (t.status === 'active' && t.started_at) {
-        clockEl.style.display = '';
-    } else {
-        clockEl.style.display = 'none';
-    }
+    clockEl.style.display = (t.status === 'active' && t.started_at) ? '' : 'none';
 
-    const lb = (t.leaderboard || []).slice(0, 5);
+    const fullLb = t.leaderboard || [];
     const wrap = document.getElementById('tdLbWrap');
 
-    if (!lb.length) {
-        wrap.innerHTML = '<div class="td-empty-hint">Sin participantes con puntuación aún.</div>';
+    if (!fullLb.length) {
+        wrap.innerHTML = '<div class="td-empty-hint">Sin participantes aún.</div>';
         return;
     }
 
-    const syms = ['🥇', '🥈', '🥉', '4º', '5º'];
-    const rows = lb.map((row, i) => {
-        const av = row.avatar
-            ? `<img class="td-lb-av" src="${esc(row.avatar)}" alt="">`
-            : `<div class="td-lb-av-ph">${esc((row.username || '?')[0]).toUpperCase()}</div>`;
-        const mins = Math.floor((row.total_time || 0) / 60);
-        const secs = (row.total_time || 0) % 60;
-        const timeStr = row.total_time ? `${mins}:${String(secs).padStart(2, '0')}` : '—';
-        const isMine = row.email === _myEmail;
-        return `<tr class="${isMine ? 'td-lb-mine' : ''}">
-            <td class="td-lb-rank">${syms[i] || (i + 1)}</td>
-            <td class="td-lb-player-cell"><div class="td-lb-player">${av}<span>${esc(row.username)}</span></div></td>
-            <td>${row.exercises_solved || 0}</td>
-            <td>${timeStr}</td>
-            <td class="td-lb-pts">${row.total_score || 0} pts</td>
-        </tr>`;
-    }).join('');
+    const top5 = fullLb.slice(0, 5);
+    const myIdx = fullLb.findIndex(r => r.email === _myEmail);
+    const myRow = myIdx >= 0 ? fullLb[myIdx] : null;
+    const myInTop5 = myIdx >= 0 && myIdx < 5;
+
+    const topRows = top5.map((row, i) => _lbRow(row, i + 1, row.email === _myEmail)).join('');
+
+    let mySection = '';
+    if (myRow && !myInTop5) {
+        mySection = `<tbody>
+            <tr><td colspan="6" style="padding:4px 0;border:none">
+                <div style="font-family:var(--font-mono);font-size:0.46rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);opacity:0.4;padding:8px 10px 2px">Tu posicion</div>
+            </td></tr>
+            ${_lbRow(myRow, myIdx + 1, true)}
+        </tbody>`;
+    }
 
     wrap.innerHTML = `<table class="td-lb-table">
         <thead><tr>
-            <th>#</th><th>Jugador</th><th>Ej. entregados</th><th>Tiempo últ. entrega</th><th>Puntos</th>
+            <th>Pos</th><th>Jugador</th><th>Ej. entregados</th><th>Tiempo</th><th>Puntos</th><th>Estado</th>
         </tr></thead>
-        <tbody>${rows}</tbody>
+        <tbody>${topRows}</tbody>
+        ${mySection}
     </table>`;
 }
 
