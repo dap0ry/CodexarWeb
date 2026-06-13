@@ -145,8 +145,8 @@ function buildCard(t, myEmail = _myEmail) {
     const enrolled = isJoined && status !== 'finished' ? '<span style="color:var(--accent-cyan);font-family:var(--font-mono);font-size:0.58rem;font-weight:700">✓ Inscrito</span>' : '';
     const configChip = _isAdmin ? `<span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--text-muted);opacity:0.5;letter-spacing:1px">⚙ CONFIGURAR</span>` : '';
 
-    // Admin cards are clickable (navigate to detail, but not when clicking buttons)
-    const cardClick = _isAdmin ? `onclick="if(!event.target.closest('button,a')){window.location.href='/torneos/detalle?id=${id}'}" style="cursor:pointer"` : '';
+    // Admin cards get a data attribute; navigation handled via event delegation in DOMContentLoaded
+    const cardClick = _isAdmin ? `data-tourn-id="${id}" style="cursor:pointer"` : '';
 
     return `<div class="t-card" ${cardClick}>
         ${banner}
@@ -296,6 +296,15 @@ document.addEventListener('DOMContentLoaded', () => {
             _activeFilter = tab.dataset.filter;
             renderGrid();
         });
+    });
+
+    // Event delegation for admin card navigation (survives innerHTML replacement)
+    document.getElementById('tournGrid').addEventListener('click', e => {
+        if (!_isAdmin) return;
+        if (e.target.closest('button, a')) return;
+        const card = e.target.closest('[data-tourn-id]');
+        if (!card) return;
+        window.location.href = `/torneos/detalle?id=${card.dataset.tournId}`;
     });
 
     initPage();
