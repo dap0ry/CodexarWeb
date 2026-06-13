@@ -44,6 +44,7 @@ const PAGE_MAP = {
   'MobileApp.html':           'mobile/app.html',
   'InstallIOS.html':          'instalar-ios.html',
   'EditTeam.html':            'editar-club.html',
+  'TournamentDetail.html':   'torneos/detalle.html',
 };
 
 function copyDir(src, dest) {

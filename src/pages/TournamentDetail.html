@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/src/services/mobileRedirect.js"></script>
+    <script src="/src/services/themeService.js"></script>
+    <script src="/src/services/i18n.js"></script>
+    <title>Codexar — Detalle Torneo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/css/global.css">
+    <link rel="stylesheet" href="/src/assets/css/themes.css">
+    <link rel="stylesheet" href="/src/assets/css/CreateExercise.css">
+    <style>
+        body { overflow: hidden; }
+
+        /* ── Layout ── */
+        .td-page {
+            margin-top: 64px;
+            height: calc(100vh - 64px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ── Header ── */
+        .td-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .td-back {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 7px;
+            padding: 6px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+        .td-back:hover { border-color: rgba(255,255,255,0.2); color: var(--text-light); }
+        .td-title {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            flex: 1;
+        }
+        .td-badge {
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.52rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .td-badge--upcoming { color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); background: rgba(245,158,11,0.06); }
+        .td-badge--active   { color: var(--accent-cyan); border: 1px solid rgba(0,255,204,0.25); background: rgba(0,255,204,0.06); }
+        .td-badge--finished { color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
+        .td-start-btn {
+            padding: 7px 18px;
+            background: var(--accent-cyan);
+            border: none;
+            border-radius: 7px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #06060f;
+            cursor: pointer;
+            transition: box-shadow .2s;
+        }
+        .td-start-btn:hover { box-shadow: 0 0 20px rgba(0,255,204,0.35); }
+        .td-start-btn:disabled { opacity: .5; cursor: default; }
+
+        /* ── Body ── */
+        .td-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 5%;
+        }
+        .td-body::-webkit-scrollbar { width: 4px; }
+        .td-body::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.1); border-radius: 4px; }
+
+        /* ── Section ── */
+        .td-section {
+            margin-bottom: 32px;
+        }
+        .td-section-title {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0.55;
+            margin-bottom: 14px;
+        }
+
+        /* ── Exercise pills ── */
+        .td-ex-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .td-ex-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-light);
+            min-width: 160px;
+        }
+        .td-ex-diff {
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.05);
+        }
+        .td-ex-remove {
+            margin-left: auto;
+            background: transparent;
+            border: none;
+            color: rgba(239,68,68,0.5);
+            cursor: pointer;
+            font-size: 0.75rem;
+            line-height: 1;
+            padding: 2px 4px;
+            transition: color .15s;
+        }
+        .td-ex-remove:hover { color: #ef4444; }
+        .td-empty-hint {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            padding: 20px 0;
+        }
+        .td-ex-count {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            margin-left: 8px;
+        }
+
+        /* ── Add exercise panel ── */
+        .td-add-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            background: rgba(0,255,204,0.06);
+            border: 1px dashed rgba(0,255,204,0.25);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            cursor: pointer;
+            transition: all .15s;
+            margin-top: 14px;
+        }
+        .td-add-btn:hover { background: rgba(0,255,204,0.1); border-style: solid; }
+        .td-add-btn:disabled { opacity: .4; cursor: default; }
+
+        .td-add-panel {
+            display: none;
+            margin-top: 16px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .td-add-panel.open { display: block; }
+
+        .td-add-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .td-add-tab {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s;
+            border-bottom: 2px solid transparent;
+        }
+        .td-add-tab.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+            background: rgba(0,255,204,0.03);
+        }
+
+        .td-add-content { padding: 20px; }
+
+        /* ── Exercise selector ── */
+        .td-search {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 9px 12px;
+            color: var(--text-light);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            outline: none;
+            transition: border-color .15s;
+            margin-bottom: 14px;
+        }
+        .td-search:focus { border-color: rgba(0,255,204,0.3); }
+        .td-search::placeholder { color: var(--text-muted); opacity: .5; }
+
+        .td-catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        .td-catalog-grid::-webkit-scrollbar { width: 3px; }
+        .td-catalog-grid::-webkit-scrollbar-thumb { background: rgba(0,255,204,0.1); border-radius: 3px; }
+
+        .td-cat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-align: left;
+        }
+        .td-cat-item:hover { border-color: rgba(0,255,204,0.2); color: var(--text-light); background: rgba(0,255,204,0.04); }
+        .td-cat-item.already { opacity: .35; cursor: not-allowed; }
+        .td-cat-item.already:hover { border-color: rgba(255,255,255,0.06); color: var(--text-muted); background: rgba(255,255,255,0.025); }
+        .td-cat-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .td-cat-diff {
+            font-size: 0.48rem;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.05);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ── Create form wrapper ── */
+        .td-create-wrap .ce-form { max-width: 100%; }
+        .td-create-wrap .ce-actions { padding-top: 8px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand" onclick="window.location.href='/home'" style="cursor:pointer;">Codex<span>ar</span></div>
+    <div class="user-pill-container">
+        <div class="user-pill" id="userPill">
+            <div class="avatar" id="navAvatar"></div>
+            <div class="username-display" id="navUsername">Cargando...</div>
+        </div>
+        <div class="user-dropdown">
+            <a href="/home"          class="dropdown-item">Inicio</a>
+            <a href="/torneos"       class="dropdown-item">Torneos</a>
+            <a href="/admin"         class="dropdown-item">Panel Admin</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-item-danger" id="logoutBtn">Cerrar Sesión</a>
+        </div>
+    </div>
+</nav>
+
+<div class="td-page">
+
+    <!-- Header -->
+    <div class="td-header">
+        <button class="td-back" onclick="window.location.href='/torneos'">← Torneos</button>
+        <div class="td-title" id="tdTitle">Cargando...</div>
+        <span class="td-badge" id="tdBadge"></span>
+        <button class="td-start-btn" id="tdStartBtn" style="display:none" onclick="startTournament()">▶ Iniciar Torneo</button>
+    </div>
+
+    <!-- Body -->
+    <div class="td-body">
+
+        <!-- Info -->
+        <div class="td-section">
+            <div class="td-section-title">Información</div>
+            <div id="tdInfo" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);display:flex;gap:20px;flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Exercises -->
+        <div class="td-section">
+            <div class="td-section-title">
+                Ejercicios del torneo
+                <span class="td-ex-count" id="tdExCount"></span>
+            </div>
+            <div class="td-ex-grid" id="tdExGrid">
+                <div class="td-empty-hint">Cargando...</div>
+            </div>
+
+            <!-- Add exercise button -->
+            <button class="td-add-btn" id="tdAddBtn" onclick="toggleAddPanel()" style="display:none">
+                ➕ Añadir ejercicio
+            </button>
+
+            <!-- Add exercise panel -->
+            <div class="td-add-panel" id="tdAddPanel">
+                <div class="td-add-tabs">
+                    <button class="td-add-tab active" onclick="switchAddTab('select',this)">De la biblioteca</button>
+                    <button class="td-add-tab" onclick="switchAddTab('create',this)">Crear nuevo</button>
+                </div>
+
+                <!-- Tab: select existing -->
+                <div class="td-add-content" id="tabSelect">
+                    <input type="text" class="td-search" id="tdSearch" placeholder="Buscar ejercicio..." oninput="filterCatalog()">
+                    <div class="td-catalog-grid" id="tdCatalog">
+                        <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);opacity:.5;grid-column:1/-1">Cargando ejercicios...</div>
+                    </div>
+                </div>
+
+                <!-- Tab: create new -->
+                <div class="td-add-content td-create-wrap" id="tabCreate" style="display:none">
+                    <form id="tdCreateForm">
+                        <div class="ce-section" style="margin:0 0 20px">
+                            <div class="ce-lang-tabs" id="tdLangTabs">
+                                <button type="button" class="ce-lang-tab active" data-lang="es">
+                                    <img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES"> ES
+                                </button>
+                                <button type="button" class="ce-lang-tab" data-lang="en">
+                                    <img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN"> EN
+                                </button>
+                            </div>
+                            <div class="ce-lang-panel active" data-lang="es">
+                                <div class="ce-row">
+                                    <div class="ce-field ce-field-grow">
+                                        <label class="ce-label">Título <span class="ce-req">*</span></label>
+                                        <input type="text" id="tdCeTitle" class="ce-input" placeholder="Ej: Suma de dos números" required maxlength="120">
+                                    </div>
+                                </div>
+                                <div class="ce-row">
+                                    <div class="ce-field ce-field-grow">
+                                        <label class="ce-label">Descripción <span class="ce-req">*</span></label>
+                                        <textarea id="tdCeDesc" class="ce-textarea" rows="4" placeholder="Describe el problema claramente." required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ce-lang-panel" data-lang="en">
+                                <div class="ce-row">
+                                    <div class="ce-field ce-field-grow">
+                                        <label class="ce-label">Title <span class="ce-lang-opt">(optional)</span></label>
+                                        <input type="text" id="tdCeTitle-en" class="ce-input" maxlength="120">
+                                    </div>
+                                </div>
+                                <div class="ce-row">
+                                    <div class="ce-field ce-field-grow">
+                                        <label class="ce-label">Description <span class="ce-lang-opt">(optional)</span></label>
+                                        <textarea id="tdCeDesc-en" class="ce-textarea" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ce-row ce-row-cols" style="margin-top:12px">
+                                <div class="ce-field">
+                                    <label class="ce-label">Dificultad</label>
+                                    <select id="tdCeDiff" class="ce-select">
+                                        <option value="800">800 — Principiante</option>
+                                        <option value="1000">1000 — Básico</option>
+                                        <option value="1200" selected>1200 — Fácil</option>
+                                        <option value="1400">1400 — Intermedio</option>
+                                        <option value="1600">1600 — Medio</option>
+                                        <option value="1800">1800 — Medio-Alto</option>
+                                        <option value="2000">2000 — Difícil</option>
+                                        <option value="2200">2200 — Muy Difícil</option>
+                                        <option value="2400">2400 — Experto</option>
+                                        <option value="2600">2600 — Maestro</option>
+                                        <option value="3000">3000 — Insane</option>
+                                    </select>
+                                </div>
+                                <div class="ce-field ce-field-grow">
+                                    <label class="ce-label">Categoría</label>
+                                    <select id="tdCeCat" class="ce-select">
+                                        <option value="Arrays">Arrays</option>
+                                        <option value="Strings">Strings</option>
+                                        <option value="Math">Math</option>
+                                        <option value="Recursión">Recursión</option>
+                                        <option value="Ordenamiento">Ordenamiento</option>
+                                        <option value="Búsqueda">Búsqueda</option>
+                                        <option value="Grafos">Grafos</option>
+                                        <option value="Programación Dinámica">Programación Dinámica</option>
+                                        <option value="Otros">Otros</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ce-section" style="margin:0 0 20px">
+                            <div class="ce-section-title">Casos de Prueba</div>
+                            <div class="ce-hint">Mínimo 1, máximo 3. Inputs son valores Python (ej: <code>3, [1,2,3]</code>).</div>
+                            <div id="tdTcList"></div>
+                        </div>
+
+                        <div class="ce-section" style="margin:0 0 20px">
+                            <div class="ce-section-title">Código Base</div>
+                            <div class="ce-tabs" id="tdStubTabs">
+                                <button type="button" class="ce-tab active" data-lang="python">Python</button>
+                                <button type="button" class="ce-tab" data-lang="cpp">C++</button>
+                                <button type="button" class="ce-tab" data-lang="java">Java</button>
+                            </div>
+                            <div class="ce-stub-panels">
+                                <textarea class="ce-code active" id="tdStub-python" rows="6" placeholder="def solve(...):\n    pass"></textarea>
+                                <textarea class="ce-code" id="tdStub-cpp" rows="6" placeholder="// C++ stub"></textarea>
+                                <textarea class="ce-code" id="tdStub-java" rows="6" placeholder="// Java stub"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="tdCreateError" style="display:none;color:#ef4444;font-family:var(--font-mono);font-size:0.65rem;margin-bottom:12px"></div>
+                        <div class="ce-actions">
+                            <button type="button" class="ce-btn-ghost" onclick="toggleAddPanel()">Cancelar</button>
+                            <button type="submit" class="ce-btn-primary" id="tdCreateBtn">Crear y añadir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/src/services/tournamentDetail.js"></script>
+<script src="/src/services/globalBg.js"></script>
+</body>
+</html>
