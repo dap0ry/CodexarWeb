@@ -3,6 +3,17 @@
    Sidebar + multi-lesson layout with code blocks
    ========================================================== */
 
+/* ── Body background ── */
+body {
+    background-color: #07070f;
+    background-image:
+        radial-gradient(ellipse at 0% 100%, rgba(0,255,204,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 100% 0%, rgba(155,93,229,0.04) 0%, transparent 50%),
+        linear-gradient(rgba(0,255,204,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,204,0.018) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 52px 52px, 52px 52px;
+}
+
 /* ── Layout ── */
 .tutorial-container {
     display: flex;
