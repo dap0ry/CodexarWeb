@@ -112,6 +112,7 @@ function renderUsers(users) {
                         ? `<button class="ap-btn ap-btn-unban" onclick="unbanUser('${esc(u.username)}')">Desbanear</button>`
                         : `<button class="ap-btn ap-btn-ban"   onclick="banUser('${esc(u.username)}')">Banear</button>`
                     }
+                    <button class="ap-btn ap-btn-delete" onclick="deleteUserAccount('${esc(u.username)}')">Eliminar cuenta</button>
                     <select class="ap-role-select" onchange="setRole('${esc(u.username)}', this.value)">
                         <option value="user"      ${u.role === 'user'      ? 'selected' : ''}>User</option>
                         <option value="moderator" ${u.role === 'moderator' ? 'selected' : ''}>Moderador</option>
@@ -137,6 +138,18 @@ async function banUser(username) {
 async function unbanUser(username) {
     const res = await fetch(`${API_BASE}/admin/unban/${encodeURIComponent(username)}`, {
         method: 'POST',
+        headers: { 'Authorization': `Bearer ${token()}` }
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); await loadUsers(); }
+    else showToast(data.detail || 'Error', true);
+}
+
+async function deleteUserAccount(username) {
+    if (!confirm(`¿Eliminar la cuenta de "${username}"?\n\nEsto borrará PERMANENTEMENTE el usuario, su email, progreso, amigos y todos sus datos. Esta acción NO se puede deshacer.`)) return;
+    if (!confirm(`Confirma de nuevo: ¿eliminar "${username}" para siempre?`)) return;
+    const res = await fetch(`${API_BASE}/admin/users/${encodeURIComponent(username)}`, {
+        method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token()}` }
     });
     const data = await res.json();
