@@ -42,11 +42,6 @@
             <span class="surv-mode-label">SUPERVIVENCIA</span>
             <span class="surv-sep">·</span>
             <span class="surv-ex-label">Ejercicio <span id="survExNum">#1</span></span>
-            <div class="lang-switcher" style="margin-left:8px;">
-                <button class="lang-btn" data-lang="es" onclick="window.setLang('es')"><img src="https://flagcdn.com/es.svg" alt="ES" class="flag-icon"></button>
-                <button class="lang-btn" data-lang="en" onclick="window.setLang('en')"><img src="https://flagcdn.com/gb.svg" alt="EN" class="flag-icon"></button>
-                <button class="lang-btn" data-lang="zh" onclick="window.setLang('zh')"><img src="https://flagcdn.com/cn.svg" alt="ZH" class="flag-icon"></button>
-            </div>
         </div>
         <div class="surv-meta-players" id="survPlayersBar">
             <!-- Injected by JS -->
@@ -60,7 +55,14 @@
         <div class="solve-left">
             <div class="solve-statement">
                 <div class="statement-header">
-                    <div class="statement-title" id="exTitle">Conectando...</div>
+                    <div class="statement-title-row">
+                        <div class="statement-title" id="exTitle">Conectando...</div>
+                        <div class="ex-lang-switcher hidden" id="exLangSwitcher">
+                            <button class="ex-lang-btn" data-lang="es"><img src="https://flagcdn.com/es.svg" class="flag-icon" alt="ES"></button>
+                            <button class="ex-lang-btn" data-lang="en"><img src="https://flagcdn.com/gb.svg" class="flag-icon" alt="EN"></button>
+                            <button class="ex-lang-btn" data-lang="zh"><img src="https://flagcdn.com/cn.svg" class="flag-icon" alt="ZH"></button>
+                        </div>
+                    </div>
                     <div class="statement-badges" id="exBadges"></div>
                 </div>
                 <div class="statement-body" id="exDescription">Esperando datos del servidor...</div>

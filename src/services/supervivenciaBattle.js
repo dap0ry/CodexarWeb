@@ -211,19 +211,24 @@ function connectWebSocket(token) {
     });
 
     ws.addEventListener('error', () => {
-        document.getElementById('exTitle').textContent = 'Error de conexión';
-        document.getElementById('exDescription').textContent =
-            'No se pudo conectar al servidor de la partida. Recarga la página para reintentar.';
+        // Don't overwrite the exercise title — reconnect is automatic
     });
 
-    ws.addEventListener('close', () => {
-        if (!battleEnded) {
-            // Attempt reconnect after 2s
-            setTimeout(() => {
-                const t = localStorage.getItem('access_token');
-                if (t && !battleEnded) connectWebSocket(t);
-            }, 2000);
+    ws.addEventListener('close', (event) => {
+        if (battleEnded) return;
+        // 1008 = room not found or not authorised — no point retrying
+        if (event.code === 1008) {
+            battleEnded = true;
+            document.getElementById('exTitle').textContent = 'Sala no encontrada';
+            document.getElementById('exDescription').textContent =
+                'Esta sala ya no existe. Puede que el servidor se haya reiniciado. Vuelve al menú principal.';
+            return;
         }
+        // Any other close: attempt reconnect after 2s
+        setTimeout(() => {
+            const t = localStorage.getItem('access_token');
+            if (t && !battleEnded) connectWebSocket(t);
+        }, 2000);
     });
 }
 
@@ -399,26 +404,23 @@ function flashTimerBonus() {
     setTimeout(() => el.classList.remove('bonus-flash'), 600);
 }
 
-// ── i18n helpers ──────────────────────────────────────────────────────────────
-function getUiLang() {
-    const lang = localStorage.getItem('codexar_lang') || 'es';
-    return ['es', 'en', 'zh'].includes(lang) ? lang : 'es';
-}
-
-function localizedText(i18nObj, fallback, lang) {
-    if (i18nObj && typeof i18nObj === 'object' && i18nObj[lang]) return i18nObj[lang];
-    return fallback || '';
+// ── Exercise i18n ─────────────────────────────────────────────────────────────
+function applyExLang(ex, lang) {
+    const title = (ex.title_i18n && ex.title_i18n[lang]) || ex.title || '';
+    const desc  = (ex.description_i18n && ex.description_i18n[lang]) || ex.description || '';
+    document.getElementById('exTitle').textContent = title;
+    document.getElementById('exDescription').textContent = desc;
+    document.title = `Codexar Supervivencia — ${title}`;
+    document.querySelectorAll('.ex-lang-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.lang === lang)
+    );
 }
 
 // ── Exercise rendering ────────────────────────────────────────────────────────
 function renderExercise(ex) {
     exerciseData = ex;
-    const lang  = getUiLang();
-    const title = localizedText(ex.title_i18n, ex.title, lang);
-    const desc  = localizedText(ex.description_i18n, ex.description, lang);
-
-    document.title = `Codexar Supervivencia — ${title}`;
-    document.getElementById('exTitle').textContent = title;
+    const lang = localStorage.getItem('codexar_lang') || 'es';
+    applyExLang(ex, lang);
 
     let diffClass = 'badge-normal';
     if (ex.difficulty === 'Fácil')       diffClass = 'badge-facil';
@@ -431,8 +433,24 @@ function renderExercise(ex) {
         <span class="ex-badge ${diffClass}">${escHtml(ex.difficulty)}</span>
         <span class="ex-badge badge-category">${escHtml(ex.category)}</span>
     `;
-    document.getElementById('exDescription').textContent = desc;
     renderTestCases(ex.test_cases, null);
+
+    // Show lang switcher and wire buttons (clone to remove old listeners)
+    const switcher = document.getElementById('exLangSwitcher');
+    if (ex.title_i18n || ex.description_i18n) {
+        switcher.classList.remove('hidden');
+        switcher.querySelectorAll('.ex-lang-btn').forEach(btn => {
+            const clone = btn.cloneNode(true);
+            btn.parentNode.replaceChild(clone, btn);
+            clone.addEventListener('click', async () => {
+                await window.setLang(clone.dataset.lang);
+                applyExLang(ex, clone.dataset.lang);
+            });
+        });
+    } else {
+        switcher.classList.add('hidden');
+    }
+
     loadStub(selectedLang);
 }
 
@@ -693,22 +711,6 @@ window.replaySurvival = function () {
     battleEnded = true;
     window.location.href = '/supervivencia';
 };
-
-// ── Per-player UI language change ─────────────────────────────────────────────
-// Intercept setLang so changing the UI language re-renders the exercise title
-// and description for THIS player only — code sync is unaffected.
-(function () {
-    const _orig = window.setLang;
-    window.setLang = async function (lang) {
-        await _orig(lang);
-        if (!exerciseData) return;
-        const title = localizedText(exerciseData.title_i18n, exerciseData.title, lang);
-        const desc  = localizedText(exerciseData.description_i18n, exerciseData.description, lang);
-        document.getElementById('exTitle').textContent = title;
-        document.getElementById('exDescription').textContent = desc;
-        document.title = `Codexar Supervivencia — ${title}`;
-    };
-})();
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function escHtml(str) {
