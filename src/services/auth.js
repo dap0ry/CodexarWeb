@@ -96,7 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = '/verificacion';
                     }, 1500);
                 } else {
-                    errorElement.textContent = data.detail || 'Error en el registro';
+                    let errorMsg = 'Error en el registro';
+                    if (data.detail) {
+                        if (typeof data.detail === 'string') {
+                            errorMsg = data.detail;
+                        } else if (Array.isArray(data.detail)) {
+                            errorMsg = data.detail.map(e => e.msg).join(', ');
+                        }
+                    }
+                    errorElement.textContent = errorMsg;
                     errorElement.style.display = 'block';
                 }
             } catch (error) {
