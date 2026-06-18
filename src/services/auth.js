@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (typeof data.detail === 'string') {
                             errorMsg = data.detail;
                         } else if (Array.isArray(data.detail)) {
-                            errorMsg = data.detail.map(e => e.msg).join(', ');
+                            errorMsg = data.detail.map(e => (e.ctx && e.ctx.error) ? String(e.ctx.error) : e.msg).join(', ');
                         }
                     }
                     errorElement.textContent = errorMsg;
