@@ -18,6 +18,11 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="brand" onclick="confirmLeave('/home')" style="cursor:pointer;">Codex<span>ar</span></div>
+        <div class="lang-switcher" style="margin-left:auto;margin-right:12px;">
+            <button class="lang-btn" data-lang="es" onclick="window.setLang('es')"><img src="https://flagcdn.com/es.svg" alt="ES" class="flag-icon"></button>
+            <button class="lang-btn" data-lang="en" onclick="window.setLang('en')"><img src="https://flagcdn.com/gb.svg" alt="EN" class="flag-icon"></button>
+            <button class="lang-btn" data-lang="zh" onclick="window.setLang('zh')"><img src="https://flagcdn.com/cn.svg" alt="ZH" class="flag-icon"></button>
+        </div>
         <div class="user-pill-container">
             <div class="user-pill" id="userPill">
                 <div class="avatar" id="navAvatar"></div>
