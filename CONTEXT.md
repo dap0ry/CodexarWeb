@@ -3,8 +3,8 @@
 ## Tech
 Vanilla HTML5 / CSS3 / JavaScript — **no framework, no build step**.
 Deployed on Vercel. Root redirects to `/src/pages/index.html` (see `vercel.json`).
-API base: `https://codexarapi.onrender.com/api` (hardcoded in every service file).
-WS base: `wss://codexarapi.onrender.com/api` (used in matchmakingGlobal.js, supervivenciaLobby.js).
+API base: `https://api.codexar.es/api` (hardcoded in every service file).
+WS base: `wss://api.codexar.es/api` (used in matchmakingGlobal.js, supervivenciaLobby.js).
 Auth token stored in `localStorage` as `access_token`.
 
 ## Directory map

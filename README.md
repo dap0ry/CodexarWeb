@@ -4,9 +4,9 @@ Frontend de **Codexar** — plataforma de programación competitiva.
 
 **Stack:** HTML5 · CSS3 · Vanilla JavaScript (sin framework, sin build step)
 **Despliegue:** Vercel — root redirige a `/src/pages/index.html`
-**API:** `http://localhost:8000/api` (local) · `https://codexarapi.onrender.com/api` (producción)
+**API:** `http://localhost:8000/api` (local) · `https://api.codexar.es/api` (producción)
 
-> Los archivos de producción están en el repo con la URL de Render. Para desarrollo local todos los services apuntan a `localhost:8000`.
+> Los archivos de producción están en el repo con la URL de Hetzner. Para desarrollo local todos los services apuntan a `localhost:8000`.
 
 ---
 
@@ -201,7 +201,7 @@ Todos los services tienen la URL hardcodeada en la primera línea. Para cambiar 
 | Entorno | URL |
 |---------|-----|
 | Local | `http://localhost:8000/api` |
-| Producción | `https://codexarapi.onrender.com/api` |
+| Producción | `https://api.codexar.es/api` |
 
 En el futuro se podría centralizar en un `config.js` global.
 
