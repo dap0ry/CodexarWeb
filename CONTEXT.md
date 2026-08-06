@@ -3,7 +3,7 @@
 ## Tech
 Vanilla HTML5 / CSS3 / JavaScript — **no framework, no build step**.
 Deployed on Vercel. Root redirects to `/src/pages/index.html` (see `vercel.json`).
-API base: `https://codexarapi.onrender.com/api` (hardcoded in every service file).
+API base: `https://api.codexar.es/api` (hardcoded in every service file).
 Auth token stored in `localStorage` as `access_token`.
 
 ## Directory map

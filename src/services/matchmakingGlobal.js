@@ -6,7 +6,7 @@
  */
 
 const _MM_KEY = 'codexar_mm';
-const _WS_BASE = 'wss://codexarapi.onrender.com/api';
+const _WS_BASE = 'wss://api.codexar.es/api';
 
 let _ws = null;
 let _barTimer = null;

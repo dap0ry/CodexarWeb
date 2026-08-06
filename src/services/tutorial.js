@@ -899,7 +899,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('access_token');
     if (!token) { window.location.href = 'Login.html'; return; }
 
-    fetch('https://codexarapi.onrender.com/api/user/me', {
+    fetch('https://api.codexar.es/api/user/me', {
         headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(r => r.ok ? r.json() : Promise.reject())

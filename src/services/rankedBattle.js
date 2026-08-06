@@ -1,4 +1,4 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
 let matchData = null;
 let matchActive = true;
 let matchClockSeconds = 0;

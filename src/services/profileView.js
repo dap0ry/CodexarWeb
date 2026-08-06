@@ -1,4 +1,4 @@
-const API_BASE = 'https://codexarapi.onrender.com/api';
+const API_BASE = 'https://api.codexar.es/api';
 
 const LANG_ICONS = {
     'Python': 'python',
